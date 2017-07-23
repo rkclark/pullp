@@ -43,6 +43,7 @@
     "file-loader": "0.11.1",
     "fs-extra": "3.0.1",
     "html-webpack-plugin": "2.28.0",
+    "husky": "^0.14.3",
     "identity-obj-proxy": "^3.0.0",
     "jest": "20.0.3",
     "object-assign": "4.1.1",
@@ -68,6 +69,7 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js  --config .jestrc.json --env=jsdom",
     "style": "eslint '**/*.js'",
-    "style-fix": "eslint --fix '**/*.js'"
+    "style-fix": "eslint --fix '**/*.js'",
+    "precommit": "npm run style && CI=true npm run test"
   }
 }
