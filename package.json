@@ -1,7 +1,7 @@
 {
-  "name": "ctm-react-boilerplate",
+  "name": "pullp",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
@@ -15,7 +15,6 @@
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
-    "@kadira/storybook": "^2.35.3",
     "autoprefixer": "7.1.0",
     "babel-core": "6.24.1",
     "babel-eslint": "7.2.3",
@@ -64,8 +63,6 @@
     "start": "node scripts/start.js",
     "serve": "npm run build && node server",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js  --config .jestrc.json --env=jsdom",
-    "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public"
+    "test": "node scripts/test.js  --config .jestrc.json --env=jsdom"
   }
 }
