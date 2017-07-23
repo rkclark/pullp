@@ -2,8 +2,11 @@
   "name": "pullp",
   "version": "0.1.0",
   "private": false,
+  "main": "src/electron-starter.js",
+  "homepage": "./",
   "dependencies": {
     "body-parser": "^1.17.2",
+    "electron": "^1.6.11",
     "express": "^4.15.3",
     "helmet": "^3.6.1",
     "prop-types": "^15.5.10",
@@ -64,12 +67,14 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "start": "node scripts/start.js",
+    "start": "BROWSER=none node scripts/start.js",
     "serve": "npm run build && node server",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js  --config .jestrc.json --env=jsdom",
     "style": "eslint '**/*.js'",
     "style-fix": "eslint --fix '**/*.js'",
-    "precommit": "npm run style && CI=true npm run test"
+    "precommit": "npm run style && CI=true npm run test",
+    "electron": "electron .",
+    "electron-dev": "ELECTRON_START_URL=http://localhost:3000 electron ."
   }
 }
