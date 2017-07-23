@@ -5,7 +5,9 @@ export default function Counter({ counter, increment, decrement }) {
   return (
     <div>
       <button onClick={increment}>+</button>
-      <div>{counter}</div>
+      <div>
+        {counter}
+      </div>
       <button onClick={decrement}>-</button>
     </div>
   );

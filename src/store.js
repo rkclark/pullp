@@ -3,8 +3,6 @@ import thunkMiddleware from 'redux-thunk';
 import counter from './routes/Counter/reducer';
 
 export default createStore(
-    combineReducers({ counter }),
-    applyMiddleware(
-        thunkMiddleware,
-    ),
+  combineReducers({ counter }),
+  applyMiddleware(thunkMiddleware),
 );

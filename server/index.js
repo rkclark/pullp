@@ -1,7 +1,8 @@
+/* eslint-disable no-console */
 const app = require('./app');
 const server = require('http').createServer(app);
 
-server.on('error', (err) => {
+server.on('error', err => {
   console.log(err);
   process.exit(1);
 });
