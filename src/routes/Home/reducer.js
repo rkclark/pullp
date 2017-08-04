@@ -1,7 +1,7 @@
 import { home as types } from '../../actionTypes';
 
 const initialState = {
-  apiContent: {},
+  apiContent: [],
   apiError: null,
 };
 
@@ -16,7 +16,7 @@ export default function(state = initialState, action) {
     case types.REQUEST_API_CONTENT_FAIL:
       return {
         ...state,
-        apiContent: {},
+        apiContent: [],
         apiError: action.error,
       };
     default:

@@ -16,6 +16,6 @@ export const requestApiContent = () => async dispatch => {
     const results = await githubApi.get();
     dispatch(requestApiContentSuccess(results));
   } catch (err) {
-    dispatch(requestApiContentFail(err));
+    dispatch(requestApiContentFail(err.message));
   }
 };

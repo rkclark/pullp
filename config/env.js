@@ -17,6 +17,7 @@ const CONFIG_ENV = process.env.CONFIG_ENV || 'development';
 
 // https://github.com/bkeepers/dotenv#what-other-env-files-can-i-use
 const dotenvFiles = [
+  `${paths.mydotenv}`,
   `${paths.dotenv}.${NODE_ENV}.local`,
   `${paths.dotenv}.${NODE_ENV}`,
   `${paths.dotenv}.${CONFIG_ENV}`,
