@@ -1,13 +1,16 @@
-import React from 'react';
+import { connect } from 'react-redux';
+import Home from './components/Home';
+import * as actions from './actions';
 
-import { MY_API } from '../../config';
+const mapStateToProps = state => ({
+  apiContent: state.home.apiContent,
+  apiError: state.home.apiError,
+});
 
-export default function Home() {
-  return (
-    <div>
-      <h1>
-        HOME {MY_API}
-      </h1>
-    </div>
-  );
-}
+const mapDispatchToProps = dispatch => ({
+  requestApiContent() {
+    dispatch(actions.requestApiContent());
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
