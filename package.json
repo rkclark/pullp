@@ -57,6 +57,7 @@
     "react-dev-utils": "^3.0.0",
     "react-error-overlay": "^1.0.7",
     "react-test-renderer": "^15.6.1",
+    "sinon": "^3.2.1",
     "style-loader": "0.17.0",
     "supertest": "^3.0.0",
     "sw-precache-webpack-plugin": "0.9.1",
