@@ -5,10 +5,12 @@ import counter from './routes/Counter/reducer';
 import home from './routes/Home/reducer';
 import login from './routes/Login/reducer';
 
-export default persistStore(
-  createStore(
-    combineReducers({ counter, home, login }),
-    undefined,
-    compose(applyMiddleware(thunkMiddleware), autoRehydrate()),
-  ),
+const store = createStore(
+  combineReducers({ counter, home, login }),
+  undefined,
+  compose(applyMiddleware(thunkMiddleware), autoRehydrate()),
 );
+
+persistStore(store);
+
+export default store;
