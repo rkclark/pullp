@@ -4,36 +4,39 @@ import PropTypes from 'prop-types';
 export default class ApiForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { clientId: '', clientSecret: '' };
+    this.state = { githubClientId: '', githubClientSecret: '' };
     this.props = props;
     this.handleChange = this.handleChange.bind(this);
+    this.saveCredentials = this.saveCredentials.bind(this);
   }
 
   handleChange(event) {
-    this.setState({ value: event.target.value });
+    this.setState({ [event.target.name]: event.target.value });
+  }
+
+  saveCredentials() {
+    this.props.saveGithubCredentials(this.state);
   }
 
   render() {
     return (
       <div>
         <h2>Enter your Github oAuth App details:</h2>
-        <label htmlFor="clientId">Client ID</label>
+        <label htmlFor="githubClientId">Client ID</label>
         <input
-          name="clientId"
+          name="githubClientId"
           type="text"
-          value={this.state.clientId}
+          value={this.state.githubClientId}
           onChange={this.handleChange}
         />
-        <label htmlFor="clientSecret">Client Secret</label>
+        <label htmlFor="githubClientSecret">Client Secret</label>
         <input
-          name="clientSecret"
+          name="githubClientSecret"
           type="text"
-          value={this.state.clientSecret}
+          value={this.state.githubClientSecret}
           onChange={this.handleChange}
         />
-        <button onClick={this.props.saveGithubCredentials(this.state)}>
-          Save
-        </button>
+        <button onClick={this.saveCredentials}>Save</button>
       </div>
     );
   }

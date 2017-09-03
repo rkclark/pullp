@@ -1,5 +1,6 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import sinon from 'sinon';
+import { shallow, mount } from 'enzyme';
 import ApiForm from '.';
 
 describe('ApiForm', () => {
@@ -16,45 +17,81 @@ describe('ApiForm', () => {
     expect(component).toHaveLength(1);
   });
 
-  describe('clientId input field', () => {
+  describe('githubClientId input field', () => {
     it('takes its value from the state', () => {
-      component.setState({ clientId: 'test' });
-      const value = component.find('[name="clientId"]').prop('value');
+      component.setState({ githubClientId: 'test' });
+      const value = component.find('[name="githubClientId"]').prop('value');
       expect(value).toBe('test');
     });
     describe('when component first loads', () => {
       it('is empty', () => {
-        const value = component.find('[name="clientId"]').prop('value');
+        const value = component.find('[name="githubClientId"]').prop('value');
         expect(value).toBe('');
       });
     });
-    // TODO - sort this out
-     describe('when value entered', () => {
+
+    describe('when value entered', () => {
       it('calls onChange function', () => {
-        const value = component.find('[name="clientId"]').prop('value');
-        expect(value).toBe('');
+        const handleChangeSpy = sinon.spy(ApiForm.prototype, 'handleChange');
+        const event = { target: { name: 'githubClientId', value: 'test' } };
+        const mountedComponent = mount(<ApiForm {...props} />);
+        mountedComponent
+          .find('[name="githubClientId"]')
+          .simulate('change', event);
+        expect(handleChangeSpy.called).toBe(true);
+        handleChangeSpy.restore();
       });
     });
   });
-  describe('clientSecret input field', () => {
+  describe('githubClientSecret input field', () => {
     it('takes its value from the state', () => {
-      component.setState({ clientSecret: 'test' });
-      const value = component.find('[name="clientSecret"]').prop('value');
+      component.setState({ githubClientSecret: 'test' });
+      const value = component.find('[name="githubClientSecret"]').prop('value');
       expect(value).toBe('test');
     });
     describe('when component first loads', () => {
       it('is empty', () => {
-        const value = component.find('[name="clientSecret"]').prop('value');
+        const value = component
+          .find('[name="githubClientSecret"]')
+          .prop('value');
         expect(value).toBe('');
+      });
+    });
+
+    describe('when value entered', () => {
+      it('calls onChange function', () => {
+        const handleChangeSpy = sinon.spy(ApiForm.prototype, 'handleChange');
+        const event = { target: { name: 'githubClientSecret', value: 'test' } };
+        const mountedComponent = mount(<ApiForm {...props} />);
+        mountedComponent
+          .find('[name="githubClientSecret"]')
+          .simulate('change', event);
+        expect(handleChangeSpy.called).toBe(true);
+        handleChangeSpy.restore();
       });
     });
   });
 
-  describe('when save button clicked', () => {
+  describe('when githubClientId and githubClientSecret fields filled in and save button clicked', () => {
     it('calls the saveGithubCredentials action with the entered credentials', () => {
-      const creds = { clientSecret: 'test', clientId: 'test' };
-      component.setState(creds);
-      component.find('button').simulate('click');
+      const creds = {
+        githubClientSecret: 'githubClientSecretTest',
+        githubClientId: 'githubClientIdTest',
+      };
+      const mountedComponent = mount(<ApiForm {...props} />);
+      const githubClientIdEvent = {
+        target: { name: 'githubClientId', value: creds.githubClientId },
+      };
+      mountedComponent
+        .find('[name="githubClientId"]')
+        .simulate('change', githubClientIdEvent);
+      const githubClientSecretEvent = {
+        target: { name: 'githubClientSecret', value: creds.githubClientSecret },
+      };
+      mountedComponent
+        .find('[name="githubClientSecret"]')
+        .simulate('change', githubClientSecretEvent);
+      mountedComponent.find('button').simulate('click');
       expect(props.saveGithubCredentials).toHaveBeenCalledWith(creds);
     });
   });
