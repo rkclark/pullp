@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+// import { bindActionCreators } from 'redux';
 import ApiForm from './components/ApiForm';
 import { saveGithubCredentials } from './actions';
 
@@ -46,13 +46,20 @@ const mapStateToProps = state => ({
   loginState: state.login,
 });
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      saveGithubCredentials,
-      dispatch,
-    },
-    dispatch,
-  );
+// const mapDispatchToProps = dispatch =>
+//   bindActionCreators(
+//     {
+//       saveGithubCredentials,
+//       dispatch,
+//     },
+//     dispatch,
+//   );
+
+const mapDispatchToProps = dispatch => ({
+  saveGithubCredentials() {
+    dispatch(saveGithubCredentials());
+  },
+  dispatch,
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer);
