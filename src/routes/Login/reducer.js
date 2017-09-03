@@ -3,6 +3,8 @@ import { login as types } from '../../actionTypes';
 export const initialState = {
   githubClientId: null,
   githubClientSecret: null,
+  loginError: null,
+  githubToken: null,
 };
 
 export default function(state = initialState, action) {
@@ -13,6 +15,16 @@ export default function(state = initialState, action) {
         githubClientId: action.credentials.githubClientId,
         githubClientSecret: action.credentials.githubClientSecret,
       };
+    // case types.REQUEST_GITHUB_TOKEN_FAILURE:
+    //   return {
+    //     ...state,
+    //     loginError: action.error,
+    //   };
+    // case types.REQUEST_GITHUB_TOKEN_SUCCESS:
+    //   return {
+    //     ...state,
+    //     githubToken: action.token,
+    //   };
     default:
       return state;
   }
