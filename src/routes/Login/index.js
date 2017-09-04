@@ -56,8 +56,8 @@ const mapStateToProps = state => ({
 //   );
 
 const mapDispatchToProps = dispatch => ({
-  saveGithubCredentials() {
-    dispatch(saveGithubCredentials());
+  saveGithubCredentials: credentials => {
+    dispatch(saveGithubCredentials(credentials));
   },
   dispatch,
 });

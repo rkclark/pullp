@@ -10,21 +10,22 @@ export const initialState = {
 export default function(state = initialState, action) {
   switch (action.type) {
     case types.SAVE_GITHUB_CREDENTIALS:
+      console.log(action);
       return {
         ...state,
         githubClientId: action.credentials.githubClientId,
         githubClientSecret: action.credentials.githubClientSecret,
       };
-    // case types.REQUEST_GITHUB_TOKEN_FAILURE:
-    //   return {
-    //     ...state,
-    //     loginError: action.error,
-    //   };
-    // case types.REQUEST_GITHUB_TOKEN_SUCCESS:
-    //   return {
-    //     ...state,
-    //     githubToken: action.token,
-    //   };
+    case types.REQUEST_GITHUB_TOKEN_FAILURE:
+      return {
+        ...state,
+        loginError: action.error,
+      };
+    case types.REQUEST_GITHUB_TOKEN_SUCCESS:
+      return {
+        ...state,
+        githubToken: action.token,
+      };
     default:
       return state;
   }

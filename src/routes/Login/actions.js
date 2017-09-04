@@ -1,5 +1,6 @@
-import queryString from 'query-string';
+// import queryString from 'query-string';
 import { login as types } from '../../actionTypes';
+import apiRequest from './helpers/apiRequests';
 
 export const saveGithubCredentials = credentials => ({
   type: types.SAVE_GITHUB_CREDENTIALS,
@@ -20,13 +21,13 @@ export const requestGithubToken = (
   clientId,
   clientSecret,
   oAuthCode,
-) => async dispatch => { //eslint-disable-line
-  const options = queryString.stringify({
-    client_id: clientId,
-    client_secret: clientSecret,
-    code: oAuthCode,
-  });
-  console.log('requesting github token with opts', options);
+) => dispatch => { //eslint-disable-line
+  // const options = queryString.stringify({
+  //   client_id: clientId,
+  //   client_secret: clientSecret,
+  //   code: oAuthCode,
+  // });
+  // console.log('requesting github token with opts', options);
   // try {
   //   const results = await fetch(
   //     `https://github.com/login/oauth/access_token?${options}`,
@@ -41,13 +42,37 @@ export const requestGithubToken = (
   //   dispatch(requestGithubTokenFailure(err));
   // }
 
-  fetch(`https://github.com/login/oauth/access_token?${options}`, {
-    method: 'POST',
-  })
-    .then(results => {
-      console.log('SUCCESSFUL FETCH', results);
+  // fetch(`https://github.com/login/oauth/access_token?${options}`, {
+  //   method: 'POST',
+  // })
+  //   .then(results => {
+  //     console.log('SUCCESSFUL FETCH', results);
+  //   })
+  //   .catch((err, a, b) => {
+  //     console.log({ err, a, b });
+  //     console.log('FAILED FETCH FROM GITHUB', err);
+  //   });
+
+  const url = `https://github.com/login/oauth/access_token`;
+  const method = 'POST';
+  const data = {
+    client_id: clientId,
+    client_secret: clientSecret,
+    oAuthCode,
+  };
+
+  apiRequest(url, method, data)
+    .then(response => {
+      // dispatch({
+      //   type: LOGIN.SUCCESS,
+      //   payload: response.data,
+      //   isEnterprise,
+      //   hostname,
+      // });
+      console.log('AXIOS RESPONSE ', response);
     })
-    .catch(err => {
-      console.log('FAILED FETCH FROM GITHUB', err);
+    .catch(error => {
+      console.log('AXIOS ERROR, ', error);
+      // dispatch({ type: LOGIN.FAILURE, payload: error.response.data });
     });
 };
