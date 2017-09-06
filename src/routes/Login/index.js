@@ -13,11 +13,13 @@ function LoginContainer(props) {
   props.loginState.githubClientId && props.loginState.githubClientSecret
     ? (content = (
         <button
-          onClick={githubAuth(
-            props.loginState.githubClientId,
-            props.loginState.githubClientSecret,
-            props.dispatch,
-          )}
+          onClick={() => {
+            githubAuth(
+              props.loginState.githubClientId,
+              props.loginState.githubClientSecret,
+              props.dispatch,
+            );
+          }}
         >
           Sign in with Github
         </button>

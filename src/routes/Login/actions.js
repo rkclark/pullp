@@ -1,6 +1,6 @@
 // import queryString from 'query-string';
 import { login as types } from '../../actionTypes';
-import apiRequest from './helpers/apiRequests';
+// import apiRequest from './helpers/apiRequests';
 
 export const saveGithubCredentials = credentials => ({
   type: types.SAVE_GITHUB_CREDENTIALS,
@@ -21,7 +21,7 @@ export const requestGithubToken = (
   clientId,
   clientSecret,
   oAuthCode,
-) => dispatch => { //eslint-disable-line
+) => async dispatch => { //eslint-disable-line
   // const options = queryString.stringify({
   //   client_id: clientId,
   //   client_secret: clientSecret,
@@ -53,26 +53,34 @@ export const requestGithubToken = (
   //     console.log('FAILED FETCH FROM GITHUB', err);
   //   });
 
-  const url = `https://github.com/login/oauth/access_token`;
-  const method = 'POST';
-  const data = {
-    client_id: clientId,
-    client_secret: clientSecret,
-    oAuthCode,
-  };
+  // const url = `https://github.com/login/oauth/access_token`;
+  // const method = 'POST';
+  // const data = {
+  //   client_id: clientId,
+  //   client_secret: clientSecret,
+  //   oAuthCode,
+  // };
 
-  apiRequest(url, method, data)
-    .then(response => {
-      // dispatch({
-      //   type: LOGIN.SUCCESS,
-      //   payload: response.data,
-      //   isEnterprise,
-      //   hostname,
-      // });
-      console.log('AXIOS RESPONSE ', response);
-    })
-    .catch(error => {
-      console.log('AXIOS ERROR, ', error);
-      // dispatch({ type: LOGIN.FAILURE, payload: error.response.data });
-    });
+  try {
+    const res = await fetch(`http://localhost:9999/authenticate/${oAuthCode}`);
+    const result = await res.json();
+    dispatch(requestGithubTokenSuccess(result.token));
+  } catch (err) {
+    dispatch(requestGithubTokenFailure(err));
+  }
+
+  // apiRequest(url, method, data)
+  //   .then(response => {
+  //     // dispatch({
+  //     //   type: LOGIN.SUCCESS,
+  //     //   payload: response.data,
+  //     //   isEnterprise,
+  //     //   hostname,
+  //     // });
+  //     console.log('AXIOS RESPONSE ', response);
+  //   })
+  //   .catch(error => {
+  //     console.log('AXIOS ERROR, ', error);
+  //     // dispatch({ type: LOGIN.FAILURE, payload: error.response.data });
+  //   });
 };

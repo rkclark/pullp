@@ -1,6 +1,6 @@
 // import { parse } from 'url';
-
-import { requestGithubToken } from '../actions';
+import request from 'superagent';//eslint-disable-line
+import { requestGithubToken } from '../actions'; //eslint-disable-line
 
 const electron = window.require('electron');
 
@@ -13,7 +13,7 @@ const scopes = ['read:org', 'repo'];
 export function githubAuth( //eslint-disable-line
   clientId,
   clientSecret,
-  dispatch,
+  dispatch, //eslint-disable-line
 ) {
   // Build the OAuth consent page URL
   const authWindow = new BrowserWindow({
@@ -31,25 +31,39 @@ export function githubAuth( //eslint-disable-line
 
   authWindow.loadURL(authUrl);
 
-  function handleCallback(url) {
+  async function handleCallback(url) {
     console.log('handling callback url', url);
     const rawCode = /code=([^&]*)/.exec(url) || null;
     const code = rawCode && rawCode.length > 1 ? rawCode[1] : null;
     const error = /\?error=(.+)$/.exec(url);
 
-    if (code || error) {
-      // Close the browser if code found or error
-      authWindow.destroy();
-    }
-
     // If there is a code, proceed to get token from github
     if (code) {
-      dispatch(requestGithubToken(clientId, clientSecret, code));
-    } else if (error) {
-      alert(
-        "Oops! Something went wrong and we couldn't " +
-          'log you in using Github. Please try again.',
-      );
+      console.log('Getting code from Github');
+      await dispatch(requestGithubToken(clientId, clientSecret, code));
+      authWindow.destroy();
+      //   request
+      //     .post('https://github.com/login/oauth/access_token')
+      //     .send({
+      //       client_id: clientId,
+      //       client_secret: clientSecret,
+      //       code,
+      //     })
+      //     .set('Accept', 'application/json')
+      //     .end((err, res) => {
+      //       console.log('res is ', res);
+      //       console.log('err is ', err);
+      //     });
+      // } else if (error) {
+      //   alert(
+      //     "Oops! Something went wrong and we couldn't " +
+      //       'log you in using Github. Please try again.',
+      //   );
+    }
+
+    if (error) {
+      // Close the browser if code found or error
+      authWindow.destroy();
     }
   }
 

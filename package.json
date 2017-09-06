@@ -20,7 +20,8 @@
     "redux": "^3.7.0",
     "redux-devtools-extension": "^2.13.2",
     "redux-persist": "^4.9.1",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "superagent": "^3.6.0"
   },
   "devDependencies": {
     "autoprefixer": "7.1.0",
@@ -81,6 +82,6 @@
     "style-fix": "eslint --fix '**/*.js'",
     "precommit": "npm run style && CI=true npm run test",
     "electron": "electron .",
-    "electron-dev": "ELECTRON_START_URL=http://localhost:3000 electron ."
+    "electron-dev": "ELECTRON_START_URL=http://localhost:3333 electron ."
   }
 }
