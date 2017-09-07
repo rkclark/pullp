@@ -4,15 +4,9 @@ import PropTypes from 'prop-types';
 export default class ApiForm extends React.Component {
   constructor(props) {
     super(props);
-    // this.state = { githubClientId: '', githubClientSecret: '' };
     this.props = props;
-    // this.handleChange = this.handleChange.bind(this);
     this.saveCredentials = this.saveCredentials.bind(this);
   }
-
-  // handleChange(event) {
-  //   this.setState({ [event.target.name]: event.target.value });
-  // }
 
   saveCredentials() {
     const credentials = {

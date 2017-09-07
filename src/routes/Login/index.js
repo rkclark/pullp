@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// import { bindActionCreators } from 'redux';
 import ApiForm from './components/ApiForm';
 import { saveGithubCredentials } from './actions';
 
-import { githubAuth } from './helpers/githubAuth';
+import githubAuth from './helpers/githubAuth';
 
 function LoginContainer(props) {
   let content;
@@ -38,8 +37,8 @@ function LoginContainer(props) {
 LoginContainer.propTypes = {
   saveGithubCredentials: PropTypes.func.isRequired,
   loginState: PropTypes.shape({
-    githubClientId: PropTypes.string.isRequired,
-    githubClientSecret: PropTypes.string.isRequired,
+    githubClientId: PropTypes.string,
+    githubClientSecret: PropTypes.string,
   }).isRequired,
   dispatch: PropTypes.func.isRequired,
 };
@@ -47,15 +46,6 @@ LoginContainer.propTypes = {
 const mapStateToProps = state => ({
   loginState: state.login,
 });
-
-// const mapDispatchToProps = dispatch =>
-//   bindActionCreators(
-//     {
-//       saveGithubCredentials,
-//       dispatch,
-//     },
-//     dispatch,
-//   );
 
 const mapDispatchToProps = dispatch => ({
   saveGithubCredentials: credentials => {
