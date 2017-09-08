@@ -15,15 +15,19 @@ export const requestGithubTokenFailure = error => ({
   error,
 });
 
-export const requestGithubToken = (
-  clientId,
-  clientSecret,
-  oAuthCode,
-) => async dispatch => {
+export const requestGithubToken = oAuthParams => async dispatch => {
+  const oAuthData = JSON.stringify(oAuthParams);
   try {
-    const res = await fetch(`http://localhost:9999/authenticate/${oAuthCode}`);
+    const res = await fetch(`http://localhost:9821/authenticate/`, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+      body: oAuthData,
+    });
     const result = await res.json();
-    dispatch(requestGithubTokenSuccess(result.token));
+    dispatch(requestGithubTokenSuccess(result.access_token));
   } catch (err) {
     dispatch(requestGithubTokenFailure(err));
   }

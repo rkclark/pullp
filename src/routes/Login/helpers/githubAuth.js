@@ -30,7 +30,13 @@ export default function githubAuth(clientId, clientSecret, dispatch) {
 
     // If there is a code, proceed to get token from github
     if (code) {
-      await dispatch(requestGithubToken(clientId, clientSecret, code));
+      await dispatch(
+        requestGithubToken({
+          client_id: clientId,
+          client_secret: clientSecret,
+          code,
+        }),
+      );
       authWindow.destroy();
     }
 
