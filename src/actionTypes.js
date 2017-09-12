@@ -1,10 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
-export const counter = {
-  INCREMENT: 'COUNTER_INCREMENT',
-  DECREMENT: 'COUNTER_DECREMENT',
-};
-
 export const home = {
   REQUEST_API_CONTENT: 'REQUEST_API_CONTENT',
   REQUEST_API_CONTENT_SUCCESS: 'REQUEST_API_CONTENT_SUCCESS',
