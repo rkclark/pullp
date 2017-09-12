@@ -1,15 +1,37 @@
-/* eslint-disable no-console */
-const app = require('./app');
-const server = require('http').createServer(app);
+const queryString = require('querystring');
+const express = require('express');
+const bodyParser = require('body-parser');
+const fetch = require('node-fetch');
+const cors = require('cors');
 
-server.on('error', err => {
-  console.log(err);
-  process.exit(1);
+const app = express();
+app.use(cors());
+app.use(bodyParser.json());
+
+const port = 9821;
+
+app.post('/authenticate/', async (req, res) => {
+  console.log(req.body);
+  const oAuthParams = queryString.stringify(req.body);
+  const gitHubResponse = await fetch(
+    `https://github.com/login/oauth/access_token?${oAuthParams}`,
+    {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+    } //eslint-disable-line
+  );
+  if (gitHubResponse.ok) {
+    const result = await gitHubResponse.json();
+    res.json(result);
+  } else {
+    console.log(gitHubResponse);
+    res.sendStatus(500);
+  }
 });
 
-server.on('listening', () => {
-  console.log('server running on port %s', server.address().port);
+app.listen(port, null, () => {
+  console.log(`Pullp oAuth token server running on: http://localhost:${port}`);
 });
-
-// lets get this show on the road!
-server.listen(3000);
