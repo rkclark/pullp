@@ -55,4 +55,16 @@ describe('login reducer', () => {
       expect(newState).toEqual(expectedState);
     });
   });
+  describe('Save redirect', () => {
+    it('Saves the redirect path', () => {
+      const path = 'path';
+      const expectedState = {
+        ...initialState,
+        redirectPath: path,
+      };
+
+      const newState = reducer(initialState, actions.saveRedirect(path));
+      expect(newState).toEqual(expectedState);
+    });
+  });
 });

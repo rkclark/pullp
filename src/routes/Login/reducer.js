@@ -5,6 +5,7 @@ export const initialState = {
   githubClientSecret: null,
   loginError: null,
   githubToken: null,
+  redirectPath: null,
 };
 
 export default function(state = initialState, action) {
@@ -24,6 +25,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         githubToken: action.token,
+      };
+    case types.SAVE_REDIRECT:
+      return {
+        ...state,
+        redirectPath: action.path,
       };
     default:
       return state;

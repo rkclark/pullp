@@ -15,6 +15,11 @@ export const requestGithubTokenFailure = error => ({
   error,
 });
 
+export const saveRedirect = path => ({
+  type: types.SAVE_REDIRECT,
+  path,
+});
+
 export const requestGithubToken = oAuthParams => async dispatch => {
   const oAuthData = JSON.stringify(oAuthParams);
   try {
@@ -28,6 +33,7 @@ export const requestGithubToken = oAuthParams => async dispatch => {
     });
     const result = await res.json();
     dispatch(requestGithubTokenSuccess(result.access_token));
+    dispatch(saveRedirect('/'));
   } catch (err) {
     dispatch(requestGithubTokenFailure(err));
   }

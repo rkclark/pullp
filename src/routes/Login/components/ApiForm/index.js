@@ -19,8 +19,11 @@ export default class ApiForm extends React.Component {
   render() {
     return (
       <div>
-        <h2>Enter your Github oAuth App details:</h2>
-
+        <h2>
+          Pullp needs your Github oAuth app details before it can sign you into
+          Github!
+        </h2>
+        <p>Enter your client id and client secret below:</p>
         <label htmlFor="githubClientId">Client ID</label>
         <input
           name="githubClientId"

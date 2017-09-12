@@ -28,9 +28,22 @@ describe('Login actions', () => {
         });
         const dispatch = jest.fn();
         await requestGithubToken(dispatch);
-        expect(dispatch).toHaveBeenLastCalledWith(
+        expect(dispatch).toHaveBeenCalledWith(
           actions.requestGithubTokenSuccess(result.access_token),
         );
+        fetchMock.restore();
+      });
+      it('dispatches saveRedirect action with the "/" path', async () => {
+        const path = '/';
+        fetchMock.mock('http://localhost:9821/authenticate/', {});
+        const requestGithubToken = actions.requestGithubToken({
+          client_id: 'id',
+          client_secret: 'secret',
+          code: 'code',
+        });
+        const dispatch = jest.fn();
+        await requestGithubToken(dispatch);
+        expect(dispatch).toHaveBeenLastCalledWith(actions.saveRedirect(path));
         fetchMock.restore();
       });
     });
@@ -71,6 +84,17 @@ describe('Login actions', () => {
         error,
       };
       expect(actions.requestGithubTokenFailure(error)).toEqual(expectedAction);
+    });
+  });
+
+  describe('saveRedirect', () => {
+    it('creates an action to save a redirect path', () => {
+      const path = '/test';
+      const expectedAction = {
+        type: types.SAVE_REDIRECT,
+        path,
+      };
+      expect(actions.saveRedirect(path)).toEqual(expectedAction);
     });
   });
 });
