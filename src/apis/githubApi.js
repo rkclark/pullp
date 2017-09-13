@@ -10,7 +10,7 @@ query {
 `,
 };
 
-export const get = async query => {
+export const get = async (query, token) => {
   const body = {
     query,
   };
@@ -19,16 +19,15 @@ export const get = async query => {
     method: 'post',
     headers: {
       'Content-type': 'application/json',
-      Authorization: `bearer f58ff8a83faf4023c8ea192132ecaf8f7bb704a2`,
+      Authorization: `bearer ${token}`,
     },
     body: JSON.stringify(body),
   });
 
   if (response.ok) {
     const result = await response.json();
-    console.log(result);
     return result;
   }
 
-  throw new Error('Github is not ok :(');
+  return new Error('Github is not ok :(');
 };
