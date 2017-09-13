@@ -56,11 +56,13 @@ query {
         afterEach(() => {
           fetchMock.restore();
         });
-        it('returns error', async () => {
+        it('throws error', async () => {
           const query = '{ query }';
           const token = 'testToken';
-          const result = await get(query, token);
-          expect(result).toBeInstanceOf(Error);
+          expect(async () => {
+            await get(query, token);
+          }).toThrow();
+          // expect(result).toBeInstanceOf(Error);
         });
       });
     });
