@@ -29,5 +29,5 @@ export const get = async (query, token) => {
     return result;
   }
 
-  return new Error('Github is not ok :(');
+  throw new Error('Github is not ok :(');
 };
