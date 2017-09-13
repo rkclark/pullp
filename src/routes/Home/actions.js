@@ -1,5 +1,5 @@
 import { home as types } from '../../actionTypes';
-import githubApi from '../../apis/githubApi';
+import { get } from '../../apis/githubApi';
 
 export const requestApiContentSuccess = results => ({
   type: types.REQUEST_API_CONTENT_SUCCESS,
@@ -13,7 +13,7 @@ export const requestApiContentFail = error => ({
 
 export const requestApiContent = () => async dispatch => {
   try {
-    const results = await githubApi.get();
+    const results = await get();
     dispatch(requestApiContentSuccess(results));
   } catch (err) {
     dispatch(requestApiContentFail(err.message));

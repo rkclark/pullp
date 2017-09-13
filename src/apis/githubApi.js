@@ -1,52 +1,34 @@
-import { REACT_APP_GITHUB_TOKEN } from '../config';
-
-const QUERY = `
-query WatchingWithPullRequests {
-  user(login: "rkclark") {
-    watching(last: 100) {
-      nodes {
-        name
-        pullRequests(last: 100, states: OPEN) {
-          nodes {
-            url
-            reviewRequests(last: 10) {
-              nodes {
-                reviewer {
-                  login
-                }
-              }
-            }
-            author {
-              login
-            }
-          }
-        }
-      }
-    }
+export const queries = {
+  currentUser: () =>
+    `
+query {
+	viewer {
+    login
+    avatarUrl
   }
 }
-`;
+`,
+};
 
-export default {
-  get: async () => {
-    const body = {
-      query: QUERY,
-    };
+export const get = async query => {
+  const body = {
+    query,
+  };
 
-    const response = await fetch('https://api.github.com/graphql', {
-      method: 'post',
-      headers: {
-        'Content-type': 'application/json',
-        Authorization: `bearer ${REACT_APP_GITHUB_TOKEN}`,
-      },
-      body: JSON.stringify(body),
-    });
+  const response = await fetch('https://api.github.com/graphql', {
+    method: 'post',
+    headers: {
+      'Content-type': 'application/json',
+      Authorization: `bearer f58ff8a83faf4023c8ea192132ecaf8f7bb704a2`,
+    },
+    body: JSON.stringify(body),
+  });
 
-    if (response.ok) {
-      const result = await response.json();
-      return result.data.user.watching.nodes;
-    }
+  if (response.ok) {
+    const result = await response.json();
+    console.log(result);
+    return result;
+  }
 
-    throw new Error('Github is not ok :(');
-  },
+  throw new Error('Github is not ok :(');
 };
