@@ -20,9 +20,9 @@ export const requestApiContent = () => async dispatch => {
   }
 };
 
-export const requestCurrentUserSuccess = results => ({
+export const requestCurrentUserSuccess = data => ({
   type: types.REQUEST_CURRENT_USER_SUCCESS,
-  results,
+  data,
 });
 
 export const requestCurrentUserFail = error => ({
@@ -36,7 +36,6 @@ export const requestCurrentUser = token => async dispatch => {
     const results = await get(query, token);
     dispatch(requestCurrentUserSuccess(results));
   } catch (err) {
-    console.log(err);
     dispatch(requestCurrentUserFail(err.message));
   }
 };

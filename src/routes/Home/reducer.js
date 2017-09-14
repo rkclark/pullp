@@ -1,23 +1,25 @@
 import { home as types } from '../../actionTypes';
 
-const initialState = {
-  apiContent: [],
-  apiError: null,
+export const initialState = {
+  currentUser: null,
+  githubError: null,
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case types.REQUEST_API_CONTENT_SUCCESS:
+    case types.REQUEST_CURRENT_USER_SUCCESS:
       return {
         ...state,
-        apiContent: action.results,
-        apiError: null,
+        currentUser: {
+          login: action.data.viewer.login,
+          avatarUrl: action.data.viewer.avatarUrl,
+          url: action.data.viewer.url,
+        },
       };
-    case types.REQUEST_API_CONTENT_FAIL:
+    case types.REQUEST_CURRENT_USER_FAIL:
       return {
         ...state,
-        apiContent: [],
-        apiError: action.error,
+        githubError: action.error,
       };
     default:
       return state;

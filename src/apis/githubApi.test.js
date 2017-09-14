@@ -59,10 +59,13 @@ query {
         it('throws error', async () => {
           const query = '{ query }';
           const token = 'testToken';
-          expect(async () => {
+          let error = '';
+          try {
             await get(query, token);
-          }).toThrow();
-          // expect(result).toBeInstanceOf(Error);
+          } catch (err) {
+            error = err;
+          }
+          expect(error).toBeInstanceOf(Error);
         });
       });
     });
