@@ -11,6 +11,8 @@ query {
 };
 
 export const get = async (query, token) => {
+  console.log(token);
+  console.log(query);
   const body = {
     query,
   };
@@ -25,7 +27,7 @@ export const get = async (query, token) => {
   });
   if (response.ok) {
     const result = await response.json();
-    return result;
+    return result.data;
   }
 
   throw new Error('Github is not ok :(');

@@ -14,6 +14,6 @@ const store = createStore(
   ),
 );
 
-persistStore(store, { whitelist: ['login'] });
+persistStore(store, { whitelist: ['login', 'home'] });
 
 export default store;
