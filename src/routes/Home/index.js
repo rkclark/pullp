@@ -7,6 +7,8 @@ const mapStateToProps = state => ({
   apiContent: state.home.apiContent,
   apiError: state.home.apiError,
   redirectPath: state.login.redirectPath,
+  currentUser: state.home.currentUser,
+  githubToken: state.login.githubToken,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -15,6 +17,9 @@ const mapDispatchToProps = dispatch => ({
   },
   saveRedirect() {
     dispatch(saveRedirect());
+  },
+  requestCurrentUser(token) {
+    dispatch(actions.requestCurrentUser(token));
   },
 });
 
