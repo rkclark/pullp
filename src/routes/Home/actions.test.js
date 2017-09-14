@@ -46,7 +46,7 @@ describe('Home actions', () => {
           queryMock.returns(testQuery);
           getMock = sinon.stub(githubApi, 'get');
           testError = new Error('Omfg');
-          getMock.returns(testError);
+          getMock.throws(testError);
         });
         afterEach(() => {
           queryMock.restore();
@@ -60,6 +60,26 @@ describe('Home actions', () => {
             actions.requestCurrentUserFail(testError.message),
           );
         });
+      });
+    });
+    describe('requestCurrentUserSuccess', () => {
+      it('creates an action to save currentUser data', () => {
+        const data = { data: 'stuff' };
+        const expectedAction = {
+          type: types.REQUEST_CURRENT_USER_SUCCESS,
+          data,
+        };
+        expect(actions.requestCurrentUserSuccess(data)).toEqual(expectedAction);
+      });
+    });
+    describe('requestCurrentUserFail', () => {
+      it('creates an action to save currentUser error message', () => {
+        const error = 'omfg';
+        const expectedAction = {
+          type: types.REQUEST_CURRENT_USER_FAIL,
+          error,
+        };
+        expect(actions.requestCurrentUserFail(error)).toEqual(expectedAction);
       });
     });
   });

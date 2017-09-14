@@ -23,7 +23,6 @@ export const get = async (query, token) => {
     },
     body: JSON.stringify(body),
   });
-
   if (response.ok) {
     const result = await response.json();
     return result;
