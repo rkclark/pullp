@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Repo from './Repo';
+import CurrentUser from './CurrentUser';
 
 export default class Home extends React.Component {
   constructor(props) {
@@ -34,12 +35,10 @@ export default class Home extends React.Component {
     const currentUser = this.props.currentUser;
     if (currentUser) {
       return (
-        <div>
-          <p>
-            Logged in as {currentUser.login}
-          </p>
-          <img src={currentUser.avatarUrl} alt="avatar" />
-        </div>
+        <CurrentUser
+          login={currentUser.login}
+          avatarUrl={currentUser.avatarUrl}
+        />
       );
     }
     return null;
