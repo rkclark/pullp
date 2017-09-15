@@ -22,7 +22,7 @@ query {
         let testResponse;
         let matcher;
         beforeEach(() => {
-          testResponse = { test: 'yay' };
+          testResponse = { data: { test: 'yay' } };
           matcher = 'https://api.github.com/graphql';
           fetchMock.mock(matcher, testResponse);
         });
@@ -43,7 +43,7 @@ query {
           const query = '{ query }';
           const token = 'testToken';
           const result = await get(query, token);
-          expect(result).toEqual(testResponse);
+          expect(result).toEqual(testResponse.data);
         });
       });
       describe('when fetch returns non 200 response', () => {

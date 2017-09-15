@@ -11,8 +11,6 @@ query {
 };
 
 export const get = async (query, token) => {
-  console.log(token);
-  console.log(query);
   const body = {
     query,
   };
