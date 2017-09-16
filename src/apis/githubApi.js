@@ -8,6 +8,23 @@ query {
   }
 }
 `,
+  watchedRepos: () =>
+    `
+        query { 
+          viewer { 
+            watching(first:100) {
+              totalCount
+              pageInfo {
+                hasNextPage
+              }
+              edges {
+                node {
+                  name
+                }
+              }
+            }
+          }
+        }`,
 };
 
 export const get = async (query, token) => {

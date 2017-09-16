@@ -17,6 +17,28 @@ query {
       });
     });
 
+    describe('watchedRepos', () => {
+      it('returns correct graphql query', () => {
+        const expectedQuery = `
+        query { 
+          viewer { 
+            watching(first:100) {
+              totalCount
+              pageInfo {
+                hasNextPage
+              }
+              edges {
+                node {
+                  name
+                }
+              }
+            }
+          }
+        }`;
+        expect(queries.watchedRepos()).toEqual(expectedQuery);
+      });
+    });
+
     describe('get', () => {
       describe('when fetch returns 200 OK response', () => {
         let testResponse;
