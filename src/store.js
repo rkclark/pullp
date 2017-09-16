@@ -4,9 +4,10 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunkMiddleware from 'redux-thunk';
 import home from './routes/Home/reducer';
 import login from './routes/Login/reducer';
+import selectRepos from './routes/SelectRepos/reducer';
 
 const store = createStore(
-  combineReducers({ home, login }),
+  combineReducers({ home, login, selectRepos }),
   undefined,
   composeWithDevTools(
     applyMiddleware(thunkMiddleware),
@@ -14,6 +15,6 @@ const store = createStore(
   ),
 );
 
-persistStore(store, { whitelist: ['login', 'home'] });
+persistStore(store, { whitelist: ['login', 'home', 'selectRepos'] });
 
 export default store;
