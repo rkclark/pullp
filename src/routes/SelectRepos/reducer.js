@@ -13,6 +13,7 @@ export default function(state = initialState, action) {
       repos = action.data.viewer.watching.edges.map(repo => ({
         name: repo.node.name,
         id: repo.node.id,
+        url: repo.node.url,
       }));
       return {
         ...state,
