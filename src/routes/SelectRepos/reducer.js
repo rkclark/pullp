@@ -3,6 +3,7 @@ import { selectRepos as types } from '../../actionTypes';
 export const initialState = {
   watchedRepos: [],
   githubError: null,
+  selectedRepos: [],
 };
 
 export default function(state = initialState, action) {
@@ -22,6 +23,18 @@ export default function(state = initialState, action) {
         ...state,
         githubError: action.error,
       };
+    case types.TOGGLE_REPO_SELECTION:
+      return state.selectedRepos.includes(action.id)
+        ? {
+            ...state,
+            selectedRepos: state.selectedRepos.filter(
+              repoId => repoId !== action.id,
+            ),
+          }
+        : {
+            ...state,
+            selectedRepos: [...state.selectedRepos, action.id],
+          };
     default:
       return state;
   }

@@ -20,3 +20,8 @@ export const requestWatchedRepos = token => async dispatch => {
     dispatch(requestWatchedReposFail(err.message));
   }
 };
+
+export const toggleRepoSelection = id => ({
+  type: types.TOGGLE_REPO_SELECTION,
+  id,
+});

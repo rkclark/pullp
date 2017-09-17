@@ -103,4 +103,17 @@ describe('SelectRepos actions', () => {
       });
     });
   });
+
+  describe('Saving selected repos', () => {
+    describe('toggleRepoSelection', () => {
+      it('creates an action to toggle a selected repo', () => {
+        const id = 'testId';
+        const expectedAction = {
+          type: types.TOGGLE_REPO_SELECTION,
+          id,
+        };
+        expect(actions.toggleRepoSelection(id)).toEqual(expectedAction);
+      });
+    });
+  });
 });
