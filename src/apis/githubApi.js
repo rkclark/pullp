@@ -8,32 +8,34 @@ query {
   }
 }
 `,
-  watchedRepos: () =>
-    `
-        query { 
-          viewer { 
-            watching(first:100, affiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]) {
-              totalCount
-              pageInfo {
-                hasNextPage
-              }
-              edges {
-                node {
-                  name
-                  id
-                  url
+  watchedRepos: (cursor = '') => {
+    const afterParam = cursor ? `, after:"${cursor}"` : '';
+    return `
+          query { 
+            viewer { 
+              watching(first:100, affiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]${afterParam}) {
+                totalCount
+                pageInfo {
+                  hasNextPage
+                }
+                edges {
+                  cursor
+                  node {
+                    name
+                    id
+                    url
+                  }
                 }
               }
             }
-          }
-        }`,
+          }`;
+  },
 };
 
 export const get = async (query, token) => {
   const body = {
     query,
   };
-
   const response = await fetch('https://api.github.com/graphql', {
     method: 'post',
     headers: {

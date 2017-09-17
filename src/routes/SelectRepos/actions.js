@@ -1,3 +1,5 @@
+/* eslint-disable no-await-in-loop */
+
 import { selectRepos as types } from '../../actionTypes';
 import { get, queries } from '../../apis/githubApi';
 
@@ -13,9 +15,24 @@ export const requestWatchedReposFail = error => ({
 
 export const requestWatchedRepos = token => async dispatch => {
   try {
-    const query = queries.watchedRepos();
-    const results = await get(query, token);
-    dispatch(requestWatchedReposSuccess(results));
+    let query = queries.watchedRepos();
+    const initialResults = await get(query, token);
+    let reposArray = initialResults.viewer.watching.edges;
+    if (initialResults.viewer.watching.pageInfo.hasNextPage) {
+      let paginate = true;
+      while (paginate) {
+        query = queries.watchedRepos(reposArray[reposArray.length - 1].cursor);
+        const paginatedResults = await get(query, token);
+        reposArray = [...reposArray, ...paginatedResults.viewer.watching.edges];
+        paginate = paginatedResults.viewer.watching.pageInfo.hasNextPage;
+      }
+    }
+    reposArray = reposArray.map(repo => ({
+      name: repo.node.name,
+      id: repo.node.id,
+      url: repo.node.url,
+    }));
+    dispatch(requestWatchedReposSuccess(reposArray));
   } catch (err) {
     dispatch(requestWatchedReposFail(err.message));
   }

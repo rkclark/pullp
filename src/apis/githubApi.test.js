@@ -18,26 +18,53 @@ query {
     });
 
     describe('watchedRepos', () => {
-      it('returns correct graphql query', () => {
-        const expectedQuery = `
-        query { 
-          viewer { 
-            watching(first:100, affiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]) {
-              totalCount
-              pageInfo {
-                hasNextPage
-              }
-              edges {
-                node {
-                  name
-                  id
-                  url
+      describe('when no graphql cursor is supplied', () => {
+        it('returns graphql query with no after parameter', () => {
+          const expectedQuery = `
+          query { 
+            viewer { 
+              watching(first:100, affiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]) {
+                totalCount
+                pageInfo {
+                  hasNextPage
+                }
+                edges {
+                  cursor
+                  node {
+                    name
+                    id
+                    url
+                  }
                 }
               }
             }
-          }
-        }`;
-        expect(queries.watchedRepos()).toEqual(expectedQuery);
+          }`;
+          expect(queries.watchedRepos()).toEqual(expectedQuery);
+        });
+      });
+      describe('when graphql cursor is supplied', () => {
+        it('returns graphql query with correct after parameter', () => {
+          const expectedQuery = `
+          query { 
+            viewer { 
+              watching(first:100, affiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER], after:"testCursor") {
+                totalCount
+                pageInfo {
+                  hasNextPage
+                }
+                edges {
+                  cursor
+                  node {
+                    name
+                    id
+                    url
+                  }
+                }
+              }
+            }
+          }`;
+          expect(queries.watchedRepos('testCursor')).toEqual(expectedQuery);
+        });
       });
     });
 
