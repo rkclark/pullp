@@ -2,22 +2,27 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as actions from './actions';
+import RepoCheckbox from './components/RepoCheckbox';
 
-class SelectRepos extends React.Component {
+export class SelectRepos extends React.Component {
   constructor(props) {
     super(props);
     this.props = props;
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    console.log('SELECTREPOS DID MOUNT, token is ', this.props.githubToken);
     this.props.requestWatchedRepos(this.props.githubToken);
   }
 
   render() {
+    console.log('SELECTREPOS RENDER');
     return (
       <div>
         Select requestWatchedRepos
-        {this.props.watchedRepos}
+        {this.props.watchedRepos.map(repo =>
+          <RepoCheckbox key={repo.id} name={repo.name} />,
+        )}
         {this.props.githubError}
       </div>
     );
@@ -25,7 +30,7 @@ class SelectRepos extends React.Component {
 }
 
 SelectRepos.propTypes = {
-  watchedRepos: PropTypes.arrayOf(),
+  watchedRepos: PropTypes.arrayOf(PropTypes.shape()),
   githubError: PropTypes.string,
   githubToken: PropTypes.string,
   requestWatchedRepos: PropTypes.func.isRequired,
