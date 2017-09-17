@@ -18,6 +18,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         watchedRepos: repos,
+        githubError: null,
       };
     case types.REQUEST_WATCHED_REPOS_FAIL:
       return {
