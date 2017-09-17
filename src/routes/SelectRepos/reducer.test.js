@@ -8,32 +8,24 @@ describe('SelectRepos reducer', () => {
 
   describe('watchedRepos', () => {
     it('Saves watchedRepos data', () => {
-      const data = {
-        viewer: {
-          watching: {
-            totalCount: 2,
-            pageInfo: {
-              hasNextPage: false,
-            },
-            edges: [
-              {
-                node: {
-                  name: 'Repo1',
-                  id: 'hjhgjhjgh==',
-                  url: 'testurl1',
-                },
-              },
-              {
-                node: {
-                  name: 'Repo2',
-                  id: 'gdfdshgfghfgh==',
-                  url: 'testurl2',
-                },
-              },
-            ],
-          },
+      const data = [
+        {
+          name: 'Atticus_Legal',
+          id: 'MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==',
         },
-      };
+        {
+          name: 'minesweeper',
+          id: 'MDEwOlJlcG9zaXRvcnk3Mjc1NzkxNg==',
+        },
+        {
+          name: 'test1',
+          id: 'testid1==',
+        },
+        {
+          name: 'test2',
+          id: 'testid2==',
+        },
+      ];
       const baseState = {
         ...initialState,
         githubError: 'error',
@@ -41,18 +33,7 @@ describe('SelectRepos reducer', () => {
 
       const expectedState = {
         ...baseState,
-        watchedRepos: [
-          {
-            name: 'Repo1',
-            id: 'hjhgjhjgh==',
-            url: 'testurl1',
-          },
-          {
-            name: 'Repo2',
-            id: 'gdfdshgfghfgh==',
-            url: 'testurl2',
-          },
-        ],
+        watchedRepos: data,
         githubError: null,
       };
 

@@ -7,16 +7,13 @@ describe('SelectRepos actions', () => {
   describe('Retrieving watched repos', () => {
     describe('requestWatchedRepos', () => {
       describe('when call to github succeeds', () => {
-        let queryMock;
-        let getMock;
-        let testResult;
-        beforeEach(() => {
-          queryMock = sinon.stub(githubApi.queries, 'watchedRepos');
-          const testQuery = '{ query }';
-          queryMock.returns(testQuery);
-          getMock = sinon.stub(githubApi, 'get');
-          testResult = {
-            data: {
+        describe('when results do not have a nextPage', () => {
+          it('dispatches requestWatchedReposSuccess with the result', async () => {
+            const queryMock = sinon.stub(githubApi.queries, 'watchedRepos');
+            const testQuery = '{ query }';
+            queryMock.returns(testQuery);
+            const getMock = sinon.stub(githubApi, 'get');
+            const testResult = {
               viewer: {
                 watching: {
                   totalCount: 2,
@@ -25,55 +22,152 @@ describe('SelectRepos actions', () => {
                   },
                   edges: [
                     {
+                      cursor: 'hghghrsfdvs==',
                       node: {
-                        name: 'Repo1',
+                        name: 'test1',
+                        id: 'testid1==',
                       },
                     },
                     {
+                      cursor: 'adsatgdgrsgsdf',
                       node: {
-                        name: 'Repo2',
+                        name: 'test2',
+                        id: 'testid2==',
                       },
                     },
                   ],
                 },
               },
-            },
-          };
-          getMock.returns(testResult);
+            };
+            const expectedResult = [
+              {
+                name: 'test1',
+                id: 'testid1==',
+              },
+              {
+                name: 'test2',
+                id: 'testid2==',
+              },
+            ];
+            getMock.returns(testResult);
+            const requestWatchedRepos = actions.requestWatchedRepos(
+              'testToken',
+            );
+            const dispatch = jest.fn();
+            await requestWatchedRepos(dispatch);
+            queryMock.restore();
+            getMock.restore();
+            expect(dispatch).toHaveBeenCalledWith(
+              actions.requestWatchedReposSuccess(expectedResult),
+            );
+          });
         });
-        afterEach(() => {
-          queryMock.restore();
-          getMock.restore();
-        });
-        it('dispatches requestWatchedReposSuccess with the result', async () => {
-          const requestWatchedRepos = actions.requestWatchedRepos('testToken');
-          const dispatch = jest.fn();
-          await requestWatchedRepos(dispatch);
-          expect(dispatch).toHaveBeenCalledWith(
-            actions.requestWatchedReposSuccess(testResult),
-          );
+        describe('when results have a nextPage', () => {
+          it('dispatches requestWatchedReposSuccess with the result', async () => {
+            const testCursor = 'Y3Vyc29yOnYyOpHOBFYynA==';
+            const testToken = 'testToken';
+            const queryMock = sinon.stub(githubApi.queries, 'watchedRepos');
+            const testQueryOne = '{ query1 }';
+            const testQueryTwo = '{ query2 }';
+            queryMock.withArgs().returns(testQueryOne);
+            queryMock.withArgs(testCursor).returns(testQueryTwo);
+            const getMock = sinon.stub(githubApi, 'get');
+            const testResult1 = {
+              viewer: {
+                watching: {
+                  totalCount: 68,
+                  pageInfo: {
+                    hasNextPage: true,
+                  },
+                  edges: [
+                    {
+                      cursor: 'Y3Vyc29yOnYyOpHOBDqJrA==',
+                      node: {
+                        name: 'Atticus_Legal',
+                        id: 'MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==',
+                      },
+                    },
+                    {
+                      cursor: testCursor,
+                      node: {
+                        name: 'minesweeper',
+                        id: 'MDEwOlJlcG9zaXRvcnk3Mjc1NzkxNg==',
+                      },
+                    },
+                  ],
+                },
+              },
+            };
+            const testResult2 = {
+              viewer: {
+                watching: {
+                  totalCount: 68,
+                  pageInfo: {
+                    hasNextPage: false,
+                  },
+                  edges: [
+                    {
+                      cursor: 'hghghrsfdvs==',
+                      node: {
+                        name: 'test1',
+                        id: 'testid1==',
+                      },
+                    },
+                    {
+                      cursor: 'adsatgdgrsgsdf',
+                      node: {
+                        name: 'test2',
+                        id: 'testid2==',
+                      },
+                    },
+                  ],
+                },
+              },
+            };
+            const combinedResult = [
+              {
+                name: 'Atticus_Legal',
+                id: 'MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==',
+              },
+              {
+                name: 'minesweeper',
+                id: 'MDEwOlJlcG9zaXRvcnk3Mjc1NzkxNg==',
+              },
+              {
+                name: 'test1',
+                id: 'testid1==',
+              },
+              {
+                name: 'test2',
+                id: 'testid2==',
+              },
+            ];
+            getMock.withArgs(testQueryOne, testToken).returns(testResult1);
+            getMock.withArgs(testQueryTwo, testToken).returns(testResult2);
+            const requestWatchedRepos = actions.requestWatchedRepos(testToken);
+            const dispatch = jest.fn();
+            await requestWatchedRepos(dispatch);
+            queryMock.restore();
+            getMock.restore();
+            expect(dispatch).toHaveBeenCalledWith(
+              actions.requestWatchedReposSuccess(combinedResult),
+            );
+          });
         });
       });
       describe('when call to github fails', () => {
-        let queryMock;
-        let getMock;
-        let testError;
-        beforeEach(() => {
-          queryMock = sinon.stub(githubApi.queries, 'watchedRepos');
+        it('dispatches requestWatchedReposFail with the error message', async () => {
+          const queryMock = sinon.stub(githubApi.queries, 'watchedRepos');
           const testQuery = '{ query }';
           queryMock.returns(testQuery);
-          getMock = sinon.stub(githubApi, 'get');
-          testError = new Error('Omfg');
+          const getMock = sinon.stub(githubApi, 'get');
+          const testError = new Error('Omfg');
           getMock.throws(testError);
-        });
-        afterEach(() => {
-          queryMock.restore();
-          getMock.restore();
-        });
-        it('dispatches requestWatchedReposFail with the error message', async () => {
           const requestWatchedRepos = actions.requestWatchedRepos('testToken');
           const dispatch = jest.fn();
           await requestWatchedRepos(dispatch);
+          queryMock.restore();
+          getMock.restore();
           expect(dispatch).toHaveBeenCalledWith(
             actions.requestWatchedReposFail(testError.message),
           );

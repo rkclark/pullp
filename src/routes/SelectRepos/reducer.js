@@ -7,17 +7,11 @@ export const initialState = {
 };
 
 export default function(state = initialState, action) {
-  let repos;
   switch (action.type) {
     case types.REQUEST_WATCHED_REPOS_SUCCESS:
-      repos = action.data.viewer.watching.edges.map(repo => ({
-        name: repo.node.name,
-        id: repo.node.id,
-        url: repo.node.url,
-      }));
       return {
         ...state,
-        watchedRepos: repos,
+        watchedRepos: action.data,
         githubError: null,
       };
     case types.REQUEST_WATCHED_REPOS_FAIL:
