@@ -30,6 +30,7 @@ query {
               edges {
                 node {
                   name
+                  id
                 }
               }
             }
