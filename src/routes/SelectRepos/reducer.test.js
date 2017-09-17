@@ -34,8 +34,13 @@ describe('SelectRepos reducer', () => {
           },
         },
       };
-      const expectedState = {
+      const baseState = {
         ...initialState,
+        githubError: 'error',
+      };
+
+      const expectedState = {
+        ...baseState,
         watchedRepos: [
           {
             name: 'Repo1',
@@ -48,10 +53,11 @@ describe('SelectRepos reducer', () => {
             url: 'testurl2',
           },
         ],
+        githubError: null,
       };
 
       const newState = reducer(
-        initialState,
+        baseState,
         actions.requestWatchedReposSuccess(data),
       );
       expect(newState).toEqual(expectedState);
