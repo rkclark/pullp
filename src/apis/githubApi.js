@@ -12,7 +12,7 @@ query {
     `
         query { 
           viewer { 
-            watching(first:100) {
+            watching(first:100, affiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]) {
               totalCount
               pageInfo {
                 hasNextPage
@@ -21,6 +21,7 @@ query {
                 node {
                   name
                   id
+                  url
                 }
               }
             }

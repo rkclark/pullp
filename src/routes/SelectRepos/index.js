@@ -8,21 +8,38 @@ export class SelectRepos extends React.Component {
   constructor(props) {
     super(props);
     this.props = props;
+    this.loadRepos = this.loadRepos.bind(this);
   }
 
   componentDidMount() {
-    console.log('SELECTREPOS DID MOUNT, token is ', this.props.githubToken);
     this.props.requestWatchedRepos(this.props.githubToken);
   }
 
+  loadRepos() {
+    return this.props.watchedRepos.map(repo => {
+      const checked = this.props.selectedRepos.includes(repo.id);
+      const onChange = () => {
+        this.props.toggleRepoSelection(repo.id);
+      };
+      return (
+        <RepoCheckbox
+          key={repo.id}
+          name={repo.name}
+          url={repo.url}
+          checked={checked}
+          onChange={onChange}
+          id={repo.id}
+        />
+      );
+    });
+  }
+
   render() {
-    console.log('SELECTREPOS RENDER');
+    const repos = this.loadRepos();
     return (
       <div>
         Select requestWatchedRepos
-        {this.props.watchedRepos.map(repo =>
-          <RepoCheckbox key={repo.id} name={repo.name} />,
-        )}
+        {repos}
         {this.props.githubError}
       </div>
     );
@@ -34,23 +51,30 @@ SelectRepos.propTypes = {
   githubError: PropTypes.string,
   githubToken: PropTypes.string,
   requestWatchedRepos: PropTypes.func.isRequired,
+  selectedRepos: PropTypes.arrayOf(PropTypes.string),
+  toggleRepoSelection: PropTypes.func.isRequired,
 };
 
 SelectRepos.defaultProps = {
   watchedRepos: [],
   githubError: null,
   githubToken: null,
+  selectedRepos: [],
 };
 
 const mapStateToProps = state => ({
   watchedRepos: state.selectRepos.watchedRepos,
   githubError: state.selectRepos.githubError,
   githubToken: state.login.githubToken,
+  selectedRepos: state.selectRepos.selectedRepos,
 });
 
 const mapDispatchToProps = dispatch => ({
   requestWatchedRepos(token) {
     dispatch(actions.requestWatchedRepos(token));
+  },
+  toggleRepoSelection(id) {
+    dispatch(actions.toggleRepoSelection(id));
   },
 });
 

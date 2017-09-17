@@ -7,6 +7,7 @@ describe('SelectRepos', () => {
   const props = {
     githubError: null,
     requestWatchedRepos: jest.fn(),
+    toggleRepoSelection: () => {},
   };
 
   it('renders successfully', () => {
@@ -22,10 +23,12 @@ describe('SelectRepos', () => {
           {
             name: 'Repo1',
             id: 'hjhgjhjgh==',
+            url: 'test',
           },
           {
             name: 'Repo2',
             id: 'gdfdshgfghfgh==',
+            url: 'test2',
           },
         ]}
       />,

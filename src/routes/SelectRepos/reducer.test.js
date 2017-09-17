@@ -20,12 +20,14 @@ describe('SelectRepos reducer', () => {
                 node: {
                   name: 'Repo1',
                   id: 'hjhgjhjgh==',
+                  url: 'testurl1',
                 },
               },
               {
                 node: {
                   name: 'Repo2',
                   id: 'gdfdshgfghfgh==',
+                  url: 'testurl2',
                 },
               },
             ],
@@ -38,10 +40,12 @@ describe('SelectRepos reducer', () => {
           {
             name: 'Repo1',
             id: 'hjhgjhjgh==',
+            url: 'testurl1',
           },
           {
             name: 'Repo2',
             id: 'gdfdshgfghfgh==',
+            url: 'testurl2',
           },
         ],
       };
