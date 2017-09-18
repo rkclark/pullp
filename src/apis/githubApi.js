@@ -30,6 +30,29 @@ query {
             }
           }`;
   },
+  pullRequests: ids =>
+    `
+        query {
+          nodes (ids:${ids}) {
+            id
+            ... on Repository {
+              name
+              pullRequests(first:100) {
+              edges {
+                node {
+                  createdAt
+                  author {
+                    avatarUrl
+                    login
+                    url
+                  }
+                }
+              } 
+              }
+            }
+          }
+        }
+        `,
 };
 
 export const get = async (query, token) => {

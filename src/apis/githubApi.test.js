@@ -68,6 +68,35 @@ query {
       });
     });
 
+    describe('pullRequests', () => {
+      it('returns correct graphql query', () => {
+        const testIds = '["test1", "test2", "test3"]';
+        const expectedQuery = `
+        query {
+          nodes (ids:${testIds}) {
+            id
+            ... on Repository {
+              name
+              pullRequests(first:100) {
+              edges {
+                node {
+                  createdAt
+                  author {
+                    avatarUrl
+                    login
+                    url
+                  }
+                }
+              } 
+              }
+            }
+          }
+        }
+        `;
+        expect(queries.pullRequests(testIds)).toEqual(expectedQuery);
+      });
+    });
+
     describe('get', () => {
       describe('when fetch returns 200 OK response', () => {
         let testResponse;
