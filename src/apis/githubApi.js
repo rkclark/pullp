@@ -37,7 +37,7 @@ query {
             id
             ... on Repository {
               name
-              pullRequests(first:100) {
+              pullRequests(last:100) {
               edges {
                 node {
                   createdAt
