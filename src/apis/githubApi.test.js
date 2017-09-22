@@ -77,17 +77,60 @@ query {
             id
             ... on Repository {
               name
-              pullRequests(last:100) {
-              edges {
-                node {
-                  createdAt
-                  author {
-                    avatarUrl
-                    login
+              pullRequests(last: 100) {
+                edges {
+                  node {
+                    createdAt
+                    closed
+                    mergedAt
                     url
+                    number
+                    title
+                    assignees(last: 100) {
+                      edges {
+                        node {
+                          login
+                        }
+                      }
+                    }
+                    author {
+                      avatarUrl
+                      login
+                      url
+                    }
+                    participants(last: 100) {
+                      edges {
+                        node {
+                          login
+                          avatarUrl
+                          url
+                        }
+                      }
+                    }
+                    reviewRequests(last: 100) {
+                      edges {
+                        node {
+                          reviewer {
+                            login
+                            avatarUrl
+                          }
+                        }
+                      }
+                    }
+                    reviews(last: 100) {
+                      edges {
+                        node {
+                          author {
+                            login
+                            avatarUrl
+                          }
+                          createdAt
+                          state
+                        }
+                      }
+                    }
                   }
                 }
-              } 
               }
             }
           }
