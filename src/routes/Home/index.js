@@ -69,9 +69,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  requestApiContent() {
-    dispatch(actions.requestApiContent());
-  },
   saveRedirect() {
     dispatch(saveRedirect());
   },
