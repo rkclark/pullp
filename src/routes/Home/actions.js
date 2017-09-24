@@ -20,3 +20,23 @@ export const requestCurrentUser = token => async dispatch => {
     dispatch(requestCurrentUserFail(err.message));
   }
 };
+
+export const requestPullRequestsSuccess = data => ({
+  type: types.REQUEST_CURRENT_USER_SUCCESS,
+  data,
+});
+
+export const requestPullRequestsFail = error => ({
+  type: types.REQUEST_CURRENT_USER_FAIL,
+  error,
+});
+
+export const requestPullRequests = token => async dispatch => {
+  try {
+    const query = queries.currentUser();
+    const results = await get(query, token);
+    dispatch(requestPullRequestsSuccess(results));
+  } catch (err) {
+    dispatch(requestPullRequestsFail(err.message));
+  }
+};
