@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Repo from './Repo';
 import CurrentUser from './CurrentUser';
 
 export default class Home extends React.Component {
@@ -16,19 +15,6 @@ export default class Home extends React.Component {
     if (!this.props.currentUser && this.props.githubToken) {
       this.props.requestCurrentUser(this.props.githubToken);
     }
-  }
-
-  loadRepos() {
-    const filtered = this.props.apiContent.filter(
-      elem => elem.pullRequests.nodes.length,
-    );
-    return filtered.map(({ name, pullRequests }) =>
-      <Repo
-        name={name}
-        key={`${name}_${Math.random()}`}
-        pullRequests={pullRequests.nodes}
-      />,
-    );
   }
 
   loadCurrentUser() {

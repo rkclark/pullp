@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Repo from './components/Repo';
 import CurrentUser from './components/CurrentUser';
 import * as actions from './actions';
 import { saveRedirect } from '../Login/actions';
@@ -21,19 +20,6 @@ export class Home extends React.Component {
     }
   }
 
-  loadRepos() {
-    const filtered = this.props.apiContent.filter(
-      elem => elem.pullRequests.nodes.length,
-    );
-    return filtered.map(({ name, pullRequests }) =>
-      <Repo
-        name={name}
-        key={`${name}_${Math.random()}`}
-        pullRequests={pullRequests.nodes}
-      />,
-    );
-  }
-
   loadCurrentUser() {
     const currentUser = this.props.currentUser;
     if (currentUser) {
@@ -48,29 +34,17 @@ export class Home extends React.Component {
   }
 
   render() {
-    const repos = this.loadRepos();
     const currentUser = this.loadCurrentUser();
     return (
       <div>
         <h1>PULLP</h1>
         {currentUser}
-        <button onClick={this.props.requestApiContent}>
-          GET ME SOME STUFF
-        </button>
-        <div>
-          {this.props.apiError}
-          <br />
-          {repos}
-        </div>
       </div>
     );
   }
 }
 
 Home.propTypes = {
-  apiContent: PropTypes.array, //eslint-disable-line
-  apiError: PropTypes.string,
-  requestApiContent: PropTypes.func.isRequired,
   redirectPath: PropTypes.string,
   saveRedirect: PropTypes.func.isRequired,
   currentUser: PropTypes.shape({
@@ -83,16 +57,12 @@ Home.propTypes = {
 };
 
 Home.defaultProps = {
-  apiContent: [],
-  apiError: null,
   redirectPath: null,
   currentUser: null,
   githubToken: null,
 };
 
 const mapStateToProps = state => ({
-  apiContent: state.home.apiContent,
-  apiError: state.home.apiError,
   redirectPath: state.login.redirectPath,
   currentUser: state.home.currentUser,
   githubToken: state.login.githubToken,
