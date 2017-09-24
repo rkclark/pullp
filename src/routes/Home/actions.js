@@ -22,12 +22,12 @@ export const requestCurrentUser = token => async dispatch => {
 };
 
 export const requestPullRequestsSuccess = data => ({
-  type: types.REQUEST_CURRENT_USER_SUCCESS,
+  type: types.REQUEST_PULL_REQUESTS_SUCCESS,
   data,
 });
 
 export const requestPullRequestsFail = error => ({
-  type: types.REQUEST_CURRENT_USER_FAIL,
+  type: types.REQUEST_PULL_REQUESTS_FAIL,
   error,
 });
 

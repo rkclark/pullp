@@ -140,24 +140,26 @@ describe('Home actions', () => {
         });
       });
     });
-    xdescribe('requestCurrentUserSuccess', () => {
-      it('creates an action to save currentUser data', () => {
+    describe('requestPullRequestsSuccess', () => {
+      it('creates an action to save Pull Requests data', () => {
         const data = { data: 'stuff' };
         const expectedAction = {
-          type: types.REQUEST_CURRENT_USER_SUCCESS,
+          type: types.REQUEST_PULL_REQUESTS_SUCCESS,
           data,
         };
-        expect(actions.requestCurrentUserSuccess(data)).toEqual(expectedAction);
+        expect(actions.requestPullRequestsSuccess(data)).toEqual(
+          expectedAction,
+        );
       });
     });
-    xdescribe('requestCurrentUserFail', () => {
-      it('creates an action to save currentUser error message', () => {
+    describe('requestPullRequestsFail', () => {
+      it('creates an action to save Pull Requests error message', () => {
         const error = 'omfg';
         const expectedAction = {
-          type: types.REQUEST_CURRENT_USER_FAIL,
+          type: types.REQUEST_PULL_REQUESTS_FAIL,
           error,
         };
-        expect(actions.requestCurrentUserFail(error)).toEqual(expectedAction);
+        expect(actions.requestPullRequestsFail(error)).toEqual(expectedAction);
       });
     });
   });
