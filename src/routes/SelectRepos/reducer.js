@@ -13,6 +13,16 @@ export default function(state = initialState, action) {
         ...state,
         watchedRepos: action.data,
         githubError: null,
+        selectedRepos: state.selectedRepos.filter(repoId => {
+          let result = false;
+          for (const node of action.data) { // eslint-disable-line
+            if (node.id === repoId) {
+              result = true;
+              break;
+            }
+          }
+          return result;
+        }),
       };
     case types.REQUEST_WATCHED_REPOS_FAIL:
       return {

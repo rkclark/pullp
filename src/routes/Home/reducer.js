@@ -7,6 +7,7 @@ export const initialState = {
 };
 
 let repos;
+let filteredNodes;
 
 export default function(state = initialState, action) {
   switch (action.type) {
@@ -25,7 +26,8 @@ export default function(state = initialState, action) {
         githubError: action.error,
       };
     case types.REQUEST_PULL_REQUESTS_SUCCESS:
-      repos = action.data.nodes.map(node => ({
+      filteredNodes = action.data.nodes.filter(node => node);
+      repos = filteredNodes.map(node => ({
         ...node,
         pullRequests: node.pullRequests.edges.map(pr => ({
           ...pr.node,
@@ -43,6 +45,7 @@ export default function(state = initialState, action) {
           })),
         })),
       }));
+
       return {
         ...state,
         repositories: repos,
