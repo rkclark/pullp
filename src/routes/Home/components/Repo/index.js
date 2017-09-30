@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import defaultTheme from './theme.css';
+import PullRequest from '../PullRequest';
 
 export default function Repo({ theme, data }) {
   return (
@@ -11,6 +12,11 @@ export default function Repo({ theme, data }) {
       <span>
         {data.pullRequests.length}
       </span>
+      <div>
+        {data.pullRequests.map(pr =>
+          <PullRequest {...pr} key={`${data.id}_${pr.number}`} />,
+        )}
+      </div>
     </div>
   );
 }

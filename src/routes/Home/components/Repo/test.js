@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import Repo from './';
+import PullRequest from '../PullRequest';
 
 describe('Repo', () => {
   const props = {
@@ -89,5 +90,10 @@ describe('Repo', () => {
   it('renders successfully', () => {
     const component = shallow(<Repo {...props} />);
     expect(component).toHaveLength(1);
+  });
+
+  it('renders a PullRequest for each PR', () => {
+    const component = shallow(<Repo {...props} />);
+    expect(component.find(PullRequest).length).toBe(2);
   });
 });

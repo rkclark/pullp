@@ -7,6 +7,7 @@ const {
 const electron = require('electron');
 // Module to control application life.
 const app = electron.app;
+const shell = electron.shell;
 require('../server');
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
@@ -42,6 +43,16 @@ function createMainWindow() {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+
+  const handleRedirect = (e, navUrl) => {
+    if (navUrl.includes('http')) {
+      e.preventDefault();
+      shell.openExternal(navUrl);
+    }
+  };
+
+  mainWindow.webContents.on('will-navigate', handleRedirect);
+  mainWindow.webContents.on('new-window', handleRedirect);
 }
 
 // This method will be called when Electron has finished
