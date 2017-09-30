@@ -47,6 +47,10 @@ describe('Home reducer', () => {
     });
   });
   describe('Pull requests', () => {
+    const prCreatedAt = '2016-10-15T10:39:37Z';
+    const prDateObj = new Date('2016-10-15T10:39:37Z');
+    const prDate = prDateObj.toLocaleDateString();
+    const prTime = prDateObj.toLocaleTimeString();
     const data = {
       nodes: [
         {
@@ -56,7 +60,7 @@ describe('Home reducer', () => {
             edges: [
               {
                 node: {
-                  createdAt: '2016-10-15T10:39:37Z',
+                  createdAt: prCreatedAt,
                   closed: true,
                   mergedAt: '2016-10-15T10:39:44Z',
                   url: 'https://github.com/jh2633/Atticus_Legal/pull/1',
@@ -105,7 +109,7 @@ describe('Home reducer', () => {
               },
               {
                 node: {
-                  createdAt: '2016-10-15T12:45:21Z',
+                  createdAt: prCreatedAt,
                   closed: false,
                   mergedAt: null,
                   url: 'https://github.com/jh2633/Atticus_Legal/pull/2',
@@ -161,9 +165,11 @@ describe('Home reducer', () => {
           name: 'Atticus_Legal',
           pullRequests: [
             {
-              createdAt: '2016-10-15T10:39:37Z',
+              createdAt: prCreatedAt,
               closed: true,
               mergedAt: '2016-10-15T10:39:44Z',
+              date: prDate,
+              time: prTime,
               url: 'https://github.com/jh2633/Atticus_Legal/pull/1',
               number: 1,
               title: 'Design2',
@@ -186,7 +192,9 @@ describe('Home reducer', () => {
               reviews: [{ some: 'stuff' }],
             },
             {
-              createdAt: '2016-10-15T12:45:21Z',
+              createdAt: prCreatedAt,
+              date: prDate,
+              time: prTime,
               closed: false,
               mergedAt: null,
               url: 'https://github.com/jh2633/Atticus_Legal/pull/2',

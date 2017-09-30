@@ -4,7 +4,8 @@ import PullRequest from './';
 
 describe('PullRequest', () => {
   const props = {
-    createdAt: '2017-09-26T20:23:44Z',
+    date: '01/01/2017',
+    time: '18:00:00',
     closed: false,
     mergedAt: null,
     url: 'prUrl',

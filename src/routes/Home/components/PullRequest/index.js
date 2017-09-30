@@ -4,7 +4,8 @@ import defaultTheme from './theme.css';
 /* eslint-disable */
 export default function PullRequest({
   theme,
-  createdAt,
+  date,
+  time,
   mergedAt,
   url,
   number,
@@ -21,7 +22,7 @@ export default function PullRequest({
         {title}
       </h4></a>
       <span>
-        {createdAt}
+        {date} at {time}
       </span>
     </div>
   );
@@ -29,7 +30,8 @@ export default function PullRequest({
 
 PullRequest.propTypes = {
   theme: PropTypes.shape(),
-  createdAt: PropTypes.string.isRequired,
+  date: PropTypes.string,
+  time: PropTypes.string,
   mergedAt: PropTypes.string,
   url: PropTypes.string.isRequired,
   number: PropTypes.number.isRequired,
@@ -58,4 +60,6 @@ PullRequest.defaultProps = {
   participants: [],
   reviewRequests: [],
   reviews: [],
+  date: null,
+  time: null,
 };

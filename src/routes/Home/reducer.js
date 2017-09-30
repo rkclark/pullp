@@ -8,6 +8,7 @@ export const initialState = {
 
 let repos;
 let filteredNodes;
+let createdAtDate;
 
 export default function(state = initialState, action) {
   switch (action.type) {
@@ -29,21 +30,26 @@ export default function(state = initialState, action) {
       filteredNodes = action.data.nodes.filter(node => node);
       repos = filteredNodes.map(node => ({
         ...node,
-        pullRequests: node.pullRequests.edges.map(pr => ({
-          ...pr.node,
-          assignees: pr.node.assignees.edges.map(assignee => ({
-            ...assignee.node,
-          })),
-          participants: pr.node.participants.edges.map(participant => ({
-            ...participant.node,
-          })),
-          reviewRequests: pr.node.reviewRequests.edges.map(reviewRequest => ({
-            ...reviewRequest.node,
-          })),
-          reviews: pr.node.reviews.edges.map(review => ({
-            ...review.node,
-          })),
-        })),
+        pullRequests: node.pullRequests.edges.map(pr => {
+          createdAtDate = new Date(pr.node.createdAt);
+          return {
+            ...pr.node,
+            date: createdAtDate.toLocaleDateString(),
+            time: createdAtDate.toLocaleTimeString(),
+            assignees: pr.node.assignees.edges.map(assignee => ({
+              ...assignee.node,
+            })),
+            participants: pr.node.participants.edges.map(participant => ({
+              ...participant.node,
+            })),
+            reviewRequests: pr.node.reviewRequests.edges.map(reviewRequest => ({
+              ...reviewRequest.node,
+            })),
+            reviews: pr.node.reviews.edges.map(review => ({
+              ...review.node,
+            })),
+          };
+        }),
       }));
 
       return {
