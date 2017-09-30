@@ -1,1 +1,5 @@
-@value ctm-blue: #1f2a5b;
+:root {
+  --black: #000000;
+  --white: #FFFFFF;
+  --repo-default: #E7E1E1;
+}

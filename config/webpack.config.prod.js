@@ -1,6 +1,7 @@
 /* eslint-disable */
 'use strict';
 
+const cssVariables = require('postcss-css-variables')();
 const autoprefixer = require('autoprefixer');
 const path = require('path');
 const webpack = require('webpack');
@@ -177,6 +178,10 @@ module.exports = {
       // in the main CSS file.
       {
         test: /\.css$/,
+        include: [
+          path.join(paths.appSrc, 'routes'),
+          path.join(paths.appSrc, 'components'),
+        ],
         loader: ExtractTextPlugin.extract(
           Object.assign(
             {
@@ -189,6 +194,7 @@ module.exports = {
                     modules: true,
                     minimize: true,
                     sourceMap: true,
+                    localIdentName: '[name]__[local]--[hash:base64:5]',
                   },
                 },
                 {
@@ -197,6 +203,51 @@ module.exports = {
                     ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
                     plugins: () => [
                       require('postcss-flexbugs-fixes'),
+                      require('postcss-import'),
+                      cssVariables,
+                      autoprefixer({
+                        browsers: [
+                          '>1%',
+                          'last 4 versions',
+                          'Firefox ESR',
+                          'not ie < 9', // React doesn't support IE8 anyway
+                        ],
+                        flexbox: 'no-2009',
+                      }),
+                    ],
+                  },
+                },
+              ],
+            },
+            extractTextPluginOptions
+          )
+        ),
+        // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
+      },
+      {
+        test: /\.css$/,
+        include: path.join(paths.appSrc, 'css'),
+        loader: ExtractTextPlugin.extract(
+          Object.assign(
+            {
+              fallback: require.resolve('style-loader'),
+              use: [
+                {
+                  loader: require.resolve('css-loader'),
+                  options: {
+                    importLoaders: 1,
+                    minimize: true,
+                    sourceMap: true,
+                  },
+                },
+                {
+                  loader: require.resolve('postcss-loader'),
+                  options: {
+                    ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
+                    plugins: () => [
+                      require('postcss-flexbugs-fixes'),
+                      require('postcss-import'),
+                      cssVariables,
                       autoprefixer({
                         browsers: [
                           '>1%',

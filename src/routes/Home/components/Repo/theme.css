@@ -1,1 +1,9 @@
-.repo {}
+@import "../../../../css/colors.css";
+
+.repo {
+  background-color: var(--repo-default);
+}
+
+.doubleSpan {
+  grid-row-end: span 2;
+}

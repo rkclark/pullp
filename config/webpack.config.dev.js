@@ -1,6 +1,7 @@
 /* eslint-disable */
 'use strict';
 
+const cssVariables = require('postcss-css-variables')();
 const autoprefixer = require('autoprefixer');
 const path = require('path');
 const webpack = require('webpack');
@@ -180,6 +181,10 @@ module.exports = {
       // in development "style" loader enables hot editing of CSS.
       {
         test: /\.css$/,
+        include: [
+          path.join(paths.appSrc, 'routes'),
+          path.join(paths.appSrc, 'components'),
+        ],
         use: [
           require.resolve('style-loader'),
           {
@@ -196,6 +201,41 @@ module.exports = {
               ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
               plugins: () => [
                 require('postcss-flexbugs-fixes'),
+                require('postcss-import'),
+                cssVariables,
+                autoprefixer({
+                  browsers: [
+                    '>1%',
+                    'last 4 versions',
+                    'Firefox ESR',
+                    'not ie < 9', // React doesn't support IE8 anyway
+                  ],
+                  flexbox: 'no-2009',
+                }),
+              ],
+            },
+          },
+        ],
+      },
+      {
+        test: /\.css$/,
+        include: path.join(paths.appSrc, 'css'),
+        use: [
+          require.resolve('style-loader'),
+          {
+            loader: require.resolve('css-loader'),
+            options: {
+              importLoaders: 1,
+            },
+          },
+          {
+            loader: require.resolve('postcss-loader'),
+            options: {
+              ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
+              plugins: () => [
+                require('postcss-flexbugs-fixes'),
+                require('postcss-import'),
+                cssVariables,
                 autoprefixer({
                   browsers: [
                     '>1%',
