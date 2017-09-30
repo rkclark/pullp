@@ -21,7 +21,10 @@ let mainWindow;
 
 function createMainWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({ width: 1920, height: 1080 });
+  mainWindow = new BrowserWindow({
+    width: 1920,
+    height: 1080,
+  });
 
   // and load the index.html of the app.
   const startUrl =
@@ -45,7 +48,7 @@ function createMainWindow() {
   });
 
   const handleRedirect = (e, navUrl) => {
-    if (navUrl.includes('http')) {
+    if (navUrl.includes('github.com')) {
       e.preventDefault();
       shell.openExternal(navUrl);
     }
