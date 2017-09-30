@@ -66,9 +66,6 @@ describe('Home reducer', () => {
                   url: 'https://github.com/jh2633/Atticus_Legal/pull/1',
                   number: 1,
                   title: 'Design2',
-                  assignees: {
-                    edges: [],
-                  },
                   author: {
                     avatarUrl:
                       'https://avatars0.githubusercontent.com/u/18387550?v=4',
@@ -116,9 +113,6 @@ describe('Home reducer', () => {
                   number: 2,
                   title:
                     'footer changed on all pages, new forms pages added but in dev, index …',
-                  assignees: {
-                    edges: [],
-                  },
                   author: {
                     avatarUrl:
                       'https://avatars0.githubusercontent.com/u/18387550?v=4',
@@ -173,7 +167,6 @@ describe('Home reducer', () => {
               url: 'https://github.com/jh2633/Atticus_Legal/pull/1',
               number: 1,
               title: 'Design2',
-              assignees: [],
               author: {
                 avatarUrl:
                   'https://avatars0.githubusercontent.com/u/18387550?v=4',
@@ -201,7 +194,6 @@ describe('Home reducer', () => {
               number: 2,
               title:
                 'footer changed on all pages, new forms pages added but in dev, index …',
-              assignees: [],
               author: {
                 avatarUrl:
                   'https://avatars0.githubusercontent.com/u/18387550?v=4',

@@ -5,9 +5,7 @@ import defaultTheme from './theme.css';
 export default function CurrentUser({ login, avatarUrl, theme }) {
   return (
     <div className={theme.currentUser}>
-      <span>
-        Logged in as {login}
-      </span>
+      <span>Logged in as {login}</span>
       <img src={avatarUrl} alt="avatar" />
     </div>
   );

@@ -37,7 +37,7 @@ query {
             id
             ... on Repository {
               name
-              pullRequests(last: 100 states: [OPEN]) {
+              pullRequests(last: 100 states: [OPEN] orderBy:{ field: CREATED_AT, direction: DESC }) {
                 edges {
                   node {
                     createdAt
@@ -46,13 +46,6 @@ query {
                     url
                     number
                     title
-                    assignees(last: 100) {
-                      edges {
-                        node {
-                          login
-                        }
-                      }
-                    }
                     author {
                       avatarUrl
                       login

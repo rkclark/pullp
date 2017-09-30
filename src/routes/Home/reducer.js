@@ -36,9 +36,6 @@ export default function(state = initialState, action) {
             ...pr.node,
             date: createdAtDate.toLocaleDateString(),
             time: createdAtDate.toLocaleTimeString(),
-            assignees: pr.node.assignees.edges.map(assignee => ({
-              ...assignee.node,
-            })),
             participants: pr.node.participants.edges.map(participant => ({
               ...participant.node,
             })),

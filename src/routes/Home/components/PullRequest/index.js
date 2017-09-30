@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import defaultTheme from './theme.css';
-/* eslint-disable */
+/* eslint-disable no-unused-vars */
 export default function PullRequest({
   theme,
   date,
@@ -10,20 +10,30 @@ export default function PullRequest({
   url,
   number,
   title,
-  assignees,
   author,
   participants,
   reviewRequests,
   reviews,
 }) {
+  let status = 'statusDefault';
+  status =
+    reviewRequests.length > 0 && reviews.length === 0
+      ? 'statusOutstandingReview'
+      : status;
+
   return (
-    <div className={theme.pullRequest}>
-      <a href={url}><h4>
-        {title}
-      </h4></a>
+    <div className={`${theme.pullRequest} ${theme.status}`}>
+      <a href={url}>
+        <h4>{title}</h4>
+      </a>
+      <div>
+        <img src={author.avatarUrl} alt="pull request author" />
+        <a href={author.url}>{author.login}</a>
+      </div>
       <span>
         {date} at {time}
       </span>
+      <span>#{number}</span>
     </div>
   );
 }
@@ -36,7 +46,6 @@ PullRequest.propTypes = {
   url: PropTypes.string.isRequired,
   number: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
-  assignees: PropTypes.arrayOf(PropTypes.shape()),
   author: PropTypes.shape({
     avatarUrl: PropTypes.string.isRequired,
     login: PropTypes.string.isRequired,

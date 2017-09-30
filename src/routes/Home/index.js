@@ -5,6 +5,7 @@ import CurrentUser from './components/CurrentUser';
 import Repo from './components/Repo';
 import * as actions from './actions';
 import { saveRedirect } from '../Login/actions';
+import theme from './theme.css';
 
 export class Home extends React.Component {
   constructor(props) {
@@ -49,9 +50,11 @@ export class Home extends React.Component {
       <div>
         <h1>PULLP</h1>
         {currentUser}
-        {this.props.repositories.map(repo =>
-          <Repo data={repo} key={repo.id} />,
-        )}
+        <div className={theme.reposContainer}>
+          {this.props.repositories.map(repo => (
+            <Repo data={repo} key={repo.id} />
+          ))}
+        </div>
       </div>
     );
   }
