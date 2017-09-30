@@ -20,6 +20,15 @@ export class Home extends React.Component {
     }
   }
 
+  componentDidMount() {
+    if (this.props.currentUser) {
+      this.props.requestPullRequests(
+        this.props.githubToken,
+        this.props.selectedRepos,
+      );
+    }
+  }
+
   loadCurrentUser() {
     const currentUser = this.props.currentUser;
     if (currentUser) {
@@ -54,18 +63,22 @@ Home.propTypes = {
   }),
   requestCurrentUser: PropTypes.func.isRequired,
   githubToken: PropTypes.string,
+  requestPullRequests: PropTypes.func.isRequired,
+  selectedRepos: PropTypes.arrayOf(PropTypes.string),
 };
 
 Home.defaultProps = {
   redirectPath: null,
   currentUser: null,
   githubToken: null,
+  selectedRepos: [],
 };
 
 const mapStateToProps = state => ({
   redirectPath: state.login.redirectPath,
   currentUser: state.home.currentUser,
   githubToken: state.login.githubToken,
+  selectedRepos: state.selectRepos.selectedRepos,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -74,6 +87,9 @@ const mapDispatchToProps = dispatch => ({
   },
   requestCurrentUser(token) {
     dispatch(actions.requestCurrentUser(token));
+  },
+  requestPullRequests(token, repoIds) {
+    dispatch(actions.requestPullRequests(token, repoIds));
   },
 });
 

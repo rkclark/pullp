@@ -70,10 +70,10 @@ query {
 
     describe('pullRequests', () => {
       it('returns correct graphql query', () => {
-        const testIds = '["test1", "test2", "test3"]';
+        const testIds = ['test1', 'test2', 'test3'];
         const expectedQuery = `
         query {
-          nodes (ids:${testIds}) {
+          nodes (ids:${JSON.stringify(testIds)}) {
             id
             ... on Repository {
               name

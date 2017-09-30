@@ -25,7 +25,7 @@ export default function(state = initialState, action) {
         githubError: action.error,
       };
     case types.REQUEST_PULL_REQUESTS_SUCCESS:
-      repos = action.data.data.nodes.map(node => ({
+      repos = action.data.nodes.map(node => ({
         ...node,
         pullRequests: node.pullRequests.edges.map(pr => ({
           ...pr.node,

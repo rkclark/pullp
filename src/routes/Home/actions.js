@@ -31,9 +31,9 @@ export const requestPullRequestsFail = error => ({
   error,
 });
 
-export const requestPullRequests = token => async dispatch => {
+export const requestPullRequests = (token, repoIds) => async dispatch => {
   try {
-    const query = queries.currentUser();
+    const query = queries.pullRequests(repoIds);
     const results = await get(query, token);
     dispatch(requestPullRequestsSuccess(results));
   } catch (err) {

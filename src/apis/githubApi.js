@@ -33,7 +33,7 @@ query {
   pullRequests: ids =>
     `
         query {
-          nodes (ids:${ids}) {
+          nodes (ids:${JSON.stringify(ids)}) {
             id
             ... on Repository {
               name
