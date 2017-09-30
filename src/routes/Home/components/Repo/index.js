@@ -6,7 +6,9 @@ export default function Repo({ theme, data }) {
   const doubleSpan = data.pullRequests.length > 0;
   return (
     <div className={`${theme.repo} ${doubleSpan ? theme.doubleSpan : null}`}>
-      <h3>{data.name}</h3>
+      <a href={data.url} alt="repo url">
+        <h3>{data.name}</h3>
+      </a>
       <span>{data.pullRequests.length}</span>
     </div>
   );
