@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { Home } from '.';
 import CurrentUser from './components/CurrentUser';
+import Repo from './components/Repo';
 
 describe('Home', () => {
   const baseProps = {
@@ -16,11 +17,21 @@ describe('Home', () => {
     githubToken: 'token',
     requestPullRequests: () => {},
     selectedRepos: ['1', '2', '3'],
+    repositories: [
+      { id: '1', pullRequests: [] },
+      { id: '2', pullRequests: [] },
+      { id: '3', pullRequests: [] },
+    ],
   };
 
   it('renders successfully', () => {
     const component = shallow(<Home {...baseProps} />);
     expect(component.length).toBe(1);
+  });
+
+  it('renders a repo for each repo in props', () => {
+    const component = shallow(<Home {...baseProps} />);
+    expect(component.find(Repo).length).toBe(3);
   });
 
   describe('when there is a currentUser', () => {

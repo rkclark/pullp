@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import CurrentUser from './components/CurrentUser';
+import Repo from './components/Repo';
 import * as actions from './actions';
 import { saveRedirect } from '../Login/actions';
 
@@ -48,6 +49,9 @@ export class Home extends React.Component {
       <div>
         <h1>PULLP</h1>
         {currentUser}
+        {this.props.repositories.map(repo =>
+          <Repo data={repo} key={repo.id} />,
+        )}
       </div>
     );
   }
@@ -65,6 +69,7 @@ Home.propTypes = {
   githubToken: PropTypes.string,
   requestPullRequests: PropTypes.func.isRequired,
   selectedRepos: PropTypes.arrayOf(PropTypes.string),
+  repositories: PropTypes.arrayOf(PropTypes.shape()),
 };
 
 Home.defaultProps = {
@@ -72,6 +77,7 @@ Home.defaultProps = {
   currentUser: null,
   githubToken: null,
   selectedRepos: [],
+  repositories: [],
 };
 
 const mapStateToProps = state => ({
@@ -79,6 +85,7 @@ const mapStateToProps = state => ({
   currentUser: state.home.currentUser,
   githubToken: state.login.githubToken,
   selectedRepos: state.selectRepos.selectedRepos,
+  repositories: state.home.repositories,
 });
 
 const mapDispatchToProps = dispatch => ({
