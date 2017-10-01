@@ -1,11 +1,36 @@
 @import "../../../../css/colors.css";
 
-.repo {
+.repoContainer {
   background-color: var(--repo-default);
 }
 
-.doubleSpan {
+.repo {
+  width: 100%;
+  height: 100%;
+}
+
+.span1 {
+  grid-row-end: span 1;
+}
+
+.span2 {
   grid-row-end: span 2;
+}
+
+.span3 {
+  grid-row-end: span 3;
+}
+
+.span4 {
+  grid-row-end: span 4;
+}
+
+.span5 {
+  grid-row-end: span 5;
+}
+
+.span6, .spanMax {
+  grid-row-end: span 6;
 }
 
 .open {

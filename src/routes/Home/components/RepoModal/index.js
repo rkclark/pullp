@@ -12,13 +12,15 @@ export default function RepoModal({ theme, data, toggleOpenRepo }) {
 
   return (
     <div>
-      <div className={theme.repo}>
-        <button data-test-id={'closeButton'} onClick={onClick}>
-          Close
-        </button>
-        {data.pullRequests.map(pr => (
-          <PullRequest {...pr} key={`${data.id}_${pr.number}`} />
-        ))}
+      <div className={theme.repoContainer}>
+        <div className={theme.repo}>
+          <button data-test-id={'closeButton'} onClick={onClick}>
+            Close
+          </button>
+          {data.pullRequests.map(pr => (
+            <PullRequest {...pr} key={`${data.id}_${pr.number}`} />
+          ))}
+        </div>
       </div>
       <div className={theme.overlayContainer}>
         <div

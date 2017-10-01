@@ -6,7 +6,13 @@ import defaultTheme from './theme.css';
 import RepoModal from '../RepoModal';
 
 export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
-  const doubleSpan = data.pullRequests.length > 0;
+  let spanClass = '';
+  if (data.pullRequests.length > 5) {
+    spanClass = 'spanMax';
+  } else {
+    spanClass = `span${data.pullRequests.length + 1}`;
+  }
+
   const open = data.id === openRepoId;
   const onClick = () => {
     toggleOpenRepo(data.id);
@@ -17,14 +23,12 @@ export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
   ) : null;
 
   return (
-    <div>
-      <div
-        className={`${theme.repo} ${doubleSpan ? theme.doubleSpan : null} ${open
-          ? theme.open
-          : null}`}
-        onClick={onClick}
-        data-test-id="repo"
-      >
+    <div
+      className={`${theme.repoContainer} ${theme[spanClass]} ${open
+        ? theme.open
+        : null}`}
+    >
+      <div className={theme.repo} onClick={onClick} data-test-id="repo">
         <a href={data.url} alt="repo url">
           <h3>{data.name}</h3>
         </a>
