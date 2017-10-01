@@ -1,0 +1,14 @@
+@import "../../css/colors.css";
+@import "../../css/units.css";
+
+.pinContainer {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  grid-gap: var(--spacing-2);
+}
+
+.title {
+  color: var(--secondary-dark);
+  font-weight: normal;
+}
