@@ -1,3 +1,16 @@
-.currentUser img {
-  width: 80px;
+@import "../../css/units.css";
+
+.currentUser {
+  text-align: right;
+}
+
+.image {
+  width: 4rem;
+  border-radius: 100%;
+}
+
+.loggedIn {
+  margin: 0;
+  font-size: var(--font-size-7);
+  line-height: var(--line-height-3);
 }

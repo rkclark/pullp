@@ -6,6 +6,7 @@ describe('CurrentUser', () => {
   const props = {
     login: 'test',
     avatarUrl: 'test',
+    url: 'url',
   };
 
   it('renders successfully', () => {

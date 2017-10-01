@@ -11,15 +11,19 @@
   background-color: var(--primary-dark);
   color: var(--white);
   display: grid;
-  grid-template-columns: auto minmax(1rem, 10rem) minmax(1rem, 10rem) minmax(1rem, 10rem); 
+  grid-template-columns: auto minmax(1rem, 10rem) minmax(1rem, 10rem) minmax(1rem, 10rem) auto; 
   grid-auto-rows: auto;
   align-items: center;
-  padding: var(--spacing-3);
+  padding: 0 var(--spacing-3);
 }
 
 .title {
   display: inline-block;
   margin-bottom: 0;
+}
+
+.linkContainer {
+  justify-self: center;
 }
 
 .link {

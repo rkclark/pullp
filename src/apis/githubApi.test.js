@@ -10,6 +10,7 @@ query {
 	viewer {
     login
     avatarUrl
+    url
   }
 }
 `;

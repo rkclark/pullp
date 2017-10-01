@@ -37,6 +37,7 @@ export class Layout extends React.Component {
         <CurrentUser
           login={currentUser.login}
           avatarUrl={currentUser.avatarUrl}
+          url={currentUser.url}
         />
       );
     }

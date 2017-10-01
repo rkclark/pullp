@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import defaultTheme from './theme.css';
 
-export default function CurrentUser({ login, avatarUrl, theme }) {
+export default function CurrentUser({ login, avatarUrl, url, theme }) {
   return (
     <div className={theme.currentUser}>
-      <span>Logged in as {login}</span>
-      <img src={avatarUrl} alt="avatar" />
+      <a href={url} className={theme.link}>
+        <img src={avatarUrl} alt="avatar" className={theme.image} />
+      </a>
+      <p className={theme.loggedIn}>{login}</p>
     </div>
   );
 }
@@ -14,6 +16,7 @@ export default function CurrentUser({ login, avatarUrl, theme }) {
 CurrentUser.propTypes = {
   login: PropTypes.string.isRequired,
   avatarUrl: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
   theme: PropTypes.shape(),
 };
 
