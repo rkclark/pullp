@@ -52,7 +52,12 @@ export class Home extends React.Component {
         {currentUser}
         <div className={theme.reposContainer}>
           {this.props.repositories.map(repo => (
-            <Repo data={repo} key={repo.id} />
+            <Repo
+              data={repo}
+              key={repo.id}
+              openRepoId={this.props.openRepoId}
+              toggleOpenRepo={this.props.toggleOpenRepo}
+            />
           ))}
         </div>
       </div>
@@ -73,6 +78,8 @@ Home.propTypes = {
   requestPullRequests: PropTypes.func.isRequired,
   selectedRepos: PropTypes.arrayOf(PropTypes.string),
   repositories: PropTypes.arrayOf(PropTypes.shape()),
+  openRepoId: PropTypes.string,
+  toggleOpenRepo: PropTypes.func.isRequired,
 };
 
 Home.defaultProps = {
@@ -81,6 +88,7 @@ Home.defaultProps = {
   githubToken: null,
   selectedRepos: [],
   repositories: [],
+  openRepoId: null,
 };
 
 const mapStateToProps = state => ({
@@ -89,6 +97,7 @@ const mapStateToProps = state => ({
   githubToken: state.login.githubToken,
   selectedRepos: state.selectRepos.selectedRepos,
   repositories: state.home.repositories,
+  openRepoId: state.home.openRepoId,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -100,6 +109,9 @@ const mapDispatchToProps = dispatch => ({
   },
   requestPullRequests(token, repoIds) {
     dispatch(actions.requestPullRequests(token, repoIds));
+  },
+  toggleOpenRepo(repoId) {
+    dispatch(actions.toggleOpenRepo(repoId));
   },
 });
 

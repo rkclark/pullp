@@ -1,8 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Repo from './';
+import RepoModal from './';
+import PullRequest from '../PullRequest';
 
-describe('Repo', () => {
+describe('RepoModal', () => {
   const props = {
     toggleOpenRepo: () => {},
     data: {
@@ -88,23 +89,33 @@ describe('Repo', () => {
   };
 
   it('renders successfully', () => {
-    const component = shallow(<Repo {...props} />);
+    const component = shallow(<RepoModal {...props} />);
     expect(component).toHaveLength(1);
   });
 
-  it('renders number of PRs', () => {
-    const component = shallow(<Repo {...props} />);
-    expect(component.text()).toContain('2');
+  it('renders PRs', () => {
+    const component = shallow(<RepoModal {...props} />);
+    expect(component.find(PullRequest).length).toBe(2);
   });
 
-  describe('when clicked', () => {
-    it('dispatches toggleOpenRepo with repo id', () => {
+  describe('when overlay clicked', () => {
+    it('dispatches toggleOpenRepo with null', () => {
       const toggleOpenRepo = jest.fn();
       const component = shallow(
-        <Repo {...props} toggleOpenRepo={toggleOpenRepo} />,
+        <RepoModal {...props} toggleOpenRepo={toggleOpenRepo} />,
       );
-      component.find('[data-test-id="repo"]').simulate('click');
-      expect(toggleOpenRepo).toHaveBeenCalledWith(props.data.id);
+      component.find('[data-test-id="overlay"]').simulate('click');
+      expect(toggleOpenRepo).toHaveBeenCalledWith(null);
+    });
+  });
+  describe('when close button clicked', () => {
+    it('dispatches toggleOpenRepo with null', () => {
+      const toggleOpenRepo = jest.fn();
+      const component = shallow(
+        <RepoModal {...props} toggleOpenRepo={toggleOpenRepo} />,
+      );
+      component.find('[data-test-id="closeButton"]').simulate('click');
+      expect(toggleOpenRepo).toHaveBeenCalledWith(null);
     });
   });
 });

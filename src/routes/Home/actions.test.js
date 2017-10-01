@@ -163,4 +163,14 @@ describe('Home actions', () => {
       });
     });
   });
+  describe('Toggle open repo', () => {
+    it('creates a toggle repo action', () => {
+      const repoId = 'id';
+      const expectedAction = {
+        type: types.TOGGLE_OPEN_REPO,
+        id: repoId,
+      };
+      expect(actions.toggleOpenRepo(repoId)).toEqual(expectedAction);
+    });
+  });
 });

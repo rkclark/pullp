@@ -2,4 +2,5 @@
   --black: #000000;
   --white: #FFFFFF;
   --repo-default: #E7E1E1;
+  --overlay: rgba(0,0,0,0.5);
 }

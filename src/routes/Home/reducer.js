@@ -4,6 +4,7 @@ export const initialState = {
   currentUser: null,
   githubError: null,
   repositories: [],
+  openRepoId: null,
 };
 
 let repos;
@@ -57,6 +58,14 @@ export default function(state = initialState, action) {
       return {
         ...state,
         githubError: action.error,
+      };
+    case types.TOGGLE_OPEN_REPO:
+      return {
+        ...state,
+        openRepoId:
+          action.id === undefined || state.openRepoId === action.id
+            ? null
+            : action.id,
       };
     default:
       return state;

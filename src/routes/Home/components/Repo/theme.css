@@ -7,3 +7,7 @@
 .doubleSpan {
   grid-row-end: span 2;
 }
+
+.open {
+  background-color: greenyellow;
+}

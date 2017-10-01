@@ -40,3 +40,8 @@ export const requestPullRequests = (token, repoIds) => async dispatch => {
     dispatch(requestPullRequestsFail(err.message));
   }
 };
+
+export const toggleOpenRepo = id => ({
+  type: types.TOGGLE_OPEN_REPO,
+  id,
+});

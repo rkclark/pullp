@@ -22,6 +22,7 @@ describe('Home', () => {
       { id: '2', pullRequests: [] },
       { id: '3', pullRequests: [] },
     ],
+    toggleOpenRepo: () => {},
   };
 
   it('renders successfully', () => {

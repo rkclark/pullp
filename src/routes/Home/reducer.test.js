@@ -251,4 +251,40 @@ describe('Home reducer', () => {
       expect(newState).toEqual(expectedState);
     });
   });
+
+  describe('Toggle open repo', () => {
+    const repoId = 'test';
+
+    describe('when a different ID is passed', () => {
+      it('sets openRepoId to the correct ID', () => {
+        const expectedState = {
+          ...initialState,
+          openRepoId: repoId,
+        };
+
+        const newState = reducer(initialState, actions.toggleOpenRepo(repoId));
+        expect(newState.openRepoId).toBe(expectedState.openRepoId);
+      });
+    });
+
+    describe('when the same ID is passed', () => {
+      it('removes the openRepoId ID', () => {
+        const newState = reducer(
+          { ...initialState, openRepoId: repoId },
+          actions.toggleOpenRepo(repoId),
+        );
+        expect(newState.openRepoId).toBe(null);
+      });
+    });
+
+    describe('when an undefined ID is passed', () => {
+      it('removes the openRepoId ID', () => {
+        const newState = reducer(
+          { ...initialState, openRepoId: repoId },
+          actions.toggleOpenRepo(undefined),
+        );
+        expect(newState.openRepoId).toBe(null);
+      });
+    });
+  });
 });
