@@ -1,7 +1,6 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { Home } from '.';
-import CurrentUser from './components/CurrentUser';
 import Repo from './components/Repo';
 
 describe('Home', () => {
@@ -13,7 +12,6 @@ describe('Home', () => {
       avatarUrl: 'avatar.com',
       url: 'url.com',
     },
-    requestCurrentUser: () => {},
     githubToken: 'token',
     requestPullRequests: () => {},
     selectedRepos: ['1', '2', '3'],
@@ -36,11 +34,6 @@ describe('Home', () => {
   });
 
   describe('when there is a currentUser', () => {
-    it('renders a CurrentUser', () => {
-      const component = shallow(<Home {...baseProps} />);
-      expect(component.find(CurrentUser).length).toBe(1);
-    });
-
     it('dispatches requestPullRequests action', () => {
       const requestPullRequests = jest.fn();
       mount(<Home {...baseProps} requestPullRequests={requestPullRequests} />);
@@ -48,19 +41,6 @@ describe('Home', () => {
         baseProps.githubToken,
         baseProps.selectedRepos,
       );
-    });
-  });
-  describe('when there is no currentUser and a githubToken', () => {
-    it('dispatches requestCurrentUser action', () => {
-      const requestCurrentUser = jest.fn();
-      mount(
-        <Home
-          {...baseProps}
-          requestCurrentUser={requestCurrentUser}
-          currentUser={null}
-        />,
-      );
-      expect(requestCurrentUser).toHaveBeenCalledWith(baseProps.githubToken);
     });
   });
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import CurrentUser from './components/CurrentUser';
 import Repo from './components/Repo';
 import * as actions from './actions';
 import { saveRedirect } from '../Login/actions';
@@ -17,9 +16,6 @@ export class Home extends React.Component {
     if (this.props.redirectPath === '/') {
       this.props.saveRedirect(null);
     }
-    if (!this.props.currentUser && this.props.githubToken) {
-      this.props.requestCurrentUser(this.props.githubToken);
-    }
   }
 
   componentDidMount() {
@@ -31,24 +27,9 @@ export class Home extends React.Component {
     }
   }
 
-  loadCurrentUser() {
-    const currentUser = this.props.currentUser;
-    if (currentUser) {
-      return (
-        <CurrentUser
-          login={currentUser.login}
-          avatarUrl={currentUser.avatarUrl}
-        />
-      );
-    }
-    return null;
-  }
-
   render() {
-    const currentUser = this.loadCurrentUser();
     return (
       <div>
-        {currentUser}
         <div className={theme.reposContainer}>
           {this.props.repositories.map(repo => (
             <Repo
@@ -72,7 +53,6 @@ Home.propTypes = {
     avatarUrl: PropTypes.string,
     url: PropTypes.string,
   }),
-  requestCurrentUser: PropTypes.func.isRequired,
   githubToken: PropTypes.string,
   requestPullRequests: PropTypes.func.isRequired,
   selectedRepos: PropTypes.arrayOf(PropTypes.string),
@@ -102,9 +82,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   saveRedirect() {
     dispatch(saveRedirect());
-  },
-  requestCurrentUser(token) {
-    dispatch(actions.requestCurrentUser(token));
   },
   requestPullRequests(token, repoIds) {
     dispatch(actions.requestPullRequests(token, repoIds));

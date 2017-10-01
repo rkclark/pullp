@@ -25,6 +25,7 @@
 .link {
   display: inline-block;
   box-shadow: 0 9px 6px -6px transparent;
+  padding: 0 var(--spacing-2);
 }
 
 .link:hover {
