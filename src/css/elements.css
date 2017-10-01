@@ -3,6 +3,8 @@
 html {
   /* This percentage allows us to use REM values that map to pixels (e.g. 1.6rem === 16px) */
   font-size: 62.5%;
+  background-color: var(--primary-light);
+  height: 100%;
 }
 
 * {
@@ -14,6 +16,7 @@ body {
   padding: 0;
   font-size: var(--font-size-6);
   line-height: var(--line-height-2);
+  height: 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -46,12 +49,15 @@ h6 {
 }
 
 a {
-  text-decoration: none;
+  text-decoration: underline;
   font-weight: bold;
+  text-decoration-color: transparent;
 }
 
 a:hover {
   text-decoration: underline;
+  transition: 0.5s ease all;
+  text-decoration-color: var(--secondary-medium);
 }
 
 button {

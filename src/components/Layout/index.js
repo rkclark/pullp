@@ -86,7 +86,7 @@ export class Layout extends React.Component {
           {currentUser}
         </div>
         {window.location.pathname.includes('index.html') && <Redirect to="/" />}
-        <div>
+        <div className={theme.routeContainer}>
           <Route exact path="/" component={HomeContainer} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/selectRepos" component={SelectRepos} />

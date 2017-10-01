@@ -30,11 +30,11 @@
   display: inline-block;
   box-shadow: 0 9px 6px -6px transparent;
   padding: 0 var(--spacing-2);
+  transition: 1s ease all;
 }
 
 .link:hover {
   box-shadow: 0 9px 6px -6px var(--white);
-  transition: 1s ease all;
 }
 
 .activeLink {
@@ -44,4 +44,8 @@
 .icon {
   width: 3.2rem;
   height: 3.2rem;
+}
+
+.routeContainer {
+  padding: var(--spacing-3);
 }
