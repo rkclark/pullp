@@ -48,7 +48,6 @@ export class Home extends React.Component {
     const currentUser = this.loadCurrentUser();
     return (
       <div>
-        <h1>PULLP</h1>
         {currentUser}
         <div className={theme.reposContainer}>
           {this.props.repositories.map(repo => (

@@ -1,5 +1,59 @@
 @import url('https://fonts.googleapis.com/css?family=Mukta');
 
+html {
+  /* This percentage allows us to use REM values that map to pixels (e.g. 1.6rem === 16px) */
+  font-size: 62.5%;
+}
+
 * {
   font-family: 'Mukta', sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-size: var(--font-size-6);
+  line-height: var(--line-height-2);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  margin-bottom: var(--spacing-4);
+}
+
+h1 {
+  font-size: var(--font-size-1);
+}
+
+h2 {
+  font-size: var(--font-size-2);
+}
+
+h3 {
+  font-size: var(--font-size-3);
+}
+
+h4 {
+  font-size: var(--font-size-4);
+}
+
+h5 {
+  font-size: var(--font-size-5);
+}
+
+h6 {
+  font-size: var(--font-size-6);
+}
+
+a {
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  cursor: pointer;
 }

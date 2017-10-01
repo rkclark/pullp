@@ -1,0 +1,42 @@
+@import "../../css/units.css";
+@import "../../css/colors.css";
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 8rem auto;
+}
+
+.header {
+  background-color: var(--primary-dark);
+  color: var(--white);
+  display: grid;
+  grid-template-columns: auto minmax(1rem, 10rem) minmax(1rem, 10rem) minmax(1rem, 10rem); 
+  grid-auto-rows: auto;
+  align-items: center;
+  padding: var(--spacing-3);
+}
+
+.title {
+  display: inline-block;
+  margin-bottom: 0;
+}
+
+.link {
+  display: inline-block;
+  box-shadow: 0 9px 6px -6px transparent;
+}
+
+.link:hover {
+  box-shadow: 0 9px 6px -6px var(--white);
+  transition: 1s ease all;
+}
+
+.activeLink {
+  box-shadow: 0 9px 6px -6px var(--secondary-medium);
+}
+
+.icon {
+  width: 3.2rem;
+  height: 3.2rem;
+}
