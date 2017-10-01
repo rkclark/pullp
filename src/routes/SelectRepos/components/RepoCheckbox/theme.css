@@ -1,0 +1,48 @@
+@import "../../../../css/colors.css";
+@import "../../../../css/units.css";
+
+.checkboxContainer {
+}
+
+.label {
+  color: var(--primary-dark);
+  font-weight: normal;
+  font-size: var(--font-size-5);
+  margin-right: var(--spacing-4);
+}
+
+.input {
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
+.label:before {
+  content: "\2713";
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 2px solid var(--primary-medium);
+  display: inline-block;
+  border-radius: var(--spacing-1);
+  color: var(--primary-light);
+  text-align: center;
+  font-size: var(--font-size-4);
+  line-height: 1.3;
+  transition: 0.5s ease all;
+  margin-right: var(--spacing-4);
+}
+
+.input:checked + label:before {
+  content: "\2713";
+  background-color: var(--secondary-dark);
+}
+
+.link {
+  padding: var(--spacing-1);
+}
+
+.linkIcon {
+  width: 2rem;
+  height: 2rem;
+  vertical-align: middle;
+ }

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as actions from './actions';
 import RepoCheckbox from './components/RepoCheckbox';
+import defaultTheme from './theme.css';
 
 export class SelectRepos extends React.Component {
   constructor(props) {
@@ -36,9 +37,12 @@ export class SelectRepos extends React.Component {
 
   render() {
     const repos = this.loadRepos();
+    const theme = this.props.theme;
     return (
-      <div>
-        Select requestWatchedRepos
+      <div className={theme.pinContainer}>
+        <h3 className={theme.title}>
+          Select the repos you want to pin&hellip;
+        </h3>
         {repos}
         {this.props.githubError}
       </div>
@@ -53,6 +57,7 @@ SelectRepos.propTypes = {
   requestWatchedRepos: PropTypes.func.isRequired,
   selectedRepos: PropTypes.arrayOf(PropTypes.string),
   toggleRepoSelection: PropTypes.func.isRequired,
+  theme: PropTypes.shape(),
 };
 
 SelectRepos.defaultProps = {
@@ -60,6 +65,7 @@ SelectRepos.defaultProps = {
   githubError: null,
   githubToken: null,
   selectedRepos: [],
+  theme: defaultTheme,
 };
 
 const mapStateToProps = state => ({
