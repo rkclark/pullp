@@ -11,6 +11,10 @@ html {
   font-family: 'Mukta', sans-serif;
 }
 
+*:focus {
+  outline: none;
+}
+
 body {
   margin: 0;
   padding: 0;
