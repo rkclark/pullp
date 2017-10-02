@@ -55,12 +55,14 @@ export class Layout extends React.Component {
         this.props.selectedRepos,
       );
     };
-
+    const theme = this.props.theme;
     const icon =
       path === '/' && this.props.currentUser ? (
-        <button className={this.props.theme.refresh} onClick={onClick}>
+        <button className={theme.refresh} onClick={onClick}>
           <img
-            className={this.props.theme.refreshIcon}
+            className={`${theme.refreshIcon} ${this.props.pullRequestsLoading
+              ? theme.refreshLoading
+              : null}`}
             src={refresh}
             alt="refresh icon"
           />
@@ -136,6 +138,7 @@ Layout.propTypes = {
   githubToken: PropTypes.string,
   selectedRepos: PropTypes.arrayOf(PropTypes.string),
   requestPullRequests: PropTypes.func.isRequired,
+  pullRequestsLoading: PropTypes.bool,
 };
 
 Layout.defaultProps = {
@@ -143,12 +146,14 @@ Layout.defaultProps = {
   currentUser: null,
   githubToken: null,
   selectedRepos: [],
+  pullRequestsLoading: false,
 };
 
 const mapStateToProps = state => ({
   currentUser: state.home.currentUser,
   githubToken: state.login.githubToken,
   selectedRepos: state.selectRepos.selectedRepos,
+  pullRequestsLoading: state.home.pullRequestsLoading,
 });
 
 const mapDispatchToProps = dispatch => ({
