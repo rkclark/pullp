@@ -2,7 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { requestCurrentUser } from '../../routes/Home/actions';
+import {
+  requestCurrentUser,
+  requestPullRequests,
+} from '../../routes/Home/actions';
 import HomeContainer from '../../routes/Home';
 import Login from '../../routes/Login';
 import SelectRepos from '../../routes/SelectRepos'; //eslint-disable-line
@@ -11,6 +14,7 @@ import CurrentUser from '../CurrentUser';
 import eye from '../../images/eye-white.svg';
 import pin from '../../images/pin-white.svg';
 import account from '../../images/account-white.svg';
+import refresh from '../../images/refresh-white.svg';
 
 export class Layout extends React.Component {
   constructor(props) {
@@ -44,15 +48,40 @@ export class Layout extends React.Component {
     return null;
   }
 
+  loadRefreshIcon(path) {
+    const onClick = () => {
+      this.props.requestPullRequests(
+        this.props.githubToken,
+        this.props.selectedRepos,
+      );
+    };
+
+    const icon =
+      path === '/' && this.props.currentUser ? (
+        <button className={this.props.theme.refresh} onClick={onClick}>
+          <img
+            className={this.props.theme.refreshIcon}
+            src={refresh}
+            alt="refresh icon"
+          />
+        </button>
+      ) : null;
+    return icon;
+  }
+
   render() {
+    const path = window.location.pathname;
     const theme = this.props.theme;
     const currentUser = this.loadCurrentUser();
+    const refreshIcon = this.loadRefreshIcon(path);
 
-    const path = window.location.pathname;
     return (
       <div className={theme.layout}>
         <div className={theme.header}>
-          <h1 className={theme.title}>PULLP</h1>
+          <div>
+            <h1 className={theme.title}>PULLP</h1>
+            {refreshIcon}
+          </div>
           <div className={theme.linkContainer}>
             <Link
               to="/"
@@ -105,22 +134,29 @@ Layout.propTypes = {
   }),
   requestCurrentUser: PropTypes.func.isRequired,
   githubToken: PropTypes.string,
+  selectedRepos: PropTypes.arrayOf(PropTypes.string),
+  requestPullRequests: PropTypes.func.isRequired,
 };
 
 Layout.defaultProps = {
   theme: defaultTheme,
   currentUser: null,
   githubToken: null,
+  selectedRepos: [],
 };
 
 const mapStateToProps = state => ({
   currentUser: state.home.currentUser,
   githubToken: state.login.githubToken,
+  selectedRepos: state.selectRepos.selectedRepos,
 });
 
 const mapDispatchToProps = dispatch => ({
   requestCurrentUser(token) {
     dispatch(requestCurrentUser(token));
+  },
+  requestPullRequests(token, repoIds) {
+    dispatch(requestPullRequests(token, repoIds));
   },
 });
 

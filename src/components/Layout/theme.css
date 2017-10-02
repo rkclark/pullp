@@ -20,6 +20,7 @@
 .title {
   display: inline-block;
   margin-bottom: 0;
+  margin-right: var(--spacing-2);
 }
 
 .linkContainer {
@@ -41,11 +42,22 @@
   box-shadow: 0 9px 6px -6px var(--secondary-medium);
 }
 
-.icon {
+.icon, .refreshIcon {
   width: 3.2rem;
   height: 3.2rem;
 }
 
 .routeContainer {
   padding: var(--spacing-3);
+}
+
+.refresh {
+  max-width: 5rem;
+  background-color: transparent;
+  border: none;
+  box-shadow: 0 9px 6px -6px transparent;
+}
+
+.refresh:hover {
+  box-shadow: 0 9px 6px -6px var(--white);
 }
