@@ -21,6 +21,10 @@ export const requestCurrentUser = token => async dispatch => {
   }
 };
 
+export const requestPullRequestsLoading = () => ({
+  type: types.REQUEST_PULL_REQUESTS_LOADING,
+});
+
 export const requestPullRequestsSuccess = data => ({
   type: types.REQUEST_PULL_REQUESTS_SUCCESS,
   data,
@@ -33,6 +37,7 @@ export const requestPullRequestsFail = error => ({
 
 export const requestPullRequests = (token, repoIds) => async dispatch => {
   try {
+    dispatch(requestPullRequestsLoading());
     const query = queries.pullRequests(repoIds);
     const results = await get(query, token);
     dispatch(requestPullRequestsSuccess(results));

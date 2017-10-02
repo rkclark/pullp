@@ -105,11 +105,14 @@ describe('Home actions', () => {
           queryMock.restore();
           getMock.restore();
         });
-        it('dispatches requestPullRequestsSuccess with the result', async () => {
+        it('dispatches requestPullRequestsLoading and requestPullRequestsSuccess with the result', async () => {
           const requestPullRequests = actions.requestPullRequests('testToken');
           const dispatch = jest.fn();
           await requestPullRequests(dispatch);
-          expect(dispatch).toHaveBeenCalledWith(
+          expect(dispatch.mock.calls[0][0]).toEqual(
+            actions.requestPullRequestsLoading(),
+          );
+          expect(dispatch.mock.calls[1][0]).toEqual(
             actions.requestPullRequestsSuccess(testResult),
           );
         });
@@ -130,11 +133,14 @@ describe('Home actions', () => {
           queryMock.restore();
           getMock.restore();
         });
-        it('dispatches requestPullRequestsFail with the error message', async () => {
+        it('dispatches requestPullRequestsLoading and requestPullRequestsFail with the error message', async () => {
           const requestPullRequests = actions.requestPullRequests('testToken');
           const dispatch = jest.fn();
           await requestPullRequests(dispatch);
-          expect(dispatch).toHaveBeenCalledWith(
+          expect(dispatch.mock.calls[0][0]).toEqual(
+            actions.requestPullRequestsLoading(),
+          );
+          expect(dispatch.mock.calls[1][0]).toEqual(
             actions.requestPullRequestsFail(testError.message),
           );
         });

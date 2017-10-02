@@ -153,6 +153,7 @@ describe('Home reducer', () => {
     };
     const expectedState = {
       ...initialState,
+      pullRequestsLoading: false,
       repositories: [
         {
           id: 'MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==',
@@ -222,7 +223,7 @@ describe('Home reducer', () => {
     };
     it('saves pull request data', () => {
       const newState = reducer(
-        initialState,
+        { ...initialState, pullRequestsLoading: true },
         actions.requestPullRequestsSuccess(data),
       );
       expect(newState).toEqual(expectedState);
@@ -242,11 +243,27 @@ describe('Home reducer', () => {
       const expectedState = {
         ...initialState,
         githubError: error,
+        pullRequestsLoading: false,
+      };
+
+      const newState = reducer(
+        { ...initialState, pullRequestsLoading: true },
+        actions.requestPullRequestsFail(error),
+      );
+      expect(newState).toEqual(expectedState);
+    });
+  });
+
+  describe('Pull requests loading', () => {
+    it('sets loading status to true', () => {
+      const expectedState = {
+        ...initialState,
+        pullRequestsLoading: true,
       };
 
       const newState = reducer(
         initialState,
-        actions.requestPullRequestsFail(error),
+        actions.requestPullRequestsLoading(),
       );
       expect(newState).toEqual(expectedState);
     });

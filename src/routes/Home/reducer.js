@@ -5,6 +5,7 @@ export const initialState = {
   githubError: null,
   repositories: [],
   openRepoId: null,
+  pullRequestsLoading: false,
 };
 
 let repos;
@@ -26,6 +27,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         githubError: action.error,
+      };
+    case types.REQUEST_PULL_REQUESTS_LOADING:
+      return {
+        ...state,
+        pullRequestsLoading: true,
       };
     case types.REQUEST_PULL_REQUESTS_SUCCESS:
       filteredNodes = action.data.nodes.filter(node => node);
@@ -53,11 +59,13 @@ export default function(state = initialState, action) {
       return {
         ...state,
         repositories: repos,
+        pullRequestsLoading: false,
       };
     case types.REQUEST_PULL_REQUESTS_FAIL:
       return {
         ...state,
         githubError: action.error,
+        pullRequestsLoading: false,
       };
     case types.TOGGLE_OPEN_REPO:
       return {
