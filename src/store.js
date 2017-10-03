@@ -5,9 +5,11 @@ import thunkMiddleware from 'redux-thunk';
 import home from './routes/Home/reducer';
 import login from './routes/Login/reducer';
 import selectRepos from './routes/SelectRepos/reducer';
+import layout from './components/Layout/reducer';
+import { rehydrationComplete } from './components/Layout/actions';
 
 const store = createStore(
-  combineReducers({ home, login, selectRepos }),
+  combineReducers({ home, login, selectRepos, layout }),
   undefined,
   composeWithDevTools(
     applyMiddleware(thunkMiddleware),
@@ -15,6 +17,14 @@ const store = createStore(
   ),
 );
 
-persistStore(store, { whitelist: ['login', 'home', 'selectRepos'] });
+const dispatchRehydrationComplete = () => {
+  store.dispatch(rehydrationComplete());
+};
+
+persistStore(
+  store,
+  { whitelist: ['login', 'home', 'selectRepos'] },
+  dispatchRehydrationComplete,
+);
 
 export default store;

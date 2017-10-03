@@ -71,11 +71,26 @@ export class Layout extends React.Component {
     return icon;
   }
 
+  loadRouteContainer() {
+    if (this.props.rehydrationComplete) {
+      return (
+        <div className={this.props.theme.routeContainer}>
+          <Route exact path="/" component={HomeContainer} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/selectRepos" component={SelectRepos} />
+        </div>
+      );
+    }
+
+    return <p>Loading...</p>;
+  }
+
   render() {
     const path = window.location.pathname;
     const theme = this.props.theme;
     const currentUser = this.loadCurrentUser();
     const refreshIcon = this.loadRefreshIcon(path);
+    const routeContainerContent = this.loadRouteContainer();
 
     return (
       <div className={theme.layout}>
@@ -117,11 +132,7 @@ export class Layout extends React.Component {
           {currentUser}
         </div>
         {window.location.pathname.includes('index.html') && <Redirect to="/" />}
-        <div className={theme.routeContainer}>
-          <Route exact path="/" component={HomeContainer} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/selectRepos" component={SelectRepos} />
-        </div>
+        <div>{routeContainerContent}</div>
       </div>
     );
   }
@@ -139,6 +150,7 @@ Layout.propTypes = {
   selectedRepos: PropTypes.arrayOf(PropTypes.string),
   requestPullRequests: PropTypes.func.isRequired,
   pullRequestsLoading: PropTypes.bool,
+  rehydrationComplete: PropTypes.bool,
 };
 
 Layout.defaultProps = {
@@ -147,6 +159,7 @@ Layout.defaultProps = {
   githubToken: null,
   selectedRepos: [],
   pullRequestsLoading: false,
+  rehydrationComplete: false,
 };
 
 const mapStateToProps = state => ({
@@ -154,6 +167,7 @@ const mapStateToProps = state => ({
   githubToken: state.login.githubToken,
   selectedRepos: state.selectRepos.selectedRepos,
   pullRequestsLoading: state.home.pullRequestsLoading,
+  rehydrationComplete: state.layout.rehydrationComplete,
 });
 
 const mapDispatchToProps = dispatch => ({
