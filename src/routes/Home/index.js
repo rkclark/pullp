@@ -10,6 +10,7 @@ export class Home extends React.Component {
   constructor(props) {
     super(props);
     this.props = props;
+    this.updateInterval = null;
   }
 
   componentWillMount() {
@@ -24,7 +25,17 @@ export class Home extends React.Component {
         this.props.githubToken,
         this.props.selectedRepos,
       );
+      this.updateInterval = window.setInterval(() => {
+        this.props.requestPullRequests(
+          this.props.githubToken,
+          this.props.selectedRepos,
+        );
+      }, 60000);
     }
+  }
+
+  componentWillUnmount() {
+    window.clearInterval(this.updateInterval);
   }
 
   render() {

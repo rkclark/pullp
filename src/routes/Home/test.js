@@ -42,6 +42,29 @@ describe('Home', () => {
         baseProps.selectedRepos,
       );
     });
+    it('sets an interval on window to run requestPullRequests', () => {
+      global.setInterval = jest.fn();
+      mount(<Home {...baseProps} />);
+      const requestPullRequestsFn = `() => {
+        this.props.requestPullRequests(
+        this.props.githubToken,
+        this.props.selectedRepos);
+
+      }`;
+      expect(global.setInterval.mock.calls[0][0].toString()).toEqual(
+        requestPullRequestsFn,
+      );
+      expect(global.setInterval.mock.calls[0][1]).toEqual(60000);
+    });
+  });
+
+  describe('when unmounts', () => {
+    it('clears interval on window', () => {
+      global.clearInterval = jest.fn();
+      const component = mount(<Home {...baseProps} />);
+      component.unmount();
+      expect(global.clearInterval).toHaveBeenCalled;
+    });
   });
 
   describe('when redirectPath === "/"', () => {
