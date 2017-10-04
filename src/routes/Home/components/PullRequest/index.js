@@ -21,13 +21,16 @@ export default function PullRequest({
       ? 'statusOutstandingReview'
       : statusClass;
 
-  let status = ['Created'];
+  let status = [{ id: `PR_${number}`, value: 'Created' }];
   status =
     reviewRequests.length > 0 && reviews.length === 0
-      ? ['Review Requested']
+      ? [{ id: `PR_${number}`, value: 'Review Requested' }]
       : status;
 
-  status = reviews.length > 0 ? reviews.map(review => review.state) : status;
+  status =
+    reviews.length > 0
+      ? reviews.map(review => ({ id: review.id, value: review.state }))
+      : status;
 
   return (
     <div className={`${theme.pullRequest} ${theme[statusClass]}`}>
@@ -40,7 +43,9 @@ export default function PullRequest({
       </div>
       <div className={theme.rightColumn}>
         <div>
-          {status.map(statusValue => <span>{statusValue.toUpperCase()}</span>)}
+          {status.map(statusObj => (
+            <span key={statusObj.id}>{statusObj.value.toUpperCase()}</span>
+          ))}
         </div>
         <div>
           <img
