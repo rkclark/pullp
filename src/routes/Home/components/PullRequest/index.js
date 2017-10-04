@@ -15,14 +15,22 @@ export default function PullRequest({
   reviewRequests,
   reviews,
 }) {
-  let status = 'statusDefault';
-  status =
+  let statusClass = 'statusDefault';
+  statusClass =
     reviewRequests.length > 0 && reviews.length === 0
       ? 'statusOutstandingReview'
+      : statusClass;
+
+  let status = ['Created'];
+  status =
+    reviewRequests.length > 0 && reviews.length === 0
+      ? ['Review Requested']
       : status;
 
+  status = reviews.length > 0 ? reviews.map(review => review.state) : status;
+
   return (
-    <div className={`${theme.pullRequest} ${theme.status}`}>
+    <div className={`${theme.pullRequest} ${theme[statusClass]}`}>
       <div className={theme.leftColumn}>
         <a href={url}>
           <h4>
@@ -31,6 +39,9 @@ export default function PullRequest({
         </a>
       </div>
       <div className={theme.rightColumn}>
+        <div>
+          {status.map(statusValue => <span>{statusValue.toUpperCase()}</span>)}
+        </div>
         <div>
           <img
             className={theme.authorAvatar}
