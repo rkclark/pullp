@@ -1,21 +1,19 @@
 @import "../../../../css/colors.css";
 @import "../../../../css/units.css";
 
-
-.overlayContainer, .repoContainer {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
-}
-
-.repo {
+.repoContainer {
   z-index: var(--z-modal);
-  position: fixed;
+  position: absolute;
   top: 10%;
   left: 10%;
   width: 80%;
-  height: 80%;
-  background-color: white;
+  background-color: var(--primary-dark);
+  color: var(--white);
+  padding: var(--spacing-3);
+}
+
+.repoContainer a {
+  color: var(--white);
 }
 
 .overlay {

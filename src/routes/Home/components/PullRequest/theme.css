@@ -4,3 +4,9 @@
 
 .statusOutstandingReview {}
 
+.authorAvatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--spacing-1);
+  border: 2px solid var(--white);
+}
