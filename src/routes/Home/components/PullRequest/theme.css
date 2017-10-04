@@ -1,4 +1,14 @@
-.pullRequest {}
+@import "../../../../css/colors.css";
+@import "../../../../css/units.css";
+
+.pullRequest {
+  padding: var(--spacing-2) 0;
+  display: flex;
+}
+
+.leftColumn {
+  flex-basis: 70%;
+}
 
 .statusDefault {}
 
@@ -10,3 +20,4 @@
   border-radius: var(--spacing-1);
   border: 2px solid var(--white);
 }
+

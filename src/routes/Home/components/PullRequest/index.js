@@ -23,22 +23,26 @@ export default function PullRequest({
 
   return (
     <div className={`${theme.pullRequest} ${theme.status}`}>
-      <a href={url}>
-        <h4>
-          <span>#{number}</span> {title}
-        </h4>
-      </a>
-      <div>
-        <img
-          className={theme.authorAvatar}
-          src={author.avatarUrl}
-          alt="pull request author"
-        />
-        <a href={author.url}>{author.login}</a>
+      <div className={theme.leftColumn}>
+        <a href={url}>
+          <h4>
+            <span>#{number}</span> {title}
+          </h4>
+        </a>
       </div>
-      <span>
-        {date} at {time}
-      </span>
+      <div className={theme.rightColumn}>
+        <div>
+          <img
+            className={theme.authorAvatar}
+            src={author.avatarUrl}
+            alt="pull request author"
+          />
+          <a href={author.url}>{author.login}</a>
+        </div>
+        <span>
+          {date} at {time}
+        </span>
+      </div>
     </div>
   );
 }
