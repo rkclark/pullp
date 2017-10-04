@@ -38,14 +38,17 @@ h2 {
 
 h3 {
   font-size: var(--font-size-3);
+  font-weight: normal;
 }
 
 h4 {
   font-size: var(--font-size-4);
+  font-weight: normal;
 }
 
 h5 {
   font-size: var(--font-size-5);
+  font-weight: normal;
 }
 
 h6 {

@@ -14,6 +14,9 @@ export default function RepoModal({ theme, data, toggleOpenRepo }) {
     <div>
       <div className={theme.repoContainer}>
         <div className={theme.repo}>
+          <a href={data.url}>
+            <h3>{data.name}</h3>
+          </a>
           <button data-test-id={'closeButton'} onClick={onClick}>
             Close
           </button>
