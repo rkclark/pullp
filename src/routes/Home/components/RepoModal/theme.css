@@ -14,6 +14,7 @@
 
 .repoContainer a {
   color: var(--white);
+  font-weight: normal;
 }
 
 .overlay {
@@ -26,4 +27,28 @@
   z-index: var(--z-overlay);
 }
 
+.repoHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: var(--spacing-2);
+}
+
+.closeButton {
+  background-color: transparent;
+  line-height: 0;
+  padding: var(--spacing-1);
+  border-radius: var(--spacing-1);
+  transition: 0.5s ease all;
+  border: none;
+}
+
+.closeButton:hover {
+  background-color: var(--secondary-dark);
+}
+
+.closeIcon {
+  width: 2rem;
+  height: 2rem;
+}
 
