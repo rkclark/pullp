@@ -21,16 +21,26 @@ export default function PullRequest({
       ? 'statusOutstandingReview'
       : statusClass;
 
-  let status = [{ id: `PR_${number}`, value: 'Created' }];
+  let status = 'No Review Requested';
   status =
     reviewRequests.length > 0 && reviews.length === 0
-      ? [{ id: `PR_${number}`, value: 'Review Requested' }]
+      ? 'Review Requested'
       : status;
 
-  status =
-    reviews.length > 0
-      ? reviews.map(review => ({ id: review.id, value: review.state }))
-      : status;
+  let reviewStatuses;
+  /*  eslint-disable no-return-assign, no-param-reassign */
+  if (reviews.length > 0) {
+    status = 'Reviewed';
+    reviewStatuses = reviews.reduce((reviewsObj, review) => {
+      if (reviewsObj[review.state]) {
+        return {
+          ...reviewsObj,
+          [review.state]: (reviewsObj[review.state] += 1),
+        };
+      }
+      return { ...reviewsObj, [review.state]: 1 };
+    }, {});
+  }
 
   return (
     <div className={`${theme.pullRequest} ${theme[statusClass]}`}>
@@ -40,13 +50,9 @@ export default function PullRequest({
             <span>#{number}</span> {title}
           </h4>
         </a>
-      </div>
-      <div className={theme.rightColumn}>
-        <div>
-          {status.map(statusObj => (
-            <span key={statusObj.id}>{statusObj.value.toUpperCase()}</span>
-          ))}
-        </div>
+        <span>
+          {date} at {time}
+        </span>
         <div>
           <img
             className={theme.authorAvatar}
@@ -55,9 +61,20 @@ export default function PullRequest({
           />
           <a href={author.url}>{author.login}</a>
         </div>
-        <span>
-          {date} at {time}
-        </span>
+      </div>
+      <div className={theme.rightColumn}>
+        <div>
+          <p>{status.toUpperCase()}</p>
+        </div>
+        <div>
+          {reviewStatuses
+            ? Object.entries(reviewStatuses).map(reviewStatus => (
+                <p key={reviewStatus[0]}>
+                  {reviewStatus[0]} x{reviewStatus[1]}
+                </p>
+              ))
+            : null}
+        </div>
       </div>
     </div>
   );
