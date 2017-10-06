@@ -43,14 +43,13 @@ export default function(state = initialState, action) {
             ...review.node,
           }));
 
-          /*  eslint-disable no-return-assign, no-param-reassign */
           let reviewStatuses = {};
           if (reviews.length > 0) {
             reviewStatuses = reviews.reduce((reviewsObj, review) => {
               if (reviewsObj[review.state]) {
                 return {
                   ...reviewsObj,
-                  [review.state]: (reviewsObj[review.state] += 1),
+                  [review.state]: reviewsObj[review.state] + 1,
                 };
               }
               return { ...reviewsObj, [review.state]: 1 };
