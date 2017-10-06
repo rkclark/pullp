@@ -14,6 +14,7 @@ export default function PullRequest({
   participants,
   reviewRequests,
   reviews,
+  aggregatedReviews,
 }) {
   let statusClass = 'statusDefault';
   statusClass =
@@ -27,20 +28,44 @@ export default function PullRequest({
       ? 'Review Requested'
       : status;
 
-  let reviewStatuses;
-  /*  eslint-disable no-return-assign, no-param-reassign */
-  if (reviews.length > 0) {
-    status = 'Reviewed';
-    reviewStatuses = reviews.reduce((reviewsObj, review) => {
-      if (reviewsObj[review.state]) {
-        return {
-          ...reviewsObj,
-          [review.state]: (reviewsObj[review.state] += 1),
-        };
-      }
-      return { ...reviewsObj, [review.state]: 1 };
-    }, {});
-  }
+  const reviewTags = (
+    <div>
+      {aggregatedReviews
+        ? Object.entries(aggregatedReviews).map(reviewStatus => {
+            let reviewStatusClassName = '';
+            switch (reviewStatus[0]) {
+              case 'APPROVED':
+                reviewStatusClassName = 'statusApproved';
+                break;
+              case 'CHANGES_REQUESTED':
+                reviewStatusClassName = 'statusChangesRequested';
+                break;
+              case 'COMMENTED':
+                reviewStatusClassName = 'statusCommented';
+                break;
+              case 'PENDING':
+                reviewStatusClassName = 'statusPending';
+                break;
+              case 'DISMISSED':
+                reviewStatusClassName = 'statusDismissed';
+                break;
+              default:
+                reviewStatusClassName = '';
+            }
+            return (
+              <p
+                key={reviewStatus[0]}
+                className={`${theme.reviewStatus} ${theme[
+                  reviewStatusClassName
+                ]}`}
+              >
+                {reviewStatus[0].replace(/_/g, ' ')} x{reviewStatus[1]}
+              </p>
+            );
+          })
+        : null}
+    </div>
+  );
 
   return (
     <div className={`${theme.pullRequest} ${theme[statusClass]}`}>
@@ -66,15 +91,7 @@ export default function PullRequest({
         <div>
           <p>{status.toUpperCase()}</p>
         </div>
-        <div>
-          {reviewStatuses
-            ? Object.entries(reviewStatuses).map(reviewStatus => (
-                <p key={reviewStatus[0]}>
-                  {reviewStatus[0]} x{reviewStatus[1]}
-                </p>
-              ))
-            : null}
-        </div>
+        {reviewTags}
       </div>
     </div>
   );
@@ -102,6 +119,7 @@ PullRequest.propTypes = {
   ),
   reviewRequests: PropTypes.arrayOf(PropTypes.shape()),
   reviews: PropTypes.arrayOf(PropTypes.shape()),
+  aggregatedReviews: PropTypes.shape(),
 };
 
 PullRequest.defaultProps = {
@@ -111,6 +129,7 @@ PullRequest.defaultProps = {
   participants: [],
   reviewRequests: [],
   reviews: [],
+  aggregatedReviews: {},
   date: null,
   time: null,
 };

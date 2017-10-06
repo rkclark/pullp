@@ -21,3 +21,29 @@
   border: 2px solid var(--white);
 }
 
+.reviewStatus {
+  padding: var(--spacing-1);
+  margin: 0 var(--spacing-1);
+  display: inline;
+}
+
+.statusApproved {
+  background-color: var(--approved);
+}
+
+.statusChangesRequested {
+  background-color: var(--changes-requested);
+}
+
+.statusCommented {
+  background-color: var(--commented);
+}
+
+.statusPending {
+  background-color: var(--pending);
+  color: var(--primary-dark)
+}
+
+.statusDismissed {
+  background-color: var(--dismissed);
+}

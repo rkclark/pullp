@@ -39,6 +39,24 @@ export default function(state = initialState, action) {
         ...node,
         pullRequests: node.pullRequests.edges.map(pr => {
           createdAtDate = new Date(pr.node.createdAt);
+          const reviews = pr.node.reviews.edges.map(review => ({
+            ...review.node,
+          }));
+
+          /*  eslint-disable no-return-assign, no-param-reassign */
+          let reviewStatuses = {};
+          if (reviews.length > 0) {
+            reviewStatuses = reviews.reduce((reviewsObj, review) => {
+              if (reviewsObj[review.state]) {
+                return {
+                  ...reviewsObj,
+                  [review.state]: (reviewsObj[review.state] += 1),
+                };
+              }
+              return { ...reviewsObj, [review.state]: 1 };
+            }, {});
+          }
+
           return {
             ...pr.node,
             date: createdAtDate.toLocaleDateString(),
@@ -49,9 +67,8 @@ export default function(state = initialState, action) {
             reviewRequests: pr.node.reviewRequests.edges.map(reviewRequest => ({
               ...reviewRequest.node,
             })),
-            reviews: pr.node.reviews.edges.map(review => ({
-              ...review.node,
-            })),
+            reviews,
+            aggregatedReviews: reviewStatuses,
           };
         }),
       }));
