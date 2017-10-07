@@ -8,6 +8,7 @@ describe('SelectRepos', () => {
     githubError: null,
     requestWatchedRepos: jest.fn(),
     toggleRepoSelection: () => {},
+    saveRepoFilterValue: () => {},
   };
 
   it('renders successfully', () => {
@@ -39,5 +40,21 @@ describe('SelectRepos', () => {
   it('calls requestWatchedRepos when mounted', () => {
     const component = mount(<SelectRepos {...props} />);
     expect(component.requestWatchedRepos).toHaveBeenCalled;
+  });
+
+  describe('filtering', () => {
+    describe('filter input field', () => {
+      it('calls saveRepoFilterValue on change', () => {
+        const testValue = 'omg';
+        const saveRepoFilterValue = jest.fn();
+        const component = shallow(
+          <SelectRepos {...props} saveRepoFilterValue={saveRepoFilterValue} />,
+        );
+        component
+          .find('[data-test-id="filterInput"]')
+          .simulate('change', { target: { value: testValue } });
+        expect(saveRepoFilterValue).toHaveBeenCalledWith(testValue);
+      });
+    });
   });
 });

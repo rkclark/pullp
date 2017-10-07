@@ -10,6 +10,7 @@ export class SelectRepos extends React.Component {
     super(props);
     this.props = props;
     this.loadRepos = this.loadRepos.bind(this);
+    this.filterOnChange = this.filterOnChange.bind(this);
   }
 
   componentDidMount() {
@@ -35,16 +36,28 @@ export class SelectRepos extends React.Component {
     });
   }
 
+  filterOnChange(event) {
+    const value = event.target.value;
+    this.props.saveRepoFilterValue(value);
+  }
+
   render() {
     const repos = this.loadRepos();
     const theme = this.props.theme;
+
     return (
       <div className={theme.pinContainer}>
         <h3 className={theme.title}>
           Select the repos you want to pin&hellip;
         </h3>
         <label htmlFor="filter">Filter</label>
-        <input name="filter" type="text" value="" />
+        <input
+          name="filter"
+          type="text"
+          value=""
+          data-test-id="filterInput"
+          onChange={this.filterOnChange}
+        />
         {repos}
         {this.props.githubError}
       </div>
@@ -60,6 +73,7 @@ SelectRepos.propTypes = {
   selectedRepos: PropTypes.arrayOf(PropTypes.string),
   toggleRepoSelection: PropTypes.func.isRequired,
   theme: PropTypes.shape(),
+  saveRepoFilterValue: PropTypes.func.isRequired,
 };
 
 SelectRepos.defaultProps = {
@@ -83,6 +97,9 @@ const mapDispatchToProps = dispatch => ({
   },
   toggleRepoSelection(id) {
     dispatch(actions.toggleRepoSelection(id));
+  },
+  saveRepoFilterValue(value) {
+    dispatch(actions.saveRepoFilterValue(value));
   },
 });
 
