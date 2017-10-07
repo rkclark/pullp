@@ -56,5 +56,50 @@ describe('SelectRepos', () => {
         expect(saveRepoFilterValue).toHaveBeenCalledWith(testValue);
       });
     });
+
+    const testName1 = 'jjjjjjtestkkkkkk';
+    const testName2 = 'test ......h.h..h.h.';
+    const watchedRepos = [
+      {
+        name: 'hhyhhyh oopopopo',
+        id: 'hjhgjhjgh==',
+        url: 'test',
+      },
+      {
+        name: testName1,
+        id: 'gdfdshgfghfgh==',
+        url: 'test2',
+      },
+      {
+        name: testName2,
+        id: 'gdfdshgfghfgh==',
+        url: 'test2',
+      },
+    ];
+    describe('when filter value is set', () => {
+      it('only displays checkboxes for repos that contain the value in their name', () => {
+        const filterValue = 'test';
+        const component = shallow(
+          <SelectRepos
+            {...props}
+            watchedRepos={watchedRepos}
+            repoFilterValue={filterValue}
+          />,
+        );
+        const repos = component.find(RepoCheckbox);
+        expect(repos.at(0).props().name).toEqual(testName1);
+        expect(repos.at(1).props().name).toEqual(testName2);
+        expect(repos.length).toBe(2);
+      });
+    });
+    describe('when filter value is empty', () => {
+      it('renders all repo checkboxes', () => {
+        const component = shallow(
+          <SelectRepos {...props} watchedRepos={watchedRepos} />,
+        );
+        const repos = component.find(RepoCheckbox);
+        expect(repos.length).toBe(3);
+      });
+    });
   });
 });

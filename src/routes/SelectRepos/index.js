@@ -18,7 +18,13 @@ export class SelectRepos extends React.Component {
   }
 
   loadRepos() {
-    return this.props.watchedRepos.map(repo => {
+    const filteredRepos = this.props.repoFilterValue
+      ? this.props.watchedRepos.filter(repo =>
+          repo.name.includes(this.props.repoFilterValue),
+        )
+      : this.props.watchedRepos;
+
+    return filteredRepos.map(repo => {
       const checked = this.props.selectedRepos.includes(repo.id);
       const onChange = () => {
         this.props.toggleRepoSelection(repo.id);
@@ -74,6 +80,7 @@ SelectRepos.propTypes = {
   toggleRepoSelection: PropTypes.func.isRequired,
   theme: PropTypes.shape(),
   saveRepoFilterValue: PropTypes.func.isRequired,
+  repoFilterValue: PropTypes.string,
 };
 
 SelectRepos.defaultProps = {
@@ -82,6 +89,7 @@ SelectRepos.defaultProps = {
   githubToken: null,
   selectedRepos: [],
   theme: defaultTheme,
+  repoFilterValue: null,
 };
 
 const mapStateToProps = state => ({
@@ -89,6 +97,7 @@ const mapStateToProps = state => ({
   githubError: state.selectRepos.githubError,
   githubToken: state.login.githubToken,
   selectedRepos: state.selectRepos.selectedRepos,
+  repoFilterValue: state.selectedRepos.repoFilterValue,
 });
 
 const mapDispatchToProps = dispatch => ({
