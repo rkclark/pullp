@@ -60,7 +60,7 @@ export class SelectRepos extends React.Component {
         <input
           name="filter"
           type="text"
-          value={this.props.repoFilterValue}
+          value={this.props.repoFilterValue || ''}
           data-test-id="filterInput"
           onChange={this.filterOnChange}
         />
