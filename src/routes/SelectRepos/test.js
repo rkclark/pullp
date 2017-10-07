@@ -55,6 +55,21 @@ describe('SelectRepos', () => {
           .simulate('change', { target: { value: testValue } });
         expect(saveRepoFilterValue).toHaveBeenCalledWith(testValue);
       });
+      it('has value === repoFilterValue', () => {
+        const testValue = 'omg';
+        const component = shallow(
+          <SelectRepos {...props} repoFilterValue={testValue} />,
+        );
+        const field = component.find('[data-test-id="filterInput"]');
+        expect(field.props().value).toEqual(testValue);
+      });
+      describe('when repoFilterValue is null', () => {
+        it("has value === ''", () => {
+          const component = shallow(<SelectRepos {...props} />);
+          const field = component.find('[data-test-id="filterInput"]');
+          expect(field.props().value).toEqual('');
+        });
+      });
     });
 
     const testName1 = 'jjjjjjtestkkkkkk';
