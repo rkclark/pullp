@@ -210,4 +210,15 @@ describe('SelectRepos actions', () => {
       });
     });
   });
+
+  describe('Saving repo filter value', () => {
+    it('creates an acion to save the filter value', () => {
+      const value = 'test';
+      const expectedAction = {
+        type: types.SAVE_REPO_FILTER_VALUE,
+        value,
+      };
+      expect(actions.saveRepoFilterValue(value)).toEqual(expectedAction);
+    });
+  });
 });

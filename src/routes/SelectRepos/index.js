@@ -43,6 +43,8 @@ export class SelectRepos extends React.Component {
         <h3 className={theme.title}>
           Select the repos you want to pin&hellip;
         </h3>
+        <label htmlFor="filter">Filter</label>
+        <input name="filter" type="text" value="" />
         {repos}
         {this.props.githubError}
       </div>
