@@ -4,6 +4,7 @@ export const initialState = {
   watchedRepos: [],
   githubError: null,
   selectedRepos: [],
+  repoFilterValue: null,
 };
 
 export default function(state = initialState, action) {
@@ -41,6 +42,11 @@ export default function(state = initialState, action) {
             ...state,
             selectedRepos: [...state.selectedRepos, action.id],
           };
+    case types.SAVE_REPO_FILTER_VALUE:
+      return {
+        ...state,
+        repoFilterValue: action.value,
+      };
     default:
       return state;
   }

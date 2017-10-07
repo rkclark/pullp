@@ -112,4 +112,21 @@ describe('SelectRepos reducer', () => {
       });
     });
   });
+  describe('repoFilterValue', () => {
+    it('saves repo filter value to state', () => {
+      const filterValue = 'value';
+      const baseState = {
+        ...initialState,
+      };
+      const expectedState = {
+        ...initialState,
+        repoFilterValue: filterValue,
+      };
+      const newState = reducer(
+        baseState,
+        actions.saveRepoFilterValue(filterValue),
+      );
+      expect(newState).toEqual(expectedState);
+    });
+  });
 });
