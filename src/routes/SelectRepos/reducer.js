@@ -1,29 +1,54 @@
 import { selectRepos as types } from '../../actionTypes';
 
 export const initialState = {
-  watchedRepos: [],
+  watchedRepos: {
+    currentPage: null,
+    hasNextPage: null,
+    hasPreviousPage: null,
+    pages: {},
+  },
   githubError: null,
   selectedRepos: [],
   repoFilterValue: null,
+  reposPerPage: 50,
 };
+
+/* eslint-disable no-case-declarations */
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case types.REQUEST_WATCHED_REPOS_SUCCESS:
+      const selectedRepos = state.selectedRepos.filter(repoId => {
+        let result = false;
+        for (const node of action.data) { // eslint-disable-line
+          if (node.id === repoId) {
+            result = true;
+            break;
+          }
+        }
+        return result;
+      });
+
+      let pages = {};
+      let page = 1;
+      while (action.data.length > 0) {
+        pages = {
+          ...pages,
+          [page]: action.data.splice(0, state.reposPerPage),
+        };
+        page += 1;
+      }
+
       return {
         ...state,
-        watchedRepos: action.data,
+        watchedRepos: {
+          currentPage: 1,
+          hasNextPage: page > 2,
+          hasPreviousPage: false,
+          pages,
+        },
         githubError: null,
-        selectedRepos: state.selectedRepos.filter(repoId => {
-          let result = false;
-          for (const node of action.data) { // eslint-disable-line
-            if (node.id === repoId) {
-              result = true;
-              break;
-            }
-          }
-          return result;
-        }),
+        selectedRepos,
       };
     case types.REQUEST_WATCHED_REPOS_FAIL:
       return {

@@ -7,52 +7,269 @@ describe('SelectRepos reducer', () => {
   });
 
   describe('watchedRepos', () => {
-    const data = [
-      {
-        name: 'Atticus_Legal',
-        id: 'MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==',
-      },
-      {
-        name: 'minesweeper',
-        id: 'MDEwOlJlcG9zaXRvcnk3Mjc1NzkxNg==',
-      },
-      {
-        name: 'test1',
-        id: 'testid1==',
-      },
-      {
-        name: 'test2',
-        id: 'testid2==',
-      },
-    ];
-    it('Saves watchedRepos data', () => {
-      const baseState = {
-        ...initialState,
-        githubError: 'error',
-      };
+    let data;
 
-      const expectedState = {
-        ...baseState,
-        watchedRepos: data,
-        githubError: null,
-      };
+    beforeEach(() => {
+      data = [
+        {
+          name: 'test1',
+          id: 'MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==',
+        },
+        {
+          name: 'test2',
+          id: 'MDEwOlJlcG9zaXRvcnk3Mjc1NzkxNg==',
+        },
+        {
+          name: 'test3',
+          id: 'testid1==',
+        },
+        {
+          name: 'test4',
+          id: 'testid2==',
+        },
+        {
+          name: 'test5',
+          id: 'MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==',
+        },
+        {
+          name: 'test6',
+          id: 'MDEwOlJlcG9zaXRvcnk3Mjc1NzkxNg==',
+        },
+      ];
+    });
+    describe('when reposPerPage === 2', () => {
+      it('Saves watchedRepos data in pages of 2', () => {
+        const baseState = {
+          ...initialState,
+          githubError: 'error',
+          reposPerPage: 2,
+        };
 
-      const newState = reducer(
-        baseState,
-        actions.requestWatchedReposSuccess(data),
-      );
-      expect(newState).toEqual(expectedState);
+        const expectedState = {
+          ...baseState,
+          watchedRepos: {
+            currentPage: 1,
+            hasNextPage: true,
+            hasPreviousPage: false,
+            pages: {
+              1: [
+                {
+                  name: 'test1',
+                  id: 'MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==',
+                },
+                {
+                  name: 'test2',
+                  id: 'MDEwOlJlcG9zaXRvcnk3Mjc1NzkxNg==',
+                },
+              ],
+              2: [
+                {
+                  name: 'test3',
+                  id: 'testid1==',
+                },
+                {
+                  name: 'test4',
+                  id: 'testid2==',
+                },
+              ],
+              3: [
+                {
+                  name: 'test5',
+                  id: 'MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==',
+                },
+                {
+                  name: 'test6',
+                  id: 'MDEwOlJlcG9zaXRvcnk3Mjc1NzkxNg==',
+                },
+              ],
+            },
+          },
+          githubError: null,
+        };
+
+        const newState = reducer(
+          baseState,
+          actions.requestWatchedReposSuccess(data),
+        );
+        expect(newState).toEqual(expectedState);
+      });
+    });
+    describe('when reposPerPage === 4', () => {
+      it('Saves watchedRepos data in pages of 4', () => {
+        const baseState = {
+          ...initialState,
+          githubError: 'error',
+          reposPerPage: 4,
+        };
+
+        const expectedState = {
+          ...baseState,
+          watchedRepos: {
+            currentPage: 1,
+            hasNextPage: true,
+            hasPreviousPage: false,
+            pages: {
+              1: [
+                {
+                  name: 'test1',
+                  id: 'MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==',
+                },
+                {
+                  name: 'test2',
+                  id: 'MDEwOlJlcG9zaXRvcnk3Mjc1NzkxNg==',
+                },
+                {
+                  name: 'test3',
+                  id: 'testid1==',
+                },
+                {
+                  name: 'test4',
+                  id: 'testid2==',
+                },
+              ],
+              2: [
+                {
+                  name: 'test5',
+                  id: 'MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==',
+                },
+                {
+                  name: 'test6',
+                  id: 'MDEwOlJlcG9zaXRvcnk3Mjc1NzkxNg==',
+                },
+              ],
+            },
+          },
+          githubError: null,
+        };
+        const newState = reducer(
+          baseState,
+          actions.requestWatchedReposSuccess(data),
+        );
+        expect(newState).toEqual(expectedState);
+      });
+    });
+    describe('when there is only one page of results', () => {
+      it('sets hasNextPage to false', () => {
+        const baseState = {
+          ...initialState,
+          githubError: 'error',
+          reposPerPage: 50,
+        };
+
+        const expectedState = {
+          ...baseState,
+          watchedRepos: {
+            currentPage: 1,
+            hasNextPage: false,
+            hasPreviousPage: false,
+            pages: {
+              1: [
+                {
+                  name: 'test1',
+                  id: 'MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==',
+                },
+                {
+                  name: 'test2',
+                  id: 'MDEwOlJlcG9zaXRvcnk3Mjc1NzkxNg==',
+                },
+                {
+                  name: 'test3',
+                  id: 'testid1==',
+                },
+                {
+                  name: 'test4',
+                  id: 'testid2==',
+                },
+                {
+                  name: 'test5',
+                  id: 'MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==',
+                },
+                {
+                  name: 'test6',
+                  id: 'MDEwOlJlcG9zaXRvcnk3Mjc1NzkxNg==',
+                },
+              ],
+            },
+          },
+          githubError: null,
+        };
+
+        const newState = reducer(
+          baseState,
+          actions.requestWatchedReposSuccess(data),
+        );
+        expect(newState).toEqual(expectedState);
+      });
+    });
+    describe('when there are no results', () => {
+      it('sets hasNextPage to false', () => {
+        const baseState = {
+          ...initialState,
+          githubError: 'error',
+          reposPerPage: 50,
+        };
+
+        const expectedState = {
+          ...baseState,
+          watchedRepos: {
+            currentPage: 1,
+            hasNextPage: false,
+            hasPreviousPage: false,
+            pages: {},
+          },
+          githubError: null,
+        };
+
+        const newState = reducer(
+          baseState,
+          actions.requestWatchedReposSuccess([]),
+        );
+        expect(newState).toEqual(expectedState);
+      });
     });
     describe('when watched repos does not return a repo that is in selected repos', () => {
       it('removes the lost repo from the selectedRepos', () => {
         const baseState = {
           ...initialState,
           githubError: 'error',
+          reposPerPage: 50,
           selectedRepos: ['MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==', 'lostRepo'],
         };
         const expectedState = {
           ...baseState,
-          watchedRepos: data,
+          watchedRepos: {
+            currentPage: 1,
+            hasNextPage: false,
+            hasPreviousPage: false,
+            pages: {
+              1: [
+                {
+                  name: 'test1',
+                  id: 'MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==',
+                },
+                {
+                  name: 'test2',
+                  id: 'MDEwOlJlcG9zaXRvcnk3Mjc1NzkxNg==',
+                },
+                {
+                  name: 'test3',
+                  id: 'testid1==',
+                },
+                {
+                  name: 'test4',
+                  id: 'testid2==',
+                },
+                {
+                  name: 'test5',
+                  id: 'MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==',
+                },
+                {
+                  name: 'test6',
+                  id: 'MDEwOlJlcG9zaXRvcnk3Mjc1NzkxNg==',
+                },
+              ],
+            },
+          },
           githubError: null,
           selectedRepos: ['MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng=='],
         };
