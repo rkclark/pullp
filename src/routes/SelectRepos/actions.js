@@ -47,3 +47,8 @@ export const saveRepoFilterValue = value => ({
   type: types.SAVE_REPO_FILTER_VALUE,
   value,
 });
+
+export const changeReposPage = page => ({
+  type: types.CHANGE_REPOS_PAGE,
+  page,
+});

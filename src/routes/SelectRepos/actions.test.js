@@ -221,4 +221,15 @@ describe('SelectRepos actions', () => {
       expect(actions.saveRepoFilterValue(value)).toEqual(expectedAction);
     });
   });
+
+  describe('Changing current page of results', () => {
+    it('creates an action to change page', () => {
+      const page = 1;
+      const expectedAction = {
+        type: types.CHANGE_REPOS_PAGE,
+        page,
+      };
+      expect(actions.changeReposPage(page)).toEqual(expectedAction);
+    });
+  });
 });
