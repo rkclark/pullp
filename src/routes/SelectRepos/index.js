@@ -72,7 +72,13 @@ export class SelectRepos extends React.Component {
 }
 
 SelectRepos.propTypes = {
-  watchedRepos: PropTypes.arrayOf(PropTypes.shape()),
+  watchedRepos: PropTypes.shape({
+    currentPage: PropTypes.number,
+    hasNextPage: PropTypes.number,
+    hasPreviousPage: PropTypes.number,
+    totalPages: PropTypes.number,
+    pages: PropTypes.shape(),
+  }),
   githubError: PropTypes.string,
   githubToken: PropTypes.string,
   requestWatchedRepos: PropTypes.func.isRequired,
@@ -84,7 +90,13 @@ SelectRepos.propTypes = {
 };
 
 SelectRepos.defaultProps = {
-  watchedRepos: [],
+  watchedRepos: {
+    currentPage: null,
+    hasNextPage: null,
+    hasPreviousPage: null,
+    totalPages: 0,
+    pages: {},
+  },
   githubError: null,
   githubToken: null,
   selectedRepos: [],
@@ -109,6 +121,9 @@ const mapDispatchToProps = dispatch => ({
   },
   saveRepoFilterValue(value) {
     dispatch(actions.saveRepoFilterValue(value));
+  },
+  changeReposPage(page) {
+    dispatch(actions.changeReposPage(page));
   },
 });
 

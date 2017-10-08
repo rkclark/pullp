@@ -47,7 +47,8 @@ describe('SelectRepos reducer', () => {
 
         const expectedState = {
           ...baseState,
-          watchedRepos: {
+          watchedRepos: data,
+          paginatedRepos: {
             currentPage: 1,
             hasNextPage: true,
             hasPreviousPage: false,
@@ -105,7 +106,8 @@ describe('SelectRepos reducer', () => {
 
         const expectedState = {
           ...baseState,
-          watchedRepos: {
+          watchedRepos: data,
+          paginatedRepos: {
             currentPage: 1,
             hasNextPage: true,
             hasPreviousPage: false,
@@ -160,7 +162,8 @@ describe('SelectRepos reducer', () => {
 
         const expectedState = {
           ...baseState,
-          watchedRepos: {
+          watchedRepos: data,
+          paginatedRepos: {
             currentPage: 1,
             hasNextPage: false,
             hasPreviousPage: false,
@@ -214,7 +217,8 @@ describe('SelectRepos reducer', () => {
 
         const expectedState = {
           ...baseState,
-          watchedRepos: {
+          watchedRepos: [],
+          paginatedRepos: {
             currentPage: 1,
             hasNextPage: false,
             hasPreviousPage: false,
@@ -241,7 +245,8 @@ describe('SelectRepos reducer', () => {
         };
         const expectedState = {
           ...baseState,
-          watchedRepos: {
+          watchedRepos: data,
+          paginatedRepos: {
             currentPage: 1,
             hasNextPage: false,
             hasPreviousPage: false,
@@ -326,8 +331,8 @@ describe('SelectRepos reducer', () => {
 
       const expectedState = {
         ...baseState,
-        watchedRepos: {
-          ...baseState.watchedRepos,
+        paginatedRepos: {
+          ...baseState.paginatedRepos,
           currentPage: 4,
           hasNextPage: false,
           hasPreviousPage: true,
@@ -342,7 +347,7 @@ describe('SelectRepos reducer', () => {
       it('sets hasNextPage and has previousPage to true', () => {
         const baseState = {
           ...initialState,
-          watchedRepos: {
+          paginatedRepos: {
             currentPage: 3,
             hasNextPage: false,
             hasPreviousPage: false,
@@ -352,8 +357,8 @@ describe('SelectRepos reducer', () => {
         };
         const expectedState = {
           ...baseState,
-          watchedRepos: {
-            ...baseState.watchedRepos,
+          paginatedRepos: {
+            ...baseState.paginatedRepos,
             currentPage: 2,
             hasNextPage: true,
             hasPreviousPage: true,
@@ -368,7 +373,7 @@ describe('SelectRepos reducer', () => {
       it('sets hasNextPage to false', () => {
         const baseState = {
           ...initialState,
-          watchedRepos: {
+          paginatedRepos: {
             currentPage: 2,
             hasNextPage: true,
             hasPreviousPage: true,
@@ -378,8 +383,8 @@ describe('SelectRepos reducer', () => {
         };
         const expectedState = {
           ...baseState,
-          watchedRepos: {
-            ...baseState.watchedRepos,
+          paginatedRepos: {
+            ...baseState.paginatedRepos,
             currentPage: 3,
             hasNextPage: false,
             hasPreviousPage: true,
@@ -394,7 +399,7 @@ describe('SelectRepos reducer', () => {
       it('sets hasPreviousPage to false', () => {
         const baseState = {
           ...initialState,
-          watchedRepos: {
+          paginatedRepos: {
             currentPage: 2,
             hasNextPage: true,
             hasPreviousPage: true,
@@ -404,8 +409,8 @@ describe('SelectRepos reducer', () => {
         };
         const expectedState = {
           ...baseState,
-          watchedRepos: {
-            ...baseState.watchedRepos,
+          paginatedRepos: {
+            ...baseState.paginatedRepos,
             currentPage: 1,
             hasNextPage: true,
             hasPreviousPage: false,

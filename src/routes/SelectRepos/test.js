@@ -11,12 +11,12 @@ describe('SelectRepos', () => {
     saveRepoFilterValue: () => {},
   };
 
-  it('renders successfully', () => {
+  xit('renders successfully', () => {
     const component = shallow(<SelectRepos {...props} />);
     expect(component).toHaveLength(1);
   });
 
-  it('renders a RepoCheckbox for each watched repo', () => {
+  xit('renders a RepoCheckbox for each watched repo', () => {
     const component = shallow(
       <SelectRepos
         {...props}
@@ -37,12 +37,12 @@ describe('SelectRepos', () => {
     expect(component.find(RepoCheckbox)).toHaveLength(2);
   });
 
-  it('calls requestWatchedRepos when mounted', () => {
+  xit('calls requestWatchedRepos when mounted', () => {
     const component = mount(<SelectRepos {...props} />);
     expect(component.requestWatchedRepos).toHaveBeenCalled;
   });
 
-  describe('filtering', () => {
+  xdescribe('filtering', () => {
     describe('filter input field', () => {
       it('calls saveRepoFilterValue on change', () => {
         const testValue = 'omg';

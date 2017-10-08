@@ -1,10 +1,12 @@
 import { selectRepos as types } from '../../actionTypes';
 
 export const initialState = {
-  watchedRepos: {
+  watchedRepos: [],
+  paginatedRepos: {
     currentPage: null,
     hasNextPage: null,
     hasPreviousPage: null,
+    totalPages: 0,
     pages: {},
   },
   githubError: null,
@@ -31,17 +33,19 @@ export default function(state = initialState, action) {
 
       let pages = {};
       let pageCount = 1;
-      while (action.data.length > 0) {
+      const watchedRepos = action.data;
+      while (watchedRepos.length > 0) {
         pages = {
           ...pages,
-          [pageCount]: action.data.splice(0, state.reposPerPage),
+          [pageCount]: watchedRepos.splice(0, state.reposPerPage),
         };
         pageCount += 1;
       }
 
       return {
         ...state,
-        watchedRepos: {
+        watchedRepos: action.data,
+        paginatedRepos: {
           currentPage: 1,
           hasNextPage: pageCount > 2,
           hasPreviousPage: false,
@@ -54,10 +58,10 @@ export default function(state = initialState, action) {
     case types.CHANGE_REPOS_PAGE:
       return {
         ...state,
-        watchedRepos: {
-          ...state.watchedRepos,
+        paginatedRepos: {
+          ...state.paginatedRepos,
           currentPage: action.page,
-          hasNextPage: action.page < state.watchedRepos.totalPages,
+          hasNextPage: action.page < state.paginatedRepos.totalPages,
           hasPreviousPage: action.page > 1,
         },
       };
