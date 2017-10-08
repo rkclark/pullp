@@ -30,25 +30,36 @@ export default function(state = initialState, action) {
       });
 
       let pages = {};
-      let page = 1;
+      let pageCount = 1;
       while (action.data.length > 0) {
         pages = {
           ...pages,
-          [page]: action.data.splice(0, state.reposPerPage),
+          [pageCount]: action.data.splice(0, state.reposPerPage),
         };
-        page += 1;
+        pageCount += 1;
       }
 
       return {
         ...state,
         watchedRepos: {
           currentPage: 1,
-          hasNextPage: page > 2,
+          hasNextPage: pageCount > 2,
           hasPreviousPage: false,
+          totalPages: pageCount - 1,
           pages,
         },
         githubError: null,
         selectedRepos,
+      };
+    case types.CHANGE_REPOS_PAGE:
+      return {
+        ...state,
+        watchedRepos: {
+          ...state.watchedRepos,
+          currentPage: action.page,
+          hasNextPage: action.page < state.watchedRepos.totalPages,
+          hasPreviousPage: action.page > 1,
+        },
       };
     case types.REQUEST_WATCHED_REPOS_FAIL:
       return {

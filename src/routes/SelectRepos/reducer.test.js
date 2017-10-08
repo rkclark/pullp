@@ -51,6 +51,7 @@ describe('SelectRepos reducer', () => {
             currentPage: 1,
             hasNextPage: true,
             hasPreviousPage: false,
+            totalPages: 3,
             pages: {
               1: [
                 {
@@ -108,6 +109,7 @@ describe('SelectRepos reducer', () => {
             currentPage: 1,
             hasNextPage: true,
             hasPreviousPage: false,
+            totalPages: 2,
             pages: {
               1: [
                 {
@@ -162,6 +164,7 @@ describe('SelectRepos reducer', () => {
             currentPage: 1,
             hasNextPage: false,
             hasPreviousPage: false,
+            totalPages: 1,
             pages: {
               1: [
                 {
@@ -215,6 +218,7 @@ describe('SelectRepos reducer', () => {
             currentPage: 1,
             hasNextPage: false,
             hasPreviousPage: false,
+            totalPages: 0,
             pages: {},
           },
           githubError: null,
@@ -241,6 +245,7 @@ describe('SelectRepos reducer', () => {
             currentPage: 1,
             hasNextPage: false,
             hasPreviousPage: false,
+            totalPages: 1,
             pages: {
               1: [
                 {
@@ -277,6 +282,137 @@ describe('SelectRepos reducer', () => {
           baseState,
           actions.requestWatchedReposSuccess(data),
         );
+        expect(newState).toEqual(expectedState);
+      });
+    });
+  });
+  describe('change repos page', () => {
+    const testPages = {
+      1: [
+        {
+          name: 'test1',
+          id: 'MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==',
+        },
+        {
+          name: 'test2',
+          id: 'MDEwOlJlcG9zaXRvcnk3Mjc1NzkxNg==',
+        },
+      ],
+      2: [
+        {
+          name: 'test3',
+          id: 'testid1==',
+        },
+        {
+          name: 'test4',
+          id: 'testid2==',
+        },
+      ],
+      3: [
+        {
+          name: 'test5',
+          id: 'MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==',
+        },
+        {
+          name: 'test6',
+          id: 'MDEwOlJlcG9zaXRvcnk3Mjc1NzkxNg==',
+        },
+      ],
+    };
+    it('changes the current page', () => {
+      const baseState = {
+        ...initialState,
+      };
+
+      const expectedState = {
+        ...baseState,
+        watchedRepos: {
+          ...baseState.watchedRepos,
+          currentPage: 4,
+          hasNextPage: false,
+          hasPreviousPage: true,
+        },
+        githubError: null,
+      };
+
+      const newState = reducer(baseState, actions.changeReposPage(4));
+      expect(newState).toEqual(expectedState);
+    });
+    describe('when the new page is not the last or the first', () => {
+      it('sets hasNextPage and has previousPage to true', () => {
+        const baseState = {
+          ...initialState,
+          watchedRepos: {
+            currentPage: 3,
+            hasNextPage: false,
+            hasPreviousPage: false,
+            totalPages: 3,
+            pages: testPages,
+          },
+        };
+        const expectedState = {
+          ...baseState,
+          watchedRepos: {
+            ...baseState.watchedRepos,
+            currentPage: 2,
+            hasNextPage: true,
+            hasPreviousPage: true,
+          },
+        };
+
+        const newState = reducer(baseState, actions.changeReposPage(2));
+        expect(newState).toEqual(expectedState);
+      });
+    });
+    describe('when the new page is the last', () => {
+      it('sets hasNextPage to false', () => {
+        const baseState = {
+          ...initialState,
+          watchedRepos: {
+            currentPage: 2,
+            hasNextPage: true,
+            hasPreviousPage: true,
+            totalPages: 3,
+            pages: testPages,
+          },
+        };
+        const expectedState = {
+          ...baseState,
+          watchedRepos: {
+            ...baseState.watchedRepos,
+            currentPage: 3,
+            hasNextPage: false,
+            hasPreviousPage: true,
+          },
+        };
+
+        const newState = reducer(baseState, actions.changeReposPage(3));
+        expect(newState).toEqual(expectedState);
+      });
+    });
+    describe('when the new page is the first', () => {
+      it('sets hasPreviousPage to false', () => {
+        const baseState = {
+          ...initialState,
+          watchedRepos: {
+            currentPage: 2,
+            hasNextPage: true,
+            hasPreviousPage: true,
+            totalPages: 3,
+            pages: testPages,
+          },
+        };
+        const expectedState = {
+          ...baseState,
+          watchedRepos: {
+            ...baseState.watchedRepos,
+            currentPage: 1,
+            hasNextPage: true,
+            hasPreviousPage: false,
+          },
+        };
+
+        const newState = reducer(baseState, actions.changeReposPage(1));
         expect(newState).toEqual(expectedState);
       });
     });
