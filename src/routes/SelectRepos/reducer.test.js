@@ -110,16 +110,16 @@ describe('SelectRepos reducer', () => {
     });
 
     describe('when reposPerPage === 2', () => {
-      it('Saves watchedRepos data in pages of 2', () => {
+      it('Saves filteredRepos data in pages of 2', () => {
         const baseState = {
           ...initialState,
           reposPerPage: 2,
-          watchedRepos: data,
+          filteredRepos: data,
         };
 
         const expectedState = {
           ...baseState,
-          filteredRepos: [],
+          filteredRepos: data,
           paginatedRepos: {
             currentPage: 1,
             hasNextPage: true,
@@ -165,16 +165,16 @@ describe('SelectRepos reducer', () => {
       });
     });
     describe('when reposPerPage === 4', () => {
-      it('Saves watchedRepos data in pages of 4', () => {
+      it('Saves filteredRepos data in pages of 4', () => {
         const baseState = {
           ...initialState,
           reposPerPage: 4,
-          watchedRepos: data,
+          filteredRepos: data,
         };
 
         const expectedState = {
           ...baseState,
-          filteredRepos: [],
+          filteredRepos: data,
           paginatedRepos: {
             currentPage: 1,
             hasNextPage: true,
@@ -221,13 +221,12 @@ describe('SelectRepos reducer', () => {
         const baseState = {
           ...initialState,
           reposPerPage: 50,
-          watchedRepos: data,
+          filteredRepos: data,
         };
 
         const expectedState = {
           ...baseState,
-          watchedRepos: data,
-          filteredRepos: [],
+          filteredRepos: data,
           paginatedRepos: {
             currentPage: 1,
             hasNextPage: false,
@@ -274,12 +273,12 @@ describe('SelectRepos reducer', () => {
         const baseState = {
           ...initialState,
           reposPerPage: 50,
-          watchedRepos: [],
+          filteredRepos: [],
         };
 
         const expectedState = {
           ...baseState,
-          watchedRepos: [],
+          filteredRepos: [],
           paginatedRepos: {
             currentPage: null,
             hasNextPage: false,
@@ -546,6 +545,42 @@ describe('SelectRepos reducer', () => {
       };
       const newState = reducer(baseState, actions.filterRepos());
       expect(newState).toEqual(expectedState);
+    });
+    describe('when repoFilterValue is empty', () => {
+      it('does not filter out any repos', () => {
+        const filterValue = '';
+        const baseState = {
+          ...initialState,
+          watchedRepos: data,
+          repoFilterValue: filterValue,
+        };
+        const expectedState = {
+          ...initialState,
+          watchedRepos: data,
+          repoFilterValue: filterValue,
+          filteredRepos: data,
+        };
+        const newState = reducer(baseState, actions.filterRepos());
+        expect(newState).toEqual(expectedState);
+      });
+    });
+    describe('when repoFilterValue is null', () => {
+      it('does not filter out any repos', () => {
+        const filterValue = null;
+        const baseState = {
+          ...initialState,
+          watchedRepos: data,
+          repoFilterValue: filterValue,
+        };
+        const expectedState = {
+          ...initialState,
+          watchedRepos: data,
+          repoFilterValue: filterValue,
+          filteredRepos: data,
+        };
+        const newState = reducer(baseState, actions.filterRepos());
+        expect(newState).toEqual(expectedState);
+      });
     });
   });
 });

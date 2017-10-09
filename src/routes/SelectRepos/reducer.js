@@ -16,11 +16,9 @@ export const initialState = {
   reposPerPage: 50,
 };
 
-/* eslint-disable no-case-declarations */
-
 export default function(state = initialState, action) {
   switch (action.type) {
-    case types.REQUEST_WATCHED_REPOS_SUCCESS:
+    case types.REQUEST_WATCHED_REPOS_SUCCESS: {
       const selectedRepos = state.selectedRepos.filter(repoId => {
         let result = false;
         for (const node of action.data) { // eslint-disable-line
@@ -39,18 +37,18 @@ export default function(state = initialState, action) {
         filteredRepos: [],
         selectedRepos,
       };
-    case types.PAGINATE_REPOS:
+    }
+    case types.PAGINATE_REPOS: {
       let pages = {};
       let pageCount = 0;
-      const watchedRepos = state.watchedRepos;
-      while (watchedRepos.length > 0) {
+      const filteredRepos = [...state.filteredRepos];
+      while (filteredRepos.length > 0) {
         pageCount += 1;
         pages = {
           ...pages,
-          [pageCount]: watchedRepos.splice(0, state.reposPerPage),
+          [pageCount]: filteredRepos.splice(0, state.reposPerPage),
         };
       }
-
       return {
         ...state,
         paginatedRepos: {
@@ -61,7 +59,8 @@ export default function(state = initialState, action) {
           pages,
         },
       };
-    case types.CHANGE_REPOS_PAGE:
+    }
+    case types.CHANGE_REPOS_PAGE: {
       return {
         ...state,
         paginatedRepos: {
@@ -71,12 +70,14 @@ export default function(state = initialState, action) {
           hasPreviousPage: action.page > 1,
         },
       };
-    case types.REQUEST_WATCHED_REPOS_FAIL:
+    }
+    case types.REQUEST_WATCHED_REPOS_FAIL: {
       return {
         ...state,
         githubError: action.error,
       };
-    case types.TOGGLE_REPO_SELECTION:
+    }
+    case types.TOGGLE_REPO_SELECTION: {
       return state.selectedRepos.includes(action.id)
         ? {
             ...state,
@@ -88,24 +89,26 @@ export default function(state = initialState, action) {
             ...state,
             selectedRepos: [...state.selectedRepos, action.id],
           };
-    case types.SAVE_REPO_FILTER_VALUE:
+    }
+    case types.SAVE_REPO_FILTER_VALUE: {
       return {
         ...state,
         repoFilterValue: action.value,
       };
-    case types.FILTER_REPOS:
-      console.log(state.watchedRepos);
+    }
+    case types.FILTER_REPOS: {
       const filteredRepos = state.repoFilterValue
         ? state.watchedRepos.filter(repo =>
             repo.name.includes(state.repoFilterValue),
           )
         : state.watchedRepos;
-      console.log(filteredRepos);
       return {
         ...state,
         filteredRepos,
       };
-    default:
+    }
+    default: {
       return state;
+    }
   }
 }
