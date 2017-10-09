@@ -8,52 +8,94 @@ describe('SelectRepos', () => {
     githubError: null,
     requestWatchedRepos: jest.fn(),
     toggleRepoSelection: () => {},
-    saveRepoFilterValue: () => {},
+    performFiltering: () => {},
+    paginatedRepos: {
+      currentPage: 1,
+      hasNextPage: true,
+      hasPreviousPage: false,
+      totalPages: 3,
+      pages: {
+        1: [
+          {
+            name: 'test1',
+            id: 'MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==',
+            url: 'url',
+          },
+          {
+            name: 'test2',
+            id: 'MDEwOlJlcG9zaXRvcnk3Mjc1NzkxNg==',
+            url: 'url',
+          },
+        ],
+        2: [
+          {
+            name: 'test3',
+            id: 'testid1==',
+            url: 'url',
+          },
+          {
+            name: 'test4',
+            id: 'testid2==',
+            url: 'url',
+          },
+        ],
+        3: [
+          {
+            name: 'test5',
+            id: 'MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==',
+            url: 'url',
+          },
+          {
+            name: 'test6',
+            id: 'MDEwOlJlcG9zaXRvcnk3Mjc1NzkxNg==',
+            url: 'url',
+          },
+        ],
+      },
+    },
+    selectedRepos: [],
+    repoFilterValue: null,
   };
 
-  xit('renders successfully', () => {
+  it('renders successfully', () => {
     const component = shallow(<SelectRepos {...props} />);
     expect(component).toHaveLength(1);
   });
 
-  xit('renders a RepoCheckbox for each watched repo', () => {
-    const component = shallow(
-      <SelectRepos
-        {...props}
-        watchedRepos={[
-          {
-            name: 'Repo1',
-            id: 'hjhgjhjgh==',
-            url: 'test',
-          },
-          {
-            name: 'Repo2',
-            id: 'gdfdshgfghfgh==',
-            url: 'test2',
-          },
-        ]}
-      />,
-    );
+  it('renders a RepoCheckbox for each repo on current page', () => {
+    const component = shallow(<SelectRepos {...props} />);
     expect(component.find(RepoCheckbox)).toHaveLength(2);
+    expect(
+      component
+        .find(RepoCheckbox)
+        .at(0)
+        .props().name,
+    ).toEqual('test1');
+    expect(
+      component
+        .find(RepoCheckbox)
+        .at(1)
+        .props().name,
+    ).toEqual('test2');
   });
 
-  xit('calls requestWatchedRepos when mounted', () => {
+  it('calls requestWatchedRepos when mounted', () => {
     const component = mount(<SelectRepos {...props} />);
     expect(component.requestWatchedRepos).toHaveBeenCalled;
   });
 
-  xdescribe('filtering', () => {
+  describe('filtering', () => {
     describe('filter input field', () => {
-      it('calls saveRepoFilterValue on change', () => {
+      it('calls performFiltering on change', () => {
         const testValue = 'omg';
-        const saveRepoFilterValue = jest.fn();
+        const performFiltering = jest.fn();
         const component = shallow(
-          <SelectRepos {...props} saveRepoFilterValue={saveRepoFilterValue} />,
+          <SelectRepos {...props} performFiltering={performFiltering} />,
         );
         component
           .find('[data-test-id="filterInput"]')
           .simulate('change', { target: { value: testValue } });
-        expect(saveRepoFilterValue).toHaveBeenCalledWith(testValue);
+        expect(performFiltering).toHaveBeenCalledWith(testValue);
       });
       it('has value === repoFilterValue', () => {
         const testValue = 'omg';
@@ -69,51 +111,6 @@ describe('SelectRepos', () => {
           const field = component.find('[data-test-id="filterInput"]');
           expect(field.props().value).toEqual('');
         });
-      });
-    });
-
-    const testName1 = 'jjjjjjtestkkkkkk';
-    const testName2 = 'test ......h.h..h.h.';
-    const watchedRepos = [
-      {
-        name: 'hhyhhyh oopopopo',
-        id: 'hjhgjhjgh==',
-        url: 'test',
-      },
-      {
-        name: testName1,
-        id: 'gdfdshgfghfgh==',
-        url: 'test2',
-      },
-      {
-        name: testName2,
-        id: 'gdfdshgfghfgh==',
-        url: 'test2',
-      },
-    ];
-    describe('when filter value is set', () => {
-      it('only displays checkboxes for repos that contain the value in their name', () => {
-        const filterValue = 'test';
-        const component = shallow(
-          <SelectRepos
-            {...props}
-            watchedRepos={watchedRepos}
-            repoFilterValue={filterValue}
-          />,
-        );
-        const repos = component.find(RepoCheckbox);
-        expect(repos.at(0).props().name).toEqual(testName1);
-        expect(repos.at(1).props().name).toEqual(testName2);
-        expect(repos.length).toBe(2);
-      });
-    });
-    describe('when filter value is empty', () => {
-      it('renders all repo checkboxes', () => {
-        const component = shallow(
-          <SelectRepos {...props} watchedRepos={watchedRepos} />,
-        );
-        const repos = component.find(RepoCheckbox);
-        expect(repos.length).toBe(3);
       });
     });
   });

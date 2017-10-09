@@ -119,6 +119,7 @@ describe('SelectRepos reducer', () => {
 
         const expectedState = {
           ...baseState,
+          filteredRepos: [],
           paginatedRepos: {
             currentPage: 1,
             hasNextPage: true,
@@ -173,6 +174,7 @@ describe('SelectRepos reducer', () => {
 
         const expectedState = {
           ...baseState,
+          filteredRepos: [],
           paginatedRepos: {
             currentPage: 1,
             hasNextPage: true,
@@ -224,6 +226,8 @@ describe('SelectRepos reducer', () => {
 
         const expectedState = {
           ...baseState,
+          watchedRepos: data,
+          filteredRepos: [],
           paginatedRepos: {
             currentPage: 1,
             hasNextPage: false,
@@ -275,8 +279,9 @@ describe('SelectRepos reducer', () => {
 
         const expectedState = {
           ...baseState,
+          watchedRepos: [],
           paginatedRepos: {
-            currentPage: 1,
+            currentPage: null,
             hasNextPage: false,
             hasPreviousPage: false,
             totalPages: 0,

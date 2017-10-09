@@ -36,27 +36,28 @@ export default function(state = initialState, action) {
         ...state,
         watchedRepos: action.data,
         githubError: null,
+        filteredRepos: [],
         selectedRepos,
       };
     case types.PAGINATE_REPOS:
       let pages = {};
-      let pageCount = 1;
+      let pageCount = 0;
       const watchedRepos = state.watchedRepos;
       while (watchedRepos.length > 0) {
+        pageCount += 1;
         pages = {
           ...pages,
           [pageCount]: watchedRepos.splice(0, state.reposPerPage),
         };
-        pageCount += 1;
       }
 
       return {
         ...state,
         paginatedRepos: {
-          currentPage: 1,
-          hasNextPage: pageCount > 2,
+          currentPage: pageCount === 0 ? null : 1,
+          hasNextPage: pageCount > 1,
           hasPreviousPage: false,
-          totalPages: pageCount - 1,
+          totalPages: pageCount,
           pages,
         },
       };
@@ -93,11 +94,13 @@ export default function(state = initialState, action) {
         repoFilterValue: action.value,
       };
     case types.FILTER_REPOS:
+      console.log(state.watchedRepos);
       const filteredRepos = state.repoFilterValue
         ? state.watchedRepos.filter(repo =>
             repo.name.includes(state.repoFilterValue),
           )
         : state.watchedRepos;
+      console.log(filteredRepos);
       return {
         ...state,
         filteredRepos,

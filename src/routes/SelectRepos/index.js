@@ -18,33 +18,34 @@ export class SelectRepos extends React.Component {
   }
 
   loadRepos() {
-    const filteredRepos = this.props.repoFilterValue
-      ? this.props.watchedRepos.filter(repo =>
-          repo.name.includes(this.props.repoFilterValue),
-        )
-      : this.props.watchedRepos;
+    if (this.props.paginatedRepos.currentPage) {
+      const reposPage = this.props.paginatedRepos.pages[
+        this.props.paginatedRepos.currentPage
+      ];
+      return reposPage.map(repo => {
+        const checked = this.props.selectedRepos.includes(repo.id);
+        const onChange = () => {
+          this.props.toggleRepoSelection(repo.id);
+        };
+        return (
+          <RepoCheckbox
+            key={repo.id}
+            name={repo.name}
+            url={repo.url}
+            checked={checked}
+            onChange={onChange}
+            id={repo.id}
+          />
+        );
+      });
+    }
 
-    return filteredRepos.map(repo => {
-      const checked = this.props.selectedRepos.includes(repo.id);
-      const onChange = () => {
-        this.props.toggleRepoSelection(repo.id);
-      };
-      return (
-        <RepoCheckbox
-          key={repo.id}
-          name={repo.name}
-          url={repo.url}
-          checked={checked}
-          onChange={onChange}
-          id={repo.id}
-        />
-      );
-    });
+    return null;
   }
 
   filterOnChange(event) {
     const value = event.target.value;
-    this.props.saveRepoFilterValue(value);
+    this.props.performFiltering(value);
   }
 
   render() {
@@ -72,10 +73,10 @@ export class SelectRepos extends React.Component {
 }
 
 SelectRepos.propTypes = {
-  watchedRepos: PropTypes.shape({
+  paginatedRepos: PropTypes.shape({
     currentPage: PropTypes.number,
-    hasNextPage: PropTypes.number,
-    hasPreviousPage: PropTypes.number,
+    hasNextPage: PropTypes.bool,
+    hasPreviousPage: PropTypes.bool,
     totalPages: PropTypes.number,
     pages: PropTypes.shape(),
   }),
@@ -85,12 +86,12 @@ SelectRepos.propTypes = {
   selectedRepos: PropTypes.arrayOf(PropTypes.string),
   toggleRepoSelection: PropTypes.func.isRequired,
   theme: PropTypes.shape(),
-  saveRepoFilterValue: PropTypes.func.isRequired,
+  performFiltering: PropTypes.func.isRequired,
   repoFilterValue: PropTypes.string,
 };
 
 SelectRepos.defaultProps = {
-  watchedRepos: {
+  paginatedRepos: {
     currentPage: null,
     hasNextPage: null,
     hasPreviousPage: null,
@@ -105,11 +106,11 @@ SelectRepos.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  watchedRepos: state.selectRepos.watchedRepos,
+  paginatedRepos: state.selectRepos.paginatedRepos,
   githubError: state.selectRepos.githubError,
   githubToken: state.login.githubToken,
   selectedRepos: state.selectRepos.selectedRepos,
-  repoFilterValue: state.selectedRepos.repoFilterValue,
+  repoFilterValue: state.selectRepos.repoFilterValue,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -119,8 +120,8 @@ const mapDispatchToProps = dispatch => ({
   toggleRepoSelection(id) {
     dispatch(actions.toggleRepoSelection(id));
   },
-  saveRepoFilterValue(value) {
-    dispatch(actions.saveRepoFilterValue(value));
+  performFiltering(value) {
+    dispatch(actions.performFiltering(value));
   },
   changeReposPage(page) {
     dispatch(actions.changeReposPage(page));
