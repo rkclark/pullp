@@ -17,6 +17,31 @@ export const paginateRepos = () => ({
   type: types.PAGINATE_REPOS,
 });
 
+export const toggleRepoSelection = id => ({
+  type: types.TOGGLE_REPO_SELECTION,
+  id,
+});
+
+export const saveRepoFilterValue = value => ({
+  type: types.SAVE_REPO_FILTER_VALUE,
+  value,
+});
+
+export const filterRepos = () => ({
+  type: types.FILTER_REPOS,
+});
+
+export const changeReposPage = page => ({
+  type: types.CHANGE_REPOS_PAGE,
+  page,
+});
+
+export const performFiltering = value => dispatch => {
+  dispatch(saveRepoFilterValue(value));
+  dispatch(filterRepos());
+  dispatch(paginateRepos());
+};
+
 export const requestWatchedRepos = token => async dispatch => {
   try {
     let query = queries.watchedRepos();
@@ -37,31 +62,9 @@ export const requestWatchedRepos = token => async dispatch => {
       url: repo.node.url,
     }));
     dispatch(requestWatchedReposSuccess(reposArray));
+    dispatch(filterRepos());
     dispatch(paginateRepos());
   } catch (err) {
     dispatch(requestWatchedReposFail(err.message));
   }
 };
-
-export const toggleRepoSelection = id => ({
-  type: types.TOGGLE_REPO_SELECTION,
-  id,
-});
-
-export const saveRepoFilterValue = value => ({
-  type: types.SAVE_REPO_FILTER_VALUE,
-  value,
-});
-
-export const filterRepos = () => ({
-  type: types.FILTER_REPOS,
-});
-
-export const performFiltering = value => async dispatch => {
-  dispatch(saveRepoFilterValue(value));
-  dispatch(filterRepos());
-};
-export const changeReposPage = page => ({
-  type: types.CHANGE_REPOS_PAGE,
-  page,
-});

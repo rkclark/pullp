@@ -60,7 +60,8 @@ describe('SelectRepos actions', () => {
             expect(dispatch.mock.calls[0][0]).toEqual(
               actions.requestWatchedReposSuccess(expectedResult),
             );
-            expect(dispatch.mock.calls[1][0]).toEqual(actions.paginateRepos());
+            expect(dispatch.mock.calls[1][0]).toEqual(actions.filterRepos());
+            expect(dispatch.mock.calls[2][0]).toEqual(actions.paginateRepos());
           });
         });
         describe('when results have a nextPage', () => {
@@ -247,14 +248,15 @@ describe('SelectRepos actions', () => {
       expect(actions.filterRepos()).toEqual(expectedAction);
     });
     describe('performing filtering', () => {
-      it('dispatches saveRepoFilterValue and filterRepos actions', async () => {
+      it('dispatches saveRepoFilterValue and filterRepos actions', () => {
         const dispatch = jest.fn();
         const filterValue = 'value';
-        await actions.performFiltering(filterValue)(dispatch);
+        actions.performFiltering(filterValue)(dispatch);
         expect(dispatch.mock.calls[0][0]).toEqual(
           actions.saveRepoFilterValue(filterValue),
         );
         expect(dispatch.mock.calls[1][0]).toEqual(actions.filterRepos());
+        expect(dispatch.mock.calls[2][0]).toEqual(actions.paginateRepos());
       });
     });
   });
