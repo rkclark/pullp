@@ -9,6 +9,7 @@ export const initialState = {
     totalPages: 0,
     pages: {},
   },
+  filteredRepos: [],
   githubError: null,
   selectedRepos: [],
   repoFilterValue: null,
@@ -34,7 +35,6 @@ export default function(state = initialState, action) {
       return {
         ...state,
         watchedRepos: action.data,
-
         githubError: null,
         selectedRepos,
       };
@@ -91,6 +91,16 @@ export default function(state = initialState, action) {
       return {
         ...state,
         repoFilterValue: action.value,
+      };
+    case types.FILTER_REPOS:
+      const filteredRepos = state.repoFilterValue
+        ? state.watchedRepos.filter(repo =>
+            repo.name.includes(state.repoFilterValue),
+          )
+        : state.watchedRepos;
+      return {
+        ...state,
+        filteredRepos,
       };
     default:
       return state;
