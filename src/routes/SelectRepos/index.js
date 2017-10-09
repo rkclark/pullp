@@ -51,7 +51,7 @@ export class SelectRepos extends React.Component {
   render() {
     const repos = this.loadRepos();
     const theme = this.props.theme;
-
+    const paginatedRepos = this.props.paginatedRepos;
     return (
       <div className={theme.pinContainer}>
         <h3 className={theme.title}>
@@ -67,6 +67,33 @@ export class SelectRepos extends React.Component {
         />
         {repos}
         {this.props.githubError}
+        <div>
+          {paginatedRepos.hasPreviousPage ? (
+            <button
+              data-test-id="previousButton"
+              onClick={() => {
+                this.props.changeReposPage(paginatedRepos.currentPage - 1);
+              }}
+            >
+              Previous
+            </button>
+          ) : null}
+          {paginatedRepos.currentPage ? (
+            <span data-test-id="currentPage">
+              {paginatedRepos.currentPage} of {paginatedRepos.totalPages}
+            </span>
+          ) : null}
+          {paginatedRepos.hasNextPage ? (
+            <button
+              data-test-id="nextButton"
+              onClick={() => {
+                this.props.changeReposPage(paginatedRepos.currentPage + 1);
+              }}
+            >
+              Next
+            </button>
+          ) : null}
+        </div>
       </div>
     );
   }
@@ -88,6 +115,7 @@ SelectRepos.propTypes = {
   theme: PropTypes.shape(),
   performFiltering: PropTypes.func.isRequired,
   repoFilterValue: PropTypes.string,
+  changeReposPage: PropTypes.func.isRequired,
 };
 
 SelectRepos.defaultProps = {

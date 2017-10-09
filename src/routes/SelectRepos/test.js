@@ -55,6 +55,7 @@ describe('SelectRepos', () => {
     },
     selectedRepos: [],
     repoFilterValue: null,
+    changeReposPage: () => {},
   };
 
   it('renders successfully', () => {
@@ -111,6 +112,102 @@ describe('SelectRepos', () => {
           const field = component.find('[data-test-id="filterInput"]');
           expect(field.props().value).toEqual('');
         });
+      });
+    });
+  });
+  describe('pagination', () => {
+    it('renders the current page number and total pages', () => {
+      const component = shallow(<SelectRepos {...props} />);
+      const currentPage = component.find('[data-test-id="currentPage"]');
+      expect(currentPage.text()).toEqual('1 of 3');
+    });
+    describe('next page', () => {
+      describe('when there is a next page', () => {
+        it('renders a next page button', () => {
+          const component = shallow(<SelectRepos {...props} />);
+          const nextButton = component.find('[data-test-id="nextButton"]');
+          expect(nextButton.length).toBe(1);
+        });
+        it('calls changePage action on click', () => {
+          const changeReposPage = jest.fn();
+          const component = shallow(
+            <SelectRepos {...props} changeReposPage={changeReposPage} />,
+          );
+          component.find('[data-test-id="nextButton"]').simulate('click');
+          expect(changeReposPage).toHaveBeenCalledWith(2);
+        });
+      });
+      describe('when there is not a next page', () => {
+        it('does not render a next page button', () => {
+          const component = shallow(
+            <SelectRepos
+              {...props}
+              paginatedRepos={{ ...props.paginatedRepos, hasNextPage: false }}
+            />,
+          );
+          const nextButton = component.find('[data-test-id="nextButton"]');
+          expect(nextButton.length).toBe(0);
+        });
+      });
+    });
+    describe('previous page', () => {
+      const baseProps = {
+        ...props,
+        paginatedRepos: {
+          ...props.paginatedRepos,
+          hasPreviousPage: true,
+          currentPage: 2,
+        },
+      };
+      describe('when there is a previous page', () => {
+        it('renders a previous page button', () => {
+          const component = shallow(<SelectRepos {...baseProps} />);
+          const previousButton = component.find(
+            '[data-test-id="previousButton"]',
+          );
+          expect(previousButton.length).toBe(1);
+        });
+        it('calls changePage action on click', () => {
+          const changeReposPage = jest.fn();
+          const component = shallow(
+            <SelectRepos {...baseProps} changeReposPage={changeReposPage} />,
+          );
+          component.find('[data-test-id="previousButton"]').simulate('click');
+          expect(changeReposPage).toHaveBeenCalledWith(1);
+        });
+      });
+      describe('when there is not a previous page', () => {
+        it('does not render a previous page button', () => {
+          const component = shallow(
+            <SelectRepos
+              {...baseProps}
+              paginatedRepos={{
+                ...baseProps.paginatedRepos,
+                hasPreviousPage: false,
+              }}
+            />,
+          );
+          const previousButton = component.find(
+            '[data-test-id="previousButton"]',
+          );
+          expect(previousButton.length).toBe(0);
+        });
+      });
+    });
+    describe('when there are no results', () => {
+      const baseProps = {
+        ...props,
+        paginatedRepos: {
+          ...props.paginatedRepos,
+          hasPreviousPage: false,
+          currentPage: null,
+          pages: {},
+        },
+      };
+      it('does not render current or total pages', () => {
+        const component = shallow(<SelectRepos {...baseProps} />);
+        const currentPage = component.find('[data-test-id="currentPage"]');
+        expect(currentPage.length).toBe(0);
       });
     });
   });
