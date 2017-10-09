@@ -82,7 +82,7 @@ export default function(state = initialState, action) {
             ...state,
             selectedRepos: [...state.selectedRepos, action.id],
           };
-    case types.SAVE_REPO_FILTER_VALUE:
+    case types.FILTER_REPOS:
       return {
         ...state,
         repoFilterValue: action.value,

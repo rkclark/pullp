@@ -482,7 +482,7 @@ describe('SelectRepos reducer', () => {
       };
       const newState = reducer(
         baseState,
-        actions.saveRepoFilterValue(filterValue),
+        actions.filterRepos(filterValue),
       );
       expect(newState).toEqual(expectedState);
     });

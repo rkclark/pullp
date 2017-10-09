@@ -43,8 +43,8 @@ export const toggleRepoSelection = id => ({
   id,
 });
 
-export const saveRepoFilterValue = value => ({
-  type: types.SAVE_REPO_FILTER_VALUE,
+export const filterRepos = value => ({
+  type: types.FILTER_REPOS,
   value,
 });
 

@@ -44,7 +44,7 @@ export class SelectRepos extends React.Component {
 
   filterOnChange(event) {
     const value = event.target.value;
-    this.props.saveRepoFilterValue(value);
+    this.props.filterRepos(value);
   }
 
   render() {
@@ -85,7 +85,7 @@ SelectRepos.propTypes = {
   selectedRepos: PropTypes.arrayOf(PropTypes.string),
   toggleRepoSelection: PropTypes.func.isRequired,
   theme: PropTypes.shape(),
-  saveRepoFilterValue: PropTypes.func.isRequired,
+  filterRepos: PropTypes.func.isRequired,
   repoFilterValue: PropTypes.string,
 };
 
@@ -119,8 +119,8 @@ const mapDispatchToProps = dispatch => ({
   toggleRepoSelection(id) {
     dispatch(actions.toggleRepoSelection(id));
   },
-  saveRepoFilterValue(value) {
-    dispatch(actions.saveRepoFilterValue(value));
+  filterRepos(value) {
+    dispatch(actions.filterRepos(value));
   },
   changeReposPage(page) {
     dispatch(actions.changeReposPage(page));

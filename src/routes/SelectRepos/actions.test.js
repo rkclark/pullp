@@ -215,10 +215,10 @@ describe('SelectRepos actions', () => {
     it('creates an acion to save the filter value', () => {
       const value = 'test';
       const expectedAction = {
-        type: types.SAVE_REPO_FILTER_VALUE,
+        type: types.FILTER_REPOS,
         value,
       };
-      expect(actions.saveRepoFilterValue(value)).toEqual(expectedAction);
+      expect(actions.filterRepos(value)).toEqual(expectedAction);
     });
   });
 
