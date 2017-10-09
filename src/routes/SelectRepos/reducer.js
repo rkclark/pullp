@@ -31,9 +31,17 @@ export default function(state = initialState, action) {
         return result;
       });
 
+      return {
+        ...state,
+        watchedRepos: action.data,
+
+        githubError: null,
+        selectedRepos,
+      };
+    case types.PAGINATE_REPOS:
       let pages = {};
       let pageCount = 1;
-      const watchedRepos = action.data;
+      const watchedRepos = state.watchedRepos;
       while (watchedRepos.length > 0) {
         pages = {
           ...pages,
@@ -44,7 +52,6 @@ export default function(state = initialState, action) {
 
       return {
         ...state,
-        watchedRepos: action.data,
         paginatedRepos: {
           currentPage: 1,
           hasNextPage: pageCount > 2,
@@ -52,8 +59,6 @@ export default function(state = initialState, action) {
           totalPages: pageCount - 1,
           pages,
         },
-        githubError: null,
-        selectedRepos,
       };
     case types.CHANGE_REPOS_PAGE:
       return {
@@ -82,7 +87,7 @@ export default function(state = initialState, action) {
             ...state,
             selectedRepos: [...state.selectedRepos, action.id],
           };
-    case types.FILTER_REPOS:
+    case types.SAVE_REPO_FILTER_VALUE:
       return {
         ...state,
         repoFilterValue: action.value,

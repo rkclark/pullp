@@ -8,7 +8,7 @@ describe('SelectRepos', () => {
     githubError: null,
     requestWatchedRepos: jest.fn(),
     toggleRepoSelection: () => {},
-    filterRepos: () => {},
+    saveRepoFilterValue: () => {},
   };
 
   xit('renders successfully', () => {
@@ -44,16 +44,16 @@ describe('SelectRepos', () => {
 
   xdescribe('filtering', () => {
     describe('filter input field', () => {
-      it('calls filterRepos on change', () => {
+      it('calls saveRepoFilterValue on change', () => {
         const testValue = 'omg';
-        const filterRepos = jest.fn();
+        const saveRepoFilterValue = jest.fn();
         const component = shallow(
-          <SelectRepos {...props} filterRepos={filterRepos} />,
+          <SelectRepos {...props} saveRepoFilterValue={saveRepoFilterValue} />,
         );
         component
           .find('[data-test-id="filterInput"]')
           .simulate('change', { target: { value: testValue } });
-        expect(filterRepos).toHaveBeenCalledWith(testValue);
+        expect(saveRepoFilterValue).toHaveBeenCalledWith(testValue);
       });
       it('has value === repoFilterValue', () => {
         const testValue = 'omg';

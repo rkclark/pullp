@@ -13,6 +13,10 @@ export const requestWatchedReposFail = error => ({
   error,
 });
 
+export const paginateRepos = () => ({
+  type: types.PAGINATE_REPOS,
+});
+
 export const requestWatchedRepos = token => async dispatch => {
   try {
     let query = queries.watchedRepos();
@@ -33,6 +37,7 @@ export const requestWatchedRepos = token => async dispatch => {
       url: repo.node.url,
     }));
     dispatch(requestWatchedReposSuccess(reposArray));
+    dispatch(paginateRepos());
   } catch (err) {
     dispatch(requestWatchedReposFail(err.message));
   }
@@ -43,11 +48,19 @@ export const toggleRepoSelection = id => ({
   id,
 });
 
-export const filterRepos = value => ({
-  type: types.FILTER_REPOS,
+export const saveRepoFilterValue = value => ({
+  type: types.SAVE_REPO_FILTER_VALUE,
   value,
 });
 
+export const filterRepos = () => ({
+  type: types.FILTER_REPOS,
+});
+
+export const performFiltering = value => async dispatch => {
+  dispatch(saveRepoFilterValue(value));
+  dispatch(filterRepos());
+};
 export const changeReposPage = page => ({
   type: types.CHANGE_REPOS_PAGE,
   page,

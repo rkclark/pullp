@@ -8,7 +8,7 @@ describe('SelectRepos actions', () => {
     describe('requestWatchedRepos', () => {
       describe('when call to github succeeds', () => {
         describe('when results do not have a nextPage', () => {
-          it('dispatches requestWatchedReposSuccess with the result', async () => {
+          it('dispatches requestWatchedReposSuccess and paginateRepos actions', async () => {
             const queryMock = sinon.stub(githubApi.queries, 'watchedRepos');
             const testQuery = '{ query }';
             queryMock.returns(testQuery);
@@ -57,9 +57,10 @@ describe('SelectRepos actions', () => {
             await requestWatchedRepos(dispatch);
             queryMock.restore();
             getMock.restore();
-            expect(dispatch).toHaveBeenCalledWith(
+            expect(dispatch.mock.calls[0][0]).toEqual(
               actions.requestWatchedReposSuccess(expectedResult),
             );
+            expect(dispatch.mock.calls[1][0]).toEqual(actions.paginateRepos());
           });
         });
         describe('when results have a nextPage', () => {
@@ -210,18 +211,6 @@ describe('SelectRepos actions', () => {
       });
     });
   });
-
-  describe('Saving repo filter value', () => {
-    it('creates an acion to save the filter value', () => {
-      const value = 'test';
-      const expectedAction = {
-        type: types.FILTER_REPOS,
-        value,
-      };
-      expect(actions.filterRepos(value)).toEqual(expectedAction);
-    });
-  });
-
   describe('Changing current page of results', () => {
     it('creates an action to change page', () => {
       const page = 1;
@@ -230,6 +219,43 @@ describe('SelectRepos actions', () => {
         page,
       };
       expect(actions.changeReposPage(page)).toEqual(expectedAction);
+    });
+  });
+  describe('Paginating results', () => {
+    it('creates an action to paginate results', () => {
+      const expectedAction = {
+        type: types.PAGINATE_REPOS,
+      };
+      expect(actions.paginateRepos()).toEqual(expectedAction);
+    });
+  });
+  describe('Filtering results', () => {
+    describe('Saving repo filter value', () => {
+      it('creates an acion to save the filter value', () => {
+        const value = 'test';
+        const expectedAction = {
+          type: types.SAVE_REPO_FILTER_VALUE,
+          value,
+        };
+        expect(actions.saveRepoFilterValue(value)).toEqual(expectedAction);
+      });
+    });
+    it('creates an action to filter results', () => {
+      const expectedAction = {
+        type: types.FILTER_REPOS,
+      };
+      expect(actions.filterRepos()).toEqual(expectedAction);
+    });
+    describe('performing filtering', () => {
+      it('dispatches saveRepoFilterValue and filterRepos actions', async () => {
+        const dispatch = jest.fn();
+        const filterValue = 'value';
+        await actions.performFiltering(filterValue)(dispatch);
+        expect(dispatch.mock.calls[0][0]).toEqual(
+          actions.saveRepoFilterValue(filterValue),
+        );
+        expect(dispatch.mock.calls[1][0]).toEqual(actions.filterRepos());
+      });
     });
   });
 });
