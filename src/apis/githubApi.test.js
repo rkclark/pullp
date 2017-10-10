@@ -93,12 +93,16 @@ query {
                       login
                       url
                     }
-                    participants(last: 100) {
+                    comments(last: 100) {
                       edges {
                         node {
-                          login
-                          avatarUrl
-                          url
+                          author {
+                            avatarUrl
+                            login
+                            url
+                          }
+                          body
+                          createdAt
                         }
                       }
                     }

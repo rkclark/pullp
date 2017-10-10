@@ -60,8 +60,8 @@ export default function(state = initialState, action) {
             ...pr.node,
             date: createdAtDate.toLocaleDateString(),
             time: createdAtDate.toLocaleTimeString(),
-            participants: pr.node.participants.edges.map(participant => ({
-              ...participant.node,
+            comments: pr.node.comments.edges.map(comment => ({
+              ...comment.node,
             })),
             reviewRequests: pr.node.reviewRequests.edges.map(reviewRequest => ({
               ...reviewRequest.node,
