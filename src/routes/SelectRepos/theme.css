@@ -13,10 +13,18 @@
   font-weight: normal;
 }
 
-.paginationContainer {
+.paginationContainer, .filterContainer {
   display: flex;
   justify-content: center;
   align-content: center;
+}
+
+.filterInput {
+  width: 20rem;
+}
+
+.filterLabel {
+  margin-right: var(--spacing-2);
 }
 
 .paginationIcon {
