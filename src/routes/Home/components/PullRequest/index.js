@@ -29,7 +29,7 @@ export default function PullRequest({
       : status;
 
   const reviewTags = (
-    <div>
+    <div className={theme.reviewTagsContainer}>
       {aggregatedReviews
         ? Object.entries(aggregatedReviews).map(reviewStatus => {
             let reviewStatusClassName = '';
@@ -75,20 +75,24 @@ export default function PullRequest({
             <span>#{number}</span> {title}
           </h4>
         </a>
-        <span>
-          {date} at {time}
-        </span>
-        <div>
-          <img
-            className={theme.authorAvatar}
-            src={author.avatarUrl}
-            alt="pull request author"
-          />
-          <a href={author.url}>{author.login}</a>
+        <div className={theme.prInfoContainer}>
+          <div>
+            <img
+              className={theme.authorAvatar}
+              src={author.avatarUrl}
+              alt="pull request author"
+            />
+          </div>
+          <span className={theme.createdAt}>
+            {date} at {time}
+          </span>
         </div>
+        <a href={author.url} className={theme.authorLogin}>
+          {author.login}
+        </a>
       </div>
       <div className={theme.rightColumn}>
-        <div>
+        <div className={theme.mainStatus}>
           <p>{status.toUpperCase()}</p>
         </div>
         {reviewTags}

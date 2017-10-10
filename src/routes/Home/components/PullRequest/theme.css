@@ -7,24 +7,47 @@
 }
 
 .leftColumn {
-  flex-basis: 70%;
+  min-width: 70%;
+  padding-right: var(--spacing-2);
 }
 
 .statusDefault {}
 
 .statusOutstandingReview {}
 
+.prInfoContainer {
+  display: inline-flex;
+  align-content: center;
+}
+
+.createdAt {
+  margin-left: var(--spacing-2);
+}
+
 .authorAvatar {
-  width: 3rem;
-  height: 3rem;
+  width: 3.5rem;
+  height: 3.5rem;
   border-radius: var(--spacing-1);
   border: 2px solid var(--white);
 }
 
+.authorLogin {
+  display: block;
+}
+
+.mainStatus {
+  padding: 0 var(--spacing-1);
+}
+
+.reviewTagsContainer {
+  display: inline-flex;
+  flex-flow: row wrap;
+}
+
 .reviewStatus {
   padding: var(--spacing-1);
-  margin: 0 var(--spacing-1);
-  display: inline;
+  margin: var(--spacing-1);
+  text-align: center;
 }
 
 .statusApproved {
