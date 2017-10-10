@@ -12,6 +12,13 @@ let repos;
 let filteredNodes;
 let createdAtDate;
 
+const dateOptions = {
+  weekday: 'short',
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+};
+
 export default function(state = initialState, action) {
   switch (action.type) {
     case types.REQUEST_CURRENT_USER_SUCCESS:
@@ -58,8 +65,8 @@ export default function(state = initialState, action) {
 
           return {
             ...pr.node,
-            date: createdAtDate.toLocaleDateString(),
-            time: createdAtDate.toLocaleTimeString(),
+            date: createdAtDate.toLocaleDateString('en-GB', dateOptions),
+            time: createdAtDate.toLocaleTimeString('en-US'),
             comments: pr.node.comments.edges.map(comment => ({
               ...comment.node,
             })),

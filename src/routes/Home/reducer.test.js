@@ -49,8 +49,13 @@ describe('Home reducer', () => {
   describe('Pull requests', () => {
     const prCreatedAt = '2016-10-15T10:39:37Z';
     const prDateObj = new Date('2016-10-15T10:39:37Z');
-    const prDate = prDateObj.toLocaleDateString();
-    const prTime = prDateObj.toLocaleTimeString();
+    const prDate = prDateObj.toLocaleDateString('en-GB', {
+      weekday: 'short',
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+    const prTime = prDateObj.toLocaleTimeString('en-US');
     const data = {
       nodes: [
         {
