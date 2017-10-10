@@ -40,7 +40,11 @@
 }
 
 .mainStatus {
-  padding: 0 var(--spacing-1);
+  padding: 0 var(--spacing-1) var(--spacing-1);
+}
+
+.mainStatus p {
+  margin: 0;
 }
 
 .reviewTagsContainer {
@@ -73,4 +77,20 @@
 
 .statusDismissed {
   background-color: var(--dismissed);
+}
+
+.commentContainer {
+  position: relative;
+  margin-top: var(--spacing-1);
+  margin-right: var(--spacing-2);
+}
+
+.commentIcon {
+  width: 4rem;
+}
+
+.commentCount {
+  position: absolute;
+  top: 0.4rem;
+  left: 1.5rem;
 }

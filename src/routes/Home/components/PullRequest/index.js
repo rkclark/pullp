@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import defaultTheme from './theme.css';
+import comment from '../../../../images/comment-white.svg';
+
 /* eslint-disable no-unused-vars */
 export default function PullRequest({
   theme,
@@ -11,7 +13,7 @@ export default function PullRequest({
   number,
   title,
   author,
-  participants,
+  comments,
   reviewRequests,
   reviews,
   aggregatedReviews,
@@ -91,6 +93,14 @@ export default function PullRequest({
           {author.login}
         </a>
       </div>
+      <div className={theme.middleColumn}>
+        <div className={theme.commentContainer}>
+          <img src={comment} alt="comment" className={theme.commentIcon} />
+          <span className={theme.commentCount} data-test-id="commentCount">
+            {comments.length}
+          </span>
+        </div>
+      </div>
       <div className={theme.rightColumn}>
         <div className={theme.mainStatus}>
           <p>{status.toUpperCase()}</p>
@@ -114,13 +124,7 @@ PullRequest.propTypes = {
     login: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
   }).isRequired,
-  participants: PropTypes.arrayOf(
-    PropTypes.shape({
-      avatarUrl: PropTypes.string.isRequired,
-      login: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired,
-    }),
-  ),
+  comments: PropTypes.arrayOf(PropTypes.shape()),
   reviewRequests: PropTypes.arrayOf(PropTypes.shape()),
   reviews: PropTypes.arrayOf(PropTypes.shape()),
   aggregatedReviews: PropTypes.shape(),
@@ -130,7 +134,7 @@ PullRequest.defaultProps = {
   theme: defaultTheme,
   mergedAt: null,
   assignees: [],
-  participants: [],
+  comments: [],
   reviewRequests: [],
   reviews: [],
   aggregatedReviews: {},

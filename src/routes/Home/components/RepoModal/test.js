@@ -23,16 +23,26 @@ describe('RepoModal', () => {
             login: 'name',
             url: 'url',
           },
-          participants: [
+          comments: [
             {
-              avatarUrl: 'avatarurl',
-              login: 'name',
-              url: 'url',
+              author: {
+                login: 'jh2633',
+                avatarUrl:
+                  'https://avatars0.githubusercontent.com/u/18387550?v=4',
+                url: 'https://github.com/jh2633',
+              },
+              body: 'test',
+              createdAt: '2017-10-10T14:32:24Z',
             },
             {
-              avatarUrl: 'avatarurl2',
-              login: 'name2',
-              url: 'url2',
+              author: {
+                login: 'jh2633',
+                avatarUrl:
+                  'https://avatars0.githubusercontent.com/u/18387550?v=4',
+                url: 'https://github.com/jh2633',
+              },
+              body: 'test2',
+              createdAt: '2017-10-10T14:32:24Z',
             },
           ],
           reviewRequests: [],
@@ -60,16 +70,26 @@ describe('RepoModal', () => {
             login: 'name',
             url: 'url',
           },
-          participants: [
+          comments: [
             {
-              avatarUrl: 'avatarurl',
-              login: 'name',
-              url: 'url',
+              author: {
+                login: 'jh2633',
+                avatarUrl:
+                  'https://avatars0.githubusercontent.com/u/18387550?v=4',
+                url: 'https://github.com/jh2633',
+              },
+              body: 'test',
+              createdAt: '2017-10-10T14:32:24Z',
             },
             {
-              avatarUrl: 'avatarurl2',
-              login: 'name2',
-              url: 'url2',
+              author: {
+                login: 'jh2633',
+                avatarUrl:
+                  'https://avatars0.githubusercontent.com/u/18387550?v=4',
+                url: 'https://github.com/jh2633',
+              },
+              body: 'test2',
+              createdAt: '2017-10-10T14:32:24Z',
             },
           ],
           reviewRequests: [],
