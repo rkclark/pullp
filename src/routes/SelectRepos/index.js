@@ -4,6 +4,10 @@ import PropTypes from 'prop-types';
 import * as actions from './actions';
 import RepoCheckbox from './components/RepoCheckbox';
 import defaultTheme from './theme.css';
+import previousPage from '../../images/previous-page.svg';
+import nextPage from '../../images/next-page.svg';
+import firstPage from '../../images/first-page.svg';
+import lastPage from '../../images/last-page.svg';
 
 export class SelectRepos extends React.Component {
   constructor(props) {
@@ -67,30 +71,62 @@ export class SelectRepos extends React.Component {
         />
         {repos}
         {this.props.githubError}
-        <div>
+        <div className={theme.paginationContainer}>
+          {paginatedRepos.hasPreviousPage ? (
+            <button
+              data-test-id="firstPageButton"
+              className={theme.paginationButton}
+              onClick={() => {
+                this.props.changeReposPage(1);
+              }}
+            >
+              <img
+                className={theme.paginationIcon}
+                src={firstPage}
+                alt="first"
+              />
+            </button>
+          ) : null}
           {paginatedRepos.hasPreviousPage ? (
             <button
               data-test-id="previousButton"
+              className={theme.paginationButton}
               onClick={() => {
                 this.props.changeReposPage(paginatedRepos.currentPage - 1);
               }}
             >
-              Previous
+              <img
+                className={theme.paginationIcon}
+                src={previousPage}
+                alt="previous"
+              />
             </button>
           ) : null}
           {paginatedRepos.currentPage ? (
-            <span data-test-id="currentPage">
+            <span className={theme.currentPage} data-test-id="currentPage">
               {paginatedRepos.currentPage} of {paginatedRepos.totalPages}
             </span>
           ) : null}
           {paginatedRepos.hasNextPage ? (
             <button
               data-test-id="nextButton"
+              className={theme.paginationButton}
               onClick={() => {
                 this.props.changeReposPage(paginatedRepos.currentPage + 1);
               }}
             >
-              Next
+              <img className={theme.paginationIcon} src={nextPage} alt="next" />
+            </button>
+          ) : null}
+          {paginatedRepos.hasNextPage ? (
+            <button
+              data-test-id="lastPageButton"
+              className={theme.paginationButton}
+              onClick={() => {
+                this.props.changeReposPage(paginatedRepos.totalPages);
+              }}
+            >
+              <img className={theme.paginationIcon} src={lastPage} alt="last" />
             </button>
           ) : null}
         </div>

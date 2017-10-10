@@ -12,3 +12,27 @@
   color: var(--secondary-dark);
   font-weight: normal;
 }
+
+.paginationContainer {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.paginationIcon {
+  height: 2.5rem;
+}
+
+.paginationButton {
+  background-color: transparent;
+  border: none;
+  display: inline-flex;
+  justify-content: center;
+  align-content: center;
+  cursor: pointer;
+  margin: 0 var(--spacing-2);
+}
+
+.currentPage {
+  line-height: 4rem;
+}

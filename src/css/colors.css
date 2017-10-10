@@ -7,7 +7,7 @@
   --primary-medium: rgba(141, 153, 174, 1);
   --primary-light: rgba(237, 242, 244, 1);
   --secondary-medium: rgba(239, 35, 60, 1);
-  --secondary-dark: rgba(217, 4, 41, 1);
+  --secondary-dark: #D90429;
   --approved: rgb(0, 157, 18);
   --changes-requested: rgb(220, 66, 0);
   --commented: rgb(0, 125, 220);

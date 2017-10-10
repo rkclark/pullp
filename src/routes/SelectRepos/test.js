@@ -116,6 +116,14 @@ describe('SelectRepos', () => {
     });
   });
   describe('pagination', () => {
+    const baseProps = {
+      ...props,
+      paginatedRepos: {
+        ...props.paginatedRepos,
+        hasPreviousPage: true,
+        currentPage: 2,
+      },
+    };
     it('renders the current page number and total pages', () => {
       const component = shallow(<SelectRepos {...props} />);
       const currentPage = component.find('[data-test-id="currentPage"]');
@@ -136,6 +144,30 @@ describe('SelectRepos', () => {
           component.find('[data-test-id="nextButton"]').simulate('click');
           expect(changeReposPage).toHaveBeenCalledWith(2);
         });
+        describe('go to last page button', () => {
+          it('renders a previous page button', () => {
+            const component = shallow(<SelectRepos {...baseProps} />);
+            const previousButton = component.find(
+              '[data-test-id="lastPageButton"]',
+            );
+            expect(previousButton.length).toBe(1);
+          });
+          it('calls changePage action on click', () => {
+            const changeReposPage = jest.fn();
+            const component = shallow(
+              <SelectRepos
+                {...baseProps}
+                paginatedRepos={{
+                  ...baseProps.paginatedRepos,
+                  currentPage: 1,
+                }}
+                changeReposPage={changeReposPage}
+              />,
+            );
+            component.find('[data-test-id="lastPageButton"]').simulate('click');
+            expect(changeReposPage).toHaveBeenCalledWith(3);
+          });
+        });
       });
       describe('when there is not a next page', () => {
         it('does not render a next page button', () => {
@@ -151,14 +183,6 @@ describe('SelectRepos', () => {
       });
     });
     describe('previous page', () => {
-      const baseProps = {
-        ...props,
-        paginatedRepos: {
-          ...props.paginatedRepos,
-          hasPreviousPage: true,
-          currentPage: 2,
-        },
-      };
       describe('when there is a previous page', () => {
         it('renders a previous page button', () => {
           const component = shallow(<SelectRepos {...baseProps} />);
@@ -174,6 +198,32 @@ describe('SelectRepos', () => {
           );
           component.find('[data-test-id="previousButton"]').simulate('click');
           expect(changeReposPage).toHaveBeenCalledWith(1);
+        });
+        describe('go to first page button', () => {
+          it('renders a previous page button', () => {
+            const component = shallow(<SelectRepos {...baseProps} />);
+            const previousButton = component.find(
+              '[data-test-id="firstPageButton"]',
+            );
+            expect(previousButton.length).toBe(1);
+          });
+          it('calls changePage action on click', () => {
+            const changeReposPage = jest.fn();
+            const component = shallow(
+              <SelectRepos
+                {...baseProps}
+                paginatedRepos={{
+                  ...baseProps.paginatedRepos,
+                  currentPage: 3,
+                }}
+                changeReposPage={changeReposPage}
+              />,
+            );
+            component
+              .find('[data-test-id="firstPageButton"]')
+              .simulate('click');
+            expect(changeReposPage).toHaveBeenCalledWith(1);
+          });
         });
       });
       describe('when there is not a previous page', () => {
@@ -195,7 +245,7 @@ describe('SelectRepos', () => {
       });
     });
     describe('when there are no results', () => {
-      const baseProps = {
+      const testProps = {
         ...props,
         paginatedRepos: {
           ...props.paginatedRepos,
@@ -205,7 +255,7 @@ describe('SelectRepos', () => {
         },
       };
       it('does not render current or total pages', () => {
-        const component = shallow(<SelectRepos {...baseProps} />);
+        const component = shallow(<SelectRepos {...testProps} />);
         const currentPage = component.find('[data-test-id="currentPage"]');
         expect(currentPage.length).toBe(0);
       });

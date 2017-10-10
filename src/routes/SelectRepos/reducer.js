@@ -1,5 +1,7 @@
 import { selectRepos as types } from '../../actionTypes';
 
+const reposPerPage = 25;
+
 export const initialState = {
   watchedRepos: [],
   paginatedRepos: {
@@ -13,7 +15,7 @@ export const initialState = {
   githubError: null,
   selectedRepos: [],
   repoFilterValue: null,
-  reposPerPage: 50,
+  reposPerPage,
 };
 
 export default function(state = initialState, action) {
@@ -51,6 +53,7 @@ export default function(state = initialState, action) {
       }
       return {
         ...state,
+        reposPerPage: initialState.reposPerPage,
         paginatedRepos: {
           currentPage: pageCount === 0 ? null : 1,
           hasNextPage: pageCount > 1,
