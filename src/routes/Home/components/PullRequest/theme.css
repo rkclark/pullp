@@ -2,8 +2,12 @@
 @import "../../../../css/units.css";
 
 .pullRequest {
-  padding: var(--spacing-2) 0;
+  padding: var(--spacing-4) var(--spacing-3);
   display: flex;
+}
+
+.pullRequest:nth-child(odd) {
+  background-color: var(--primary-medium);
 }
 
 .leftColumn {
