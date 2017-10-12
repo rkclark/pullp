@@ -3,6 +3,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { Redirect } from 'react-router-dom';
 import { LoginContainer } from './';
+import ApiForm from './components/ApiForm';
 
 jest.mock('./helpers/githubAuth', () => jest.fn(() => 42));
 
@@ -28,7 +29,7 @@ describe('LoginContainer', () => {
       expect(component.find(Redirect).props().to).toBe(path);
     });
   });
-  describe('when github client id and secret are present', () => {
+  describe('when github client id and secret are present and there is no currrent user', () => {
     it('renders signin button', () => {
       const component = shallow(<LoginContainer {...props} />);
       expect(component.find('[data-test-id="signInButton"]').length).toBe(1);
@@ -46,6 +47,26 @@ describe('LoginContainer', () => {
           props.dispatch,
         ]);
       });
+    });
+  });
+  describe('when currentUser is present', () => {
+    it('renders a logout button', () => {
+      const component = shallow(
+        <LoginContainer {...props} currentUser={{ login: 'name' }} />,
+      );
+      expect(component.find('[data-test-id="logoutButton"]').length).toBe(1);
+    });
+  });
+  describe('when github client id and secret are not present', () => {
+    it('renders ApiForm', () => {
+      const component = shallow(
+        <LoginContainer
+          {...props}
+          githubClientId={''}
+          githubClientSecret={''}
+        />,
+      );
+      expect(component.find(ApiForm).length).toBe(1);
     });
   });
 });

@@ -13,32 +13,37 @@ export function LoginContainer({
   githubClientId,
   dispatch,
   saveGithubCredentialsAction,
+  currentUser,
 }) {
-  let content;
-  if (redirectPath) {
-    content = <Redirect to={redirectPath} />;
-  } else {
-    githubClientId && githubClientSecret
-      ? (content = (
-          <button
-            data-test-id="signInButton"
-            onClick={() => {
-              githubAuth(githubClientId, githubClientSecret, dispatch);
-            }}
-          >
-            Sign in with Github
-          </button>
-        ))
-      : (content = (
-          <ApiForm saveGithubCredentials={saveGithubCredentialsAction} />
-        ));
-  }
-  return (
-    <div>
-      <h1>Github Sign In</h1>
-      {content}
-    </div>
-  );
+  const loadContent = () => {
+    if (redirectPath) {
+      return <Redirect to={redirectPath} />;
+    }
+    if (currentUser) {
+      return (
+        <div>
+          <h3>Currently signed in as {currentUser.login}.</h3>
+          <button data-test-id="logoutButton">Logout</button>
+        </div>
+      );
+    }
+    if (githubClientId && githubClientSecret) {
+      return (
+        <button
+          data-test-id="signInButton"
+          onClick={() => {
+            githubAuth(githubClientId, githubClientSecret, dispatch);
+          }}
+        >
+          Sign in with Github
+        </button>
+      );
+    }
+
+    return <ApiForm saveGithubCredentials={saveGithubCredentialsAction} />;
+  };
+
+  return <div>{loadContent()}</div>;
 }
 LoginContainer.propTypes = {
   saveGithubCredentialsAction: PropTypes.func.isRequired,
@@ -46,16 +51,19 @@ LoginContainer.propTypes = {
   githubClientSecret: PropTypes.string.isRequired,
   redirectPath: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
+  currentUser: PropTypes.shape(),
 };
 
 LoginContainer.defaultProps = {
   redirectPath: null,
+  currentUser: null,
 };
 
 const mapStateToProps = state => ({
   githubClientId: state.login.githubClientId,
   githubClientSecret: state.login.githubClientSecret,
   redirectPath: state.login.redirectPath,
+  currentUser: state.home.currentUser,
 });
 
 const mapDispatchToProps = dispatch => ({
