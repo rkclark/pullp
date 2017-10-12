@@ -21,6 +21,7 @@ export function LoginContainer({
     githubClientId && githubClientSecret
       ? (content = (
           <button
+            data-test-id="signInButton"
             onClick={() => {
               githubAuth(githubClientId, githubClientSecret, dispatch);
             }}
@@ -32,7 +33,6 @@ export function LoginContainer({
           <ApiForm saveGithubCredentials={saveGithubCredentialsAction} />
         ));
   }
-
   return (
     <div>
       <h1>Github Sign In</h1>
