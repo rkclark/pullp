@@ -31,6 +31,26 @@ describe('Home reducer', () => {
       expect(newState).toEqual(expectedState);
     });
   });
+  describe('Logout', () => {
+    it('Logs out the currentUser', () => {
+      const baseState = {
+        ...initialState,
+        currentUser: {
+          login: 'login',
+          avatarUrl: 'url',
+          url: 'url',
+        },
+      };
+
+      const expectedState = {
+        ...initialState,
+        currentUser: null,
+      };
+
+      const newState = reducer(baseState, actions.logout());
+      expect(newState).toEqual(expectedState);
+    });
+  });
   describe('Request currentUser failure', () => {
     it('Saves github failure error', () => {
       const error = 'error';

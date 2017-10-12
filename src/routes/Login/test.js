@@ -14,6 +14,7 @@ describe('LoginContainer', () => {
     githubClientSecret: 'secret',
     redirectPath: null,
     dispatch: () => {},
+    logoutAction: () => {},
   };
   it('renders successfully,', () => {
     const component = shallow(<LoginContainer {...props} />);
@@ -55,6 +56,20 @@ describe('LoginContainer', () => {
         <LoginContainer {...props} currentUser={{ login: 'name' }} />,
       );
       expect(component.find('[data-test-id="logoutButton"]').length).toBe(1);
+    });
+    describe('when logout button clicked', () => {
+      it('calls logout action', () => {
+        const logout = jest.fn();
+        const component = shallow(
+          <LoginContainer
+            {...props}
+            currentUser={{ login: 'name' }}
+            logoutAction={logout}
+          />,
+        );
+        component.find('[data-test-id="logoutButton"]').simulate('click');
+        expect(logout).toHaveBeenCalled();
+      });
     });
   });
   describe('when github client id and secret are not present', () => {

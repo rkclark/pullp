@@ -50,3 +50,7 @@ export const toggleOpenRepo = id => ({
   type: types.TOGGLE_OPEN_REPO,
   id,
 });
+
+export const logout = () => ({
+  type: types.LOGOUT,
+});

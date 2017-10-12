@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import ApiForm from './components/ApiForm';
 import { saveGithubCredentials } from './actions';
+import { logout } from '../Home/actions';
 
 import githubAuth from './helpers/githubAuth';
 
@@ -14,6 +15,7 @@ export function LoginContainer({
   dispatch,
   saveGithubCredentialsAction,
   currentUser,
+  logoutAction,
 }) {
   const loadContent = () => {
     if (redirectPath) {
@@ -23,7 +25,9 @@ export function LoginContainer({
       return (
         <div>
           <h3>Currently signed in as {currentUser.login}.</h3>
-          <button data-test-id="logoutButton">Logout</button>
+          <button data-test-id="logoutButton" onClick={logoutAction}>
+            Logout
+          </button>
         </div>
       );
     }
@@ -52,6 +56,7 @@ LoginContainer.propTypes = {
   redirectPath: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
   currentUser: PropTypes.shape(),
+  logoutAction: PropTypes.func.isRequired,
 };
 
 LoginContainer.defaultProps = {
@@ -69,6 +74,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   saveGithubCredentialsAction: credentials => {
     dispatch(saveGithubCredentials(credentials));
+  },
+  logoutAction: () => {
+    dispatch(logout());
   },
   dispatch,
 });

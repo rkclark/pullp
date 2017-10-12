@@ -35,6 +35,12 @@ export default function(state = initialState, action) {
         ...state,
         githubError: action.error,
       };
+    case types.LOGOUT: {
+      return {
+        ...state,
+        currentUser: null,
+      };
+    }
     case types.REQUEST_PULL_REQUESTS_LOADING:
       return {
         ...state,
