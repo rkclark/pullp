@@ -20,6 +20,10 @@ export const saveRedirect = path => ({
   path,
 });
 
+export const removeCredentials = () => ({
+  type: types.REMOVE_CREDENTIALS,
+});
+
 export const requestGithubToken = oAuthParams => async dispatch => {
   const oAuthData = JSON.stringify(oAuthParams);
   try {

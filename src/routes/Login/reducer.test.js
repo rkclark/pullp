@@ -67,4 +67,22 @@ describe('login reducer', () => {
       expect(newState).toEqual(expectedState);
     });
   });
+
+  describe('remove credentials', () => {
+    it('removes credentials and token', () => {
+      const baseState = {
+        ...initialState,
+        githubClientId: 'id',
+        githubClientSecret: 'secret',
+        githubToken: 'token',
+      };
+
+      const expectedState = {
+        ...initialState,
+      };
+
+      const newState = reducer(baseState, actions.removeCredentials());
+      expect(newState).toEqual(expectedState);
+    });
+  });
 });

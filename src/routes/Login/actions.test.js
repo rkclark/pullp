@@ -97,4 +97,12 @@ describe('Login actions', () => {
       expect(actions.saveRedirect(path)).toEqual(expectedAction);
     });
   });
+  describe('removeCredentials', () => {
+    it('creates n action to remove credentials', () => {
+      const expectedAction = {
+        type: types.REMOVE_CREDENTIALS,
+      };
+      expect(actions.removeCredentials()).toEqual(expectedAction);
+    });
+  });
 });

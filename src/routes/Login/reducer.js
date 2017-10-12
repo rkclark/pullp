@@ -31,6 +31,13 @@ export default function(state = initialState, action) {
         ...state,
         redirectPath: action.path,
       };
+    case types.REMOVE_CREDENTIALS:
+      return {
+        ...state,
+        githubToken: null,
+        githubClientId: null,
+        githubClientSecret: null,
+      };
     default:
       return state;
   }
