@@ -42,3 +42,7 @@ export const requestGithubToken = oAuthParams => async dispatch => {
     dispatch(requestGithubTokenFailure(err));
   }
 };
+
+export const userLogout = () => ({
+  type: types.USER_LOGOUT,
+});

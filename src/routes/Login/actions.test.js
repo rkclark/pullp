@@ -1,6 +1,7 @@
 import fetchMock from 'fetch-mock';
 import * as actions from './actions';
 import { login as types } from '../../actionTypes';
+import { logout } from '../Home/actions';
 
 describe('Login actions', () => {
   describe('saveGithubCredentials', () => {
@@ -98,11 +99,19 @@ describe('Login actions', () => {
     });
   });
   describe('removeCredentials', () => {
-    it('creates n action to remove credentials', () => {
+    it('creates an action to remove credentials', () => {
       const expectedAction = {
         type: types.REMOVE_CREDENTIALS,
       };
       expect(actions.removeCredentials()).toEqual(expectedAction);
+    });
+  });
+  describe('userLogout', () => {
+    it('creates an action to logout', () => {
+      const expectedAction = {
+        type: types.USER_LOGOUT,
+      };
+      expect(actions.userLogout()).toEqual(expectedAction);
     });
   });
 });

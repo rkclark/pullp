@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import ApiForm from './components/ApiForm';
-import { saveGithubCredentials, removeCredentials } from './actions';
-import { logout } from '../Home/actions';
+import { saveGithubCredentials, userLogout } from './actions';
 
 import githubAuth from './helpers/githubAuth';
 
@@ -15,8 +14,7 @@ export function LoginContainer({
   dispatch,
   saveGithubCredentialsAction,
   currentUser,
-  logoutAction,
-  removeCredentialsAction,
+  userLogoutAction,
 }) {
   const loadContent = () => {
     if (redirectPath) {
@@ -29,8 +27,7 @@ export function LoginContainer({
           <button
             data-test-id="logoutButton"
             onClick={() => {
-              logoutAction();
-              removeCredentialsAction();
+              userLogoutAction();
             }}
           >
             Logout
@@ -63,8 +60,7 @@ LoginContainer.propTypes = {
   redirectPath: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
   currentUser: PropTypes.shape(),
-  logoutAction: PropTypes.func.isRequired,
-  removeCredentialsAction: PropTypes.func.isRequired,
+  userLogoutAction: PropTypes.func.isRequired,
 };
 
 LoginContainer.defaultProps = {
@@ -83,11 +79,8 @@ const mapDispatchToProps = dispatch => ({
   saveGithubCredentialsAction: credentials => {
     dispatch(saveGithubCredentials(credentials));
   },
-  logoutAction: () => {
-    dispatch(logout());
-  },
-  removeCredentialsAction: () => {
-    dispatch(removeCredentials());
+  userLogoutAction: () => {
+    dispatch(userLogout());
   },
   dispatch,
 });

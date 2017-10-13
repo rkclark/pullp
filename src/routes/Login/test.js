@@ -14,8 +14,7 @@ describe('LoginContainer', () => {
     githubClientSecret: 'secret',
     redirectPath: null,
     dispatch: () => {},
-    logoutAction: () => {},
-    removeCredentialsAction: () => {},
+    performLogoutAction: () => {},
   };
   it('renders successfully,', () => {
     const component = shallow(<LoginContainer {...props} />);
@@ -59,20 +58,17 @@ describe('LoginContainer', () => {
       expect(component.find('[data-test-id="logoutButton"]').length).toBe(1);
     });
     describe('when logout button clicked', () => {
-      it('calls logout and removeCredentials actions', () => {
-        const logout = jest.fn();
-        const removeCredentials = jest.fn();
+      it('calls performLogout action', () => {
+        const performLogout = jest.fn();
         const component = shallow(
           <LoginContainer
             {...props}
             currentUser={{ login: 'name' }}
-            logoutAction={logout}
-            removeCredentialsAction={removeCredentials}
+            performLogoutAction={performLogout}
           />,
         );
         component.find('[data-test-id="logoutButton"]').simulate('click');
-        expect(logout).toHaveBeenCalled();
-        expect(removeCredentials).toHaveBeenCalled();
+        expect(performLogout).toHaveBeenCalled();
       });
     });
   });

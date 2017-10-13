@@ -83,14 +83,6 @@ describe('Home actions', () => {
       });
     });
   });
-  describe('logout', () => {
-    it('creates an action to logout the current user', () => {
-      const expectedAction = {
-        type: types.LOGOUT,
-      };
-      expect(actions.logout()).toEqual(expectedAction);
-    });
-  });
   describe('Retrieving pull request data', () => {
     describe('requestPullRequests', () => {
       describe('when call to github succeeds', () => {
