@@ -7,27 +7,29 @@ import { saveGithubCredentials } from './actions';
 
 import githubAuth from './helpers/githubAuth';
 
-function LoginContainer(props) {
+function LoginContainer({
+  redirectPath,
+  githubClientId,
+  githubClientSecret,
+  saveGithubCredentialsAction,
+  dispatch,
+}) {
   let content;
-  if (props.loginState.redirectPath) {
-    content = <Redirect to={props.loginState.redirectPath} />;
+  if (redirectPath) {
+    content = <Redirect to={redirectPath} />;
   } else {
-    props.loginState.githubClientId && props.loginState.githubClientSecret
+    githubClientId && githubClientSecret
       ? (content = (
           <button
             onClick={() => {
-              githubAuth(
-                props.loginState.githubClientId,
-                props.loginState.githubClientSecret,
-                props.dispatch,
-              );
+              githubAuth(githubClientId, githubClientSecret, dispatch);
             }}
           >
             Sign in with Github
           </button>
         ))
       : (content = (
-          <ApiForm saveGithubCredentials={props.saveGithubCredentials} />
+          <ApiForm saveGithubCredentials={saveGithubCredentialsAction} />
         ));
   }
 
@@ -38,22 +40,27 @@ function LoginContainer(props) {
     </div>
   );
 }
+
 LoginContainer.propTypes = {
-  saveGithubCredentials: PropTypes.func.isRequired,
-  loginState: PropTypes.shape({
-    githubClientId: PropTypes.string,
-    githubClientSecret: PropTypes.string,
-    redirectPath: PropTypes.string,
-  }).isRequired,
+  saveGithubCredentialsAction: PropTypes.func.isRequired,
+  githubClientId: PropTypes.string.isRequired,
+  githubClientSecret: PropTypes.string.isRequired,
+  redirectPath: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
 };
 
+LoginContainer.defaultProps = {
+  redirectPath: null,
+};
+
 const mapStateToProps = state => ({
-  loginState: state.login,
+  githubClientId: state.login.githubClientId,
+  githubClientSecret: state.login.githubClientSecret,
+  redirectPath: state.login.redirectPath,
 });
 
 const mapDispatchToProps = dispatch => ({
-  saveGithubCredentials: credentials => {
+  saveGithubCredentialsAction: credentials => {
     dispatch(saveGithubCredentials(credentials));
   },
   dispatch,
