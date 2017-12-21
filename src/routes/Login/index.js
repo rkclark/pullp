@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import ApiForm from './components/ApiForm';
+import SignInForm from './components/SignInForm';
 import { saveGithubCredentials } from './actions';
 
 import githubAuth from './helpers/githubAuth';
@@ -29,7 +29,7 @@ function LoginContainer({
           </button>
         ))
       : (content = (
-          <ApiForm saveGithubCredentials={saveGithubCredentialsAction} />
+          <SignInForm saveGithubCredentials={saveGithubCredentialsAction} />
         ));
   }
 

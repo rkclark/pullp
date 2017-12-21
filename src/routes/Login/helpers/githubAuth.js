@@ -1,14 +1,13 @@
 import { requestGithubToken } from '../actions';
 
-const electron = window.require('electron');
-
-const remote = electron.remote;
-const BrowserWindow = remote.BrowserWindow;
-const dialog = remote.dialog;
-
-const scopes = ['read:org', 'repo'];
-
 export default function githubAuth(clientId, clientSecret, dispatch) {
+  const electron = window.require('electron');
+
+  const remote = electron.remote;
+  const BrowserWindow = remote.BrowserWindow;
+  const dialog = remote.dialog;
+
+  const scopes = ['read:org', 'repo'];
   const authWindow = new BrowserWindow({
     width: 800,
     height: 600,

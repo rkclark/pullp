@@ -3,10 +3,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class ApiForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.props = props;
+import githubAuth from '../../helpers/githubAuth';
+
+export default class SignInForm extends React.Component {
+  constructor() {
+    super();
     this.saveCredentials = this.saveCredentials.bind(this);
   }
 
@@ -19,7 +20,14 @@ export default class ApiForm extends React.Component {
   }
 
   render() {
-    return (
+    const {
+      githubClientId,
+      githubClientSecret,
+      githubToken,
+      dispatch,
+    } = this.props;
+
+    const apiCredsInputs = !githubClientId ? (
       <div>
         <h2>
           Pullp needs your Github oAuth app details before it can sign you into
@@ -42,10 +50,38 @@ export default class ApiForm extends React.Component {
         />
         <button onClick={this.saveCredentials}>Save</button>
       </div>
+    ) : null;
+
+    const signInButton =
+      githubClientId && githubClientSecret && !githubToken ? (
+        <button
+          onClick={() => {
+            githubAuth(githubClientId, githubClientSecret, dispatch);
+          }}
+        >
+          Sign in with Github
+        </button>
+      ) : null;
+
+    return (
+      <div>
+        {apiCredsInputs}
+        {signInButton}
+      </div>
     );
   }
 }
 
-ApiForm.propTypes = {
+SignInForm.propTypes = {
   saveGithubCredentials: PropTypes.func.isRequired,
+  githubClientId: PropTypes.string,
+  githubClientSecret: PropTypes.string,
+  githubToken: PropTypes.string,
+  dispatch: PropTypes.func.isRequired,
+};
+
+SignInForm.defaultProps = {
+  githubClientId: null,
+  githubClientSecret: null,
+  githubToken: null,
 };
