@@ -65,6 +65,7 @@ export default class SignInForm extends React.Component {
 
     return (
       <div>
+        <h1>Github Sign In</h1>
         {apiCredsInputs}
         {signInButton}
       </div>

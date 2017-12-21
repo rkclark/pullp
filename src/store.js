@@ -3,7 +3,7 @@ import { persistStore, autoRehydrate } from 'redux-persist';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunkMiddleware from 'redux-thunk';
 import home from './routes/Home/reducer';
-import login from './routes/Login/reducer';
+import login from './routes/Account/reducer';
 import selectRepos from './routes/SelectRepos/reducer';
 import layout from './components/Layout/reducer';
 import { rehydrationComplete } from './components/Layout/actions';

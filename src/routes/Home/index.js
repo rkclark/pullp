@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Repo from './components/Repo';
 import * as actions from './actions';
-import { saveRedirect } from '../Login/actions';
+import { saveRedirect } from '../Account/actions';
 import theme from './theme.css';
 
 export class Home extends React.Component {

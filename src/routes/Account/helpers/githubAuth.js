@@ -6,7 +6,6 @@ export default function githubAuth(clientId, clientSecret, dispatch) {
   const remote = electron.remote;
   const BrowserWindow = remote.BrowserWindow;
   const dialog = remote.dialog;
-
   const scopes = ['read:org', 'repo'];
   const authWindow = new BrowserWindow({
     width: 800,
@@ -17,9 +16,9 @@ export default function githubAuth(clientId, clientSecret, dispatch) {
     },
   });
 
-  const githubUrl = `https://github.com/login/oauth/authorize?`;
+  const githubUrl = `https://github.com/Account/oauth/authorize?`;
   const authUrl = `${githubUrl}client_id=${clientId}&scope=${scopes}`;
-
+  console.log(authUrl);
   authWindow.loadURL(authUrl);
 
   async function handleCallback(url) {

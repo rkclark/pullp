@@ -7,7 +7,7 @@ import {
   requestPullRequests,
 } from '../../routes/Home/actions';
 import HomeContainer from '../../routes/Home';
-import Login from '../../routes/Login';
+import Login from '../../routes/Account';
 import SelectRepos from '../../routes/SelectRepos'; //eslint-disable-line
 import defaultTheme from './theme.css';
 import CurrentUser from '../CurrentUser';
@@ -76,7 +76,7 @@ export class Layout extends React.Component {
       return (
         <div className={this.props.theme.routeContainer}>
           <Route exact path="/" component={HomeContainer} />
-          <Route exact path="/login" component={Login} />
+          <Route exact path="/Account" component={Login} />
           <Route exact path="/selectRepos" component={SelectRepos} />
         </div>
       );
@@ -121,8 +121,8 @@ export class Layout extends React.Component {
           </div>
           <div className={theme.linkContainer}>
             <Link
-              to="/login"
-              className={`${theme.link} ${path === '/login'
+              to="/Account"
+              className={`${theme.link} ${path === '/Account'
                 ? theme.activeLink
                 : null}`}
             >
