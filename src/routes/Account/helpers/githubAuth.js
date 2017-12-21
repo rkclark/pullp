@@ -18,7 +18,6 @@ export default function githubAuth(clientId, clientSecret, dispatch) {
 
   const githubUrl = `https://github.com/login/oauth/authorize?`;
   const authUrl = `${githubUrl}client_id=${clientId}&scope=${scopes}`;
-  console.log(authUrl);
   authWindow.loadURL(authUrl);
 
   async function handleCallback(url) {
