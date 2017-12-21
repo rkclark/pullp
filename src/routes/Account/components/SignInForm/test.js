@@ -76,6 +76,52 @@ describe('SignInForm', () => {
     });
   });
 
+  describe('heading', () => {
+    describe('when github client id and github token are set', () => {
+      it('does not render heading', () => {
+        const id = 'test';
+        const token = 'test';
+        const component = shallow(
+          <SignInForm
+            {...defaultProps}
+            githubClientId={id}
+            githubToken={token}
+          />,
+        );
+        expect(component.find('h1').length).toBe(0);
+      });
+    });
+    describe('when github client id is null', () => {
+      it('renders heading', () => {
+        const id = null;
+        const token = 'test';
+        const component = shallow(
+          <SignInForm
+            {...defaultProps}
+            githubClientId={id}
+            githubToken={token}
+          />,
+        );
+        expect(component.find('h1').length).toBe(1);
+      });
+    });
+
+    describe('when github token is null', () => {
+      it('renders heading', () => {
+        const id = 'test';
+        const token = null;
+        const component = shallow(
+          <SignInForm
+            {...defaultProps}
+            githubClientId={id}
+            githubToken={token}
+          />,
+        );
+        expect(component.find('h1').length).toBe(1);
+      });
+    });
+  });
+
   describe('when githubClientId and githubClientSecret fields filled in and save button clicked', () => {
     it('calls the saveGithubCredentials action with the entered credentials', () => {
       const props = {

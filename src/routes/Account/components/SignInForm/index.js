@@ -27,6 +27,9 @@ export default class SignInForm extends React.Component {
       dispatch,
     } = this.props;
 
+    const heading =
+      !githubClientId || !githubToken ? <h1>Github Sign In</h1> : null;
+
     const apiCredsInputs = !githubClientId ? (
       <div>
         <h2>
@@ -65,7 +68,7 @@ export default class SignInForm extends React.Component {
 
     return (
       <div>
-        <h1>Github Sign In</h1>
+        {heading}
         {apiCredsInputs}
         {signInButton}
       </div>
