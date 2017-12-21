@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 import SignInForm from './components/SignInForm';
 import { saveGithubCredentials } from './actions';
 
-function AccountContainer({
+export function AccountContainer({
   redirectPath,
   githubClientId,
   githubClientSecret,
