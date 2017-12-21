@@ -14,7 +14,7 @@ app.post('/authenticate/', async (req, res) => {
   console.log(req.body);
   const oAuthParams = queryString.stringify(req.body);
   const gitHubResponse = await fetch(
-    `https://github.com/Account/oauth/access_token?${oAuthParams}`,
+    `https://github.com/login/oauth/access_token?${oAuthParams}`,
     {
       headers: {
         Accept: 'application/json',
