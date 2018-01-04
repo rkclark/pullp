@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import SignInForm from './components/SignInForm';
 import { saveGithubCredentials } from './actions';
+import AccountDetails from './components/AccountDetails';
 
 export function AccountContainer({
   redirectPath,
@@ -12,18 +13,25 @@ export function AccountContainer({
   saveGithubCredentialsAction,
   githubToken,
   dispatch,
+  login,
+  avatarUrl,
 }) {
-  const content = redirectPath ? (
-    <Redirect to={redirectPath} />
-  ) : (
-    <SignInForm
-      saveGithubCredentials={saveGithubCredentialsAction}
-      githubClientId={githubClientId}
-      githubClientSecret={githubClientSecret}
-      githubToken={githubToken}
-      dispatch={dispatch}
-    />
-  );
+  let content;
+  if (redirectPath) {
+    content = <Redirect to={redirectPath} />;
+  } else if (login) {
+    content = <AccountDetails login={login} avatarUrl={avatarUrl} />;
+  } else {
+    content = (
+      <SignInForm
+        saveGithubCredentials={saveGithubCredentialsAction}
+        githubClientId={githubClientId}
+        githubClientSecret={githubClientSecret}
+        githubToken={githubToken}
+        dispatch={dispatch}
+      />
+    );
+  }
 
   return <div>{content}</div>;
 }
@@ -35,6 +43,8 @@ AccountContainer.propTypes = {
   redirectPath: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
   githubToken: PropTypes.string,
+  login: PropTypes.string,
+  avatarUrl: PropTypes.string,
 };
 
 AccountContainer.defaultProps = {
@@ -42,6 +52,8 @@ AccountContainer.defaultProps = {
   githubToken: null,
   githubClientId: null,
   githubClientSecret: null,
+  login: null,
+  avatarUrl: null,
 };
 
 const mapStateToProps = state => ({
@@ -49,6 +61,8 @@ const mapStateToProps = state => ({
   githubClientSecret: state.login.githubClientSecret,
   redirectPath: state.login.redirectPath,
   githubToken: state.login.githubToken,
+  login: state.home.currentUser.login,
+  avatarUrl: state.home.currentUser.avatarUrl,
 });
 
 const mapDispatchToProps = dispatch => ({

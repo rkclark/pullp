@@ -3,6 +3,7 @@ import { shallow } from 'enzyme';
 import { Redirect } from 'react-router-dom';
 import { AccountContainer } from '.';
 import SignInForm from './components/SignInForm';
+import AccountDetails from './components/AccountDetails';
 
 describe('Account', () => {
   const defaultProps = {
@@ -11,6 +12,8 @@ describe('Account', () => {
     githubClientSecret: null,
     githubToken: null,
     dispatch: () => {},
+    login: null,
+    avatarUrl: null,
   };
 
   it('renders successsfully', () => {
@@ -41,6 +44,29 @@ describe('Account', () => {
         <AccountContainer {...defaultProps} redirectPath="test" />,
       );
       expect(component.find(Redirect).length).toBe(1);
+    });
+  });
+
+  describe('when user is logged in', () => {
+    it('renders AccountDetails', () => {
+      const component = shallow(
+        <AccountContainer
+          {...defaultProps}
+          login={'test'}
+          avatarUrl="testurl"
+        />,
+      );
+      expect(component.find(AccountDetails).length).toBe(1);
+    });
+    it('does not render  SignInForm', () => {
+      const component = shallow(
+        <AccountContainer
+          {...defaultProps}
+          login={'test'}
+          avatarUrl="testurl"
+        />,
+      );
+      expect(component.find(SignInForm).length).toBe(0);
     });
   });
 });
