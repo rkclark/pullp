@@ -21,7 +21,7 @@ describe('Account', () => {
     expect(component).toHaveLength(1);
   });
 
-  describe('when redirectPath is null', () => {
+  describe('when redirectPath is null and user is not logged in', () => {
     it('renders a SignInForm', () => {
       const component = shallow(<AccountContainer {...defaultProps} />);
       expect(component.find(SignInForm).length).toBe(1);
@@ -32,7 +32,7 @@ describe('Account', () => {
     });
   });
 
-  describe('when redirectPath is set', () => {
+  describe('when redirectPath is set and user is not logged in', () => {
     it('does not render a SignInForm', () => {
       const component = shallow(
         <AccountContainer {...defaultProps} redirectPath="test" />,
