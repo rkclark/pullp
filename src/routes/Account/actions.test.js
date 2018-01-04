@@ -97,4 +97,22 @@ describe('Login actions', () => {
       expect(actions.saveRedirect(path)).toEqual(expectedAction);
     });
   });
+
+  describe('toggleLogoutModal', () => {
+    it('creates an action to toggle logout modal', () => {
+      const expectedAction = {
+        type: types.TOGGLE_LOGOUT_MODAL,
+      };
+      expect(actions.toggleLogoutModal()).toEqual(expectedAction);
+    });
+  });
+
+  describe('logout', () => {
+    it('creates an action to logout', () => {
+      const expectedAction = {
+        type: types.LOGOUT,
+      };
+      expect(actions.logout()).toEqual(expectedAction);
+    });
+  });
 });

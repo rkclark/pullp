@@ -38,3 +38,11 @@ export const requestGithubToken = oAuthParams => async dispatch => {
     dispatch(requestGithubTokenFailure(err));
   }
 };
+
+export const toggleLogoutModal = () => ({
+  type: types.TOGGLE_LOGOUT_MODAL,
+});
+
+export const logout = () => ({
+  type: types.LOGOUT,
+});
