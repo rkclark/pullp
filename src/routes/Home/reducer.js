@@ -1,4 +1,4 @@
-import { home as types } from '../../actionTypes';
+import { home as types, account as accountTypes } from '../../actionTypes';
 
 export const initialState = {
   currentUser: null,
@@ -21,6 +21,10 @@ const dateOptions = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
+    case accountTypes.LOGOUT:
+      return {
+        ...initialState,
+      };
     case types.REQUEST_CURRENT_USER_SUCCESS:
       return {
         ...state,

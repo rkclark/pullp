@@ -1,4 +1,4 @@
-import { login as types } from '../../actionTypes';
+import { account as types } from '../../actionTypes';
 
 export const saveGithubCredentials = credentials => ({
   type: types.SAVE_GITHUB_CREDENTIALS,

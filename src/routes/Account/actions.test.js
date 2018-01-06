@@ -1,6 +1,6 @@
 import fetchMock from 'fetch-mock';
 import * as actions from './actions';
-import { login as types } from '../../actionTypes';
+import { account as types } from '../../actionTypes';
 
 describe('Login actions', () => {
   describe('saveGithubCredentials', () => {

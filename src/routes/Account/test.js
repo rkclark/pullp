@@ -15,6 +15,9 @@ describe('Account', () => {
     login: null,
     avatarUrl: null,
     toggleLogoutModalAction: () => {},
+    logoutAction: () => {},
+    toggleLogoutModal: () => {},
+    logoutModalOpen: false,
   };
 
   it('renders successsfully', () => {

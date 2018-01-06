@@ -11,16 +11,8 @@ import { rehydrationComplete } from './components/Layout/actions';
 
 const appReducer = combineReducers({ home, login, selectRepos, layout });
 
-const rootReducer = (state, action) => {
-  if (action.type === 'LOGOUT') {
-    state = undefined;
-  }
-
-  return appReducer(state, action);
-};
-
 const store = createStore(
-  rootReducer,
+  appReducer,
   undefined,
   composeWithDevTools(
     applyMiddleware(thunkMiddleware),

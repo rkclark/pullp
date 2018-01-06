@@ -1,4 +1,4 @@
-import { login as types } from '../../actionTypes';
+import { account as types } from '../../actionTypes';
 
 export const initialState = {
   githubClientId: null,
@@ -11,6 +11,10 @@ export const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
+    case types.LOGOUT:
+      return {
+        ...initialState,
+      };
     case types.SAVE_GITHUB_CREDENTIALS:
       return {
         ...state,

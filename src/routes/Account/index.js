@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import SignInForm from './components/SignInForm';
-import { saveGithubCredentials, toggleLogoutModal } from './actions';
+import { saveGithubCredentials, toggleLogoutModal, logout } from './actions';
 import AccountDetails from './components/AccountDetails';
 
 export function AccountContainer({
@@ -16,6 +16,8 @@ export function AccountContainer({
   login,
   avatarUrl,
   toggleLogoutModalAction,
+  logoutAction,
+  logoutModalOpen,
 }) {
   let content;
   if (redirectPath) {
@@ -26,6 +28,8 @@ export function AccountContainer({
         login={login}
         avatarUrl={avatarUrl}
         toggleLogoutModal={toggleLogoutModalAction}
+        logoutAction={logoutAction}
+        logoutModalOpen={logoutModalOpen}
       />
     );
   } else {
@@ -53,6 +57,8 @@ AccountContainer.propTypes = {
   login: PropTypes.string,
   avatarUrl: PropTypes.string,
   toggleLogoutModalAction: PropTypes.func.isRequired,
+  logoutAction: PropTypes.func.isRequired,
+  logoutModalOpen: PropTypes.bool.isRequired,
 };
 
 AccountContainer.defaultProps = {
@@ -69,8 +75,9 @@ const mapStateToProps = state => ({
   githubClientSecret: state.login.githubClientSecret,
   redirectPath: state.login.redirectPath,
   githubToken: state.login.githubToken,
-  login: state.home.currentUser.login,
-  avatarUrl: state.home.currentUser.avatarUrl,
+  login: state.home.currentUser ? state.home.currentUser.login : null,
+  avatarUrl: state.home.currentUser ? state.home.currentUser.avatarUrl : null,
+  logoutModalOpen: state.login.logoutModalOpen,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -79,6 +86,9 @@ const mapDispatchToProps = dispatch => ({
   },
   toggleLogoutModalAction: () => {
     dispatch(toggleLogoutModal());
+  },
+  logoutAction: () => {
+    dispatch(logout());
   },
   dispatch,
 });
