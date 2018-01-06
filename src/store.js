@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import { persistStore, autoRehydrate } from 'redux-persist';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -8,8 +9,18 @@ import selectRepos from './routes/SelectRepos/reducer';
 import layout from './components/Layout/reducer';
 import { rehydrationComplete } from './components/Layout/actions';
 
+const appReducer = combineReducers({ home, login, selectRepos, layout });
+
+const rootReducer = (state, action) => {
+  if (action.type === 'LOGOUT') {
+    state = undefined;
+  }
+
+  return appReducer(state, action);
+};
+
 const store = createStore(
-  combineReducers({ home, login, selectRepos, layout }),
+  rootReducer,
   undefined,
   composeWithDevTools(
     applyMiddleware(thunkMiddleware),

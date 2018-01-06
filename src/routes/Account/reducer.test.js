@@ -67,4 +67,32 @@ describe('login reducer', () => {
       expect(newState).toEqual(expectedState);
     });
   });
+  describe('Toggle logout modal', () => {
+    it('Toggles logout modal boolean from false to true', () => {
+      const baseState = {
+        ...initialState,
+        logoutModalOpen: false,
+      };
+      const expectedState = {
+        ...initialState,
+        logoutModalOpen: true,
+      };
+
+      const newState = reducer(baseState, actions.toggleLogoutModal());
+      expect(newState).toEqual(expectedState);
+    });
+    it('Toggles logout modal boolean from true to false', () => {
+      const baseState = {
+        ...initialState,
+        logoutModalOpen: true,
+      };
+      const expectedState = {
+        ...initialState,
+        logoutModalOpen: false,
+      };
+
+      const newState = reducer(baseState, actions.toggleLogoutModal());
+      expect(newState).toEqual(expectedState);
+    });
+  });
 });

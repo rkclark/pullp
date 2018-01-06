@@ -6,6 +6,7 @@ export const initialState = {
   loginError: null,
   githubToken: null,
   redirectPath: null,
+  logoutModalOpen: false,
 };
 
 export default function(state = initialState, action) {
@@ -30,6 +31,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         redirectPath: action.path,
+      };
+    case types.TOGGLE_LOGOUT_MODAL:
+      return {
+        ...state,
+        logoutModalOpen: !state.logoutModalOpen,
       };
     default:
       return state;
