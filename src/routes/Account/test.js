@@ -14,6 +14,7 @@ describe('Account', () => {
     dispatch: () => {},
     login: null,
     avatarUrl: null,
+    toggleLogoutModalAction: () => {},
   };
 
   it('renders successsfully', () => {

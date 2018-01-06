@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import SignInForm from './components/SignInForm';
-import { saveGithubCredentials } from './actions';
+import { saveGithubCredentials, toggleLogoutModal } from './actions';
 import AccountDetails from './components/AccountDetails';
 
 export function AccountContainer({
@@ -15,12 +15,19 @@ export function AccountContainer({
   dispatch,
   login,
   avatarUrl,
+  toggleLogoutModalAction,
 }) {
   let content;
   if (redirectPath) {
     content = <Redirect to={redirectPath} />;
   } else if (login) {
-    content = <AccountDetails login={login} avatarUrl={avatarUrl} />;
+    content = (
+      <AccountDetails
+        login={login}
+        avatarUrl={avatarUrl}
+        toggleLogoutModal={toggleLogoutModalAction}
+      />
+    );
   } else {
     content = (
       <SignInForm
@@ -45,6 +52,7 @@ AccountContainer.propTypes = {
   githubToken: PropTypes.string,
   login: PropTypes.string,
   avatarUrl: PropTypes.string,
+  toggleLogoutModalAction: PropTypes.func.isRequired,
 };
 
 AccountContainer.defaultProps = {
@@ -68,6 +76,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   saveGithubCredentialsAction: credentials => {
     dispatch(saveGithubCredentials(credentials));
+  },
+  toggleLogoutModalAction: () => {
+    dispatch(toggleLogoutModal());
   },
   dispatch,
 });
