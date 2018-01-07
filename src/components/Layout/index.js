@@ -119,7 +119,8 @@ export class Layout extends React.Component {
           {currentUser}
         </div>
         {window.location.pathname.includes('index.html') && <Redirect to="/" />}
-        {!this.props.currentUser &&
+        {this.props.rehydrationComplete &&
+          !this.props.currentUser &&
           window.location.pathname !== '/setup' && <Redirect to="/setup" />}
         <div>{routeContainerContent}</div>
       </div>
