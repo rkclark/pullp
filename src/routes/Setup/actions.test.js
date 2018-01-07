@@ -1,6 +1,6 @@
 import fetchMock from 'fetch-mock';
 import * as actions from './actions';
-import { account as types } from '../../actionTypes';
+import { setup as types } from '../../actionTypes';
 
 describe('Login actions', () => {
   describe('saveGithubCredentials', () => {
@@ -31,19 +31,6 @@ describe('Login actions', () => {
         expect(dispatch).toHaveBeenCalledWith(
           actions.requestGithubTokenSuccess(result.access_token),
         );
-        fetchMock.restore();
-      });
-      it('dispatches saveRedirect action with the "/" path', async () => {
-        const path = '/';
-        fetchMock.mock('http://localhost:9821/authenticate/', {});
-        const requestGithubToken = actions.requestGithubToken({
-          client_id: 'id',
-          client_secret: 'secret',
-          code: 'code',
-        });
-        const dispatch = jest.fn();
-        await requestGithubToken(dispatch);
-        expect(dispatch).toHaveBeenLastCalledWith(actions.saveRedirect(path));
         fetchMock.restore();
       });
     });
@@ -84,35 +71,6 @@ describe('Login actions', () => {
         error,
       };
       expect(actions.requestGithubTokenFailure(error)).toEqual(expectedAction);
-    });
-  });
-
-  describe('saveRedirect', () => {
-    it('creates an action to save a redirect path', () => {
-      const path = '/test';
-      const expectedAction = {
-        type: types.SAVE_REDIRECT,
-        path,
-      };
-      expect(actions.saveRedirect(path)).toEqual(expectedAction);
-    });
-  });
-
-  describe('toggleLogoutModal', () => {
-    it('creates an action to toggle logout modal', () => {
-      const expectedAction = {
-        type: types.TOGGLE_LOGOUT_MODAL,
-      };
-      expect(actions.toggleLogoutModal()).toEqual(expectedAction);
-    });
-  });
-
-  describe('logout', () => {
-    it('creates an action to logout', () => {
-      const expectedAction = {
-        type: types.LOGOUT,
-      };
-      expect(actions.logout()).toEqual(expectedAction);
     });
   });
 });

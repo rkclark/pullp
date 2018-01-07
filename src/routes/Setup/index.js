@@ -13,9 +13,9 @@ export class SetupContainer extends React.Component {
     this.props = props;
   }
 
-  componentWillUpdate() {
+  async componentDidUpdate() {
     if (!this.props.login && this.props.githubToken) {
-      this.props.requestCurrentUser(this.props.githubToken);
+      await this.props.requestCurrentUser(this.props.githubToken);
     }
   }
   render() {
@@ -76,7 +76,6 @@ SetupContainer.propTypes = {
 };
 
 SetupContainer.defaultProps = {
-  redirectPath: null,
   githubToken: null,
   githubClientId: null,
   githubClientSecret: null,
@@ -85,13 +84,11 @@ SetupContainer.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  githubClientId: state.login.githubClientId,
-  githubClientSecret: state.login.githubClientSecret,
-  redirectPath: state.login.redirectPath,
-  githubToken: state.login.githubToken,
+  githubClientId: state.setup.githubClientId,
+  githubClientSecret: state.setup.githubClientSecret,
+  githubToken: state.setup.githubToken,
   login: state.home.currentUser ? state.home.currentUser.login : null,
   avatarUrl: state.home.currentUser ? state.home.currentUser.avatarUrl : null,
-  logoutModalOpen: state.login.logoutModalOpen,
 });
 
 const mapDispatchToProps = dispatch => ({

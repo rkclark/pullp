@@ -66,12 +66,4 @@ describe('Home', () => {
       expect(global.clearInterval).toHaveBeenCalled;
     });
   });
-
-  describe('when redirectPath === "/"', () => {
-    it('dispatches saveDirect action with null arg', () => {
-      const saveRedirect = jest.fn();
-      mount(<Home {...baseProps} saveRedirect={saveRedirect} />);
-      expect(saveRedirect).toHaveBeenCalledWith(null);
-    });
-  });
 });

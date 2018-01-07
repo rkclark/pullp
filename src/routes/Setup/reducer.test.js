@@ -1,7 +1,8 @@
 import * as actions from './actions';
 import reducer, { initialState } from './reducer';
+import { logout } from '../Account/actions';
 
-describe('login reducer', () => {
+describe('setup reducer', () => {
   it('should return same state when no action matches', () => {
     expect(reducer(initialState, {})).toEqual(initialState);
   });
@@ -55,46 +56,6 @@ describe('login reducer', () => {
       expect(newState).toEqual(expectedState);
     });
   });
-  describe('Save redirect', () => {
-    it('Saves the redirect path', () => {
-      const path = 'path';
-      const expectedState = {
-        ...initialState,
-        redirectPath: path,
-      };
-
-      const newState = reducer(initialState, actions.saveRedirect(path));
-      expect(newState).toEqual(expectedState);
-    });
-  });
-  describe('Toggle logout modal', () => {
-    it('Toggles logout modal boolean from false to true', () => {
-      const baseState = {
-        ...initialState,
-        logoutModalOpen: false,
-      };
-      const expectedState = {
-        ...initialState,
-        logoutModalOpen: true,
-      };
-
-      const newState = reducer(baseState, actions.toggleLogoutModal());
-      expect(newState).toEqual(expectedState);
-    });
-    it('Toggles logout modal boolean from true to false', () => {
-      const baseState = {
-        ...initialState,
-        logoutModalOpen: true,
-      };
-      const expectedState = {
-        ...initialState,
-        logoutModalOpen: false,
-      };
-
-      const newState = reducer(baseState, actions.toggleLogoutModal());
-      expect(newState).toEqual(expectedState);
-    });
-  });
   describe('logout', () => {
     it('returns to initial state', () => {
       const baseState = {
@@ -104,7 +65,7 @@ describe('login reducer', () => {
         ...initialState,
       };
 
-      const newState = reducer(baseState, actions.logout());
+      const newState = reducer(baseState, logout());
       expect(newState).toEqual(expectedState);
     });
   });

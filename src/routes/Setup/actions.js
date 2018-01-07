@@ -1,4 +1,4 @@
-import { account as types } from '../../actionTypes';
+import { setup as types } from '../../actionTypes';
 
 export const saveGithubCredentials = credentials => ({
   type: types.SAVE_GITHUB_CREDENTIALS,
@@ -15,11 +15,6 @@ export const requestGithubTokenFailure = error => ({
   error,
 });
 
-export const saveRedirect = path => ({
-  type: types.SAVE_REDIRECT,
-  path,
-});
-
 export const requestGithubToken = oAuthParams => async dispatch => {
   const oAuthData = JSON.stringify(oAuthParams);
   try {
@@ -33,16 +28,7 @@ export const requestGithubToken = oAuthParams => async dispatch => {
     });
     const result = await res.json();
     dispatch(requestGithubTokenSuccess(result.access_token));
-    dispatch(saveRedirect('/'));
   } catch (err) {
     dispatch(requestGithubTokenFailure(err));
   }
 };
-
-export const toggleLogoutModal = () => ({
-  type: types.TOGGLE_LOGOUT_MODAL,
-});
-
-export const logout = () => ({
-  type: types.LOGOUT,
-});

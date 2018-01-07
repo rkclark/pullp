@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Repo from './components/Repo';
 import * as actions from './actions';
-import { saveRedirect } from '../Account/actions';
 import theme from './theme.css';
 
 export class Home extends React.Component {
@@ -11,12 +10,6 @@ export class Home extends React.Component {
     super(props);
     this.props = props;
     this.updateInterval = null;
-  }
-
-  componentWillMount() {
-    if (this.props.redirectPath === '/') {
-      this.props.saveRedirect(null);
-    }
   }
 
   componentDidMount() {
@@ -57,8 +50,6 @@ export class Home extends React.Component {
 }
 
 Home.propTypes = {
-  redirectPath: PropTypes.string,
-  saveRedirect: PropTypes.func.isRequired,
   currentUser: PropTypes.shape({
     login: PropTypes.string,
     avatarUrl: PropTypes.string,
@@ -82,18 +73,14 @@ Home.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  redirectPath: state.login.redirectPath,
   currentUser: state.home.currentUser,
-  githubToken: state.login.githubToken,
+  githubToken: state.setup.githubToken,
   selectedRepos: state.selectRepos.selectedRepos,
   repositories: state.home.repositories,
   openRepoId: state.home.openRepoId,
 });
 
 const mapDispatchToProps = dispatch => ({
-  saveRedirect() {
-    dispatch(saveRedirect());
-  },
   requestPullRequests(token, repoIds) {
     dispatch(actions.requestPullRequests(token, repoIds));
   },

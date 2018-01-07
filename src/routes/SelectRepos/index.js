@@ -177,7 +177,7 @@ SelectRepos.defaultProps = {
 const mapStateToProps = state => ({
   paginatedRepos: state.selectRepos.paginatedRepos,
   githubError: state.selectRepos.githubError,
-  githubToken: state.login.githubToken,
+  githubToken: state.setup.githubToken,
   selectedRepos: state.selectRepos.selectedRepos,
   repoFilterValue: state.selectRepos.repoFilterValue,
 });

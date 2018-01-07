@@ -1,19 +1,12 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Redirect } from 'react-router-dom';
 import { AccountContainer } from '.';
-import SignInForm from './components/SignInForm';
 import AccountDetails from './components/AccountDetails';
 
 describe('Account', () => {
   const defaultProps = {
-    saveGithubCredentialsAction: () => {},
-    githubClientId: null,
-    githubClientSecret: null,
-    githubToken: null,
-    dispatch: () => {},
-    login: null,
-    avatarUrl: null,
+    login: 'test',
+    avatarUrl: 'test.com',
     toggleLogoutModalAction: () => {},
     logoutAction: () => {},
     toggleLogoutModal: () => {},
@@ -25,52 +18,19 @@ describe('Account', () => {
     expect(component).toHaveLength(1);
   });
 
-  describe('when redirectPath is null and user is not logged in', () => {
-    it('renders a SignInForm', () => {
-      const component = shallow(<AccountContainer {...defaultProps} />);
-      expect(component.find(SignInForm).length).toBe(1);
-    });
-    it('does not render a Redirect', () => {
-      const component = shallow(<AccountContainer {...defaultProps} />);
-      expect(component.find(Redirect).length).toBe(0);
-    });
-  });
-
-  describe('when redirectPath is set and user is not logged in', () => {
-    it('does not render a SignInForm', () => {
-      const component = shallow(
-        <AccountContainer {...defaultProps} redirectPath="test" />,
-      );
-      expect(component.find(SignInForm).length).toBe(0);
-    });
-    it('renders a Redirect', () => {
-      const component = shallow(
-        <AccountContainer {...defaultProps} redirectPath="test" />,
-      );
-      expect(component.find(Redirect).length).toBe(1);
-    });
-  });
-
-  describe('when user is logged in', () => {
+  describe('when login is set', () => {
     it('renders AccountDetails', () => {
-      const component = shallow(
-        <AccountContainer
-          {...defaultProps}
-          login={'test'}
-          avatarUrl="testurl"
-        />,
-      );
+      const component = shallow(<AccountContainer {...defaultProps} />);
       expect(component.find(AccountDetails).length).toBe(1);
     });
-    it('does not render  SignInForm', () => {
+  });
+
+  describe('when login is not set', () => {
+    it('does not render AccountDetails', () => {
       const component = shallow(
-        <AccountContainer
-          {...defaultProps}
-          login={'test'}
-          avatarUrl="testurl"
-        />,
+        <AccountContainer {...defaultProps} login={null} />,
       );
-      expect(component.find(SignInForm).length).toBe(0);
+      expect(component.find(AccountDetails).length).toBe(0);
     });
   });
 });

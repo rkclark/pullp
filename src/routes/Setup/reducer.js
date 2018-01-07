@@ -1,4 +1,4 @@
-import { account as types } from '../../actionTypes';
+import { setup as types, account as accountTypes } from '../../actionTypes';
 
 export const initialState = {
   githubClientId: null,
@@ -11,7 +11,7 @@ export const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case types.LOGOUT:
+    case accountTypes.LOGOUT:
       return {
         ...initialState,
       };
@@ -30,16 +30,6 @@ export default function(state = initialState, action) {
       return {
         ...state,
         githubToken: action.token,
-      };
-    case types.SAVE_REDIRECT:
-      return {
-        ...state,
-        redirectPath: action.path,
-      };
-    case types.TOGGLE_LOGOUT_MODAL:
-      return {
-        ...state,
-        logoutModalOpen: !state.logoutModalOpen,
       };
     default:
       return state;

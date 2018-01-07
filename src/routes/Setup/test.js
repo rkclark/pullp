@@ -64,7 +64,7 @@ describe('Setup', () => {
     });
   });
 
-  describe('componentWillUpdate', () => {
+  describe('componentDidUpdate', () => {
     describe('when current user login is not present and github token is present', () => {
       it('dispatches requestCurrentUser action', () => {
         const requestCurrentUser = jest.fn();
@@ -74,6 +74,7 @@ describe('Setup', () => {
             requestCurrentUser={requestCurrentUser}
             githubToken={'test'}
           />,
+          { lifecycleExperimental: true },
         );
         expect(requestCurrentUser).not.toHaveBeenCalled();
         component.setProps({});
