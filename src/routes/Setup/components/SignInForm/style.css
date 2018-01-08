@@ -1,0 +1,31 @@
+@import "../../../../css/colors.css";
+@import "../../../../css/units.css";
+
+.infoBar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 5rem;
+  width: 80%;
+  margin: 1rem 10%;
+}
+
+.infoIcon {
+  min-width: 3.5rem;
+  min-height: 3.5rem;
+  border-radius: 100%;
+  border: 3px solid var(--light-grey);
+  display: inline-block;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.4;
+  color: var(--light-grey);
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin-right: 1.5rem;
+}
+
+.infoMessage {
+  margin: 0;
+  color: var(--medium-grey);
+}

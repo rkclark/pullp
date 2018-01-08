@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 
 import githubAuth from '../../helpers/githubAuth';
 
+import style from './style.css';
+
 export default class SignInForm extends React.Component {
   constructor() {
     super();
@@ -29,10 +31,15 @@ export default class SignInForm extends React.Component {
 
     const apiCredsInputs = !githubClientId ? (
       <div>
-        <h2>
-          Pullp needs your Github oAuth app details before it can sign you into
-          Github!
-        </h2>
+        <div className={style.infoBar}>
+          <span className={style.infoIcon}>i</span>
+          <p className={style.infoMessage}>
+            To access Github, Pullp needs the client id and client secret for a
+            Github oAuth app. Either use one that has already been setup and
+            approved by your organisation(s), or register a new one in your
+            Github developer settings. See the Pullp readme for more info.
+          </p>
+        </div>
         <p>Enter your client id and client secret below:</p>
         <label htmlFor="githubClientId">Client ID</label>
         <input

@@ -12,13 +12,13 @@
   width: 3.4rem;
   height: 3.4rem;
   border-radius: 100%;
-  border: 2px solid var(--text-medium);
+  border: 2px solid var(--medium-grey);
   background-color: var(--primary-light);
   display: inline-block;
   text-align: center;
   font-family: 'Roboto', sans-serif;
   line-height: 2;
-  color: var(--text-medium);
+  color: var(--medium-grey);
 }
 
 .activeStep {
@@ -42,7 +42,7 @@
   font-size: 1.5rem;
   font-family: 'Roboto', sans-serif;
   text-align: center;
-  color: var(--text-medium);
+  color: var(--medium-grey);
 }
 
 .progressLine {
@@ -52,5 +52,5 @@
   left: 0;
   margin: 0;
   z-index: -100;
-  border: 1px solid var(--text-medium);
+  border: 1px solid var(--medium-grey);
 }
