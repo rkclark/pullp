@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css?family=Mukta');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
 
 html {
   /* This percentage allows us to use REM values that map to pixels (e.g. 1.6rem === 16px) */
@@ -8,7 +10,8 @@ html {
 }
 
 * {
-  font-family: 'Mukta', sans-serif;
+  font-family: 'Open Sans', sans-serif;
+  box-sizing: border-box;
 }
 
 *:focus {

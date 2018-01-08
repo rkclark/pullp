@@ -38,6 +38,7 @@ export class SetupContainer extends React.Component {
         >
           3
         </span>
+        <hr className={style.progressLine} />
       </div>
     );
 
@@ -50,7 +51,7 @@ export class SetupContainer extends React.Component {
 
     return (
       <div>
-        <h2>Setup</h2>
+        <h2 className={style.pageTitle}>Setup</h2>
         {progressBar}
         <SignInForm
           saveGithubCredentials={this.props.saveGithubCredentialsAction}

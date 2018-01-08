@@ -1,11 +1,56 @@
-.progressBar {}
+@import "../../css/colors.css";
+@import "../../css/units.css";
 
-.step {}
+.progressBar {
+  text-align: center;
+  margin: 1rem auto;
+  position: relative;
+  max-width: 18.2rem;
+}
 
-.activeStep {}
+.step {
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: 100%;
+  border: 2px solid var(--text-medium);
+  background-color: var(--primary-light);
+  display: inline-block;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  line-height: 2;
+  color: var(--text-medium);
+}
 
-.stepOne {}
+.activeStep {
+  background-color: var(--secondary-medium);
+  color: white;
+}
 
-.stepTwo {}
+.stepOne {
+  margin-right: 4rem;
+}
+
+.stepTwo {
+  margin-right: 4rem;
+}
 
 .stepThree {}
+
+.pageTitle {
+  text-transform: uppercase;
+  font-weight: normal;
+  font-size: 1.5rem;
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+  color: var(--text-medium);
+}
+
+.progressLine {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  left: 0;
+  margin: 0;
+  z-index: -100;
+  border: 1px solid var(--text-medium);
+}
