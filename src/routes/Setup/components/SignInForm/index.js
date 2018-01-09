@@ -37,25 +37,33 @@ export default class SignInForm extends React.Component {
             To access Github, Pullp needs the client id and client secret for a
             Github oAuth app. Either use one that has already been setup and
             approved by your organisation(s), or register a new one in your
-            Github developer settings. See the Pullp readme for more info.
+            Github developer settings. See the{' '}
+            <a href="https://github.com/rkclark/pullp">Pullp readme</a> for more
+            info.
           </p>
         </div>
-        <p>Enter your client id and client secret below:</p>
-        <label htmlFor="githubClientId">Client ID</label>
-        <input
-          name="githubClientId"
-          defaultValue=""
-          type="text"
-          ref={input => (this.githubClientId = input)}
-        />
-        <label htmlFor="githubClientSecret">Client Secret</label>
-        <input
-          name="githubClientSecret"
-          defaultValue=""
-          type="text"
-          ref={input => (this.githubClientSecret = input)}
-        />
-        <button onClick={this.saveCredentials}>Save</button>
+        <div className={style.apiCredsContainer}>
+          <p>Enter your Github oAuth app client id and client secret below:</p>
+          <div className={style.inputContainer}>
+            <label htmlFor="githubClientId">Client ID</label>
+            <input
+              name="githubClientId"
+              defaultValue=""
+              type="text"
+              ref={input => (this.githubClientId = input)}
+            />
+          </div>
+          <div className={style.inputContainer}>
+            <label htmlFor="githubClientSecret">Client Secret</label>
+            <input
+              name="githubClientSecret"
+              defaultValue=""
+              type="text"
+              ref={input => (this.githubClientSecret = input)}
+            />
+          </div>
+          <button onClick={this.saveCredentials}>Save</button>
+        </div>
       </div>
     ) : null;
 

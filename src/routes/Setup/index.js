@@ -50,7 +50,7 @@ export class SetupContainer extends React.Component {
     ) : null;
 
     return (
-      <div>
+      <div className={style.setupContainer}>
         <h2 className={style.pageTitle}>Setup</h2>
         {progressBar}
         <SignInForm

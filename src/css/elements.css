@@ -62,6 +62,7 @@ a {
   text-decoration: underline;
   font-weight: bold;
   text-decoration-color: transparent;
+  color: var(--primary-dark);
 }
 
 a:hover {

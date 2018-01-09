@@ -6,8 +6,10 @@
   align-items: center;
   justify-content: center;
   min-height: 5rem;
-  width: 80%;
-  margin: 1rem 10%;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border-radius: 0.3rem;
+  box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4);
 }
 
 .infoIcon {
@@ -27,5 +29,14 @@
 
 .infoMessage {
   margin: 0;
-  color: var(--medium-grey);
+}
+
+.apiCredsContainer {
+  text-align: center;
+}
+
+.inputContainer {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }
