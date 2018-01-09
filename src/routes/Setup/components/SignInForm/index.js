@@ -43,7 +43,6 @@ export default class SignInForm extends React.Component {
           </p>
         </div>
         <div className={style.apiCredsContainer}>
-          <p>Enter your Github oAuth app client id and client secret below:</p>
           <div className={style.inputContainer}>
             <label htmlFor="githubClientId">Client ID</label>
             <input
@@ -62,26 +61,34 @@ export default class SignInForm extends React.Component {
               ref={input => (this.githubClientSecret = input)}
             />
           </div>
-          <button onClick={this.saveCredentials}>Save</button>
+          <button onClick={this.saveCredentials} className={style.button}>
+            Save
+          </button>
         </div>
       </div>
     ) : null;
 
-    const signInButton =
+    const signIn =
       githubClientId && githubClientSecret && !githubToken ? (
-        <button
-          onClick={() => {
-            githubAuth(githubClientId, githubClientSecret, dispatch);
-          }}
-        >
-          Sign in with Github
-        </button>
+        <div className={style.signInContainer}>
+          <p>
+            Great! You can now click the button below to sign in with Github:
+          </p>
+          <button
+            onClick={() => {
+              githubAuth(githubClientId, githubClientSecret, dispatch);
+            }}
+            className={style.button}
+          >
+            Sign in with Github
+          </button>
+        </div>
       ) : null;
 
     return (
       <div>
         {apiCredsInputs}
-        {signInButton}
+        {signIn}
       </div>
     );
   }

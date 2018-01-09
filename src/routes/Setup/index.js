@@ -44,8 +44,16 @@ export class SetupContainer extends React.Component {
 
     const proceedToSelect = this.props.login ? (
       <div>
-        <p>Now logged in as {this.props.login}</p>
-        <Link to="/selectRepos">Select repos</Link>
+        <p>
+          Successfully signed in as <strong>{this.props.login}</strong>!
+        </p>
+        <p>
+          Next you can select the repos that you would like to monitor with
+          Pullp.
+        </p>
+        <Link to="/selectRepos">
+          <button className={style.button}>Let&#39;s get started</button>
+        </Link>
       </div>
     ) : null;
 
