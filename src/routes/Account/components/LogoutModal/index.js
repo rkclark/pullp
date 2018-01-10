@@ -11,7 +11,7 @@ export default function LogoutModal({
     <div>
       <div className={style.container}>
         <div className={style.modalContent}>
-          <h2>Are you sure you want to logout?</h2>
+          <h2>Are you sure you want to sign out?</h2>
           <p>
             This is will clear all of your selected repos and your Github oAuth
             application details!

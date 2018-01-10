@@ -55,6 +55,25 @@ describe('setup reducer', () => {
       );
       expect(newState).toEqual(expectedState);
     });
+
+    it('Sets error to null', () => {
+      const token = 'githubToken';
+      const baseState = {
+        ...initialState,
+        loginError: 'test',
+      };
+      const expectedState = {
+        ...baseState,
+        loginError: null,
+        githubToken: token,
+      };
+
+      const newState = reducer(
+        baseState,
+        actions.requestGithubTokenSuccess(token),
+      );
+      expect(newState).toEqual(expectedState);
+    });
   });
   describe('logout', () => {
     it('returns to initial state', () => {

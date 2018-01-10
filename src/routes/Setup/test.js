@@ -3,6 +3,7 @@ import { shallow } from 'enzyme';
 import { Link } from 'react-router-dom';
 import { SetupContainer } from '.';
 import SignInForm from './components/SignInForm';
+import Error from '../../components/Error';
 
 describe('Setup', () => {
   const defaultProps = {
@@ -97,6 +98,21 @@ describe('Setup', () => {
         <SetupContainer {...defaultProps} login={login} />,
       );
       expect(component.text()).toContain(login);
+    });
+  });
+
+  describe('when there is a login error', () => {
+    it('renders an error component', () => {
+      const component = shallow(
+        <SetupContainer {...defaultProps} loginError={'error'} />,
+      );
+      expect(component.find(Error).length).toBe(1);
+    });
+  });
+  describe('when there is not a login error', () => {
+    it('does not render an error component', () => {
+      const component = shallow(<SetupContainer {...defaultProps} />);
+      expect(component.find(Error).length).toBe(0);
     });
   });
 });

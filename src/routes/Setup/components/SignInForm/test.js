@@ -95,4 +95,16 @@ describe('SignInForm', () => {
       expect(props.saveGithubCredentials).toHaveBeenCalledWith(creds);
     });
   });
+
+  describe('when githubClientId and githubClientSecret fields are not filled in and save button clicked', () => {
+    it('does nothing', () => {
+      const props = {
+        ...defaultProps,
+        saveGithubCredentials: jest.fn(),
+      };
+      const mountedComponent = mount(<SignInForm {...props} />);
+      mountedComponent.find('button').simulate('click');
+      expect(props.saveGithubCredentials).not.toHaveBeenCalled();
+    });
+  });
 });

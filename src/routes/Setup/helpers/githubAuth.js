@@ -24,7 +24,6 @@ export default function githubAuth(clientId, clientSecret, dispatch) {
     const rawCode = /code=([^&]*)/.exec(url) || null;
     const code = rawCode && rawCode.length > 1 ? rawCode[1] : null;
     const error = /\?error=(.+)$/.exec(url);
-
     // If there is a code, proceed to get token from github
     if (code) {
       await dispatch(

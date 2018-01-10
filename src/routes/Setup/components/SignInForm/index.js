@@ -14,11 +14,13 @@ export default class SignInForm extends React.Component {
   }
 
   saveCredentials() {
-    const credentials = {
-      githubClientId: this.githubClientId.value,
-      githubClientSecret: this.githubClientSecret.value,
-    };
-    this.props.saveGithubCredentials(credentials);
+    if (this.githubClientId.value && this.githubClientSecret.value) {
+      const credentials = {
+        githubClientId: this.githubClientId.value,
+        githubClientSecret: this.githubClientSecret.value,
+      };
+      this.props.saveGithubCredentials(credentials);
+    }
   }
 
   render() {

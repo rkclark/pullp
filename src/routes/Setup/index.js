@@ -6,6 +6,7 @@ import SignInForm from './components/SignInForm';
 import { saveGithubCredentials } from './actions';
 import style from './style.css';
 import { requestCurrentUser } from '../../routes/Home/actions';
+import Error from '../../components/Error';
 
 export class SetupContainer extends React.Component {
   constructor(props) {
@@ -59,6 +60,9 @@ export class SetupContainer extends React.Component {
 
     return (
       <div className={style.setupContainer}>
+        {this.props.loginError ? (
+          <Error message="Github sign in failed!" />
+        ) : null}
         <h2 className={style.pageTitle}>Setup</h2>
         {progressBar}
         <SignInForm
@@ -82,6 +86,7 @@ SetupContainer.propTypes = {
   githubToken: PropTypes.string,
   login: PropTypes.string,
   requestCurrentUser: PropTypes.func.isRequired,
+  loginError: PropTypes.string,
 };
 
 SetupContainer.defaultProps = {
@@ -90,6 +95,7 @@ SetupContainer.defaultProps = {
   githubClientSecret: null,
   login: null,
   avatarUrl: null,
+  loginError: null,
 };
 
 const mapStateToProps = state => ({
@@ -98,6 +104,7 @@ const mapStateToProps = state => ({
   githubToken: state.setup.githubToken,
   login: state.home.currentUser ? state.home.currentUser.login : null,
   avatarUrl: state.home.currentUser ? state.home.currentUser.avatarUrl : null,
+  loginError: state.setup.loginError,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -30,6 +30,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         githubToken: action.token,
+        loginError: null,
       };
     default:
       return state;
