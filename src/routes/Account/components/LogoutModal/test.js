@@ -65,4 +65,17 @@ describe('LogoutModal', () => {
       expect(toggleLogoutModal).toHaveBeenCalled();
     });
   });
+
+  describe('modal overlay', () => {
+    it('calls toggleLogoutModal action on click', () => {
+      const toggleLogoutModal = jest.fn();
+      const component = shallow(
+        <LogoutModal {...props} toggleLogoutModal={toggleLogoutModal} />,
+      );
+      expect(toggleLogoutModal).not.toHaveBeenCalled();
+      const button = component.find('.modalOverlay');
+      button.simulate('click');
+      expect(toggleLogoutModal).toHaveBeenCalled();
+    });
+  });
 });

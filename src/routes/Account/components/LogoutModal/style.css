@@ -1,7 +1,51 @@
-.yesButton {
+@import "../../../../css/colors.css";
 
+.container {
+  position: absolute;
+  top: 35%;
+  left: 0;
+  width: 100%;
+  z-index: 20;
+  color: var(--medium-grey);
 }
 
-.noButton {
-  
+.modalContent {
+  width: 70%;
+  margin-left: 15%;
+  background-color: var(--primary-light);
+  text-align: center;
+  padding: 3rem;
+  border-radius: 0.3rem;
+}
+
+.modalOverlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.yesButton, .noButton {
+  margin-top: 2rem;
+  padding: 1rem 3rem;
+  border: none;
+  border-radius: 0.3rem;
+  background-color: var(--primary-dark);
+  color: white;
+  text-transform: uppercase;
+  font-weight: normal;
+  font-size: 1.5rem;
+  font-family: 'Roboto', sans-serif;
+  transition: all 0.5s ease;
+}
+
+.yesButton:hover, .yesButton:focus, .noButton:hover, .noButton:focus {
+  background-color: var(--secondary-medium);
+}
+
+.yesButton {
+  margin-right: 3rem;
 }

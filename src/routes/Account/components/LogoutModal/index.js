@@ -9,18 +9,27 @@ export default function LogoutModal({
 }) {
   const content = logoutModalOpen ? (
     <div>
-      <h2>Are you sure you want to logout?</h2>
-      <p>
-        This is will clear all of your selected repos and your Github oAuth
-        application details!
-      </p>
-      <button className={style.yesButton} onClick={logoutAction}>
-        Yes
-      </button>
-      <button className={style.noButton} onClick={toggleLogoutModal}>
-        No
-      </button>
-      <div className={style.modalOverlay} />
+      <div className={style.container}>
+        <div className={style.modalContent}>
+          <h2>Are you sure you want to logout?</h2>
+          <p>
+            This is will clear all of your selected repos and your Github oAuth
+            application details!
+          </p>
+          <button className={style.yesButton} onClick={logoutAction}>
+            Yes
+          </button>
+          <button className={style.noButton} onClick={toggleLogoutModal}>
+            No
+          </button>
+        </div>
+      </div>
+      <div
+        className={style.modalOverlay}
+        onClick={toggleLogoutModal}
+        role="button"
+        tabIndex={0}
+      />
     </div>
   ) : null;
   return content;
