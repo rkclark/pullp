@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import LogoutModal from '../LogoutModal';
 
+import style from './style.css';
+
 export default function AccountDetails({
   login,
   avatarUrl,
@@ -10,10 +12,14 @@ export default function AccountDetails({
   logoutModalOpen,
 }) {
   return (
-    <div>
-      <h2>Signed in as {login}</h2>
-      <img src={avatarUrl} alt="avatar" />
-      <button onClick={toggleLogoutModal}>Logout</button>
+    <div className={style.container}>
+      <h2 className={style.title}>
+        Signed in as <strong>{login}</strong>
+      </h2>
+      <img src={avatarUrl} alt="avatar" className={style.avatar} />
+      <button onClick={toggleLogoutModal} className={style.logout}>
+        Logout
+      </button>
       <LogoutModal
         toggleLogoutModal={toggleLogoutModal}
         logoutAction={logoutAction}
