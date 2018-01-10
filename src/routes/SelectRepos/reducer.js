@@ -1,4 +1,7 @@
-import { selectRepos as types } from '../../actionTypes';
+import {
+  selectRepos as types,
+  account as accountTypes,
+} from '../../actionTypes';
 
 const reposPerPage = 25;
 
@@ -20,6 +23,10 @@ export const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
+    case accountTypes.LOGOUT:
+      return {
+        ...initialState,
+      };
     case types.REQUEST_WATCHED_REPOS_SUCCESS: {
       const selectedRepos = state.selectedRepos.filter(repoId => {
         let result = false;

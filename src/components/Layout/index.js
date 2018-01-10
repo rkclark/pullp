@@ -2,13 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import {
-  requestCurrentUser,
-  requestPullRequests,
-} from '../../routes/Home/actions';
+import { requestPullRequests } from '../../routes/Home/actions';
 import HomeContainer from '../../routes/Home';
-import Login from '../../routes/Login';
+import Account from '../../routes/Account';
 import SelectRepos from '../../routes/SelectRepos'; //eslint-disable-line
+import Setup from '../../routes/Setup';
 import defaultTheme from './theme.css';
 import CurrentUser from '../CurrentUser';
 import eye from '../../images/eye-white.svg';
@@ -20,18 +18,6 @@ export class Layout extends React.Component {
   constructor(props) {
     super(props);
     this.props = props;
-  }
-
-  componentWillMount() {
-    if (!this.props.currentUser && this.props.githubToken) {
-      this.props.requestCurrentUser(this.props.githubToken);
-    }
-  }
-
-  componentWillUpdate() {
-    if (!this.props.currentUser && this.props.githubToken) {
-      this.props.requestCurrentUser(this.props.githubToken);
-    }
   }
 
   loadCurrentUser() {
@@ -76,8 +62,9 @@ export class Layout extends React.Component {
       return (
         <div className={this.props.theme.routeContainer}>
           <Route exact path="/" component={HomeContainer} />
-          <Route exact path="/login" component={Login} />
+          <Route exact path="/Account" component={Account} />
           <Route exact path="/selectRepos" component={SelectRepos} />
+          <Route exact path="/setup" component={Setup} />
         </div>
       );
     }
@@ -121,8 +108,8 @@ export class Layout extends React.Component {
           </div>
           <div className={theme.linkContainer}>
             <Link
-              to="/login"
-              className={`${theme.link} ${path === '/login'
+              to="/Account"
+              className={`${theme.link} ${path === '/Account'
                 ? theme.activeLink
                 : null}`}
             >
@@ -132,6 +119,9 @@ export class Layout extends React.Component {
           {currentUser}
         </div>
         {window.location.pathname.includes('index.html') && <Redirect to="/" />}
+        {this.props.rehydrationComplete &&
+          !this.props.currentUser &&
+          window.location.pathname !== '/setup' && <Redirect to="/setup" />}
         <div>{routeContainerContent}</div>
       </div>
     );
@@ -145,7 +135,6 @@ Layout.propTypes = {
     avatarUrl: PropTypes.string,
     url: PropTypes.string,
   }),
-  requestCurrentUser: PropTypes.func.isRequired,
   githubToken: PropTypes.string,
   selectedRepos: PropTypes.arrayOf(PropTypes.string),
   requestPullRequests: PropTypes.func.isRequired,
@@ -164,16 +153,13 @@ Layout.defaultProps = {
 
 const mapStateToProps = state => ({
   currentUser: state.home.currentUser,
-  githubToken: state.login.githubToken,
+  githubToken: state.setup.githubToken,
   selectedRepos: state.selectRepos.selectedRepos,
   pullRequestsLoading: state.home.pullRequestsLoading,
   rehydrationComplete: state.layout.rehydrationComplete,
 });
 
 const mapDispatchToProps = dispatch => ({
-  requestCurrentUser(token) {
-    dispatch(requestCurrentUser(token));
-  },
   requestPullRequests(token, repoIds) {
     dispatch(requestPullRequests(token, repoIds));
   },

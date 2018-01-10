@@ -1,0 +1,31 @@
+@import "../../css/colors.css";
+
+.container {
+  color: var(--error-red);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 5rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border-radius: 0.3rem;
+  box-shadow: 0 0.1rem 0.4rem 0 var(--error-red);
+}
+
+.icon {
+  min-width: 3.5rem;
+  min-height: 3.5rem;
+  border-radius: 100%;
+  border: 3px solid var(--error-red);
+  display: inline-block;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.4;
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin-right: 1.5rem;
+}
+
+.message {
+  margin: 0;
+}

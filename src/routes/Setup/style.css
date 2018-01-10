@@ -1,0 +1,80 @@
+@import "../../css/colors.css";
+@import "../../css/units.css";
+
+.setupContainer {
+  color: var(--medium-grey);
+  width: 80%;
+  margin: 0 10%;
+  text-align: center;
+}
+
+.progressBar {
+  text-align: center;
+  margin: 1rem auto 3rem;
+  position: relative;
+  max-width: 18.2rem;
+}
+
+.step {
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: 100%;
+  border: 2px solid var(--medium-grey);
+  background-color: var(--primary-light);
+  display: inline-block;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  line-height: 2;
+}
+
+.activeStep {
+  background-color: var(--secondary-medium);
+  color: white;
+}
+
+.stepOne {
+  margin-right: 4rem;
+}
+
+.stepTwo {
+  margin-right: 4rem;
+}
+
+.stepThree {}
+
+.pageTitle {
+  text-transform: uppercase;
+  font-weight: normal;
+  font-size: 1.5rem;
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.progressLine {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  left: 0;
+  margin: 0;
+  z-index: -100;
+  border: 1px solid var(--medium-grey);
+}
+
+.button {
+  margin-top: 2rem;
+  padding: 1rem 3rem;
+  border: none;
+  border-radius: 0.3rem;
+  background-color: var(--primary-dark);
+  color: white;
+  text-transform: uppercase;
+  font-weight: normal;
+  font-size: 1.5rem;
+  font-family: 'Roboto', sans-serif;
+  transition: all 0.5s ease;
+}
+
+.button:hover, .button:focus {
+  background-color: var(--secondary-medium);
+}

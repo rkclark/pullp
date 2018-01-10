@@ -1,7 +1,8 @@
 import * as actions from './actions';
 import reducer, { initialState } from './reducer';
+import { logout } from '../Account/actions';
 
-describe('login reducer', () => {
+describe('setup reducer', () => {
   it('should return same state when no action matches', () => {
     expect(reducer(initialState, {})).toEqual(initialState);
   });
@@ -54,16 +55,36 @@ describe('login reducer', () => {
       );
       expect(newState).toEqual(expectedState);
     });
-  });
-  describe('Save redirect', () => {
-    it('Saves the redirect path', () => {
-      const path = 'path';
-      const expectedState = {
+
+    it('Sets error to null', () => {
+      const token = 'githubToken';
+      const baseState = {
         ...initialState,
-        redirectPath: path,
+        loginError: 'test',
+      };
+      const expectedState = {
+        ...baseState,
+        loginError: null,
+        githubToken: token,
       };
 
-      const newState = reducer(initialState, actions.saveRedirect(path));
+      const newState = reducer(
+        baseState,
+        actions.requestGithubTokenSuccess(token),
+      );
+      expect(newState).toEqual(expectedState);
+    });
+  });
+  describe('logout', () => {
+    it('returns to initial state', () => {
+      const baseState = {
+        test: true,
+      };
+      const expectedState = {
+        ...initialState,
+      };
+
+      const newState = reducer(baseState, logout());
       expect(newState).toEqual(expectedState);
     });
   });

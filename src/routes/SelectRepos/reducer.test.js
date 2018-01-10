@@ -1,4 +1,5 @@
 import * as actions from './actions';
+import { logout } from '../Account/actions';
 import reducer, { initialState } from './reducer';
 
 describe('SelectRepos reducer', () => {
@@ -585,6 +586,19 @@ describe('SelectRepos reducer', () => {
         const newState = reducer(baseState, actions.filterRepos());
         expect(newState).toEqual(expectedState);
       });
+    });
+  });
+  describe('logout', () => {
+    it('returns to initial state', () => {
+      const baseState = {
+        test: true,
+      };
+      const expectedState = {
+        ...initialState,
+      };
+
+      const newState = reducer(baseState, logout());
+      expect(newState).toEqual(expectedState);
     });
   });
 });

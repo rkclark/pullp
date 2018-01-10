@@ -1,4 +1,5 @@
 import * as actions from './actions';
+import { logout } from '../Account/actions';
 import reducer, { initialState } from './reducer';
 
 describe('Home reducer', () => {
@@ -373,6 +374,19 @@ describe('Home reducer', () => {
         );
         expect(newState.openRepoId).toBe(null);
       });
+    });
+  });
+  describe('logout', () => {
+    it('returns to initial state', () => {
+      const baseState = {
+        test: true,
+      };
+      const expectedState = {
+        ...initialState,
+      };
+
+      const newState = reducer(baseState, logout());
+      expect(newState).toEqual(expectedState);
     });
   });
 });
