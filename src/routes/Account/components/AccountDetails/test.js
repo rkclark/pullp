@@ -35,7 +35,7 @@ describe('AccountDetails', () => {
   describe('Logout button', () => {
     it('renders successfully', () => {
       const component = shallow(<AccountDetails {...props} />);
-      expect(component.find('button').text()).toBe('Logout');
+      expect(component.find('button').text()).toBe('Sign out');
     });
     describe('when clicked', () => {
       it('dispatches toggleLogoutModal action', () => {

@@ -18,7 +18,7 @@ export default function AccountDetails({
       </h2>
       <img src={avatarUrl} alt="avatar" className={style.avatar} />
       <button onClick={toggleLogoutModal} className={style.logout}>
-        Logout
+        Sign out
       </button>
       <LogoutModal
         toggleLogoutModal={toggleLogoutModal}
