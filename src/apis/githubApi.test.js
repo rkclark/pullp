@@ -35,6 +35,9 @@ query {
                     name
                     id
                     url
+                    nameWithOwner
+                    isFork
+                    createdAt
                   }
                 }
               }
@@ -59,6 +62,9 @@ query {
                     name
                     id
                     url
+                    nameWithOwner
+                    isFork
+                    createdAt
                   }
                 }
               }
