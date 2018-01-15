@@ -25,6 +25,9 @@ query {
                     name
                     id
                     url
+                    nameWithOwner
+                    isFork
+                    createdAt
                   }
                 }
               }
