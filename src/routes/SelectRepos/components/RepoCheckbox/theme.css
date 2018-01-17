@@ -46,3 +46,10 @@
   height: 2rem;
   vertical-align: middle;
  }
+
+ .avatar {
+   display: inline-block;
+   height: 3rem;
+   width: 3rem;
+   border-radius: 0.3rem;
+ }

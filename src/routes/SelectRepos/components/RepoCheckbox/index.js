@@ -10,6 +10,9 @@ export default function RepoCheckbox({
   onChange,
   url,
   theme,
+  isFork,
+  owner,
+  createdAt,
 }) {
   return (
     <div className={theme.checkboxContainer}>
@@ -21,7 +24,19 @@ export default function RepoCheckbox({
         onChange={onChange}
       />
       <label htmlFor={id} className={theme.label}>
-        {name}
+        <div>
+          <img
+            src={owner.avatarUrl}
+            alt={`${owner.login} avatar`}
+            className={theme.avatar}
+          />
+          <span>{owner.login}</span>
+        </div>
+        <div>
+          {name}
+          {isFork ? <em> (Fork)</em> : null}
+        </div>
+        <div>{createdAt.toLocaleDateString('en-GB')}</div>
       </label>
       <a className={theme.link} href={url}>
         <img className={theme.linkIcon} src={link} alt="link icon" />
@@ -37,6 +52,12 @@ RepoCheckbox.propTypes = {
   id: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
   theme: PropTypes.shape(),
+  isFork: PropTypes.bool.isRequired,
+  owner: PropTypes.shape({
+    login: PropTypes.string.isRequired,
+    avatarUrl: PropTypes.string.isRequired,
+  }).isRequired,
+  createdAt: PropTypes.instanceOf(Date).isRequired,
 };
 
 RepoCheckbox.defaultProps = {
