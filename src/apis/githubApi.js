@@ -25,7 +25,9 @@ query {
                     name
                     id
                     url
-                    nameWithOwner
+                    owner {
+                      login
+                    }
                     isFork
                     createdAt
                   }
