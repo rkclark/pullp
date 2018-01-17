@@ -37,6 +37,7 @@ query {
                     url
                     owner {
                       login
+                      avatarUrl
                     }
                     isFork
                     createdAt
@@ -66,6 +67,7 @@ query {
                     url
                     owner {
                       login
+                      avatarUrl
                     }
                     isFork
                     createdAt

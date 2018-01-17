@@ -27,6 +27,7 @@ query {
                     url
                     owner {
                       login
+                      avatarUrl
                     }
                     isFork
                     createdAt
