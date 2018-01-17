@@ -26,6 +26,13 @@ describe('SelectRepos actions', () => {
                       node: {
                         name: 'test1',
                         id: 'testid1==',
+                        url: 'https://github.com/repo1',
+                        owner: {
+                          avatarUrl: 'https://avatar1',
+                          login: 'user1',
+                        },
+                        isFork: false,
+                        createdAt: '2016-10-14T20:31:44Z',
                       },
                     },
                     {
@@ -33,6 +40,13 @@ describe('SelectRepos actions', () => {
                       node: {
                         name: 'test2',
                         id: 'testid2==',
+                        url: 'https://github.com/repo2',
+                        owner: {
+                          avatarUrl: 'https://avatar2',
+                          login: 'user2',
+                        },
+                        isFork: false,
+                        createdAt: '2016-10-14T20:31:44Z',
                       },
                     },
                   ],
@@ -43,10 +57,24 @@ describe('SelectRepos actions', () => {
               {
                 name: 'test1',
                 id: 'testid1==',
+                url: 'https://github.com/repo1',
+                owner: {
+                  avatarUrl: 'https://avatar1',
+                  login: 'user1',
+                },
+                isFork: false,
+                createdAt: new Date('2016-10-14T20:31:44Z'),
               },
               {
                 name: 'test2',
                 id: 'testid2==',
+                url: 'https://github.com/repo2',
+                owner: {
+                  avatarUrl: 'https://avatar2',
+                  login: 'user2',
+                },
+                isFork: false,
+                createdAt: new Date('2016-10-14T20:31:44Z'),
               },
             ];
             getMock.returns(testResult);
@@ -87,6 +115,7 @@ describe('SelectRepos actions', () => {
                       node: {
                         name: 'Atticus_Legal',
                         id: 'MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==',
+                        createdAt: '2016-10-14T20:31:44Z',
                       },
                     },
                     {
@@ -94,6 +123,7 @@ describe('SelectRepos actions', () => {
                       node: {
                         name: 'minesweeper',
                         id: 'MDEwOlJlcG9zaXRvcnk3Mjc1NzkxNg==',
+                        createdAt: '2016-10-14T20:31:44Z',
                       },
                     },
                   ],
@@ -113,6 +143,7 @@ describe('SelectRepos actions', () => {
                       node: {
                         name: 'test1',
                         id: 'testid1==',
+                        createdAt: '2016-10-14T20:31:44Z',
                       },
                     },
                     {
@@ -120,6 +151,7 @@ describe('SelectRepos actions', () => {
                       node: {
                         name: 'test2',
                         id: 'testid2==',
+                        createdAt: '2016-10-14T20:31:44Z',
                       },
                     },
                   ],
@@ -130,18 +162,22 @@ describe('SelectRepos actions', () => {
               {
                 name: 'Atticus_Legal',
                 id: 'MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==',
+                createdAt: new Date('2016-10-14T20:31:44Z'),
               },
               {
                 name: 'minesweeper',
                 id: 'MDEwOlJlcG9zaXRvcnk3Mjc1NzkxNg==',
+                createdAt: new Date('2016-10-14T20:31:44Z'),
               },
               {
                 name: 'test1',
                 id: 'testid1==',
+                createdAt: new Date('2016-10-14T20:31:44Z'),
               },
               {
                 name: 'test2',
                 id: 'testid2==',
+                createdAt: new Date('2016-10-14T20:31:44Z'),
               },
             ];
             getMock.withArgs(testQueryOne, testToken).returns(testResult1);

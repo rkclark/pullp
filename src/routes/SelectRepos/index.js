@@ -39,6 +39,9 @@ export class SelectRepos extends React.Component {
             checked={checked}
             onChange={onChange}
             id={repo.id}
+            isFork={repo.isFork}
+            owner={repo.owner}
+            createdAt={repo.createdAt}
           />
         );
       });
