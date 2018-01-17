@@ -56,6 +56,7 @@ export const requestWatchedRepos = token => async dispatch => {
         paginate = paginatedResults.viewer.watching.pageInfo.hasNextPage;
       }
     }
+    console.log(reposArray);
     reposArray = reposArray.map(repo => ({
       name: repo.node.name,
       id: repo.node.id,
