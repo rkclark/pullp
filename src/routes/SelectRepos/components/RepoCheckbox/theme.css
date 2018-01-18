@@ -2,13 +2,20 @@
 @import "../../../../css/units.css";
 
 .checkboxContainer {
+  display: flex;
+  max-width: 80rem;
 }
 
 .label {
   color: var(--primary-dark);
   font-weight: normal;
   font-size: var(--font-size-5);
-  margin-right: var(--spacing-4);
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  flex-basis: 100%;
+  height: 4rem;
+  font-size: 1.4rem;
 }
 
 .input {
@@ -17,7 +24,7 @@
   opacity: 0;
 }
 
-.label:before {
+/* .label:before {
   content: "\2713";
   width: 2.5rem;
   height: 2.5rem;
@@ -35,10 +42,11 @@
 .input:checked + label:before {
   content: "\2713";
   background-color: var(--secondary-dark);
-}
+} */
 
 .link {
   padding: var(--spacing-1);
+  flex-basis: 6rem;
 }
 
 .linkIcon {
@@ -52,4 +60,31 @@
    height: 3rem;
    width: 3rem;
    border-radius: 0.3rem;
+   margin-right: 1rem;
+ }
+
+ .login {
+   flex: 0 0 15%;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   margin-right: 2rem;
+   font-size: 1.1rem;
+ }
+
+ .name {
+  flex: 0 0 40%;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  margin: 0;
+ }
+
+ .date {
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
+  font-size: 1rem;
+  margin-left: 1rem;
+  margin: 0;
+  position: absolute;
+  color: var(--light-grey);
  }

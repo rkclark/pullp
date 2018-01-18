@@ -44,3 +44,7 @@
 .currentPage {
   line-height: 4rem;
 }
+
+.reposContainer {
+  justify-self: center;
+}

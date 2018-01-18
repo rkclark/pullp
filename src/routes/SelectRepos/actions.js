@@ -56,17 +56,14 @@ export const requestWatchedRepos = token => async dispatch => {
         paginate = paginatedResults.viewer.watching.pageInfo.hasNextPage;
       }
     }
-    reposArray = reposArray.map(repo => {
-      const createdAtDate = new Date(repo.node.createdAt);
-      return {
-        name: repo.node.name,
-        id: repo.node.id,
-        url: repo.node.url,
-        owner: repo.node.owner,
-        isFork: repo.node.isFork,
-        createdAt: createdAtDate,
-      };
-    });
+    reposArray = reposArray.map(repo => ({
+      name: repo.node.name,
+      id: repo.node.id,
+      url: repo.node.url,
+      owner: repo.node.owner,
+      isFork: repo.node.isFork,
+      createdAt: repo.node.createdAt,
+    }));
     dispatch(requestWatchedReposSuccess(reposArray));
     dispatch(filterRepos());
     dispatch(paginateRepos());
