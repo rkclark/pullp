@@ -77,7 +77,7 @@ export class SelectRepos extends React.Component {
             onChange={this.filterOnChange}
           />
         </div>
-        {repos}
+        <div className={theme.reposContainer}>{repos}</div>
         {this.props.githubError}
         <div className={theme.paginationContainer}>
           {paginatedRepos.hasPreviousPage ? (

@@ -3,6 +3,12 @@ import PropTypes from 'prop-types';
 import defaultTheme from './theme.css';
 import link from '../../../../images/link-primary.svg';
 
+const dateOptions = {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+};
+
 export default function RepoCheckbox({
   name,
   id,
@@ -14,6 +20,11 @@ export default function RepoCheckbox({
   owner,
   createdAt,
 }) {
+  const createdAtDate = new Date(createdAt).toLocaleString(
+    'en-GB',
+    dateOptions,
+  );
+
   return (
     <div className={theme.checkboxContainer}>
       <input
@@ -24,19 +35,19 @@ export default function RepoCheckbox({
         onChange={onChange}
       />
       <label htmlFor={id} className={theme.label}>
+        <img
+          src={owner.avatarUrl}
+          alt={`${owner.login} avatar`}
+          className={theme.avatar}
+        />
+        <span className={theme.login}>{owner.login}</span>
         <div>
-          <img
-            src={owner.avatarUrl}
-            alt={`${owner.login} avatar`}
-            className={theme.avatar}
-          />
-          <span>{owner.login}</span>
+          <p className={theme.name}>
+            {name}
+            {isFork ? <em> (Fork)</em> : null}
+          </p>
+          <p className={theme.date}>{createdAtDate}</p>
         </div>
-        <div>
-          {name}
-          {isFork ? <em> (Fork)</em> : null}
-        </div>
-        <div>{createdAt.toLocaleDateString('en-GB')}</div>
       </label>
       <a className={theme.link} href={url}>
         <img className={theme.linkIcon} src={link} alt="link icon" />
@@ -57,7 +68,7 @@ RepoCheckbox.propTypes = {
     login: PropTypes.string.isRequired,
     avatarUrl: PropTypes.string.isRequired,
   }).isRequired,
-  createdAt: PropTypes.instanceOf(Date).isRequired,
+  createdAt: PropTypes.string.isRequired,
 };
 
 RepoCheckbox.defaultProps = {

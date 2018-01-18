@@ -63,7 +63,7 @@ describe('SelectRepos actions', () => {
                   login: 'user1',
                 },
                 isFork: false,
-                createdAt: new Date('2016-10-14T20:31:44Z'),
+                createdAt: '2016-10-14T20:31:44Z',
               },
               {
                 name: 'test2',
@@ -74,7 +74,7 @@ describe('SelectRepos actions', () => {
                   login: 'user2',
                 },
                 isFork: false,
-                createdAt: new Date('2016-10-14T20:31:44Z'),
+                createdAt: '2016-10-14T20:31:44Z',
               },
             ];
             getMock.returns(testResult);
@@ -162,22 +162,22 @@ describe('SelectRepos actions', () => {
               {
                 name: 'Atticus_Legal',
                 id: 'MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==',
-                createdAt: new Date('2016-10-14T20:31:44Z'),
+                createdAt: '2016-10-14T20:31:44Z',
               },
               {
                 name: 'minesweeper',
                 id: 'MDEwOlJlcG9zaXRvcnk3Mjc1NzkxNg==',
-                createdAt: new Date('2016-10-14T20:31:44Z'),
+                createdAt: '2016-10-14T20:31:44Z',
               },
               {
                 name: 'test1',
                 id: 'testid1==',
-                createdAt: new Date('2016-10-14T20:31:44Z'),
+                createdAt: '2016-10-14T20:31:44Z',
               },
               {
                 name: 'test2',
                 id: 'testid2==',
-                createdAt: new Date('2016-10-14T20:31:44Z'),
+                createdAt: '2016-10-14T20:31:44Z',
               },
             ];
             getMock.withArgs(testQueryOne, testToken).returns(testResult1);
