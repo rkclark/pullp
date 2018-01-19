@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import defaultTheme from './theme.css';
-import link from '../../../../images/link-primary.svg';
 
 const dateOptions = {
   year: 'numeric',
@@ -34,23 +33,44 @@ export default function RepoCheckbox({
         checked={checked}
         onChange={onChange}
       />
-      <label htmlFor={id} className={theme.label}>
+      <label
+        htmlFor={id}
+        className={`${theme.label} ${checked ? theme.labelActive : null}`}
+      >
         <img
           src={owner.avatarUrl}
           alt={`${owner.login} avatar`}
           className={theme.avatar}
         />
         <span className={theme.login}>{owner.login}</span>
-        <div>
+        <div className={theme.nameContainer}>
           <p className={theme.name}>
             {name}
-            {isFork ? <em> (Fork)</em> : null}
+            {isFork ? <em> (fork)</em> : null}
           </p>
           <p className={theme.date}>{createdAtDate}</p>
         </div>
+        <div
+          className={`${theme.checkBox} ${checked
+            ? theme.checkBoxActive
+            : null}`}
+        />
       </label>
       <a className={theme.link} href={url}>
-        <img className={theme.linkIcon} src={link} alt="link icon" />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 512 512"
+          className={theme.linkIcon}
+        >
+          <path
+            d="M488.73 0H302.54a23.27 23.27 0 0 0 0 46.55h130L193 286.09A23.27 23.27 0 1 0 225.9 319L465.45 79.46v130a23.27 23.27 0 0 0 46.55 0V23.27A23.27 23.27 0 0 0 488.73 0z"
+            fill="#2B2D42"
+          />
+          <path
+            d="M395.64 232.73A23.27 23.27 0 0 0 372.36 256v209.46H46.55V139.64H256a23.27 23.27 0 0 0 0-46.55H23.27A23.27 23.27 0 0 0 0 116.36v372.37A23.27 23.27 0 0 0 23.27 512h372.37a23.27 23.27 0 0 0 23.27-23.27V256a23.27 23.27 0 0 0-23.27-23.27z"
+            fill="#2B2D42"
+          />
+        </svg>
       </a>
     </div>
   );

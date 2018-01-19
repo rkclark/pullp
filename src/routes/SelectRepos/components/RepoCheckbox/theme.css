@@ -3,50 +3,63 @@
 
 .checkboxContainer {
   display: flex;
+  width: 80vw;
   max-width: 80rem;
+  margin: 0.8rem auto;
+  box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4);
 }
 
 .label {
-  color: var(--primary-dark);
+  color: white;
   font-weight: normal;
   font-size: var(--font-size-5);
   margin: 0;
   display: inline-flex;
   align-items: center;
   flex-basis: 100%;
-  height: 4rem;
+  height: 7rem;
   font-size: 1.4rem;
+  cursor: pointer;
+  background-color: var(--medium-grey);
+  padding: 0 1rem;
+  transition: 0.3s ease-in-out all;
+  box-shadow: inset 0 -0.4rem 0 0 rgba(0, 0, 0, 0.08);
+}
+
+.labelActive {
+  background-color: var(--primary-dark);
+}
+
+.label:hover {
+  opacity: 0.8;
 }
 
 .input {
   width: 0;
   height: 0;
   opacity: 0;
+  position: absolute;
 }
-
-/* .label:before {
-  content: "\2713";
-  width: 2.5rem;
-  height: 2.5rem;
-  border: 2px solid var(--primary-medium);
-  display: inline-block;
-  border-radius: var(--spacing-1);
-  color: var(--primary-light);
-  text-align: center;
-  font-size: var(--font-size-4);
-  line-height: 1.3;
-  transition: 0.5s ease all;
-  margin-right: var(--spacing-4);
-}
-
-.input:checked + label:before {
-  content: "\2713";
-  background-color: var(--secondary-dark);
-} */
 
 .link {
-  padding: var(--spacing-1);
   flex-basis: 6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s ease-in-out all;
+  background-color: white;
+}
+
+.link:hover {
+  background-color: var(--secondary-medium);
+}
+
+.link path {
+  transition: 0.3s ease-in-out all;
+}
+
+.link:hover path {
+  fill: white;
 }
 
 .linkIcon {
@@ -72,11 +85,17 @@
    font-size: 1.1rem;
  }
 
+.nameContainer {
+  /* flex: 0 1 50%; */
+  max-width: 40%;
+}
+
  .name {
-  flex: 0 0 40%;
-  overflow: hidden;
-  overflow-wrap: break-word;
   margin: 0;
+  padding-right: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
  }
 
  .date {
@@ -87,4 +106,19 @@
   margin: 0;
   position: absolute;
   color: var(--light-grey);
+ }
+
+ .checkBox {
+   border-radius: 100%;
+   width: 2rem;
+   height: 2rem;
+   border: 0.2rem solid rgba(255, 255, 255, 0.4);
+   background-color: rgba(255, 255, 255, 0.1);
+   margin-left: auto;
+   margin-right: 2rem;
+   transition: 0.3s ease-in-out all;
+ }
+
+ .checkBoxActive {
+   background-color: var(--secondary-medium);
  }
