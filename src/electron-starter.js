@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const {
   default: installExtension,
   REACT_DEVELOPER_TOOLS,
