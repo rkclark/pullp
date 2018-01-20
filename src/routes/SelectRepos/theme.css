@@ -25,10 +25,52 @@
   margin: 0;
 }
 
-.paginationContainer, .filterContainer {
+.paginationContainer {
+  justify-self: center;
   display: flex;
+  align-items: center;
   justify-content: center;
-  align-content: center;
+  width: 90%;
+  margin: 2rem 0;
+  position: relative;
+}
+
+@media only screen and (min-width: 840px) {
+  .paginationContainer {
+    width: 80rem;
+  }
+} 
+
+.buttonContainer {
+  position: absolute;
+}
+
+@media only screen and (max-width: 720px) {
+  .buttonContainer {
+    position: static;
+    margin: 0.5rem auto;
+  }
+
+  .paginationContainer {
+    flex-direction: column;
+  }
+} 
+
+
+.previousButton {
+  left: 16rem;
+}
+
+.firstButton {
+  left: 2rem;
+}
+
+.nextButton {
+  right: 16rem;
+}
+
+.lastButton {
+  right: 2rem;
 }
 
 .filterInput {
@@ -37,16 +79,6 @@
 
 .filterLabel {
   margin-right: var(--spacing-2);
-}
-
-.paginationButton {
-  background-color: var(--primary-dark);
-  border: none;
-  display: inline-flex;
-  justify-content: center;
-  align-content: center;
-  cursor: pointer;
-  margin: 0 var(--spacing-2);
 }
 
 .currentPage {
