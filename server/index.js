@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const queryString = require('querystring');
 const express = require('express');
 const bodyParser = require('body-parser');
