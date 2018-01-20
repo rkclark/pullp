@@ -9,6 +9,12 @@ describe('RepoCheckbox', () => {
     onChange: jest.fn(),
     id: 'test',
     url: 'testurl',
+    owner: {
+      avatarUrl: 'testurl',
+      login: 'testlogin',
+    },
+    isFork: false,
+    createdAt: '2016-10-14T20:31:44Z',
   };
 
   it('renders successfully', () => {
@@ -27,5 +33,24 @@ describe('RepoCheckbox', () => {
       component.find('input').simulate('change');
       expect(props.onChange).toHaveBeenCalled();
     });
+  });
+
+  describe('when repo is a fork', () => {
+    it('renders "(fork)" in repo name', () => {
+      const component = shallow(<RepoCheckbox {...props} isFork />);
+      expect(component.find('.name').text()).toContain('(fork)');
+    });
+  });
+
+  describe('when repo is not a fork', () => {
+    it('does not render "(fork)" in repo name', () => {
+      const component = shallow(<RepoCheckbox {...props} />);
+      expect(component.find('.name').text()).not.toContain('(fork)');
+    });
+  });
+
+  it('renders created at date in correct format', () => {
+    const component = shallow(<RepoCheckbox {...props} />);
+    expect(component.find('.date').text()).toContain('Oct 14, 2016');
   });
 });

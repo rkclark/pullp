@@ -20,11 +20,23 @@ describe('SelectRepos', () => {
             name: 'test1',
             id: 'MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==',
             url: 'url',
+            owner: {
+              avatarUrl: 'testurl',
+              login: 'testlogin',
+            },
+            isFork: false,
+            createdAt: '2016-10-14T20:31:44Z',
           },
           {
             name: 'test2',
             id: 'MDEwOlJlcG9zaXRvcnk3Mjc1NzkxNg==',
             url: 'url',
+            owner: {
+              avatarUrl: 'testurl',
+              login: 'testlogin',
+            },
+            isFork: false,
+            createdAt: '2016-10-14T20:31:44Z',
           },
         ],
         2: [
@@ -32,11 +44,23 @@ describe('SelectRepos', () => {
             name: 'test3',
             id: 'testid1==',
             url: 'url',
+            owner: {
+              avatarUrl: 'testurl',
+              login: 'testlogin',
+            },
+            isFork: false,
+            createdAt: '2016-10-14T20:31:44Z',
           },
           {
             name: 'test4',
             id: 'testid2==',
             url: 'url',
+            owner: {
+              avatarUrl: 'testurl',
+              login: 'testlogin',
+            },
+            isFork: false,
+            createdAt: '2016-10-14T20:31:44Z',
           },
         ],
         3: [
@@ -44,11 +68,23 @@ describe('SelectRepos', () => {
             name: 'test5',
             id: 'MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==',
             url: 'url',
+            owner: {
+              avatarUrl: 'testurl',
+              login: 'testlogin',
+            },
+            isFork: false,
+            createdAt: '2016-10-14T20:31:44Z',
           },
           {
             name: 'test6',
             id: 'MDEwOlJlcG9zaXRvcnk3Mjc1NzkxNg==',
             url: 'url',
+            owner: {
+              avatarUrl: 'testurl',
+              login: 'testlogin',
+            },
+            isFork: false,
+            createdAt: '2016-10-14T20:31:44Z',
           },
         ],
       },
