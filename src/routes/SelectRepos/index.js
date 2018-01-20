@@ -4,10 +4,6 @@ import PropTypes from 'prop-types';
 import * as actions from './actions';
 import RepoCheckbox from './components/RepoCheckbox';
 import defaultTheme from './theme.css';
-import previousPage from '../../images/previous-page.svg';
-import nextPage from '../../images/next-page.svg';
-import firstPage from '../../images/first-page.svg';
-import lastPage from '../../images/last-page.svg';
 
 export class SelectRepos extends React.Component {
   constructor(props) {
@@ -62,11 +58,11 @@ export class SelectRepos extends React.Component {
     return (
       <div className={theme.pinContainer}>
         <h3 className={theme.title}>
-          Select the repos you want to pin&hellip;
+          Select the repos you want monitor with Pullp
         </h3>
         <div className={theme.filterContainer}>
           <label htmlFor="filter" className={theme.filterLabel}>
-            Filter
+            Search
           </label>
           <input
             name="filter"
@@ -77,6 +73,10 @@ export class SelectRepos extends React.Component {
             onChange={this.filterOnChange}
           />
         </div>
+        <p className={theme.intro}>
+          Can&#8217;t find one of your repos here? Make sure you are watching it
+          on Github!
+        </p>
         <div className={theme.reposContainer}>{repos}</div>
         {this.props.githubError}
         <div className={theme.paginationContainer}>
@@ -88,11 +88,7 @@ export class SelectRepos extends React.Component {
                 this.props.changeReposPage(1);
               }}
             >
-              <img
-                className={theme.paginationIcon}
-                src={firstPage}
-                alt="first"
-              />
+              First
             </button>
           ) : null}
           {paginatedRepos.hasPreviousPage ? (
@@ -103,11 +99,7 @@ export class SelectRepos extends React.Component {
                 this.props.changeReposPage(paginatedRepos.currentPage - 1);
               }}
             >
-              <img
-                className={theme.paginationIcon}
-                src={previousPage}
-                alt="previous"
-              />
+              Previous
             </button>
           ) : null}
           {paginatedRepos.currentPage ? (
@@ -123,7 +115,7 @@ export class SelectRepos extends React.Component {
                 this.props.changeReposPage(paginatedRepos.currentPage + 1);
               }}
             >
-              <img className={theme.paginationIcon} src={nextPage} alt="next" />
+              Next
             </button>
           ) : null}
           {paginatedRepos.hasNextPage ? (
@@ -134,7 +126,7 @@ export class SelectRepos extends React.Component {
                 this.props.changeReposPage(paginatedRepos.totalPages);
               }}
             >
-              <img className={theme.paginationIcon} src={lastPage} alt="last" />
+              Last
             </button>
           ) : null}
         </div>
