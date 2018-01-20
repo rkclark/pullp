@@ -7,6 +7,7 @@ import defaultTheme from './theme.css';
 import Button from '../../components/Button';
 import buttonTheme from './buttonTheme.css';
 import Loading from '../../components/Loading';
+import Error from '../../components/Error';
 
 export class SelectRepos extends React.Component {
   constructor(props) {
@@ -86,6 +87,15 @@ export class SelectRepos extends React.Component {
           </div>
         ) : (
           <div>
+            {this.props.githubError ? (
+              <div className={theme.error}>
+                <Error
+                  message={
+                    'Failed to fetch your watched repos from Github! If you still see repos on this page they may not be up to date.'
+                  }
+                />
+              </div>
+            ) : null}
             <div className={theme.reposContainer}>{repos}</div>
             <div className={theme.paginationContainer}>
               {paginatedRepos.hasPreviousPage ? (
@@ -157,7 +167,6 @@ export class SelectRepos extends React.Component {
             </div>
           </div>
         )}
-        {this.props.githubError}
       </div>
     );
   }
