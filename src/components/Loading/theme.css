@@ -1,0 +1,6 @@
+@import "../../css/colors.css";
+
+
+.icon path, .icon rect {
+  fill: var(--secondary-medium);
+}

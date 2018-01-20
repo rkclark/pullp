@@ -19,6 +19,7 @@ export const initialState = {
   selectedRepos: [],
   repoFilterValue: null,
   reposPerPage,
+  loading: false,
 };
 
 export default function(state = initialState, action) {
@@ -45,6 +46,7 @@ export default function(state = initialState, action) {
         githubError: null,
         filteredRepos: [],
         selectedRepos,
+        loading: false,
       };
     }
     case types.PAGINATE_REPOS: {
@@ -85,6 +87,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         githubError: action.error,
+        loading: false,
       };
     }
     case types.TOGGLE_REPO_SELECTION: {
@@ -115,6 +118,12 @@ export default function(state = initialState, action) {
       return {
         ...state,
         filteredRepos,
+      };
+    }
+    case types.LOADING_WATCHED_REPOS: {
+      return {
+        ...state,
+        loading: true,
       };
     }
     default: {

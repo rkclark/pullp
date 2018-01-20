@@ -8,7 +8,7 @@ describe('SelectRepos actions', () => {
     describe('requestWatchedRepos', () => {
       describe('when call to github succeeds', () => {
         describe('when results do not have a nextPage', () => {
-          it('dispatches requestWatchedReposSuccess and paginateRepos actions', async () => {
+          it('dispatches loadingWatchedRepos, requestWatchedReposSuccess and paginateRepos actions', async () => {
             const queryMock = sinon.stub(githubApi.queries, 'watchedRepos');
             const testQuery = '{ query }';
             queryMock.returns(testQuery);
@@ -86,10 +86,13 @@ describe('SelectRepos actions', () => {
             queryMock.restore();
             getMock.restore();
             expect(dispatch.mock.calls[0][0]).toEqual(
+              actions.loadingWatchedRepos(),
+            );
+            expect(dispatch.mock.calls[1][0]).toEqual(
               actions.requestWatchedReposSuccess(expectedResult),
             );
-            expect(dispatch.mock.calls[1][0]).toEqual(actions.filterRepos());
-            expect(dispatch.mock.calls[2][0]).toEqual(actions.paginateRepos());
+            expect(dispatch.mock.calls[2][0]).toEqual(actions.filterRepos());
+            expect(dispatch.mock.calls[3][0]).toEqual(actions.paginateRepos());
           });
         });
         describe('when results have a nextPage', () => {
@@ -194,7 +197,7 @@ describe('SelectRepos actions', () => {
         });
       });
       describe('when call to github fails', () => {
-        it('dispatches requestWatchedReposFail with the error message', async () => {
+        it('dispatches loadingWatchedRepos, requestWatchedReposFail with the error message', async () => {
           const queryMock = sinon.stub(githubApi.queries, 'watchedRepos');
           const testQuery = '{ query }';
           queryMock.returns(testQuery);
@@ -206,6 +209,7 @@ describe('SelectRepos actions', () => {
           await requestWatchedRepos(dispatch);
           queryMock.restore();
           getMock.restore();
+          expect(dispatch).toHaveBeenCalledWith(actions.loadingWatchedRepos());
           expect(dispatch).toHaveBeenCalledWith(
             actions.requestWatchedReposFail(testError.message),
           );
@@ -294,6 +298,15 @@ describe('SelectRepos actions', () => {
         expect(dispatch.mock.calls[1][0]).toEqual(actions.filterRepos());
         expect(dispatch.mock.calls[2][0]).toEqual(actions.paginateRepos());
       });
+    });
+  });
+
+  describe('Loading', () => {
+    it('creates an loading watched repos action', () => {
+      const expectedAction = {
+        type: types.LOADING_WATCHED_REPOS,
+      };
+      expect(actions.loadingWatchedRepos()).toEqual(expectedAction);
     });
   });
 });

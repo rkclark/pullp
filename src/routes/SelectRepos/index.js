@@ -6,6 +6,7 @@ import RepoCheckbox from './components/RepoCheckbox';
 import defaultTheme from './theme.css';
 import Button from '../../components/Button';
 import buttonTheme from './buttonTheme.css';
+import Loading from '../../components/Loading';
 
 export class SelectRepos extends React.Component {
   constructor(props) {
@@ -58,7 +59,7 @@ export class SelectRepos extends React.Component {
     const theme = this.props.theme;
     const paginatedRepos = this.props.paginatedRepos;
     return (
-      <div className={theme.pinContainer}>
+      <div>
         <h3 className={theme.title}>
           Select the repos you want monitor with Pullp
         </h3>
@@ -79,68 +80,84 @@ export class SelectRepos extends React.Component {
           Can&#8217;t find one of your repos here? Make sure you are watching it
           on Github!
         </p>
-        <div className={theme.reposContainer}>{repos}</div>
-        {this.props.githubError}
-        <div className={theme.paginationContainer}>
-          {paginatedRepos.hasPreviousPage ? (
-            <div className={`${theme.buttonContainer} ${theme.firstButton}`}>
-              <Button
-                data-test-id="firstPageButton"
-                onClick={() => {
-                  this.props.changeReposPage(1);
-                }}
-                theme={buttonTheme}
-              >
-                First
-              </Button>
-            </div>
-          ) : null}
+        {this.props.loading ? (
+          <div className={theme.loading}>
+            <Loading />
+          </div>
+        ) : (
+          <div>
+            <div className={theme.reposContainer}>{repos}</div>
+            <div className={theme.paginationContainer}>
+              {paginatedRepos.hasPreviousPage ? (
+                <div
+                  className={`${theme.buttonContainer} ${theme.firstButton}`}
+                >
+                  <Button
+                    data-test-id="firstPageButton"
+                    onClick={() => {
+                      this.props.changeReposPage(1);
+                    }}
+                    theme={buttonTheme}
+                  >
+                    First
+                  </Button>
+                </div>
+              ) : null}
 
-          {paginatedRepos.hasPreviousPage ? (
-            <div className={`${theme.buttonContainer} ${theme.previousButton}`}>
-              <Button
-                data-test-id="previousButton"
-                onClick={() => {
-                  this.props.changeReposPage(paginatedRepos.currentPage - 1);
-                }}
-                theme={buttonTheme}
-              >
-                Previous
-              </Button>
+              {paginatedRepos.hasPreviousPage ? (
+                <div
+                  className={`${theme.buttonContainer} ${theme.previousButton}`}
+                >
+                  <Button
+                    data-test-id="previousButton"
+                    onClick={() => {
+                      this.props.changeReposPage(
+                        paginatedRepos.currentPage - 1,
+                      );
+                    }}
+                    theme={buttonTheme}
+                  >
+                    Previous
+                  </Button>
+                </div>
+              ) : null}
+              {paginatedRepos.currentPage ? (
+                <span className={theme.currentPage} data-test-id="currentPage">
+                  {paginatedRepos.currentPage} of {paginatedRepos.totalPages}
+                </span>
+              ) : null}
+              {paginatedRepos.hasNextPage ? (
+                <div className={`${theme.buttonContainer} ${theme.nextButton}`}>
+                  <Button
+                    data-test-id="nextButton"
+                    onClick={() => {
+                      this.props.changeReposPage(
+                        paginatedRepos.currentPage + 1,
+                      );
+                    }}
+                    theme={buttonTheme}
+                  >
+                    Next
+                  </Button>
+                </div>
+              ) : null}
+              {paginatedRepos.hasNextPage ? (
+                <div className={`${theme.buttonContainer} ${theme.lastButton}`}>
+                  <Button
+                    data-test-id="lastPageButton"
+                    onClick={() => {
+                      this.props.changeReposPage(paginatedRepos.totalPages);
+                    }}
+                    theme={buttonTheme}
+                  >
+                    Last
+                  </Button>
+                </div>
+              ) : null}
             </div>
-          ) : null}
-          {paginatedRepos.currentPage ? (
-            <span className={theme.currentPage} data-test-id="currentPage">
-              {paginatedRepos.currentPage} of {paginatedRepos.totalPages}
-            </span>
-          ) : null}
-          {paginatedRepos.hasNextPage ? (
-            <div className={`${theme.buttonContainer} ${theme.nextButton}`}>
-              <Button
-                data-test-id="nextButton"
-                onClick={() => {
-                  this.props.changeReposPage(paginatedRepos.currentPage + 1);
-                }}
-                theme={buttonTheme}
-              >
-                Next
-              </Button>
-            </div>
-          ) : null}
-          {paginatedRepos.hasNextPage ? (
-            <div className={`${theme.buttonContainer} ${theme.lastButton}`}>
-              <Button
-                data-test-id="lastPageButton"
-                onClick={() => {
-                  this.props.changeReposPage(paginatedRepos.totalPages);
-                }}
-                theme={buttonTheme}
-              >
-                Last
-              </Button>
-            </div>
-          ) : null}
-        </div>
+          </div>
+        )}
+        {this.props.githubError}
       </div>
     );
   }
@@ -163,6 +180,7 @@ SelectRepos.propTypes = {
   performFiltering: PropTypes.func.isRequired,
   repoFilterValue: PropTypes.string,
   changeReposPage: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
 };
 
 SelectRepos.defaultProps = {
@@ -178,6 +196,7 @@ SelectRepos.defaultProps = {
   selectedRepos: [],
   theme: defaultTheme,
   repoFilterValue: null,
+  loading: false,
 };
 
 const mapStateToProps = state => ({
@@ -186,6 +205,7 @@ const mapStateToProps = state => ({
   githubToken: state.setup.githubToken,
   selectedRepos: state.selectRepos.selectedRepos,
   repoFilterValue: state.selectRepos.repoFilterValue,
+  loading: state.selectRepos.loading,
 });
 
 const mapDispatchToProps = dispatch => ({
