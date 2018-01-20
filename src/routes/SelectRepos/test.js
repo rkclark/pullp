@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { SelectRepos } from './';
 import RepoCheckbox from './components/RepoCheckbox';
+import Loading from '../../components/Loading';
 
 describe('SelectRepos', () => {
   const props = {
@@ -294,6 +295,34 @@ describe('SelectRepos', () => {
         const component = shallow(<SelectRepos {...testProps} />);
         const currentPage = component.find('[data-test-id="currentPage"]');
         expect(currentPage.length).toBe(0);
+      });
+    });
+
+    describe('when loading', () => {
+      const testProps = {
+        ...props,
+        loading: true,
+      };
+      it('does not render repos', () => {
+        const component = shallow(<SelectRepos {...testProps} />);
+        expect(component.find(RepoCheckbox).length).toBe(0);
+      });
+
+      it('renders loading icon', () => {
+        const component = shallow(<SelectRepos {...testProps} />);
+        expect(component.find(Loading).length).toBe(1);
+      });
+    });
+
+    describe('when loaded', () => {
+      it('does renders repos', () => {
+        const component = shallow(<SelectRepos {...props} />);
+        expect(component.find(RepoCheckbox).length).toBe(2);
+      });
+
+      it('does not render loading icon', () => {
+        const component = shallow(<SelectRepos {...props} />);
+        expect(component.find(Loading).length).toBe(0);
       });
     });
   });

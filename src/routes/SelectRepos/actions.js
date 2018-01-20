@@ -36,6 +36,10 @@ export const changeReposPage = page => ({
   page,
 });
 
+export const loadingWatchedRepos = () => ({
+  type: types.LOADING_WATCHED_REPOS,
+});
+
 export const performFiltering = value => dispatch => {
   dispatch(saveRepoFilterValue(value));
   dispatch(filterRepos());
@@ -43,6 +47,7 @@ export const performFiltering = value => dispatch => {
 };
 
 export const requestWatchedRepos = token => async dispatch => {
+  dispatch(loadingWatchedRepos());
   try {
     let query = queries.watchedRepos();
     const initialResults = await get(query, token);

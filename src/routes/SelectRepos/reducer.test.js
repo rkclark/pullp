@@ -43,12 +43,14 @@ describe('SelectRepos reducer', () => {
       const baseState = {
         ...initialState,
         githubError: 'error',
+        loading: true,
       };
 
       const expectedState = {
         ...baseState,
         watchedRepos: data,
         githubError: null,
+        loading: false,
       };
 
       const newState = reducer(
@@ -432,13 +434,18 @@ describe('SelectRepos reducer', () => {
   describe('Request watchedRepos failure', () => {
     it('Saves github failure error', () => {
       const error = 'error';
+      const baseState = {
+        ...initialState,
+        loading: true,
+      };
       const expectedState = {
         ...initialState,
         githubError: error,
+        loading: false,
       };
 
       const newState = reducer(
-        initialState,
+        baseState,
         actions.requestWatchedReposFail(error),
       );
       expect(newState).toEqual(expectedState);
@@ -598,6 +605,17 @@ describe('SelectRepos reducer', () => {
       };
 
       const newState = reducer(baseState, logout());
+      expect(newState).toEqual(expectedState);
+    });
+  });
+  describe('loading', () => {
+    it('sets loading to true', () => {
+      const expectedState = {
+        ...initialState,
+        loading: true,
+      };
+
+      const newState = reducer(initialState, actions.loadingWatchedRepos());
       expect(newState).toEqual(expectedState);
     });
   });
