@@ -3,6 +3,7 @@ import { shallow, mount } from 'enzyme';
 import { SelectRepos } from './';
 import RepoCheckbox from './components/RepoCheckbox';
 import Loading from '../../components/Loading';
+import Error from '../../components/Error';
 
 describe('SelectRepos', () => {
   const props = {
@@ -323,6 +324,22 @@ describe('SelectRepos', () => {
       it('does not render loading icon', () => {
         const component = shallow(<SelectRepos {...props} />);
         expect(component.find(Loading).length).toBe(0);
+      });
+    });
+
+    describe('when there is a github error', () => {
+      it('renders an error', () => {
+        const component = shallow(
+          <SelectRepos {...props} githubError="error" />,
+        );
+        expect(component.find(Error).length).toBe(1);
+      });
+    });
+
+    describe('when there is not a github error', () => {
+      it('does not render an error', () => {
+        const component = shallow(<SelectRepos {...props} />);
+        expect(component.find(Error).length).toBe(0);
       });
     });
   });

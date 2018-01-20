@@ -609,13 +609,20 @@ describe('SelectRepos reducer', () => {
     });
   });
   describe('loading', () => {
-    it('sets loading to true', () => {
+    it('sets loading to true and githubError to null', () => {
+      const baseState = {
+        ...initialState,
+        loading: false,
+        githubError: 'error',
+      };
+
       const expectedState = {
         ...initialState,
         loading: true,
+        githubError: null,
       };
 
-      const newState = reducer(initialState, actions.loadingWatchedRepos());
+      const newState = reducer(baseState, actions.loadingWatchedRepos());
       expect(newState).toEqual(expectedState);
     });
   });

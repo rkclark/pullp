@@ -124,6 +124,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         loading: true,
+        githubError: null,
       };
     }
     default: {

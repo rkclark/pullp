@@ -2,9 +2,10 @@
 @import "../../css/units.css";
 
 
-.loading {
+.loading, .error {
   width: 100%;
   display: flex;
+  justify-content: center;
 }
 
 .loading svg {
