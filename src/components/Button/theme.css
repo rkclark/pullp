@@ -1,0 +1,20 @@
+@import "../../css/colors.css";
+
+
+.button {
+  margin: 0;
+  padding: 1rem 3rem;
+  border: none;
+  border-radius: 0.3rem;
+  background-color: var(--primary-dark);
+  color: white;
+  text-transform: uppercase;
+  font-weight: normal;
+  font-size: 1.5rem;
+  font-family: 'Roboto', sans-serif;
+  transition: all 0.5s ease;
+}
+
+.button:hover, .button:focus {
+  background-color: var(--secondary-medium);
+}

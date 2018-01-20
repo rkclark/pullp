@@ -101,6 +101,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 1.6rem;
  }
 
  .date {
