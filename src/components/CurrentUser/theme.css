@@ -1,7 +1,9 @@
 @import "../../css/units.css";
 
-.currentUser {
-  text-align: right;
+.currentUser, .link {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .image {

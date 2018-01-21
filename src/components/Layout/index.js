@@ -9,7 +9,7 @@ import SelectRepos from '../../routes/SelectRepos'; //eslint-disable-line
 import Setup from '../../routes/Setup';
 import defaultTheme from './theme.css';
 import CurrentUser from '../CurrentUser';
-import refresh from '../../images/refresh-white.svg';
+import Loading from '../Loading';
 
 export class Layout extends React.Component {
   constructor(props) {
@@ -42,13 +42,14 @@ export class Layout extends React.Component {
     const icon =
       path === '/' && this.props.currentUser ? (
         <button className={theme.refresh} onClick={onClick}>
-          <img
-            className={`${theme.refreshIcon} ${this.props.pullRequestsLoading
-              ? theme.refreshLoading
+          <Loading loading={this.props.pullRequestsLoading} />
+          <span
+            className={`${theme.sync} ${this.props.pullRequestsLoading
+              ? theme.syncActive
               : null}`}
-            src={refresh}
-            alt="refresh icon"
-          />
+          >
+            Sync
+          </span>
         </button>
       ) : null;
     return icon;
