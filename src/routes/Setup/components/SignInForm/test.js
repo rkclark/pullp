@@ -14,6 +14,7 @@ describe('SignInForm', () => {
     githubClientSecret: null,
     githubToken: null,
     dispatch: () => {},
+    logout: () => {},
   };
 
   it('renders successsfully', () => {
@@ -39,7 +40,7 @@ describe('SignInForm', () => {
           githubClientSecret="test"
         />,
       );
-      const button = component.find(Button);
+      const button = component.find(Button).at(0);
       expect(button.props().children).toBe('Sign in with Github');
     });
 
@@ -67,12 +68,49 @@ describe('SignInForm', () => {
             githubClientSecret={secret}
           />,
         );
-        component.find(Button).simulate('click');
+        component
+          .find(Button)
+          .at(0)
+          .simulate('click');
         expect(authMock).toHaveBeenCalledWith(
           id,
           secret,
           defaultProps.dispatch,
         );
+      });
+    });
+
+    it('renders start over button', () => {
+      const component = shallow(
+        <SignInForm
+          {...defaultProps}
+          githubClientId="test"
+          githubClientSecret="test"
+        />,
+      );
+      const button = component.find(Button).at(1);
+      expect(button.props().children).toBe('Start Over');
+    });
+
+    describe('when start over is clicked', () => {
+      it('calls logout function', () => {
+        const logout = jest.fn();
+        const id = 'test';
+        const secret = 'test';
+        const component = shallow(
+          <SignInForm
+            {...defaultProps}
+            githubClientId={id}
+            githubClientSecret={secret}
+            logout={logout}
+          />,
+        );
+        expect(logout).not.toHaveBeenCalled();
+        component
+          .find(Button)
+          .at(1)
+          .simulate('click');
+        expect(logout).toHaveBeenCalled();
       });
     });
   });

@@ -31,6 +31,7 @@ export default class SignInForm extends React.Component {
       githubClientSecret,
       githubToken,
       dispatch,
+      logout,
     } = this.props;
 
     const apiCredsInputs = !githubClientId ? (
@@ -83,6 +84,10 @@ export default class SignInForm extends React.Component {
           >
             Sign in with Github
           </Button>
+          <p className={style.startOver}>
+            Need to change your Github oAuth client id and secret?
+          </p>
+          <Button onClick={logout}>Start Over</Button>
         </div>
       ) : null;
 
@@ -101,6 +106,7 @@ SignInForm.propTypes = {
   githubClientSecret: PropTypes.string,
   githubToken: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
 };
 
 SignInForm.defaultProps = {
