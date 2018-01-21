@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import LogoutModal from '../LogoutModal';
+import Button from '../../../../components/Button';
 
 import style from './style.css';
 
@@ -17,9 +18,9 @@ export default function AccountDetails({
         Signed in as <strong>{login}</strong>
       </h2>
       <img src={avatarUrl} alt="avatar" className={style.avatar} />
-      <button onClick={toggleLogoutModal} className={style.logout}>
-        Sign out
-      </button>
+      <div className={style.signout}>
+        <Button onClick={toggleLogoutModal}>Sign out</Button>
+      </div>
       <LogoutModal
         toggleLogoutModal={toggleLogoutModal}
         logoutAction={logoutAction}

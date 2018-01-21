@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import style from './style.css';
+import Button from '../../../../components/Button';
 
 export default function LogoutModal({
   logoutAction,
@@ -16,12 +17,12 @@ export default function LogoutModal({
             This is will clear all of your selected repos and your Github oAuth
             application details!
           </p>
-          <button className={style.yesButton} onClick={logoutAction}>
-            Yes
-          </button>
-          <button className={style.noButton} onClick={toggleLogoutModal}>
-            No
-          </button>
+          <div className={style.yesButton}>
+            <Button onClick={logoutAction}>Yes</Button>
+          </div>
+          <div className={style.noButton}>
+            <Button onClick={toggleLogoutModal}>No</Button>
+          </div>
         </div>
       </div>
       <div

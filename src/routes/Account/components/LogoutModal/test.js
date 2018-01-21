@@ -47,7 +47,7 @@ describe('LogoutModal', () => {
         <LogoutModal {...props} logoutAction={logoutAction} />,
       );
       expect(logoutAction).not.toHaveBeenCalled();
-      const button = component.find('.yesButton');
+      const button = component.find('.yesButton Button');
       button.simulate('click');
       expect(logoutAction).toHaveBeenCalled();
     });
@@ -60,7 +60,7 @@ describe('LogoutModal', () => {
         <LogoutModal {...props} toggleLogoutModal={toggleLogoutModal} />,
       );
       expect(toggleLogoutModal).not.toHaveBeenCalled();
-      const button = component.find('.noButton');
+      const button = component.find('.noButton Button');
       button.simulate('click');
       expect(toggleLogoutModal).toHaveBeenCalled();
     });
