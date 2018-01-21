@@ -3,11 +3,14 @@
   --white: #FFFFFF;
   --repo-default: #E7E1E1;
   --overlay: rgba(0,0,0,0.7);
+  --primary-extra-dark: #0f0d1d;
   --primary-dark: #1E1A39;
   --primary-medium: #7442F7;
   --primary-light: #F7F7F7;
   --secondary-medium: #00F1D6;
   --secondary-dark: #1D2843;
+  --tertiary-medium: #f1b100;
+  --tertiary-dark: #ff8800;
   --approved: rgb(0, 157, 18);
   --changes-requested: rgb(220, 66, 0);
   --commented: rgb(0, 125, 220);
