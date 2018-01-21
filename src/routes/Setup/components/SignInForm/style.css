@@ -10,18 +10,20 @@
   padding: 1rem;
   border-radius: 0.3rem;
   box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4);
+  background-color: white;
+  max-width: 80rem;
 }
 
 .infoIcon {
   min-width: 3.5rem;
   min-height: 3.5rem;
   border-radius: 100%;
-  border: 3px solid var(--light-grey);
+  border: 3px solid var(--primary-medium);
   display: inline-block;
   text-align: center;
   font-family: 'Roboto', sans-serif;
   line-height: 1.4;
-  color: var(--light-grey);
+  color: var(--primary-medium);
   font-size: 2.2rem;
   font-weight: bold;
   margin-right: 1.5rem;

@@ -39,7 +39,6 @@ export class SetupContainer extends React.Component {
         >
           3
         </span>
-        <hr className={style.progressLine} />
       </div>
     );
 
