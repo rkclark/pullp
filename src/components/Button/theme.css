@@ -6,7 +6,7 @@
   padding: 1rem 3rem;
   border: none;
   border-radius: 0.3rem;
-  background-color: var(--primary-dark);
+  background-color: var(--primary-medium);
   color: white;
   text-transform: uppercase;
   font-weight: normal;
@@ -16,5 +16,5 @@
 }
 
 .button:hover, .button:focus {
-  background-color: var(--secondary-medium);
+  background-color: var(--primary-dark);
 }
