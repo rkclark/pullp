@@ -9,9 +9,6 @@ import SelectRepos from '../../routes/SelectRepos'; //eslint-disable-line
 import Setup from '../../routes/Setup';
 import defaultTheme from './theme.css';
 import CurrentUser from '../CurrentUser';
-import eye from '../../images/eye-white.svg';
-import pin from '../../images/pin-white.svg';
-import account from '../../images/account-white.svg';
 import refresh from '../../images/refresh-white.svg';
 
 export class Layout extends React.Component {
@@ -82,41 +79,43 @@ export class Layout extends React.Component {
     return (
       <div className={theme.layout}>
         <div className={theme.header}>
-          <div>
+          <div className={theme.titleContainer}>
             <h1 className={theme.title}>PULLP</h1>
             {refreshIcon}
           </div>
-          <div className={theme.linkContainer}>
-            <Link
-              to="/"
-              className={`${theme.link} ${path === '/'
-                ? theme.activeLink
-                : null}`}
-            >
-              <img src={eye} alt="eye icon" className={theme.icon} />
-            </Link>
+          <div className={theme.links}>
+            <div className={theme.linkContainer}>
+              <Link
+                to="/"
+                className={`${theme.link} ${path === '/'
+                  ? theme.activeLink
+                  : null}`}
+              >
+                Monitor
+              </Link>
+            </div>
+            <div className={theme.linkContainer}>
+              <Link
+                to="/selectRepos"
+                className={`${theme.link} ${path === '/selectRepos'
+                  ? theme.activeLink
+                  : null}`}
+              >
+                Select
+              </Link>
+            </div>
+            <div className={theme.linkContainer}>
+              <Link
+                to="/Account"
+                className={`${theme.link} ${path === '/Account'
+                  ? theme.activeLink
+                  : null}`}
+              >
+                Account
+              </Link>
+            </div>
           </div>
-          <div className={theme.linkContainer}>
-            <Link
-              to="/selectRepos"
-              className={`${theme.link} ${path === '/selectRepos'
-                ? theme.activeLink
-                : null}`}
-            >
-              <img src={pin} alt="pin icon" className={theme.icon} />
-            </Link>
-          </div>
-          <div className={theme.linkContainer}>
-            <Link
-              to="/Account"
-              className={`${theme.link} ${path === '/Account'
-                ? theme.activeLink
-                : null}`}
-            >
-              <img src={account} alt="account icon" className={theme.icon} />
-            </Link>
-          </div>
-          {currentUser}
+          <div className={theme.currentUser}>{currentUser}</div>
         </div>
         {window.location.pathname.includes('index.html') && <Redirect to="/" />}
         {this.props.rehydrationComplete &&
