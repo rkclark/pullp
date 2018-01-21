@@ -7,6 +7,8 @@ import githubAuth from '../../helpers/githubAuth';
 
 import style from './style.css';
 
+import Button from '../../../../components/Button';
+
 export default class SignInForm extends React.Component {
   constructor() {
     super();
@@ -63,9 +65,7 @@ export default class SignInForm extends React.Component {
               ref={input => (this.githubClientSecret = input)}
             />
           </div>
-          <button onClick={this.saveCredentials} className={style.button}>
-            Save
-          </button>
+          <Button onClick={this.saveCredentials}>Save</Button>
         </div>
       </div>
     ) : null;
@@ -76,14 +76,13 @@ export default class SignInForm extends React.Component {
           <p>
             Great! You can now click the button below to sign in with Github:
           </p>
-          <button
+          <Button
             onClick={() => {
               githubAuth(githubClientId, githubClientSecret, dispatch);
             }}
-            className={style.button}
           >
             Sign in with Github
-          </button>
+          </Button>
         </div>
       ) : null;
 

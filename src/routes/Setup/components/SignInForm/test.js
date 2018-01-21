@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import SignInForm from '.';
 import * as githubAuth from '../../helpers/githubAuth';
+import Button from '../../../../components/Button';
 
 const authMock = jest.fn();
 githubAuth.default = authMock;
@@ -38,8 +39,8 @@ describe('SignInForm', () => {
           githubClientSecret="test"
         />,
       );
-      const button = component.find('button');
-      expect(button.text()).toBe('Sign in with Github');
+      const button = component.find(Button);
+      expect(button.props().children).toBe('Sign in with Github');
     });
 
     it('does not render github id and secret input fields', () => {
@@ -66,7 +67,7 @@ describe('SignInForm', () => {
             githubClientSecret={secret}
           />,
         );
-        component.find('button').simulate('click');
+        component.find(Button).simulate('click');
         expect(authMock).toHaveBeenCalledWith(
           id,
           secret,
@@ -91,7 +92,7 @@ describe('SignInForm', () => {
         creds.githubClientId;
       mountedComponent.find('[name="githubClientSecret"]').node.value =
         creds.githubClientSecret;
-      mountedComponent.find('button').simulate('click');
+      mountedComponent.find(Button).simulate('click');
       expect(props.saveGithubCredentials).toHaveBeenCalledWith(creds);
     });
   });
@@ -103,7 +104,7 @@ describe('SignInForm', () => {
         saveGithubCredentials: jest.fn(),
       };
       const mountedComponent = mount(<SignInForm {...props} />);
-      mountedComponent.find('button').simulate('click');
+      mountedComponent.find(Button).simulate('click');
       expect(props.saveGithubCredentials).not.toHaveBeenCalled();
     });
   });
