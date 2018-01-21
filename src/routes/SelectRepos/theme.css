@@ -8,10 +8,8 @@
   justify-content: center;
 }
 
-.loading svg {
+.loading {
   margin: 10rem auto;
-  width: 5rem;
-  height: 5rem;
 }
 
 .title {

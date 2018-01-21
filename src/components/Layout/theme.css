@@ -25,10 +25,30 @@
   flex-basis: 33.3%;
 }
 
+.titleContainer {
+  display: flex;
+  align-items: center;
+}
+
 .title {
   display: inline-block;
   margin-bottom: 0;
   margin-right: var(--spacing-2);
+}
+
+.sync {
+  text-transform: uppercase;
+  font-weight: normal;
+  font-size: 1rem;
+  color: transparent;
+  position: absolute;
+  top: 2.3rem;
+  left: 6rem;
+  transition: 0.3s ease-in-out all;
+}
+
+.syncActive {
+  color: var(--light-grey);
 }
 
 .linkContainer {
@@ -60,24 +80,18 @@
   border-bottom: 0.2rem solid var(--secondary-medium);
 }
 
-.refreshIcon {
-  width: 3.2rem;
-  height: 3.2rem;
-}
 
 .routeContainer {
   padding: var(--spacing-3);
 }
 
 .refresh {
-  max-width: 5rem;
   background-color: transparent;
   border: none;
-  box-shadow: 0 9px 6px -6px transparent;
-}
-
-.refresh:hover {
-  box-shadow: 0 9px 6px -6px var(--white);
+  padding: 0;
+  align-self: stretch;
+  width: 5.5rem;
+  position: relative;
 }
 
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
