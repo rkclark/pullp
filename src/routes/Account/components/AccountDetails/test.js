@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import AccountDetails from '.';
 import LogoutModal from '../LogoutModal';
+import Button from '../../../../components/Button';
 
 describe('AccountDetails', () => {
   const props = {
@@ -35,7 +36,7 @@ describe('AccountDetails', () => {
   describe('Logout button', () => {
     it('renders successfully', () => {
       const component = shallow(<AccountDetails {...props} />);
-      expect(component.find('button').text()).toBe('Sign out');
+      expect(component.find(Button).props().children).toBe('Sign out');
     });
     describe('when clicked', () => {
       it('dispatches toggleLogoutModal action', () => {
@@ -44,7 +45,7 @@ describe('AccountDetails', () => {
           <AccountDetails {...props} toggleLogoutModal={toggleLogoutModal} />,
         );
         expect(toggleLogoutModal).not.toHaveBeenCalled();
-        const button = component.find('button');
+        const button = component.find(Button);
         button.simulate('click');
         expect(toggleLogoutModal).toHaveBeenCalled();
       });

@@ -7,6 +7,7 @@ import { saveGithubCredentials } from './actions';
 import style from './style.css';
 import { requestCurrentUser } from '../../routes/Home/actions';
 import Error from '../../components/Error';
+import Button from '../../components/Button';
 
 export class SetupContainer extends React.Component {
   constructor(props) {
@@ -52,7 +53,7 @@ export class SetupContainer extends React.Component {
           Pullp.
         </p>
         <Link to="/selectRepos">
-          <button className={style.button}>Let&#39;s get started</button>
+          <Button className={style.button}>Let&#39;s get started</Button>
         </Link>
       </div>
     ) : null;
