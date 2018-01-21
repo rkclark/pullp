@@ -6,6 +6,7 @@ import SignInForm from './components/SignInForm';
 import { saveGithubCredentials } from './actions';
 import style from './style.css';
 import { requestCurrentUser } from '../../routes/Home/actions';
+import { logout } from '../Account/actions';
 import Error from '../../components/Error';
 import Button from '../../components/Button';
 
@@ -71,6 +72,7 @@ export class SetupContainer extends React.Component {
           githubClientSecret={this.props.githubClientSecret}
           githubToken={this.props.githubToken}
           dispatch={this.props.dispatch}
+          logout={this.props.logout}
         />
         {proceedToSelect}
       </div>
@@ -87,6 +89,7 @@ SetupContainer.propTypes = {
   login: PropTypes.string,
   requestCurrentUser: PropTypes.func.isRequired,
   loginError: PropTypes.string,
+  logout: PropTypes.func,
 };
 
 SetupContainer.defaultProps = {
@@ -96,6 +99,7 @@ SetupContainer.defaultProps = {
   login: null,
   avatarUrl: null,
   loginError: null,
+  logout: () => {},
 };
 
 const mapStateToProps = state => ({
@@ -113,6 +117,9 @@ const mapDispatchToProps = dispatch => ({
   },
   requestCurrentUser(token) {
     dispatch(requestCurrentUser(token));
+  },
+  logout() {
+    dispatch(logout());
   },
   dispatch,
 });
