@@ -2,19 +2,27 @@
 @import "../../css/colors.css";
 
 .layout {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 8rem auto;
+  padding-left: 1rem;
+  background: linear-gradient(to right, var(--primary-dark) 0rem, var(--primary-dark) 1rem, var(--primary-light) 1.1rem);
 }
 
 .header {
   background-color: var(--primary-dark);
   color: var(--white);
-  display: grid;
-  grid-template-columns: auto minmax(1rem, 10rem) minmax(1rem, 10rem) minmax(1rem, 10rem) auto; 
-  grid-auto-rows: auto;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   padding: 0 var(--spacing-3);
+}
+
+.links {
+  display: inline-flex;
+  flex-basis: 33.3%;
+  justify-content: center;
+}
+
+.titleContainer, .currentUser {
+  flex-basis: 33.3%;
 }
 
 .title {
@@ -29,20 +37,30 @@
 
 .link {
   display: inline-block;
-  box-shadow: 0 9px 6px -6px transparent;
-  padding: 0 var(--spacing-2);
+  padding: 0;
+  margin: 0 1.5rem;
   transition: 1s ease all;
+  text-transform: uppercase;
+  font-weight: normal;
+  font-size: 1.5rem;
+  font-family: 'Roboto', sans-serif;
+  color: white;
+  border-bottom: 0.2rem solid transparent;
+}
+
+.link:hover, .link:focus {
+  text-decoration-color: transparent;
 }
 
 .link:hover {
-  box-shadow: 0 9px 6px -6px var(--white);
+  border-bottom: 0.2rem solid white;
 }
 
 .activeLink {
-  box-shadow: 0 9px 6px -6px var(--secondary-medium);
+  border-bottom: 0.2rem solid var(--secondary-medium);
 }
 
-.icon, .refreshIcon {
+.refreshIcon {
   width: 3.2rem;
   height: 3.2rem;
 }
