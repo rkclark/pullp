@@ -75,9 +75,13 @@ query {
                     reviewRequests(last: 100) {
                       edges {
                         node {
-                          reviewer {
-                            login
-                            avatarUrl
+                          requestedReviewer {
+                            ... on User {
+                              name
+                            }
+                            ... on Team {
+                              name
+                            }
                           }
                         }
                       }
