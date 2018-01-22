@@ -25,7 +25,7 @@ body {
   line-height: var(--line-height-2);
   overflow-y: scroll;
   height: 100%;
-  background: linear-gradient(to right, var(--primary-dark) 0rem, var(--primary-dark) 1rem, var(--primary-light) 1.1rem);
+  background: linear-gradient(to right, var(--primary-dark) 0rem, var(--primary-dark) 1rem, var(--primary-light) 1rem);
 }
 
 #root {

@@ -51,6 +51,6 @@ describe('RepoCheckbox', () => {
 
   it('renders created at date in correct format', () => {
     const component = shallow(<RepoCheckbox {...props} />);
-    expect(component.find('.date').text()).toContain('Oct 14, 2016');
+    expect(component.find('.date').text()).toContain('14 Oct 2016');
   });
 });
