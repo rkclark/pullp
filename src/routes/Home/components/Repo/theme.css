@@ -15,7 +15,7 @@
 
 .span1 {
   grid-row-end: span 1;
-  background-color: var(--primary-medium);
+  background-color: var(--primary-extra-dark);
 }
 
 .span2 {
@@ -70,11 +70,11 @@
   width: 3rem;
   height: 3rem;
   border-radius: 100%;
-  background-color: var(--secondary-dark);
+  background-color: var(--primary-medium);
   color: var(--white);
   display: inline-block;
   text-align: center;
-  line-height: var(--line-height-1);
+  line-height: 2.8rem;
   font-weight: bold;
 }
 
