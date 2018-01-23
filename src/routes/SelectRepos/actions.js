@@ -46,7 +46,7 @@ export const performFiltering = value => dispatch => {
   dispatch(paginateRepos());
 };
 
-export const requestWatchedRepos = token => async dispatch => {
+export const requestWatchedRepos = token => async (dispatch, getState) => {
   dispatch(loadingWatchedRepos());
   try {
     let query = queries.watchedRepos();
@@ -69,6 +69,10 @@ export const requestWatchedRepos = token => async dispatch => {
       isFork: repo.node.isFork,
       createdAt: repo.node.createdAt,
     }));
+    const teamQuery = queries.userTeams(getState().home.currentUser.login);
+    console.log(teamQuery);
+    const userTeams = await get(teamQuery, token);
+    console.log(userTeams);
     dispatch(requestWatchedReposSuccess(reposArray));
     dispatch(filterRepos());
     dispatch(paginateRepos());
