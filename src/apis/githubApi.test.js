@@ -18,6 +18,34 @@ query {
       });
     });
 
+    describe('userTeams', () => {
+      it('returns correct graphql query', () => {
+        const userLogin = 'test';
+
+        const expectedQuery = `
+query {
+  viewer {
+    organizations(last:100) {
+      edges {
+        node {
+          teams(last:100, userLogins: ["${userLogin}"]) {
+            edges {
+              node {
+                id
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+`;
+        expect(queries.userTeams(userLogin)).toEqual(expectedQuery);
+      });
+    });
+
     describe('watchedRepos', () => {
       describe('when no graphql cursor is supplied', () => {
         it('returns graphql query with no after parameter', () => {
@@ -121,9 +149,13 @@ query {
                     reviewRequests(last: 100) {
                       edges {
                         node {
-                          reviewer {
-                            login
-                            avatarUrl
+                          requestedReviewer {
+                            ... on User {
+                              login
+                            }
+                            ... on Team {
+                              name
+                            }
                           }
                         }
                       }

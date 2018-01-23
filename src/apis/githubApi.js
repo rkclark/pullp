@@ -98,7 +98,7 @@ query {
                         node {
                           requestedReviewer {
                             ... on User {
-                              name
+                              login
                             }
                             ... on Team {
                               name
