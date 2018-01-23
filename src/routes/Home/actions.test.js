@@ -83,6 +83,99 @@ describe('Home actions', () => {
       });
     });
   });
+
+  describe('Retrieving user teams data', () => {
+    describe('requestUserTeams', () => {
+      describe('when call to github succeeds', () => {
+        let queryMock;
+        let getMock;
+        let testResult;
+        beforeEach(() => {
+          queryMock = sinon.stub(githubApi.queries, 'userTeams');
+          const testQuery = '{ query }';
+          queryMock.returns(testQuery);
+          getMock = sinon.stub(githubApi, 'get');
+          testResult = {
+            data: {
+              test: 'data',
+            },
+          };
+          getMock.returns(testResult);
+        });
+        afterEach(() => {
+          queryMock.restore();
+          getMock.restore();
+        });
+        it('dispatches requestUserTeamsSuccess with the result', async () => {
+          const requestUserTeams = actions.requestUserTeams('testToken');
+          const dispatch = jest.fn();
+          const getState = () => ({
+            home: {
+              currentUser: {
+                login: 'testUserLogin',
+              },
+            },
+          });
+          await requestUserTeams(dispatch, getState);
+          expect(dispatch).toHaveBeenCalledWith(
+            actions.requestUserTeamsSuccess(testResult),
+          );
+        });
+      });
+      describe('when call to github fails', () => {
+        let queryMock;
+        let getMock;
+        let testError;
+        beforeEach(() => {
+          queryMock = sinon.stub(githubApi.queries, 'userTeams');
+          const testQuery = '{ query }';
+          queryMock.returns(testQuery);
+          getMock = sinon.stub(githubApi, 'get');
+          testError = new Error('Omfg');
+          getMock.throws(testError);
+        });
+        afterEach(() => {
+          queryMock.restore();
+          getMock.restore();
+        });
+        it('dispatches requestUserTeamsFail with the error message', async () => {
+          const requestUserTeams = actions.requestUserTeams('testToken');
+          const dispatch = jest.fn();
+          const getState = () => ({
+            home: {
+              currentUser: {
+                login: 'testUserLogin',
+              },
+            },
+          });
+          await requestUserTeams(dispatch, getState);
+          expect(dispatch).toHaveBeenCalledWith(
+            actions.requestUserTeamsFail(testError.message),
+          );
+        });
+      });
+    });
+    describe('requestUserTeamsSuccess', () => {
+      it('creates an action to save user teams data', () => {
+        const data = { data: 'stuff' };
+        const expectedAction = {
+          type: types.REQUEST_USER_TEAMS_SUCCESS,
+          data,
+        };
+        expect(actions.requestUserTeamsSuccess(data)).toEqual(expectedAction);
+      });
+    });
+    describe('requestUserTeamsFail', () => {
+      it('creates an action to save user teams error message', () => {
+        const error = 'omfg';
+        const expectedAction = {
+          type: types.REQUEST_USER_TEAMS_FAIL,
+          error,
+        };
+        expect(actions.requestUserTeamsFail(error)).toEqual(expectedAction);
+      });
+    });
+  });
   describe('Retrieving pull request data', () => {
     describe('requestPullRequests', () => {
       describe('when call to github succeeds', () => {
