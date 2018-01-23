@@ -21,6 +21,27 @@ export const requestCurrentUser = token => async dispatch => {
   }
 };
 
+export const requestUserTeamsSuccess = data => ({
+  type: types.REQUEST_USER_TEAMS_SUCCESS,
+  data,
+});
+
+export const requestUserTeamsFail = error => ({
+  type: types.REQUEST_USER_TEAMS_FAIL,
+  error,
+});
+
+export const requestUserTeams = token => async (dispatch, getState) => {
+  try {
+    const userLogin = getState().home.currentUser.login;
+    const query = queries.userTeams(userLogin);
+    const results = await get(query, token);
+    dispatch(requestUserTeamsSuccess(results));
+  } catch (err) {
+    dispatch(requestUserTeamsFail(err.message));
+  }
+};
+
 export const requestPullRequestsLoading = () => ({
   type: types.REQUEST_PULL_REQUESTS_LOADING,
 });
