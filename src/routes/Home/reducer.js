@@ -6,6 +6,7 @@ export const initialState = {
   repositories: [],
   openRepoId: null,
   pullRequestsLoading: false,
+  userTeams: null,
 };
 
 let repos;
@@ -101,6 +102,22 @@ export default function(state = initialState, action) {
           action.id === undefined || state.openRepoId === action.id
             ? null
             : action.id,
+      };
+    case types.REQUEST_USER_TEAMS_SUCCESS: {
+      const userTeamsArray = action.data.viewer.organizations.edges.map(
+        organization =>
+          organization.node.teams.edges.map(team => ({ ...team.node })),
+      );
+      return {
+        ...state,
+        userTeams: userTeamsArray,
+        githubError: null,
+      };
+    }
+    case types.REQUEST_USER_TEAMS_FAIL:
+      return {
+        ...state,
+        githubError: action.error,
       };
     default:
       return state;

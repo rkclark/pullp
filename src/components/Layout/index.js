@@ -2,7 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { requestPullRequests } from '../../routes/Home/actions';
+import {
+  requestPullRequests,
+  requestUserTeams,
+} from '../../routes/Home/actions';
 import HomeContainer from '../../routes/Home';
 import Account from '../../routes/Account';
 import SelectRepos from '../../routes/SelectRepos'; //eslint-disable-line
@@ -15,6 +18,17 @@ export class Layout extends React.Component {
   constructor(props) {
     super(props);
     this.props = props;
+  }
+
+  componentDidUpdate() {
+    console.log('LAYOUT PROPS', this.props);
+    if (
+      !this.props.userTeamsRequestComplete &&
+      this.props.rehydrationComplete &&
+      this.props.currentUser
+    ) {
+      this.props.requestUserTeams(this.props.githubToken);
+    }
   }
 
   loadCurrentUser() {
@@ -140,6 +154,8 @@ Layout.propTypes = {
   requestPullRequests: PropTypes.func.isRequired,
   pullRequestsLoading: PropTypes.bool,
   rehydrationComplete: PropTypes.bool,
+  userTeamsRequestComplete: PropTypes.bool,
+  requestUserTeams: PropTypes.func.isRequired,
 };
 
 Layout.defaultProps = {
@@ -149,6 +165,7 @@ Layout.defaultProps = {
   selectedRepos: [],
   pullRequestsLoading: false,
   rehydrationComplete: false,
+  userTeamsRequestComplete: false,
 };
 
 const mapStateToProps = state => ({
@@ -157,11 +174,15 @@ const mapStateToProps = state => ({
   selectedRepos: state.selectRepos.selectedRepos,
   pullRequestsLoading: state.home.pullRequestsLoading,
   rehydrationComplete: state.layout.rehydrationComplete,
+  userTeamsRequestComplete: state.layout.userTeamsRequestComplete,
 });
 
 const mapDispatchToProps = dispatch => ({
   requestPullRequests(token, repoIds) {
     dispatch(requestPullRequests(token, repoIds));
+  },
+  requestUserTeams(token) {
+    dispatch(requestUserTeams(token));
   },
 });
 
