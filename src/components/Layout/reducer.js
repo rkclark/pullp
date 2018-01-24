@@ -1,7 +1,8 @@
-import { layout as types } from '../../actionTypes';
+import { layout as types, home as homeTypes } from '../../actionTypes';
 
 export const initialState = {
   rehydrationComplete: false,
+  userTeamsRequestComplete: false,
 };
 
 export default function(state = initialState, action) {
@@ -10,6 +11,16 @@ export default function(state = initialState, action) {
       return {
         ...state,
         rehydrationComplete: true,
+      };
+    case homeTypes.REQUEST_USER_TEAMS_SUCCESS:
+      return {
+        ...state,
+        userTeamsRequestComplete: true,
+      };
+    case homeTypes.REQUEST_USER_TEAMS_FAIL:
+      return {
+        ...state,
+        userTeamsRequestComplete: true,
       };
     default:
       return state;
