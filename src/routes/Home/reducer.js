@@ -104,9 +104,12 @@ export default function(state = initialState, action) {
             : action.id,
       };
     case types.REQUEST_USER_TEAMS_SUCCESS: {
-      const userTeamsArray = action.data.viewer.organizations.edges.map(
-        organization =>
-          organization.node.teams.edges.map(team => ({ ...team.node })),
+      const userTeamsArray = action.data.viewer.organizations.edges.reduce(
+        (array, organization) => [
+          ...array,
+          ...organization.node.teams.edges.map(team => ({ ...team.node })),
+        ],
+        [],
       );
       return {
         ...state,
