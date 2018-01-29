@@ -32,7 +32,6 @@ export const requestUserTeamsFail = error => ({
 });
 
 export const requestUserTeams = token => async (dispatch, getState) => {
-  console.log('REQUESTING USER TEAMS');
   try {
     const userLogin = getState().home.currentUser.login;
     const query = queries.userTeams(userLogin);
