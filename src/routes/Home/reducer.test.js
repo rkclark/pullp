@@ -389,4 +389,85 @@ describe('Home reducer', () => {
       expect(newState).toEqual(expectedState);
     });
   });
+  describe('request user teams', () => {
+    describe('request user teams success', () => {
+      it('saves user teams data', () => {
+        const baseState = {
+          ...initialState,
+          githubError: 'error',
+        };
+
+        const data = {
+          viewer: {
+            organizations: {
+              edges: [
+                {
+                  node: {
+                    teams: {
+                      edges: [
+                        {
+                          node: {
+                            id: 'MDQ6VGVhbTQ0MTgyMA==',
+                            name: 'Team: Money',
+                          },
+                        },
+                      ],
+                    },
+                  },
+                },
+                {
+                  node: {
+                    teams: {
+                      edges: [
+                        {
+                          node: {
+                            id: 'MDQ6VGVhbTIwNTY1OTc=',
+                            name: 'January 2017 Cohort',
+                          },
+                        },
+                      ],
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        };
+
+        const expectedState = {
+          ...initialState,
+          githubError: null,
+          userTeams: [
+            {
+              id: 'MDQ6VGVhbTQ0MTgyMA==',
+              name: 'Team: Money',
+            },
+            {
+              id: 'MDQ6VGVhbTIwNTY1OTc=',
+              name: 'January 2017 Cohort',
+            },
+          ],
+        };
+
+        expect(
+          reducer(baseState, actions.requestUserTeamsSuccess(data)),
+        ).toEqual(expectedState);
+      });
+    });
+    describe('request user teams fail', () => {
+      it('saves github error', () => {
+        const error = 'error';
+        const expectedState = {
+          ...initialState,
+          githubError: error,
+        };
+
+        const newState = reducer(
+          initialState,
+          actions.requestUserTeamsFail(error),
+        );
+        expect(newState).toEqual(expectedState);
+      });
+    });
+  });
 });
