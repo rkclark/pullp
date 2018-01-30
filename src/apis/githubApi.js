@@ -102,6 +102,7 @@ query {
                             }
                             ... on Team {
                               name
+                              id
                             }
                           }
                         }
