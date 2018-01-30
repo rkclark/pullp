@@ -43,12 +43,15 @@ export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
         : null}`}
     >
       <div className={theme.repo}>
-        <span className={`${theme.prCount} ${theme[countClass]}`}>
-          {data.pullRequests.length}
-        </span>
         <a href={data.url} className={theme.link}>
           <h3 className={theme.name}>{data.name}</h3>
         </a>
+        <div className={theme.countContainer}>
+          <span className={`${theme.prCount} ${theme[countClass]}`}>
+            {data.pullRequests.length}
+          </span>
+          <span className={theme.prCountLabel}>OPEN</span>
+        </div>
         {prRows}
         <button
           className={theme.magnify}
