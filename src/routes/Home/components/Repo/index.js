@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import defaultTheme from './theme.css';
 import RepoModal from '../RepoModal';
 import magnify from '../../../../images/magnify-white.svg';
+import { REPO_SUMMARY_MAX_PRS } from '../../../../constants';
 
 export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
   const spanClass =
@@ -23,7 +24,7 @@ export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
     <div>{<RepoModal data={data} toggleOpenRepo={toggleOpenRepo} />}</div>
   ) : null;
 
-  const prSubset = data.pullRequests.slice(0, 5);
+  const prSubset = data.pullRequests.slice(0, REPO_SUMMARY_MAX_PRS);
 
   const prRows = prSubset.map(pr => (
     <div className={theme.prRow} key={`subset_${data.id}_${pr.number}`}>
@@ -36,6 +37,13 @@ export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
     </div>
   ));
 
+  const extraCount =
+    data.pullRequests.length > REPO_SUMMARY_MAX_PRS ? (
+      <span className={theme.extraCount}>
+        +{data.pullRequests.length - REPO_SUMMARY_MAX_PRS} more authors
+      </span>
+    ) : null;
+
   return (
     <div
       className={`${theme.repoContainer} ${theme[spanClass]} ${open
@@ -46,13 +54,17 @@ export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
         <a href={data.url} className={theme.link}>
           <h3 className={theme.name}>{data.name}</h3>
         </a>
-        <div className={theme.countContainer}>
-          <span className={`${theme.prCount} ${theme[countClass]}`}>
-            {data.pullRequests.length}
-          </span>
-          <span className={theme.prCountLabel}>OPEN</span>
+        <div className={theme.indicatorsContainer}>
+          <div className={theme.countContainer}>
+            <span className={`${theme.prCount} ${theme[countClass]}`}>
+              {data.pullRequests.length}
+            </span>
+            <span className={theme.prCountLabel}>OPEN</span>
+            {prRows}
+            {extraCount}
+          </div>
+          <div className={theme.reviewsContainer}> Reviews </div>
         </div>
-        {prRows}
         <button
           className={theme.magnify}
           onClick={onClick}
