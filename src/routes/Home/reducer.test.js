@@ -210,7 +210,7 @@ describe('Home reducer', () => {
                   closed: false,
                   mergedAt: null,
                   url: 'https://github.com/jh2633/Atticus_Legal/pull/2',
-                  number: 2,
+                  number: 3,
                   title:
                     'footer changed on all pages, new forms pages added but in dev, index …',
                   author: {
@@ -330,7 +330,7 @@ describe('Home reducer', () => {
                 COMMENTED: 2,
                 APPROVED: 2,
               },
-              currentUserReviewRequested: true,
+              currentUserReviewRequested: false,
               reviewedByCurrentUser: true,
             },
             {
@@ -395,7 +395,7 @@ describe('Home reducer', () => {
               closed: false,
               mergedAt: null,
               url: 'https://github.com/jh2633/Atticus_Legal/pull/2',
-              number: 2,
+              number: 3,
               title:
                 'footer changed on all pages, new forms pages added but in dev, index …',
               author: {
@@ -419,7 +419,7 @@ describe('Home reducer', () => {
               reviewedByCurrentUser: false,
             },
           ],
-          currentUserReviewRequests: 2,
+          currentUserReviewRequests: 1,
           currentUserReviews: 1,
         },
         {

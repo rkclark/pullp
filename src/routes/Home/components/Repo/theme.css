@@ -61,16 +61,16 @@
 }
 
 .prCount {
-  width: 7rem;
-  height: 7rem;
+  width: 9rem;
+  height: 9rem;
   border-radius: 100%;
   background-color: var(--primary-medium);
   color: var(--white);
   display: inline-block;
   text-align: center;
-  line-height: 6.6rem;
-  font-weight: normal;
-  font-size: 3.5rem;
+  line-height: 8.4rem;
+  font-weight: bold;
+  font-size: 4rem;
 }
 
 .prCountLabel {
@@ -145,13 +145,29 @@
 
 .progressCircle {
   width: 9rem;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .progressCircle path:nth-child(1) { 
   stroke: var(--secondary-dark);
-  stroke-width: 19.5;
+  stroke-width: 18;
 }
 
 .progressCircle path:nth-child(2) { 
   stroke: var(--secondary-medium); 
+}
+
+.progressCircle text { 
+  display: none;
+}
+
+.reviewCoverageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 9rem;
+  height: 9rem;
+  position: relative;
 }
