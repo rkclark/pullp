@@ -48,6 +48,9 @@ export default function(state = initialState, action) {
     case types.REQUEST_PULL_REQUESTS_SUCCESS:
       filteredNodes = action.data.nodes.filter(node => node);
       repos = filteredNodes.map(node => {
+        let currentUserReviewRequests = 0;
+        let currentUserReviews = 0;
+
         const reformattedPrs = node.pullRequests.edges.map(pr => {
           createdAtDate = new Date(pr.node.createdAt);
           const reviews = pr.node.reviews.edges.map(review => ({
@@ -80,6 +83,7 @@ export default function(state = initialState, action) {
               request.requestedReviewer.login === state.currentUser.login
             ) {
               currentUserReviewRequested = true;
+              currentUserReviewRequests += 1;
               return true;
             }
             if (
@@ -92,6 +96,17 @@ export default function(state = initialState, action) {
               })
             ) {
               currentUserReviewRequested = true;
+              currentUserReviewRequests += 1;
+              return true;
+            }
+            return false;
+          });
+
+          let reviewedByCurrentUser = false;
+          reviews.some(review => {
+            if (review.author.login === state.currentUser.login) {
+              reviewedByCurrentUser = true;
+              currentUserReviews += 1;
               return true;
             }
             return false;
@@ -108,12 +123,15 @@ export default function(state = initialState, action) {
             reviews,
             aggregatedReviews: reviewStatuses,
             currentUserReviewRequested,
+            reviewedByCurrentUser,
           };
         });
 
         return {
           ...node,
           pullRequests: reformattedPrs,
+          currentUserReviewRequests,
+          currentUserReviews,
         };
       });
 
