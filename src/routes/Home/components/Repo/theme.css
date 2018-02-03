@@ -10,7 +10,8 @@
 
 .indicatorsContainer {
   box-shadow:  inset 0 -0.4rem 0 0 var(--primary-medium);
-  display: inline-flex;
+  display: flex;
+  justify-content: center;
   width: 100%;
   height: 100%;
   cursor: pointer;
@@ -20,6 +21,7 @@
 .indicatorsContainer:hover {
   box-shadow: inset 0 -0.4rem 0 0 var(--secondary-medium);
 }
+
 
 .countContainer, .reviewsContainer {
   flex: 0 1 50%;
@@ -43,6 +45,9 @@
   flex-direction: column;
   align-items: center;
 }
+
+
+
 
 .open {
   background-color: var(--secondary-medium);
@@ -96,10 +101,6 @@
   display: block;
   text-align: center;
   margin: 1rem auto;
-}
-
-.zeroCount {
-  background-color: var(--primary-dark);
 }
 
 .magnify {
@@ -232,4 +233,29 @@
   100% { 
     transform: rotate(360deg);
   }
+}
+
+.zeroCount {
+  background-color: var(--secondary-dark);
+}
+
+.zeroCount .countContainer {
+  align-self: center;
+}
+
+.zeroCount .name {
+  background-color: var(--primary-dark);
+}
+
+
+.zeroCount .indicatorsContainer {
+  opacity: 0.5;
+}
+
+.zeroCount .prCountLabel {
+  color: var(--white);
+}
+
+.zeroCount .prCount {
+  background-color: var(--primary-extra-dark);
 }

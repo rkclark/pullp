@@ -61,7 +61,7 @@ export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
         ? theme.open
         : null}`}
     >
-      <div className={theme.repo}>
+      <div className={`${theme.repo} ${theme[countClass]}`}>
         <a href={data.url} className={theme.link}>
           <h3 className={theme.name}>{data.name}</h3>
         </a>
@@ -71,8 +71,8 @@ export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
           role="button"
           tabIndex="0"
         >
-          <div className={theme.countContainer}>
-            <div className={`${theme.prCount} ${theme[countClass]}`}>
+          <div className={`${theme.countContainer}`}>
+            <div className={`${theme.prCount}`}>
               <span className={theme.countLabel}>
                 {data.pullRequests.length}
               </span>
@@ -81,38 +81,44 @@ export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
             {prRows}
             {extraCount}
           </div>
-          <div className={theme.reviewsContainer}>
-            <div className={theme.reviewCoverageContainer}>
-              <CircularProgressbar
-                percentage={reviewCompletionPercentage}
-                className={theme.progressCircle}
-                strokeWidth={20}
-                initialAnimation
-              />
-              <span
-                className={theme.reviewCoverage}
-              >{`${data.currentUserReviews}/${numberOfPrs}`}</span>
-            </div>
-            <span className={theme.prCountLabel}>Reviewed by you</span>
-            <div
-              className={`${theme.reviewRequestsContainer} ${data.currentUserReviewRequests ===
-              0
-                ? theme.noRequests
-                : null}`}
-            >
-              <div className={theme.requestsCircle}>
-                <span className={`${theme.requestsCount} ${theme.countLabel}`}>
-                  {data.currentUserReviewRequests}
-                </span>
+          {numberOfPrs > 0 ? (
+            <div className={theme.reviewsContainer}>
+              <div className={theme.reviewCoverageContainer}>
+                <CircularProgressbar
+                  percentage={reviewCompletionPercentage}
+                  className={theme.progressCircle}
+                  strokeWidth={20}
+                  initialAnimation
+                />
+                <span
+                  className={theme.reviewCoverage}
+                >{`${data.currentUserReviews}/${numberOfPrs}`}</span>
               </div>
-              {data.currentUserReviewRequests > 0 ? (
-                <svg className={theme.spinCircle}>
-                  <circle cx="50%" cy="50%" r="45px" />
-                </svg>
-              ) : null}
+              <span className={theme.prCountLabel}>Reviewed by you</span>
+              <div
+                className={`${theme.reviewRequestsContainer} ${data.currentUserReviewRequests ===
+                0
+                  ? theme.noRequests
+                  : null}`}
+              >
+                <div className={theme.requestsCircle}>
+                  <span
+                    className={`${theme.requestsCount} ${theme.countLabel}`}
+                  >
+                    {data.currentUserReviewRequests}
+                  </span>
+                </div>
+                {data.currentUserReviewRequests > 0 ? (
+                  <svg className={theme.spinCircle}>
+                    <circle cx="50%" cy="50%" r="45px" />
+                  </svg>
+                ) : null}
+              </div>
+              <span className={theme.prCountLabel}>
+                Requests for your review
+              </span>
             </div>
-            <span className={theme.prCountLabel}>Requests for your review</span>
-          </div>
+          ) : null}
         </div>
       </div>
       {openRepo}
