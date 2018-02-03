@@ -3,7 +3,7 @@
   grid-gap: 1.5rem;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   grid-auto-rows: minmax(70px, auto);
-  justify-items: center;
+  justify-content: center;
 }
 
 @media (min-width: 1400px) {
