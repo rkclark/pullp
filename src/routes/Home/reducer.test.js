@@ -85,7 +85,9 @@ describe('Home reducer', () => {
                     edges: [
                       {
                         node: {
-                          some: 'stuff',
+                          requestedReviewer: {
+                            login: 'testUser',
+                          },
                         },
                       },
                     ],
@@ -168,7 +170,58 @@ describe('Home reducer', () => {
                     ],
                   },
                   reviewRequests: {
+                    edges: [
+                      {
+                        node: {
+                          requestedReviewer: {
+                            login: 'wrongUser',
+                          },
+                        },
+                      },
+                      {
+                        node: {
+                          requestedReviewer: {
+                            team: 'wrongTeam',
+                            id: '2',
+                          },
+                        },
+                      },
+                    ],
+                  },
+                  reviews: {
                     edges: [],
+                  },
+                },
+              },
+              {
+                node: {
+                  createdAt: prCreatedAt,
+                  closed: false,
+                  mergedAt: null,
+                  url: 'https://github.com/jh2633/Atticus_Legal/pull/2',
+                  number: 2,
+                  title:
+                    'footer changed on all pages, new forms pages added but in dev, index …',
+                  author: {
+                    avatarUrl:
+                      'https://avatars0.githubusercontent.com/u/18387550?v=4',
+                    login: 'jh2633',
+                    url: 'https://github.com/jh2633',
+                  },
+                  comments: {
+                    edges: [],
+                  },
+                  reviewRequests: {
+                    edges: [
+                      {
+                        node: {
+                          requestedReviewer: {
+                            team: 'testTeam',
+                            id: '1',
+                          },
+                        },
+                      },
+                    ],
                   },
                   reviews: {
                     edges: [],
@@ -187,8 +240,17 @@ describe('Home reducer', () => {
         },
       ],
     };
-    const expectedState = {
+
+    const baseState = {
       ...initialState,
+      currentUser: {
+        login: 'testUser',
+      },
+      userTeams: [{ name: 'testTeam', id: '1' }],
+    };
+
+    const expectedState = {
+      ...baseState,
       pullRequestsLoading: false,
       repositories: [
         {
@@ -211,7 +273,13 @@ describe('Home reducer', () => {
                 url: 'https://github.com/jh2633',
               },
               comments: [],
-              reviewRequests: [{ some: 'stuff' }],
+              reviewRequests: [
+                {
+                  requestedReviewer: {
+                    login: 'testUser',
+                  },
+                },
+              ],
               reviews: [
                 {
                   author: {
@@ -251,6 +319,7 @@ describe('Home reducer', () => {
                 COMMENTED: 2,
                 APPROVED: 2,
               },
+              currentUserReviewRequested: true,
             },
             {
               createdAt: prCreatedAt,
@@ -280,9 +349,51 @@ describe('Home reducer', () => {
                   createdAt: 'date',
                 },
               ],
-              reviewRequests: [],
+              reviewRequests: [
+                {
+                  requestedReviewer: {
+                    login: 'wrongUser',
+                  },
+                },
+                {
+                  requestedReviewer: {
+                    team: 'wrongTeam',
+                    id: '2',
+                  },
+                },
+              ],
               reviews: [],
               aggregatedReviews: {},
+              currentUserReviewRequested: false,
+            },
+            {
+              createdAt: prCreatedAt,
+              date: prDate,
+              time: prTime,
+              closed: false,
+              mergedAt: null,
+              url: 'https://github.com/jh2633/Atticus_Legal/pull/2',
+              number: 2,
+              title:
+                'footer changed on all pages, new forms pages added but in dev, index …',
+              author: {
+                avatarUrl:
+                  'https://avatars0.githubusercontent.com/u/18387550?v=4',
+                login: 'jh2633',
+                url: 'https://github.com/jh2633',
+              },
+              comments: [],
+              reviewRequests: [
+                {
+                  requestedReviewer: {
+                    team: 'testTeam',
+                    id: '1',
+                  },
+                },
+              ],
+              reviews: [],
+              aggregatedReviews: {},
+              currentUserReviewRequested: true,
             },
           ],
         },
@@ -295,7 +406,7 @@ describe('Home reducer', () => {
     };
     it('saves pull request data', () => {
       const newState = reducer(
-        { ...initialState, pullRequestsLoading: true },
+        { ...baseState, pullRequestsLoading: true },
         actions.requestPullRequestsSuccess(data),
       );
       expect(newState).toEqual(expectedState);
@@ -304,7 +415,7 @@ describe('Home reducer', () => {
       it('successfully saves pull request data', () => {
         const actionResult = actions.requestPullRequestsSuccess(data);
         actionResult.data.nodes = [...actionResult.data.nodes, null];
-        const newState = reducer(initialState, actionResult);
+        const newState = reducer(baseState, actionResult);
         expect(newState).toEqual(expectedState);
       });
     });

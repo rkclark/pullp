@@ -61,6 +61,7 @@ describe('Home', () => {
   describe('when unmounts', () => {
     it('clears interval on window', () => {
       global.clearInterval = jest.fn();
+      global.cancelAnimationFrame = () => {};
       const component = mount(<Home {...baseProps} />);
       component.unmount();
       expect(global.clearInterval).toHaveBeenCalled;
