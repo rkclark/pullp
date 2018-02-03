@@ -3,7 +3,6 @@
 
 .repoContainer {
   background-color: white;
-  padding: var(--spacing-2);
   transition: 0.5s ease-in-out all;
   box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4), inset 0 -0.4rem 0 0 var(--primary-medium);
   overflow: hidden;
@@ -12,31 +11,6 @@
 .repoContainer:hover {
   box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4), inset 0 -0.4rem 0 0 var(--secondary-medium);
 }
-
-/* .span1 {
-  grid-row-end: span 1;
-  background-color: var(--primary-extra-dark);
-}
-
-.span2 {
-  grid-row-end: span 2;
-}
-
-.span3 {
-  grid-row-end: span 3;
-}
-
-.span4 {
-  grid-row-end: span 4;
-}
-
-.span5 {
-  grid-row-end: span 5;
-}
-
-.span6, .spanMax {
-  grid-row-end: span 6;
-} */
 
 .indicatorsContainer {
   display: inline-flex;
@@ -64,14 +38,17 @@
 }
 
 .name {
-  color: var(--primary-dark);
+  color: var(--white);
   font-weight: normal;
-  word-wrap: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   margin-bottom: 0;
-  text-transform: uppercase;
   font-weight: normal;
   font-size: 1.7rem;
   font-family: 'Roboto', sans-serif;
+  padding: 0.8rem 1rem;
+  background-color: var(--primary-medium);
 }
 
 .link {
@@ -80,6 +57,7 @@
   grid-column: 1 / span 2;
   border-radius: var(--spacing-1);
   transition: 0.5s ease all;
+  width: 100%;
 }
 
 .prCount {
