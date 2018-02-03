@@ -32,10 +32,23 @@ export class Home extends React.Component {
   }
 
   render() {
+    let sortedRepos = [];
+    if (this.props.repositories.length > 0) {
+      sortedRepos = this.props.repositories.sort((a, b) => {
+        if (a.pullRequests.length > b.pullRequests.length) {
+          return -1;
+        }
+        if (a.pullRequests.length < b.pullRequests.length) {
+          return 1;
+        }
+        return 0;
+      });
+    }
+
     return (
       <div>
         <div className={theme.reposContainer}>
-          {this.props.repositories.map(repo => (
+          {sortedRepos.map(repo => (
             <Repo
               data={repo}
               key={repo.id}

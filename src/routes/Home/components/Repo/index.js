@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import CircularProgressbar from 'react-circular-progressbar';
 import defaultTheme from './theme.css';
 import RepoModal from '../RepoModal';
-import magnify from '../../../../images/magnify-white.svg';
 import { REPO_SUMMARY_MAX_PRS } from '../../../../constants';
 import userIcon from '../../../../images/anon-user.svg';
 
@@ -66,11 +65,18 @@ export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
         <a href={data.url} className={theme.link}>
           <h3 className={theme.name}>{data.name}</h3>
         </a>
-        <div className={theme.indicatorsContainer}>
+        <div
+          className={theme.indicatorsContainer}
+          onClick={onClick}
+          role="button"
+          tabIndex="0"
+        >
           <div className={theme.countContainer}>
-            <span className={`${theme.prCount} ${theme[countClass]}`}>
-              {data.pullRequests.length}
-            </span>
+            <div className={`${theme.prCount} ${theme[countClass]}`}>
+              <span className={theme.countLabel}>
+                {data.pullRequests.length}
+              </span>
+            </div>
             <span className={theme.prCountLabel}>OPEN</span>
             {prRows}
             {extraCount}
@@ -95,7 +101,7 @@ export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
                 : null}`}
             >
               <div className={theme.requestsCircle}>
-                <span className={theme.requestsCount}>
+                <span className={`${theme.requestsCount} ${theme.countLabel}`}>
                   {data.currentUserReviewRequests}
                 </span>
               </div>
@@ -108,13 +114,6 @@ export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
             <span className={theme.prCountLabel}>Requests for your review</span>
           </div>
         </div>
-        <button
-          className={theme.magnify}
-          onClick={onClick}
-          data-test-id="magnify"
-        >
-          <img src={magnify} alt="magnify icon" className={theme.magnifyIcon} />
-        </button>
       </div>
       {openRepo}
     </div>
