@@ -6,7 +6,7 @@ export const initialState = {
   repositories: [],
   openRepoId: null,
   pullRequestsLoading: false,
-  userTeams: null,
+  userTeams: [],
 };
 
 let repos;
@@ -47,9 +47,8 @@ export default function(state = initialState, action) {
       };
     case types.REQUEST_PULL_REQUESTS_SUCCESS:
       filteredNodes = action.data.nodes.filter(node => node);
-      repos = filteredNodes.map(node => ({
-        ...node,
-        pullRequests: node.pullRequests.edges.map(pr => {
+      repos = filteredNodes.map(node => {
+        const reformattedPrs = node.pullRequests.edges.map(pr => {
           createdAtDate = new Date(pr.node.createdAt);
           const reviews = pr.node.reviews.edges.map(review => ({
             ...review.node,
@@ -68,6 +67,36 @@ export default function(state = initialState, action) {
             }, {});
           }
 
+          const reviewRequests = pr.node.reviewRequests.edges.map(
+            reviewRequest => ({
+              ...reviewRequest.node,
+            }),
+          );
+
+          let currentUserReviewRequested = false;
+          reviewRequests.some(request => {
+            if (
+              request.requestedReviewer.login &&
+              request.requestedReviewer.login === state.currentUser.login
+            ) {
+              currentUserReviewRequested = true;
+              return true;
+            }
+            if (
+              request.requestedReviewer.id &&
+              state.userTeams.some(team => {
+                if (team.id === request.requestedReviewer.id) {
+                  return true;
+                }
+                return false;
+              })
+            ) {
+              currentUserReviewRequested = true;
+              return true;
+            }
+            return false;
+          });
+
           return {
             ...pr.node,
             date: createdAtDate.toLocaleDateString('en-GB', dateOptions),
@@ -75,14 +104,18 @@ export default function(state = initialState, action) {
             comments: pr.node.comments.edges.map(comment => ({
               ...comment.node,
             })),
-            reviewRequests: pr.node.reviewRequests.edges.map(reviewRequest => ({
-              ...reviewRequest.node,
-            })),
+            reviewRequests,
             reviews,
             aggregatedReviews: reviewStatuses,
+            currentUserReviewRequested,
           };
-        }),
-      }));
+        });
+
+        return {
+          ...node,
+          pullRequests: reformattedPrs,
+        };
+      });
 
       return {
         ...state,
