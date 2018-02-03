@@ -113,7 +113,7 @@ describe('Repo', () => {
       const component = shallow(
         <Repo {...props} toggleOpenRepo={toggleOpenRepo} />,
       );
-      component.find('[data-test-id="magnify"]').simulate('click');
+      component.find('.indicatorsContainer').simulate('click');
       expect(toggleOpenRepo).toHaveBeenCalledWith(props.data.id);
     });
   });
