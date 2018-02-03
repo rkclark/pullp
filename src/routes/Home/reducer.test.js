@@ -97,7 +97,7 @@ describe('Home reducer', () => {
                       {
                         node: {
                           author: {
-                            login: 'person',
+                            login: 'testUser',
                             avatarUrl: 'url',
                           },
                           createdAt: '2017-10-05T10:07:18Z',
@@ -189,7 +189,18 @@ describe('Home reducer', () => {
                     ],
                   },
                   reviews: {
-                    edges: [],
+                    edges: [
+                      {
+                        node: {
+                          author: {
+                            login: 'person',
+                            avatarUrl: 'url',
+                          },
+                          createdAt: '2017-10-05T10:07:18Z',
+                          state: 'COMMENTED',
+                        },
+                      },
+                    ],
                   },
                 },
               },
@@ -283,7 +294,7 @@ describe('Home reducer', () => {
               reviews: [
                 {
                   author: {
-                    login: 'person',
+                    login: 'testUser',
                     avatarUrl: 'url',
                   },
                   createdAt: '2017-10-05T10:07:18Z',
@@ -320,6 +331,7 @@ describe('Home reducer', () => {
                 APPROVED: 2,
               },
               currentUserReviewRequested: true,
+              reviewedByCurrentUser: true,
             },
             {
               createdAt: prCreatedAt,
@@ -362,9 +374,19 @@ describe('Home reducer', () => {
                   },
                 },
               ],
-              reviews: [],
-              aggregatedReviews: {},
+              reviews: [
+                {
+                  author: {
+                    login: 'person',
+                    avatarUrl: 'url',
+                  },
+                  createdAt: '2017-10-05T10:07:18Z',
+                  state: 'COMMENTED',
+                },
+              ],
+              aggregatedReviews: { COMMENTED: 1 },
               currentUserReviewRequested: false,
+              reviewedByCurrentUser: false,
             },
             {
               createdAt: prCreatedAt,
@@ -394,13 +416,18 @@ describe('Home reducer', () => {
               reviews: [],
               aggregatedReviews: {},
               currentUserReviewRequested: true,
+              reviewedByCurrentUser: false,
             },
           ],
+          currentUserReviewRequests: 2,
+          currentUserReviews: 1,
         },
         {
           id: 'MDEwOlJlcG9zaXRvcnk3Mjc1NzkxNg==',
           name: 'minesweeper',
           pullRequests: [],
+          currentUserReviewRequests: 0,
+          currentUserReviews: 0,
         },
       ],
     };
