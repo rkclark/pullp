@@ -153,14 +153,15 @@
   color: var(--primary-medium);
 }
 
-.extraCount {
-  font-size: 1rem;
-}
-
 .prAvatar {
   width: 3rem;
   height: 3rem;
   border-radius: var(--spacing-1);
   border: 0.1rem solid var(--white);
+}
+
+.userIcon {
+  background-color: var(--primary-medium);
+  padding: 0.6rem;
 }
 

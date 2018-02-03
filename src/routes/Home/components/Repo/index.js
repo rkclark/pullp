@@ -6,6 +6,7 @@ import defaultTheme from './theme.css';
 import RepoModal from '../RepoModal';
 import magnify from '../../../../images/magnify-white.svg';
 import { REPO_SUMMARY_MAX_PRS } from '../../../../constants';
+import userIcon from '../../../../images/anon-user.svg';
 
 export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
   const spanClass =
@@ -37,11 +38,19 @@ export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
     </div>
   ));
 
+  const extraPrs = data.pullRequests.length - REPO_SUMMARY_MAX_PRS;
   const extraCount =
-    data.pullRequests.length > REPO_SUMMARY_MAX_PRS ? (
-      <span className={theme.extraCount}>
-        +{data.pullRequests.length - REPO_SUMMARY_MAX_PRS} more authors
-      </span>
+    extraPrs > 0 ? (
+      <div className={theme.prRow}>
+        <img
+          src={userIcon}
+          alt="user icon"
+          className={`${theme.prAvatar} ${theme.userIcon}`}
+        />
+        <span className={theme.prAuthor}>
+          +{extraPrs} more author{`${extraPrs > 1 ? 's' : ''}`}
+        </span>
+      </div>
     ) : null;
 
   return (
