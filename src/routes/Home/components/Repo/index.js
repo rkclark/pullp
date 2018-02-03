@@ -2,6 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import CircularProgressbar from 'react-circular-progressbar';
 import defaultTheme from './theme.css';
 import RepoModal from '../RepoModal';
 import magnify from '../../../../images/magnify-white.svg';
@@ -72,7 +73,14 @@ export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
             {prRows}
             {extraCount}
           </div>
-          <div className={theme.reviewsContainer}> Reviews </div>
+          <div className={theme.reviewsContainer}>
+            <CircularProgressbar
+              percentage={60}
+              className={theme.progressCircle}
+              strokeWidth={20}
+              initialAnimation
+            />
+          </div>
         </div>
         <button
           className={theme.magnify}

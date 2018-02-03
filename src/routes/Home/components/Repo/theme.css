@@ -143,3 +143,15 @@
   padding: 0.6rem;
 }
 
+.progressCircle {
+  width: 9rem;
+}
+
+.progressCircle path:nth-child(1) { 
+  stroke: var(--secondary-dark);
+  stroke-width: 19.5;
+}
+
+.progressCircle path:nth-child(2) { 
+  stroke: var(--secondary-medium); 
+}
