@@ -10,12 +10,11 @@ import { REPO_SUMMARY_MAX_PRS } from '../../../../constants';
 import userIcon from '../../../../images/anon-user.svg';
 
 export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
-  const spanClass =
-    data.pullRequests.length > 5
-      ? 'spanMax'
-      : `span${data.pullRequests.length + 1}`;
+  const numberOfPrs = data.pullRequests.length;
 
-  const countClass = data.pullRequests.length === 0 ? 'zeroCount' : null;
+  const spanClass = numberOfPrs > 5 ? 'spanMax' : `span${numberOfPrs + 1}`;
+
+  const countClass = numberOfPrs === 0 ? 'zeroCount' : null;
 
   const open = data.id === openRepoId;
   const onClick = () => {
@@ -39,7 +38,7 @@ export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
     </div>
   ));
 
-  const extraPrs = data.pullRequests.length - REPO_SUMMARY_MAX_PRS;
+  const extraPrs = numberOfPrs - REPO_SUMMARY_MAX_PRS;
   const extraCount =
     extraPrs > 0 ? (
       <div className={theme.prRow}>
@@ -53,6 +52,9 @@ export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
         </span>
       </div>
     ) : null;
+
+  const reviewCompletionPercentage =
+    data.currentUserReviews / numberOfPrs * 100;
 
   return (
     <div
@@ -74,12 +76,18 @@ export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
             {extraCount}
           </div>
           <div className={theme.reviewsContainer}>
-            <CircularProgressbar
-              percentage={60}
-              className={theme.progressCircle}
-              strokeWidth={20}
-              initialAnimation
-            />
+            <div className={theme.reviewCoverageContainer}>
+              <CircularProgressbar
+                percentage={reviewCompletionPercentage}
+                className={theme.progressCircle}
+                strokeWidth={20}
+                initialAnimation
+              />
+              <span
+                className={theme.reviewCoverage}
+              >{`${data.currentUserReviews}/${numberOfPrs}`}</span>
+            </div>
+            <span className={theme.prCountLabel}>Reviewed by you</span>
           </div>
         </div>
         <button
