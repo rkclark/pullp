@@ -163,11 +163,59 @@
   display: none;
 }
 
-.reviewCoverageContainer {
+.reviewCoverageContainer, .reviewRequestsContainer  {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 9rem;
   height: 9rem;
   position: relative;
+}
+
+.requestsCircle {
+  background-color: var(--secondary-medium);
+  border-radius: 50%;
+  width: 8.2rem;
+  height: 8.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ }
+
+.requestsCount {
+  color: var(--secondary-dark);
+  font-weight: bold;
+  font-size: 4rem;
+}
+
+.spinCircle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 9rem;
+  height: 9rem;
+  animation: spin 30s linear infinite;
+  overflow: visible;
+}
+
+.spinCircle circle {
+  stroke-width: 3;
+  stroke-dasharray: 15, 5;
+  fill: none;
+  stroke: var(--secondary-dark);
+  opacity: 0.3;
+}
+
+.noRequests .requestsCircle {
+  background-color: var(--secondary-dark);
+}
+
+.noRequests .requestsCount {
+  color: var(--white);
+}
+
+@keyframes spin { 
+  100% { 
+    transform: rotate(360deg);
+  }
 }

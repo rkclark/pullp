@@ -88,6 +88,24 @@ export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
               >{`${data.currentUserReviews}/${numberOfPrs}`}</span>
             </div>
             <span className={theme.prCountLabel}>Reviewed by you</span>
+            <div
+              className={`${theme.reviewRequestsContainer} ${data.currentUserReviewRequests ===
+              0
+                ? theme.noRequests
+                : null}`}
+            >
+              <div className={theme.requestsCircle}>
+                <span className={theme.requestsCount}>
+                  {data.currentUserReviewRequests}
+                </span>
+              </div>
+              {data.currentUserReviewRequests > 0 ? (
+                <svg className={theme.spinCircle}>
+                  <circle cx="50%" cy="50%" r="45px" />
+                </svg>
+              ) : null}
+            </div>
+            <span className={theme.prCountLabel}>Requests for your review</span>
           </div>
         </div>
         <button
