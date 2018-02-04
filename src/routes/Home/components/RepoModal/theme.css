@@ -7,13 +7,17 @@
   top: 10%;
   left: 10%;
   width: 80%;
-  background-color: var(--primary-dark);
+  background-color: var(--primary-light);
   color: var(--white);
 }
 
 .repoContainer a {
   color: var(--white);
   font-weight: normal;
+}
+
+.prsContainer {
+  padding: 2rem;
 }
 
 .overlay {
@@ -35,21 +39,28 @@
 }
 
 .repoHeader a:hover{
-  text-decoration-color: var(--primary-dark);
+  text-decoration-color: var(--secondary-medium);
 }
-
 
 .closeButton {
   background-color: transparent;
   line-height: 0;
   padding: var(--spacing-1);
-  border-radius: var(--spacing-1);
-  transition: 0.5s ease all;
+  border-radius: 0.3rem;
+  transition: 0.5s ease-in-out all;
   border: none;
 }
 
+.closeButton path {
+  transition: 0.5s ease-in-out all;
+}
+
 .closeButton:hover {
-  background-color: var(--primary-dark);
+  background-color: var(--secondary-medium);
+}
+
+.closeButton:hover path {
+  fill: var(--secondary-dark);
 }
 
 .closeIcon {
