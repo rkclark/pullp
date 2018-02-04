@@ -2,10 +2,11 @@
 @import "../../../../css/units.css";
 
 .pullRequest {
-  margin-bottom: 2rem; 
+  margin: 0 auto 2rem auto; 
   background-color: var(--white);
   box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4);
   color: var(--primary-dark);
+  max-width: 140rem;
 }
 
 .header {
@@ -31,14 +32,30 @@
 .bodyWrapper {
   display: flex;
   padding: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
-.leftColumn, .middleColumn, .rightColumn  {
+.leftColumn, .middleColumn  {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex: 0 1 33%;
+}
+
+.leftColumn {
+  flex: 0 1 20%;
+}
+
+.middleColumn  {
+  flex: 0 1 auto;
+}
+
+.rightColumn  {
+  flex: 0 1 50%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .infoSpan {
@@ -134,20 +151,23 @@
 
 .reviewsContainer {
   flex: 0 1 100%;
+  align-self: flex-start;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .review {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   background-color: var(--white);
   box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4);
-  padding: 1rem 1.5rem;
+  padding: 0 1.5rem;
   border-radius: 0.3rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.3rem;
+  margin-right: 1rem;
+  border: 0.1rem solid rgba(0, 0, 0, 0.05);
 }
 
 .reviewsTitle {
@@ -155,7 +175,8 @@
   font-family: 'Roboto', sans-serif;
   text-transform: uppercase;
   font-weight: normal;
-  margin-bottom: 1rem;
+  margin: 0 auto 1rem auto;
+  align-self: flex-start;
 }
 
 .reviewAuthorAvatar {
@@ -168,7 +189,7 @@
 .reviewAuthorLogin {
   font-size: 1.4rem;
   font-family: 'Roboto', sans-serif;
-  margin: 0 1rem;
+  margin: 0.7rem 1rem;
 }
 
 .reviewState {
@@ -176,8 +197,9 @@
   font-size: 1.4rem;
   font-family: 'Roboto', sans-serif;
   border-radius: 0.5rem;
-  margin-right: 1rem;
+  margin: 0.7rem 1rem 0.7rem 0;
   border: 0.1rem solid transparent;
+  white-space: nowrap;
 }
 
 .review .reviewState:last-child {
@@ -206,4 +228,36 @@
 .statusDismissed {
   background-color: var(--secondary-dark);
   color: var(--white);
+}
+
+.noReviewsMessage {
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.noReviewsMessage span {
+  font-size: 1.4rem;
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
+}
+
+.noReviewsIcon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 100%;
+  padding: 0.7rem;
+  background-color: var(--light-grey);
+  margin-right: 1rem;
+}
+
+@media (max-width: 1100px) {
+  .leftColumn, .middleColumn {
+    flex-basis: 50%;
+  }
+
+  .rightColumn {
+    flex-basis: 100%;
+    margin-top: 2rem;
+  }
 }
