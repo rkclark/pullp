@@ -13,7 +13,7 @@
 }
 
 .prsContainer {
-  padding: 2rem;
+  padding: 5rem 2rem 3rem;
 }
 
 .overlay {
@@ -75,3 +75,30 @@
   height: 2rem;
 }
 
+.noPrs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 4rem;
+  box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4);
+  margin: 10rem 20%;
+  background-color: var(--secondary-dark);
+}
+
+.noPrs span {
+  color: var(--white);
+  margin-left: 2rem;
+  font-size: 1.7rem;
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
+}
+
+.noPrsIcon {
+  width: 5rem;
+  height: 5rem;
+  padding: 1rem;
+  border-radius: 100%;
+  background-color: var(--light-grey);
+  opacity: 0.7;
+  flex: 0 0 auto;
+}
