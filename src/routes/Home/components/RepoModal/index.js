@@ -4,12 +4,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import defaultTheme from './theme.css';
 import PullRequest from '../PullRequest';
-import closeIcon from '../../../../images/close-white.svg';
 
 export default function RepoModal({ theme, data, toggleOpenRepo }) {
   const onClick = () => {
     toggleOpenRepo(null);
   };
+
+  const closeIcon = (
+    <svg
+      className={theme.closeIcon}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 31.11 31.11"
+    >
+      <path
+        fill="#FFF"
+        d="M31.1 1.4L29.7 0 15.56 14.14 1.4 0 0 1.4l14.14 14.16L0 29.7l1.4 1.4 14.16-14.13L29.7 31.1l1.4-1.4-14.13-14.14"
+      />
+    </svg>
+  );
 
   return (
     <div>
@@ -24,16 +36,14 @@ export default function RepoModal({ theme, data, toggleOpenRepo }) {
               data-test-id={'closeButton'}
               onClick={onClick}
             >
-              <img
-                className={theme.closeIcon}
-                src={closeIcon}
-                alt="close icon"
-              />
+              {closeIcon}
             </button>
           </div>
-          {data.pullRequests.map(pr => (
-            <PullRequest {...pr} key={`${data.id}_${pr.number}`} />
-          ))}
+          <div className={theme.prsContainer}>
+            {data.pullRequests.map(pr => (
+              <PullRequest {...pr} key={`${data.id}_${pr.number}`} />
+            ))}
+          </div>
         </div>
       </div>
       <div className={theme.overlayContainer}>
