@@ -11,11 +11,6 @@
   color: var(--white);
 }
 
-.repoContainer a {
-  color: var(--white);
-  font-weight: normal;
-}
-
 .prsContainer {
   padding: 2rem;
 }
@@ -34,11 +29,22 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: var(--spacing-3);
+  padding: 1.5rem 2rem;
   background-color: var(--secondary-dark);
 }
 
-.repoHeader a:hover{
+.name {
+  font-weight: normal;
+  font-size: 2.3rem;
+  font-family: 'Roboto', sans-serif;
+  color: var(--white);
+}
+
+.link {
+  transition: 0.3s ease-in-out all;
+}
+
+.link:hover{
   text-decoration-color: var(--secondary-medium);
 }
 

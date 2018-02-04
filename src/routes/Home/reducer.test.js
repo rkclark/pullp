@@ -51,12 +51,15 @@ describe('Home reducer', () => {
     const prCreatedAt = '2016-10-15T10:39:37Z';
     const prDateObj = new Date('2016-10-15T10:39:37Z');
     const prDate = prDateObj.toLocaleDateString('en-GB', {
-      weekday: 'short',
+      weekday: 'long',
       year: 'numeric',
       month: 'short',
       day: 'numeric',
     });
-    const prTime = prDateObj.toLocaleTimeString('en-US');
+    const prTime = prDateObj.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: 'numeric',
+    });
     const data = {
       nodes: [
         {
