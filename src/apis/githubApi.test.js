@@ -123,8 +123,6 @@ query {
                 edges {
                   node {
                     createdAt
-                    closed
-                    mergedAt
                     url
                     number
                     title
@@ -134,17 +132,7 @@ query {
                       url
                     }
                     comments(last: 100) {
-                      edges {
-                        node {
-                          author {
-                            avatarUrl
-                            login
-                            url
-                          }
-                          body
-                          createdAt
-                        }
-                      }
+                      totalCount
                     }
                     reviewRequests(last: 100) {
                       edges {

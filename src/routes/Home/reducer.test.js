@@ -79,7 +79,7 @@ describe('Home reducer', () => {
                     url: 'https://github.com/jh2633',
                   },
                   comments: {
-                    edges: [],
+                    totalCount: 0,
                   },
                   reviewRequests: {
                     edges: [
@@ -154,20 +154,7 @@ describe('Home reducer', () => {
                     url: 'https://github.com/jh2633',
                   },
                   comments: {
-                    edges: [
-                      {
-                        node: {
-                          author: {
-                            login: 'jh2633',
-                            avatarUrl:
-                              'https://avatars0.githubusercontent.com/u/18387550?v=4',
-                            url: 'https://github.com/jh2633',
-                          },
-                          body: 'test',
-                          createdAt: 'date',
-                        },
-                      },
-                    ],
+                    totalCount: 1,
                   },
                   reviewRequests: {
                     edges: [
@@ -220,7 +207,7 @@ describe('Home reducer', () => {
                     url: 'https://github.com/jh2633',
                   },
                   comments: {
-                    edges: [],
+                    totalCount: 2,
                   },
                   reviewRequests: {
                     edges: [
@@ -283,7 +270,9 @@ describe('Home reducer', () => {
                 login: 'jh2633',
                 url: 'https://github.com/jh2633',
               },
-              comments: [],
+              comments: {
+                totalCount: 0,
+              },
               reviewRequests: [
                 {
                   requestedReviewer: {
@@ -349,18 +338,9 @@ describe('Home reducer', () => {
                 login: 'jh2633',
                 url: 'https://github.com/jh2633',
               },
-              comments: [
-                {
-                  author: {
-                    login: 'jh2633',
-                    avatarUrl:
-                      'https://avatars0.githubusercontent.com/u/18387550?v=4',
-                    url: 'https://github.com/jh2633',
-                  },
-                  body: 'test',
-                  createdAt: 'date',
-                },
-              ],
+              comments: {
+                totalCount: 1,
+              },
               reviewRequests: [
                 {
                   requestedReviewer: {
@@ -404,7 +384,9 @@ describe('Home reducer', () => {
                 login: 'jh2633',
                 url: 'https://github.com/jh2633',
               },
-              comments: [],
+              comments: {
+                totalCount: 2,
+              },
               reviewRequests: [
                 {
                   requestedReviewer: {
