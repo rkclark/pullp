@@ -33,10 +33,12 @@
   padding: 1.5rem;
 }
 
-.leftColumn {
+.leftColumn, .middleColumn, .rightColumn  {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  flex: 0 1 33%;
 }
 
 .infoSpan {
@@ -108,18 +110,73 @@
   background-color: var(--dismissed);
 }
 
-.commentContainer {
+.reviewStatusIndicator {
+  width: 8rem;
+  height: 8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+}
+
+.reviewed {
+  background-color: var(--primary-medium);
+}
+
+.reviewRequested {
+  background-color: var(--secondary-medium);
   position: relative;
-  margin-top: var(--spacing-1);
-  margin-right: var(--spacing-2);
 }
 
-.commentIcon {
+.noRequest {
+  background-color: var(--primary-dark);
+}
+
+.reviewStatusIcon {
   width: 4rem;
+  height: 4rem;
 }
 
-.commentCount {
+.reviewStatusSpan {
+  font-size: 5rem;
+  color: var(--secondary-dark);
+  font-family: 'Roboto', sans-serif;
+}
+
+.statusSpan {
+  font-weight: normal;
+  font-size: 1.4rem;
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
+  margin: 1.5rem auto;
+}
+
+.reviewStatusWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.spinCircle {
   position: absolute;
-  top: 0.4rem;
-  left: 1.5rem;
+  left: -0.5rem;
+  top: -0.5rem;
+  width: 9rem;
+  height: 9rem;
+  animation: spin 30s linear infinite;
+  overflow: visible;
+}
+
+.spinCircle circle {
+  stroke-width: 3;
+  stroke-dasharray: 15, 5;
+  fill: none;
+  stroke: var(--secondary-dark);
+  opacity: 0.3;
+}
+
+@keyframes spin { 
+  100% { 
+    transform: rotate(360deg);
+  }
 }

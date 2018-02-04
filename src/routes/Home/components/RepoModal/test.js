@@ -56,6 +56,8 @@ describe('RepoModal', () => {
               state: 'APPROVED',
             },
           ],
+          currentUserReviewRequested: false,
+          reviewedByCurrentUser: true,
         },
         {
           createdAt: '2017-09-25T20:23:44Z',
@@ -103,6 +105,8 @@ describe('RepoModal', () => {
               state: 'APPROVED',
             },
           ],
+          currentUserReviewRequested: false,
+          reviewedByCurrentUser: true,
         },
       ],
     },

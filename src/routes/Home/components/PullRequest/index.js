@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import defaultTheme from './theme.css';
-import comment from '../../../../images/comment-white.svg';
 
 /* eslint-disable no-unused-vars */
 export default function PullRequest({
@@ -17,6 +16,8 @@ export default function PullRequest({
   reviewRequests,
   reviews,
   aggregatedReviews,
+  reviewedByCurrentUser,
+  currentUserReviewRequested,
 }) {
   let statusClass = 'statusDefault';
   statusClass =
@@ -69,6 +70,63 @@ export default function PullRequest({
     </div>
   );
 
+  const reviewRequestStatus = () => {
+    if (reviewedByCurrentUser) {
+      return (
+        <div className={theme.reviewStatusWrapper}>
+          <div className={`${theme.reviewStatusIndicator} ${theme.reviewed}`}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 406.83 406.83"
+              width="512"
+              height="512"
+              className={theme.reviewStatusIcon}
+            >
+              <path
+                fill="#FFFFFF"
+                d="M385.62 62.5l-239.4 239.4-125-125L0 198.1l146.22 146.23L406.84 83.72z"
+              />
+            </svg>
+          </div>
+          <span className={theme.statusSpan}>You have reviewed</span>
+        </div>
+      );
+    }
+    if (currentUserReviewRequested) {
+      return (
+        <div className={theme.reviewStatusWrapper}>
+          <div
+            className={`${theme.reviewStatusIndicator} ${theme.reviewRequested}`}
+          >
+            <svg className={theme.spinCircle}>
+              <circle cx="50%" cy="50%" r="45px" />
+            </svg>
+            <span className={theme.reviewStatusSpan}>!</span>
+          </div>
+          <span className={theme.statusSpan}>Your review requested</span>
+        </div>
+      );
+    }
+
+    return (
+      <div className={theme.reviewStatusWrapper}>
+        <div className={`${theme.reviewStatusIndicator} ${theme.noRequest}`}>
+          <svg
+            className={theme.reviewStatusIcon}
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 31.11 31.11"
+          >
+            <path
+              fill="#FFF"
+              d="M31.1 1.4L29.7 0 15.56 14.14 1.4 0 0 1.4l14.14 14.16L0 29.7l1.4 1.4 14.16-14.13L29.7 31.1l1.4-1.4-14.13-14.14"
+            />
+          </svg>
+        </div>
+        <span className={theme.statusSpan}>Your review not requested</span>
+      </div>
+    );
+  };
+
   return (
     <div className={`${theme.pullRequest} ${theme[statusClass]}`}>
       <div className={theme.header}>
@@ -88,14 +146,7 @@ export default function PullRequest({
           <span className={theme.infoSpan}>{date}</span>
           <span className={theme.infoSpan}>{time}</span>
         </div>
-        <div className={theme.middleColumn}>
-          <div className={theme.commentContainer}>
-            <img src={comment} alt="comment" className={theme.commentIcon} />
-            <span className={theme.commentCount} data-test-id="commentCount">
-              {comments.length}
-            </span>
-          </div>
-        </div>
+        <div className={theme.middleColumn}>{reviewRequestStatus()}</div>
         <div className={theme.rightColumn}>
           <div className={theme.mainStatus}>
             <p>{status.toUpperCase()}</p>
@@ -124,6 +175,8 @@ PullRequest.propTypes = {
   reviewRequests: PropTypes.arrayOf(PropTypes.shape()),
   reviews: PropTypes.arrayOf(PropTypes.shape()),
   aggregatedReviews: PropTypes.shape(),
+  currentUserReviewRequested: PropTypes.bool.isRequired,
+  reviewedByCurrentUser: PropTypes.bool.isRequired,
 };
 
 PullRequest.defaultProps = {

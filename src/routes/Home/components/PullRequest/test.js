@@ -48,15 +48,12 @@ describe('PullRequest', () => {
         state: 'APPROVED',
       },
     ],
+    currentUserReviewRequested: false,
+    reviewedByCurrentUser: true,
   };
 
   it('renders successfully', () => {
     const component = shallow(<PullRequest {...props} />);
     expect(component).toHaveLength(1);
-  });
-
-  it('renders a comments count ', () => {
-    const component = shallow(<PullRequest {...props} />);
-    expect(component.find('[data-test-id="commentCount"]').text()).toEqual('2');
   });
 });
