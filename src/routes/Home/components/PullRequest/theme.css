@@ -4,29 +4,53 @@
 .pullRequest {
   margin: 0 auto 2rem auto; 
   background-color: var(--white);
-  box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4), inset 0 -0.4rem 0 0 var(--secondary-dark);
   color: var(--primary-dark);
   max-width: 140rem;
+  transition: 0.3s ease-in-out all;
 }
 
 .header {
   background-color: var(--secondary-dark);
   padding: 1rem 1.5rem;
+  transition: 0.3s ease-in-out all;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.linkIcon {
+  width: 3rem;
+  height: 3rem;
 }
 
 .title {
   font-weight: normal;
-  font-size: 1.7rem;
+  font-size: 1.9rem;
   font-family: 'Roboto', sans-serif;
   color: var(--white);
-}
-
-.link {
   transition: 0.3s ease-in-out all;
 }
 
-.link:hover{
-  text-decoration-color: var(--secondary-medium);
+.link {
+  text-decoration: none;
+  font-weight: normal;
+}
+
+.link:hover {
+  text-decoration: none;
+}
+
+.link:hover .pullRequest {
+  box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4), inset 0 -0.4rem 0 0 var(--secondary-medium);
+}
+
+.link:hover .header {
+  background-color: var(--secondary-medium);
+}
+
+.link:hover .title {
+  color: var(--secondary-dark);
 }
 
 .bodyWrapper {
