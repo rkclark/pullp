@@ -2,74 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import defaultTheme from './theme.css';
 
-/* eslint-disable no-unused-vars */
+/* eslint-disable react/no-array-index-key */
 export default function PullRequest({
   theme,
   date,
   time,
-  mergedAt,
   url,
   number,
   title,
   author,
-  comments,
-  reviewRequests,
-  reviews,
-  aggregatedReviews,
   reviewedByCurrentUser,
   currentUserReviewRequested,
+  reviewsByAuthor,
 }) {
-  let statusClass = 'statusDefault';
-  statusClass =
-    reviewRequests.length > 0 && reviews.length === 0
-      ? 'statusOutstandingReview'
-      : statusClass;
-
-  let status = 'No Review Requested';
-  status =
-    reviewRequests.length > 0 && reviews.length === 0
-      ? 'Review Requested'
-      : status;
-
-  const reviewTags = (
-    <div className={theme.reviewTagsContainer}>
-      {aggregatedReviews
-        ? Object.entries(aggregatedReviews).map(reviewStatus => {
-            let reviewStatusClassName = '';
-            switch (reviewStatus[0]) {
-              case 'APPROVED':
-                reviewStatusClassName = 'statusApproved';
-                break;
-              case 'CHANGES_REQUESTED':
-                reviewStatusClassName = 'statusChangesRequested';
-                break;
-              case 'COMMENTED':
-                reviewStatusClassName = 'statusCommented';
-                break;
-              case 'PENDING':
-                reviewStatusClassName = 'statusPending';
-                break;
-              case 'DISMISSED':
-                reviewStatusClassName = 'statusDismissed';
-                break;
-              default:
-                reviewStatusClassName = '';
-            }
-            return (
-              <p
-                key={reviewStatus[0]}
-                className={`${theme.reviewStatus} ${theme[
-                  reviewStatusClassName
-                ]}`}
-              >
-                {reviewStatus[0].replace(/_/g, ' ')} x{reviewStatus[1]}
-              </p>
-            );
-          })
-        : null}
-    </div>
-  );
-
   const reviewRequestStatus = () => {
     if (reviewedByCurrentUser) {
       return (
@@ -127,8 +72,54 @@ export default function PullRequest({
     );
   };
 
+  const generateStateClass = state => {
+    let reviewStatusClassName = '';
+    switch (state) {
+      case 'APPROVED':
+        reviewStatusClassName = 'statusApproved';
+        break;
+      case 'CHANGES_REQUESTED':
+        reviewStatusClassName = 'statusChangesRequested';
+        break;
+      case 'COMMENTED':
+        reviewStatusClassName = 'statusCommented';
+        break;
+      case 'PENDING':
+        reviewStatusClassName = 'statusPending';
+        break;
+      case 'DISMISSED':
+        reviewStatusClassName = 'statusDismissed';
+        break;
+      default:
+        reviewStatusClassName = '';
+    }
+    return reviewStatusClassName;
+  };
+
+  const prReviews = reviewsByAuthor.map(review => (
+    <div className={theme.review} key={`${review.login}`}>
+      <img
+        className={theme.reviewAuthorAvatar}
+        src={review.avatarUrl}
+        alt="review author"
+      />
+      <span className={theme.reviewAuthorLogin}>{review.login}</span>
+      {review.states.map((state, index) => {
+        const stateClass = generateStateClass(state);
+        return (
+          <div
+            className={`${theme.reviewState} ${theme[stateClass]}`}
+            key={`${review.login}_state_${index}`}
+          >
+            {state.replace(/_/g, ' ')}
+          </div>
+        );
+      })}
+    </div>
+  ));
+
   return (
-    <div className={`${theme.pullRequest} ${theme[statusClass]}`}>
+    <div className={`${theme.pullRequest}`}>
       <div className={theme.header}>
         <a href={url} className={theme.link}>
           <h4 className={theme.title}>{title}</h4>
@@ -148,10 +139,8 @@ export default function PullRequest({
         </div>
         <div className={theme.middleColumn}>{reviewRequestStatus()}</div>
         <div className={theme.rightColumn}>
-          <div className={theme.mainStatus}>
-            <p>{status.toUpperCase()}</p>
-          </div>
-          {reviewTags}
+          <h3 className={theme.reviewsTitle}>Reviews</h3>
+          <div className={theme.reviewsContainer}>{prReviews}</div>
         </div>
       </div>
     </div>
@@ -162,7 +151,6 @@ PullRequest.propTypes = {
   theme: PropTypes.shape(),
   date: PropTypes.string,
   time: PropTypes.string,
-  mergedAt: PropTypes.string,
   url: PropTypes.string.isRequired,
   number: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
@@ -171,12 +159,9 @@ PullRequest.propTypes = {
     login: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
   }).isRequired,
-  comments: PropTypes.arrayOf(PropTypes.shape()),
-  reviewRequests: PropTypes.arrayOf(PropTypes.shape()),
-  reviews: PropTypes.arrayOf(PropTypes.shape()),
-  aggregatedReviews: PropTypes.shape(),
   currentUserReviewRequested: PropTypes.bool.isRequired,
   reviewedByCurrentUser: PropTypes.bool.isRequired,
+  reviewsByAuthor: PropTypes.arrayOf(PropTypes.shape()),
 };
 
 PullRequest.defaultProps = {
@@ -189,4 +174,5 @@ PullRequest.defaultProps = {
   aggregatedReviews: {},
   date: null,
   time: null,
+  reviewsByAuthor: [],
 };

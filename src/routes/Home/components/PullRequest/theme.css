@@ -47,15 +47,6 @@
   font-family: 'Roboto', sans-serif;
 }
 
-.statusDefault {}
-
-.statusOutstandingReview {}
-
-
-.createdAt {
-  margin-left: var(--spacing-2);
-}
-
 .authorAvatar {
   width: 8rem;
   height: 8rem;
@@ -68,46 +59,6 @@
   font-size: 1.7rem;
   font-family: 'Roboto', sans-serif;
   margin: 1rem auto;
-}
-
-.mainStatus {
-  padding: 0 var(--spacing-1) var(--spacing-1);
-}
-
-.mainStatus p {
-  margin: 0;
-}
-
-.reviewTagsContainer {
-  display: inline-flex;
-  flex-flow: row wrap;
-}
-
-.reviewStatus {
-  padding: var(--spacing-1);
-  margin: var(--spacing-1);
-  text-align: center;
-}
-
-.statusApproved {
-  background-color: var(--approved);
-}
-
-.statusChangesRequested {
-  background-color: var(--changes-requested);
-}
-
-.statusCommented {
-  background-color: var(--commented);
-}
-
-.statusPending {
-  background-color: var(--pending);
-  color: var(--primary-dark)
-}
-
-.statusDismissed {
-  background-color: var(--dismissed);
 }
 
 .reviewStatusIndicator {
@@ -179,4 +130,80 @@
   100% { 
     transform: rotate(360deg);
   }
+}
+
+.reviewsContainer {
+  flex: 0 1 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.review {
+  display: flex;
+  align-items: center;
+  background-color: var(--white);
+  box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4);
+  padding: 1rem 1.5rem;
+  border-radius: 0.3rem;
+  margin-bottom: 1rem;
+}
+
+.reviewsTitle {
+  font-size: 1.4rem;
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
+  font-weight: normal;
+  margin-bottom: 1rem;
+}
+
+.reviewAuthorAvatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 100%;
+  box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4);
+}
+
+.reviewAuthorLogin {
+  font-size: 1.4rem;
+  font-family: 'Roboto', sans-serif;
+  margin: 0 1rem;
+}
+
+.reviewState {
+  padding: 0.5rem 1.3rem;
+  font-size: 1.4rem;
+  font-family: 'Roboto', sans-serif;
+  border-radius: 0.5rem;
+  margin-right: 1rem;
+  border: 0.1rem solid transparent;
+}
+
+.review .reviewState:last-child {
+  margin-right: 0;
+}
+
+.statusApproved {
+  background-color: var(--secondary-medium);
+}
+
+.statusChangesRequested {
+  background-color: var(--tertiary-dark);
+  color: var(--white);
+}
+
+.statusCommented {
+  background-color: var(--primary-medium);
+  color: var(--white);
+}
+
+.statusPending {
+  background-color: var(--white);
+  border-color: var(--primary-dark);
+}
+
+.statusDismissed {
+  background-color: var(--secondary-dark);
+  color: var(--white);
 }
