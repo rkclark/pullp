@@ -321,6 +321,14 @@ describe('Home reducer', () => {
               },
               currentUserReviewRequested: false,
               reviewedByCurrentUser: true,
+              reviewsByAuthor: [
+                { login: 'testUser', avatarUrl: 'url', states: ['COMMENTED'] },
+                {
+                  login: 'person',
+                  avatarUrl: 'url',
+                  states: ['COMMENTED', 'APPROVED', 'APPROVED'],
+                },
+              ],
             },
             {
               createdAt: prCreatedAt,
@@ -367,6 +375,9 @@ describe('Home reducer', () => {
               aggregatedReviews: { COMMENTED: 1 },
               currentUserReviewRequested: false,
               reviewedByCurrentUser: false,
+              reviewsByAuthor: [
+                { login: 'person', avatarUrl: 'url', states: ['COMMENTED'] },
+              ],
             },
             {
               createdAt: prCreatedAt,
@@ -399,6 +410,7 @@ describe('Home reducer', () => {
               aggregatedReviews: {},
               currentUserReviewRequested: true,
               reviewedByCurrentUser: false,
+              reviewsByAuthor: [],
             },
           ],
           currentUserReviewRequests: 1,
