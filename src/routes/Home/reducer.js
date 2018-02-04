@@ -67,6 +67,32 @@ export default function(state = initialState, action) {
             }, {});
           }
 
+          let reviewsByAuthor = [];
+          if (reviews.length > 0) {
+            reviewsByAuthor = reviews.reduce((arr, review) => {
+              const existingIndex = arr.findIndex(authorReview => {
+                if (authorReview.login === review.author.login) {
+                  return true;
+                }
+                return false;
+              });
+
+              if (existingIndex > -1) {
+                arr[existingIndex].states.push(review.state);
+                return [...arr];
+              }
+
+              return [
+                ...arr,
+                {
+                  login: review.author.login,
+                  avatarUrl: review.author.avatarUrl,
+                  states: [review.state],
+                },
+              ];
+            }, []);
+          }
+
           const reviewRequests = pr.node.reviewRequests.edges.map(
             reviewRequest => ({
               ...reviewRequest.node,
@@ -118,6 +144,7 @@ export default function(state = initialState, action) {
             aggregatedReviews: reviewStatuses,
             currentUserReviewRequested,
             reviewedByCurrentUser,
+            reviewsByAuthor,
           };
         });
 
