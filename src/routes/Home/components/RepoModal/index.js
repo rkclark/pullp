@@ -28,8 +28,8 @@ export default function RepoModal({ theme, data, toggleOpenRepo }) {
       <div className={theme.repoContainer}>
         <div className={theme.repo}>
           <div className={theme.repoHeader}>
-            <a href={data.url}>
-              <h3>{data.name}</h3>
+            <a href={data.url} className={theme.link}>
+              <h3 className={theme.name}>{data.name}</h3>
             </a>
             <button
               className={theme.closeButton}

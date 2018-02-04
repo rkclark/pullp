@@ -2,41 +2,70 @@
 @import "../../../../css/units.css";
 
 .pullRequest {
-  padding: var(--spacing-4) var(--spacing-3);
-  display: flex;
+  margin-bottom: 2rem; 
+  background-color: var(--white);
+  box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4);
+  color: var(--primary-dark);
 }
 
-.pullRequest:nth-child(odd) {
-  background-color: var(--primary-medium);
+.header {
+  background-color: var(--secondary-dark);
+  padding: 1rem 1.5rem;
+}
+
+.title {
+  font-weight: normal;
+  font-size: 1.7rem;
+  font-family: 'Roboto', sans-serif;
+  color: var(--white);
+}
+
+.link {
+  transition: 0.3s ease-in-out all;
+}
+
+.link:hover{
+  text-decoration-color: var(--secondary-medium);
+}
+
+.bodyWrapper {
+  display: flex;
+  padding: 1.5rem;
 }
 
 .leftColumn {
-  min-width: 70%;
-  padding-right: var(--spacing-2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.infoSpan {
+  font-weight: normal;
+  font-size: 1.2rem;
+  font-family: 'Roboto', sans-serif;
 }
 
 .statusDefault {}
 
 .statusOutstandingReview {}
 
-.prInfoContainer {
-  display: inline-flex;
-  align-content: center;
-}
 
 .createdAt {
   margin-left: var(--spacing-2);
 }
 
 .authorAvatar {
-  width: 3.5rem;
-  height: 3.5rem;
-  border-radius: var(--spacing-1);
-  border: 2px solid var(--white);
+  width: 8rem;
+  height: 8rem;
+  border-radius: 100%;
+  box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4);
 }
 
 .authorLogin {
-  display: block;
+  color: var(--primary-dark);
+  font-size: 1.7rem;
+  font-family: 'Roboto', sans-serif;
+  margin: 1rem auto;
 }
 
 .mainStatus {

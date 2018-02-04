@@ -14,10 +14,15 @@ let filteredNodes;
 let createdAtDate;
 
 const dateOptions = {
-  weekday: 'short',
+  weekday: 'long',
   year: 'numeric',
   month: 'short',
   day: 'numeric',
+};
+
+const timeOptions = {
+  hour: 'numeric',
+  minute: 'numeric',
 };
 
 export default function(state = initialState, action) {
@@ -138,7 +143,7 @@ export default function(state = initialState, action) {
           return {
             ...pr.node,
             date: createdAtDate.toLocaleDateString('en-GB', dateOptions),
-            time: createdAtDate.toLocaleTimeString('en-US'),
+            time: createdAtDate.toLocaleTimeString('en-US', timeOptions),
             reviewRequests,
             reviews,
             aggregatedReviews: reviewStatuses,

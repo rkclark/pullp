@@ -71,41 +71,37 @@ export default function PullRequest({
 
   return (
     <div className={`${theme.pullRequest} ${theme[statusClass]}`}>
-      <div className={theme.leftColumn}>
-        <a href={url}>
-          <h4>
-            <span>#{number}</span> {title}
-          </h4>
+      <div className={theme.header}>
+        <a href={url} className={theme.link}>
+          <h4 className={theme.title}>{title}</h4>
         </a>
-        <div className={theme.prInfoContainer}>
-          <div>
-            <img
-              className={theme.authorAvatar}
-              src={author.avatarUrl}
-              alt="pull request author"
-            />
+      </div>
+      <div className={theme.bodyWrapper}>
+        <div className={theme.leftColumn}>
+          <img
+            className={theme.authorAvatar}
+            src={author.avatarUrl}
+            alt="pull request author"
+          />
+          <span className={theme.authorLogin}>{author.login}</span>
+          <span className={theme.infoSpan}>#{number}</span>
+          <span className={theme.infoSpan}>{date}</span>
+          <span className={theme.infoSpan}>{time}</span>
+        </div>
+        <div className={theme.middleColumn}>
+          <div className={theme.commentContainer}>
+            <img src={comment} alt="comment" className={theme.commentIcon} />
+            <span className={theme.commentCount} data-test-id="commentCount">
+              {comments.length}
+            </span>
           </div>
-          <span className={theme.createdAt}>
-            {date} at {time}
-          </span>
         </div>
-        <a href={author.url} className={theme.authorLogin}>
-          {author.login}
-        </a>
-      </div>
-      <div className={theme.middleColumn}>
-        <div className={theme.commentContainer}>
-          <img src={comment} alt="comment" className={theme.commentIcon} />
-          <span className={theme.commentCount} data-test-id="commentCount">
-            {comments.length}
-          </span>
+        <div className={theme.rightColumn}>
+          <div className={theme.mainStatus}>
+            <p>{status.toUpperCase()}</p>
+          </div>
+          {reviewTags}
         </div>
-      </div>
-      <div className={theme.rightColumn}>
-        <div className={theme.mainStatus}>
-          <p>{status.toUpperCase()}</p>
-        </div>
-        {reviewTags}
       </div>
     </div>
   );
