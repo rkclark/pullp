@@ -119,48 +119,62 @@ export default function PullRequest({
   ));
 
   return (
-    <div className={`${theme.pullRequest}`}>
-      <div className={theme.header}>
-        <a href={url} className={theme.link}>
+    <a href={url} className={theme.link}>
+      <div className={`${theme.pullRequest}`}>
+        <div className={theme.header}>
           <h4 className={theme.title}>{title}</h4>
-        </a>
-      </div>
-      <div className={theme.bodyWrapper}>
-        <div className={theme.leftColumn}>
-          <img
-            className={theme.authorAvatar}
-            src={author.avatarUrl}
-            alt="pull request author"
-          />
-          <span className={theme.authorLogin}>{author.login}</span>
-          <span className={theme.infoSpan}>#{number}</span>
-          <span className={theme.infoSpan}>{date}</span>
-          <span className={theme.infoSpan}>{time}</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512"
+            className={theme.linkIcon}
+          >
+            <path
+              d="M488.73 0H302.54a23.27 23.27 0 0 0 0 46.55h130L193 286.09A23.27 23.27 0 1 0 225.9 319L465.45 79.46v130a23.27 23.27 0 0 0 46.55 0V23.27A23.27 23.27 0 0 0 488.73 0z"
+              fill="#1D2843"
+            />
+            <path
+              d="M395.64 232.73A23.27 23.27 0 0 0 372.36 256v209.46H46.55V139.64H256a23.27 23.27 0 0 0 0-46.55H23.27A23.27 23.27 0 0 0 0 116.36v372.37A23.27 23.27 0 0 0 23.27 512h372.37a23.27 23.27 0 0 0 23.27-23.27V256a23.27 23.27 0 0 0-23.27-23.27z"
+              fill="#1D2843"
+            />
+          </svg>
         </div>
-        <div className={theme.middleColumn}>{reviewRequestStatus()}</div>
-        <div className={theme.rightColumn}>
-          <h3 className={theme.reviewsTitle}>Reviews</h3>
-          <div className={theme.reviewsContainer}>
-            {prReviews}
-            {reviewsByAuthor.length === 0 ? (
-              <div className={theme.noReviewsMessage}>
-                <svg
-                  className={theme.noReviewsIcon}
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 31.11 31.11"
-                >
-                  <path
-                    fill="#FFF"
-                    d="M31.1 1.4L29.7 0 15.56 14.14 1.4 0 0 1.4l14.14 14.16L0 29.7l1.4 1.4 14.16-14.13L29.7 31.1l1.4-1.4-14.13-14.14"
-                  />
-                </svg>
-                <span>No reviews submitted</span>
-              </div>
-            ) : null}
+        <div className={theme.bodyWrapper}>
+          <div className={theme.leftColumn}>
+            <img
+              className={theme.authorAvatar}
+              src={author.avatarUrl}
+              alt="pull request author"
+            />
+            <span className={theme.authorLogin}>{author.login}</span>
+            <span className={theme.infoSpan}>#{number}</span>
+            <span className={theme.infoSpan}>{date}</span>
+            <span className={theme.infoSpan}>{time}</span>
+          </div>
+          <div className={theme.middleColumn}>{reviewRequestStatus()}</div>
+          <div className={theme.rightColumn}>
+            <h3 className={theme.reviewsTitle}>Reviews</h3>
+            <div className={theme.reviewsContainer}>
+              {prReviews}
+              {reviewsByAuthor.length === 0 ? (
+                <div className={theme.noReviewsMessage}>
+                  <svg
+                    className={theme.noReviewsIcon}
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 31.11 31.11"
+                  >
+                    <path
+                      fill="#FFF"
+                      d="M31.1 1.4L29.7 0 15.56 14.14 1.4 0 0 1.4l14.14 14.16L0 29.7l1.4 1.4 14.16-14.13L29.7 31.1l1.4-1.4-14.13-14.14"
+                    />
+                  </svg>
+                  <span>No reviews submitted</span>
+                </div>
+              ) : null}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </a>
   );
 }
 
