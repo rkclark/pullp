@@ -113,9 +113,6 @@ export default function(state = initialState, action) {
             ...pr.node,
             date: createdAtDate.toLocaleDateString('en-GB', dateOptions),
             time: createdAtDate.toLocaleTimeString('en-US'),
-            comments: pr.node.comments.edges.map(comment => ({
-              ...comment.node,
-            })),
             reviewRequests,
             reviews,
             aggregatedReviews: reviewStatuses,
