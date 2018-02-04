@@ -46,9 +46,6 @@
   align-items: center;
 }
 
-
-
-
 .open {
   background-color: var(--secondary-medium);
 }
@@ -103,33 +100,12 @@
   margin: 1rem auto;
 }
 
-.magnify {
-  grid-column: 1 / span 2;
-  border: none;
-  justify-self: end;
-  align-self: end;
-  background-color: transparent;
-  line-height: 0;
-  padding: var(--spacing-1);
-  border-radius: var(--spacing-1);
-  transition: 0.5s ease all;
-}
-
-.magnify:hover {
-  background-color: var(--secondary-dark);
-}
-
-.magnifyIcon {
-  width: 2.5rem;
-  height: 2.5rem;
-}
-
 .prRow {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.8rem;
 }
 
 .prAuthor {
@@ -143,14 +119,15 @@
   overflow: hidden;
   text-overflow: ellipsis;
   font-family: 'Roboto', sans-serif;
-  color: var(--primary-medium);
+  color: var(--primary-dark);
 }
 
 .prAvatar {
   width: 3rem;
   height: 3rem;
-  border-radius: var(--spacing-1);
-  border: 0.1rem solid var(--white);
+  border-radius: 100%;
+  box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4);
+  flex: 1 0 3rem;
 }
 
 .userIcon {
@@ -185,6 +162,10 @@
   width: 9rem;
   height: 9rem;
   position: relative;
+}
+
+.reviewRequestsContainer, .authorsContainer {
+  margin-top: 1rem;
 }
 
 .requestsCircle {

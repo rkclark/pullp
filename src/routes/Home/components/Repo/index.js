@@ -46,9 +46,7 @@ export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
           alt="user icon"
           className={`${theme.prAvatar} ${theme.userIcon}`}
         />
-        <span className={theme.prAuthor}>
-          +{extraPrs} more author{`${extraPrs > 1 ? 's' : ''}`}
-        </span>
+        <span className={theme.prAuthor}>+{extraPrs} more</span>
       </div>
     ) : null;
 
@@ -78,8 +76,10 @@ export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
               </span>
             </div>
             <span className={theme.prCountLabel}>OPEN</span>
-            {prRows}
-            {extraCount}
+            <div className={theme.authorsContainer}>
+              {prRows}
+              {extraCount}
+            </div>
           </div>
           {numberOfPrs > 0 ? (
             <div className={theme.reviewsContainer}>
