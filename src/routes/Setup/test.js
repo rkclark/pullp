@@ -10,6 +10,7 @@ describe('Setup', () => {
     saveGithubCredentialsAction: () => {},
     githubClientId: null,
     githubClientSecret: null,
+    githubCurrentUserError: null,
     githubToken: null,
     dispatch: () => {},
     login: null,
@@ -106,10 +107,31 @@ describe('Setup', () => {
       const component = shallow(
         <SetupContainer {...defaultProps} loginError={'error'} />,
       );
-      expect(component.find(Error).length).toBe(1);
+      const error = component.find(Error);
+      expect(error.length).toBe(1);
+      expect(error.props().message).toEqual('Github sign in failed.');
     });
   });
   describe('when there is not a login error', () => {
+    it('does not render an error component', () => {
+      const component = shallow(<SetupContainer {...defaultProps} />);
+      expect(component.find(Error).length).toBe(0);
+    });
+  });
+
+  describe('when there is a githubCurrentUserError error', () => {
+    it('renders an error component', () => {
+      const component = shallow(
+        <SetupContainer {...defaultProps} githubCurrentUserError={'error'} />,
+      );
+      const error = component.find(Error);
+      expect(error.length).toBe(1);
+      expect(error.props().message).toEqual(
+        'Error requesting your user data from Github.',
+      );
+    });
+  });
+  describe('when there is not a githubCurrentUserError error', () => {
     it('does not render an error component', () => {
       const component = shallow(<SetupContainer {...defaultProps} />);
       expect(component.find(Error).length).toBe(0);
