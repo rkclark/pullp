@@ -173,7 +173,7 @@ query {
     });
 
     describe('get', () => {
-      describe('when fetch returns 200 OK response', () => {
+      describe('when fetch returns 200 OK response with valid data', () => {
         let testResponse;
         let matcher;
         beforeEach(() => {
@@ -199,6 +199,67 @@ query {
           const token = 'testToken';
           const result = await get(query, token);
           expect(result).toEqual(testResponse.data);
+        });
+      });
+
+      describe('when result contains errors array', () => {
+        let testResponse;
+        let matcher;
+        const message = 'test error';
+        beforeEach(() => {
+          testResponse = {
+            data: null,
+            errors: [{ type: 'TEST', message }],
+          };
+          matcher = 'https://api.github.com/graphql';
+          fetchMock.mock(matcher, testResponse);
+        });
+
+        afterEach(() => {
+          fetchMock.restore();
+        });
+        it('returns received error', async () => {
+          const query = '{ query }';
+          const token = 'testToken';
+          let error = '';
+          try {
+            await get(query, token);
+          } catch (err) {
+            error = err;
+          }
+          expect(error).toBeInstanceOf(Error);
+          expect(error.message).toEqual(message);
+        });
+      });
+
+      describe('when result contains errors array containing MAX_NODE_LIMIT_EXCEEDED error', () => {
+        let testResponse;
+        let matcher;
+        const message = 'test error';
+        const fullMessage = `The amount of pull request data for your selected repositories exceeds Github's maximum limit. Try selecting fewer repositories and trying again. Here is the specific error from Github as guidance: ${message}`;
+        beforeEach(() => {
+          testResponse = {
+            data: null,
+            errors: [{ type: 'MAX_NODE_LIMIT_EXCEEDED', message }],
+          };
+          matcher = 'https://api.github.com/graphql';
+          fetchMock.mock(matcher, testResponse);
+        });
+
+        afterEach(() => {
+          fetchMock.restore();
+        });
+        it('returns received error', async () => {
+          const query = '{ query }';
+          const token = 'testToken';
+          let error = '';
+          try {
+            await get(query, token);
+          } catch (err) {
+            error = err;
+          }
+          expect(error).toBeInstanceOf(Error);
+          expect(error.message).toEqual(fullMessage);
         });
       });
       describe('when fetch returns non 200 response', () => {

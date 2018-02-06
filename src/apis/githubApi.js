@@ -129,10 +129,22 @@ export const get = async (query, token) => {
     },
     body: JSON.stringify(body),
   });
+
   if (response.ok) {
     const result = await response.json();
-    return result.data;
+    if (result.data) {
+      return result.data;
+    }
+    if (result.errors) {
+      if (result.errors[0].type === 'MAX_NODE_LIMIT_EXCEEDED') {
+        throw new Error(
+          `The amount of pull request data for your selected repositories exceeds Github's maximum limit. Try selecting fewer repositories and trying again. Here is the specific error from Github as guidance: ${result
+            .errors[0].message}`,
+        );
+      }
+      throw new Error(result.errors[0].message);
+    }
   }
 
-  throw new Error('Github is not ok :(');
+  throw new Error('Error communicating with Github');
 };
