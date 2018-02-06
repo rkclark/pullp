@@ -46,10 +46,6 @@
   align-items: center;
 }
 
-.open {
-  background-color: var(--secondary-medium);
-}
-
 .name {
   color: var(--white);
   font-weight: normal;
