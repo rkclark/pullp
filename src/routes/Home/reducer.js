@@ -2,7 +2,9 @@ import { home as types, account as accountTypes } from '../../actionTypes';
 
 export const initialState = {
   currentUser: null,
-  githubError: null,
+  githubPullRequestsError: null,
+  githubCurrentUserError: null,
+  githubUserTeamsError: null,
   repositories: [],
   openRepoId: null,
   pullRequestsLoading: false,
@@ -39,11 +41,12 @@ export default function(state = initialState, action) {
           avatarUrl: action.data.viewer.avatarUrl,
           url: action.data.viewer.url,
         },
+        githubCurrentUserError: null,
       };
     case types.REQUEST_CURRENT_USER_FAIL:
       return {
         ...state,
-        githubError: action.error,
+        githubCurrentUserError: action.error,
       };
     case types.REQUEST_PULL_REQUESTS_LOADING:
       return {
@@ -180,11 +183,12 @@ export default function(state = initialState, action) {
         ...state,
         repositories: repos,
         pullRequestsLoading: false,
+        githubPullRequestsError: null,
       };
     case types.REQUEST_PULL_REQUESTS_FAIL:
       return {
         ...state,
-        githubError: action.error,
+        githubPullRequestsError: action.error,
         pullRequestsLoading: false,
       };
     case types.TOGGLE_OPEN_REPO:
@@ -206,13 +210,13 @@ export default function(state = initialState, action) {
       return {
         ...state,
         userTeams: userTeamsArray,
-        githubError: null,
+        githubUserTeamsError: null,
       };
     }
     case types.REQUEST_USER_TEAMS_FAIL:
       return {
         ...state,
-        githubError: action.error,
+        githubUserTeamsError: action.error,
       };
     default:
       return state;
