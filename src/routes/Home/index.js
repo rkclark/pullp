@@ -48,7 +48,13 @@ export class Home extends React.Component {
 
     return (
       <div>
-        <Error />
+        {this.props.githubPullRequestsError ? (
+          <Error
+            title="Error getting latest pull requests data from Github"
+            message={this.props.githubPullRequestsError}
+          />
+        ) : null}
+
         <div className={theme.reposContainer}>
           {sortedRepos.map(repo => (
             <Repo
@@ -76,9 +82,11 @@ Home.propTypes = {
   repositories: PropTypes.arrayOf(PropTypes.shape()),
   openRepoId: PropTypes.string,
   toggleOpenRepo: PropTypes.func.isRequired,
+  githubPullRequestsError: PropTypes.string,
 };
 
 Home.defaultProps = {
+  githubPullRequestsError: null,
   redirectPath: null,
   currentUser: null,
   githubToken: null,
@@ -93,6 +101,7 @@ const mapStateToProps = state => ({
   selectedRepos: state.selectRepos.selectedRepos,
   repositories: state.home.repositories,
   openRepoId: state.home.openRepoId,
+  githubPullRequestsError: state.home.githubPullRequestsError,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -25,4 +25,19 @@ describe('Error', () => {
       expect(component.find('.message').text()).toEqual(message);
     });
   });
+
+  describe('when not passed a specific title', () => {
+    it('renders a default title', () => {
+      const component = shallow(<Error {...props} />);
+      expect(component.find('.title').text()).toEqual('Error');
+    });
+  });
+
+  describe('when passed a specific title', () => {
+    it('renders the title', () => {
+      const title = 'doh!';
+      const component = shallow(<Error {...props} title={title} />);
+      expect(component.find('.title').text()).toEqual(title);
+    });
+  });
 });
