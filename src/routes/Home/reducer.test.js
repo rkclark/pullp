@@ -16,6 +16,11 @@ describe('Home reducer', () => {
           url: 'profile.com',
         },
       };
+      const baseState = {
+        ...initialState,
+        githubCurrentUserError: 'error',
+      };
+
       const expectedState = {
         ...initialState,
         currentUser: {
@@ -23,10 +28,11 @@ describe('Home reducer', () => {
           avatarUrl: data.viewer.avatarUrl,
           url: data.viewer.url,
         },
+        githubCurrentUserError: null,
       };
 
       const newState = reducer(
-        initialState,
+        baseState,
         actions.requestCurrentUserSuccess(data),
       );
       expect(newState).toEqual(expectedState);
@@ -37,7 +43,7 @@ describe('Home reducer', () => {
       const error = 'error';
       const expectedState = {
         ...initialState,
-        githubError: error,
+        githubCurrentUserError: error,
       };
 
       const newState = reducer(
@@ -290,10 +296,12 @@ describe('Home reducer', () => {
         login: 'testUser',
       },
       userTeams: [{ name: 'testTeam', id: '1' }],
+      githubPullRequestsError: 'test',
     };
 
     const expectedState = {
       ...baseState,
+      githubPullRequestsError: null,
       pullRequestsLoading: false,
       repositories: [
         {
@@ -529,7 +537,7 @@ describe('Home reducer', () => {
       const error = 'error';
       const expectedState = {
         ...initialState,
-        githubError: error,
+        githubPullRequestsError: error,
         pullRequestsLoading: false,
       };
 
@@ -609,7 +617,7 @@ describe('Home reducer', () => {
       it('saves user teams data', () => {
         const baseState = {
           ...initialState,
-          githubError: 'error',
+          githubUserTeamsError: 'error',
         };
 
         const data = {
@@ -651,7 +659,7 @@ describe('Home reducer', () => {
 
         const expectedState = {
           ...initialState,
-          githubError: null,
+          githubUserTeamsError: null,
           userTeams: [
             {
               id: 'MDQ6VGVhbTQ0MTgyMA==',
@@ -674,7 +682,7 @@ describe('Home reducer', () => {
         const error = 'error';
         const expectedState = {
           ...initialState,
-          githubError: error,
+          githubUserTeamsError: error,
         };
 
         const newState = reducer(
