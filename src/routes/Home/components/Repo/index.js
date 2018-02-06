@@ -54,11 +54,7 @@ export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
     data.currentUserReviews / numberOfPrs * 100;
 
   return (
-    <div
-      className={`${theme.repoContainer} ${theme[spanClass]} ${open
-        ? theme.open
-        : null}`}
-    >
+    <div className={`${theme.repoContainer} ${theme[spanClass]}`}>
       <div className={`${theme.repo} ${theme[countClass]}`}>
         <a href={data.url} className={theme.link}>
           <h3 className={theme.name}>{data.name}</h3>
