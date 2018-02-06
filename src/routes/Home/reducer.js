@@ -105,39 +105,42 @@ export default function(state = initialState, action) {
           );
 
           let currentUserReviewRequested = false;
-          reviewRequests.some(request => {
-            if (
-              request.requestedReviewer.login &&
-              request.requestedReviewer.login === state.currentUser.login
-            ) {
-              currentUserReviewRequested = true;
-              return true;
-            }
-            if (
-              request.requestedReviewer.id &&
-              state.userTeams.some(team => {
-                if (team.id === request.requestedReviewer.id) {
-                  return true;
-                }
-                return false;
-              })
-            ) {
-              currentUserReviewRequested = true;
-              return true;
-            }
-            return false;
-          });
-
           let reviewedByCurrentUser = false;
-          reviews.some(review => {
-            if (review.author.login === state.currentUser.login) {
-              reviewedByCurrentUser = true;
-              return true;
+
+          if (state.currentUser.login !== pr.node.author.login) {
+            reviewRequests.some(request => {
+              if (
+                request.requestedReviewer.login &&
+                request.requestedReviewer.login === state.currentUser.login
+              ) {
+                currentUserReviewRequested = true;
+                return true;
+              }
+              if (
+                request.requestedReviewer.id &&
+                state.userTeams.some(team => {
+                  if (team.id === request.requestedReviewer.id) {
+                    return true;
+                  }
+                  return false;
+                })
+              ) {
+                currentUserReviewRequested = true;
+                return true;
+              }
+              return false;
+            });
+
+            reviews.some(review => {
+              if (review.author.login === state.currentUser.login) {
+                reviewedByCurrentUser = true;
+                return true;
+              }
+              return false;
+            });
+            if (currentUserReviewRequested && reviewedByCurrentUser) {
+              currentUserReviewRequested = false;
             }
-            return false;
-          });
-          if (currentUserReviewRequested && reviewedByCurrentUser) {
-            currentUserReviewRequested = false;
           }
 
           return {

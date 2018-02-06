@@ -229,6 +229,48 @@ describe('Home reducer', () => {
                   },
                 },
               },
+              {
+                node: {
+                  createdAt: prCreatedAt,
+                  closed: false,
+                  mergedAt: null,
+                  url: 'https://github.com/jh2633/Atticus_Legal/pull/2',
+                  number: 4,
+                  title:
+                    'footer changed on all pages, new forms pages added but in dev, index …',
+                  author: {
+                    avatarUrl:
+                      'https://avatars0.githubusercontent.com/u/18387550?v=4',
+                    login: 'testUser',
+                    url: 'https://github.com/jh2633',
+                  },
+                  comments: {
+                    totalCount: 2,
+                  },
+                  reviewRequests: {
+                    edges: [
+                      {
+                        node: {
+                          requestedReviewer: {
+                            team: 'testTeam',
+                            id: '1',
+                          },
+                        },
+                      },
+                      {
+                        node: {
+                          requestedReviewer: {
+                            login: 'testUser',
+                          },
+                        },
+                      },
+                    ],
+                  },
+                  reviews: {
+                    edges: [],
+                  },
+                },
+              },
             ],
           },
         },
@@ -412,6 +454,44 @@ describe('Home reducer', () => {
               reviews: [],
               aggregatedReviews: {},
               currentUserReviewRequested: true,
+              reviewedByCurrentUser: false,
+              reviewsByAuthor: [],
+            },
+            {
+              createdAt: prCreatedAt,
+              date: prDate,
+              time: prTime,
+              closed: false,
+              mergedAt: null,
+              url: 'https://github.com/jh2633/Atticus_Legal/pull/2',
+              number: 4,
+              title:
+                'footer changed on all pages, new forms pages added but in dev, index …',
+              author: {
+                avatarUrl:
+                  'https://avatars0.githubusercontent.com/u/18387550?v=4',
+                login: 'testUser',
+                url: 'https://github.com/jh2633',
+              },
+              comments: {
+                totalCount: 2,
+              },
+              reviewRequests: [
+                {
+                  requestedReviewer: {
+                    team: 'testTeam',
+                    id: '1',
+                  },
+                },
+                {
+                  requestedReviewer: {
+                    login: 'testUser',
+                  },
+                },
+              ],
+              reviews: [],
+              aggregatedReviews: {},
+              currentUserReviewRequested: false,
               reviewedByCurrentUser: false,
               reviewsByAuthor: [],
             },
