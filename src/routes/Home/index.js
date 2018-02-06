@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Repo from './components/Repo';
 import * as actions from './actions';
 import theme from './theme.css';
+import Error from '../../components/Error';
 
 export class Home extends React.Component {
   constructor(props) {
@@ -47,6 +48,7 @@ export class Home extends React.Component {
 
     return (
       <div>
+        <Error />
         <div className={theme.reposContainer}>
           {sortedRepos.map(repo => (
             <Repo

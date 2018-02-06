@@ -5,9 +5,11 @@ import defaultTheme from './theme.css';
 
 export default function Error({ message, theme }) {
   return (
-    <div className={theme.container}>
-      <span className={theme.icon}>!</span>
-      <p className={theme.message}>{message}</p>
+    <div className={theme.wrapper}>
+      <div className={theme.container}>
+        <span className={theme.icon}>!</span>
+        <p className={theme.message}>{message}</p>
+      </div>
     </div>
   );
 }
