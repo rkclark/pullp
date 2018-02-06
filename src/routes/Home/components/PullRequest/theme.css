@@ -45,12 +45,12 @@
   box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4), inset 0 -0.4rem 0 0 var(--secondary-medium);
 }
 
-.link:hover .header {
-  background-color: var(--secondary-medium);
+.linkIcon path {
+  transition: 0.3s ease-in-out all;
 }
 
-.link:hover .title {
-  color: var(--secondary-dark);
+.link:hover .linkIcon path {
+  fill: var(--secondary-medium);
 }
 
 .bodyWrapper {
