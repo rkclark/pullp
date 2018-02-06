@@ -14,13 +14,21 @@ export class SetupContainer extends React.Component {
   constructor(props) {
     super(props);
     this.props = props;
+
+    this.requestCurrentUser = this.requestCurrentUser.bind(this);
   }
 
   async componentDidUpdate() {
     if (!this.props.login && this.props.githubToken) {
-      await this.props.requestCurrentUser(this.props.githubToken);
+      await this.requestCurrentUser();
     }
   }
+
+  requestCurrentUser() {
+    console.log('request current user');
+    this.props.requestCurrentUser(this.props.githubToken);
+  }
+
   render() {
     const progressBar = (
       <div className={style.progressBar}>
@@ -62,7 +70,15 @@ export class SetupContainer extends React.Component {
     return (
       <div className={style.setupContainer}>
         {this.props.loginError ? (
-          <Error message="Github sign in failed!" />
+          <Error message="Github sign in failed." />
+        ) : null}
+        {this.props.githubCurrentUserError ? (
+          <div>
+            <Error message="Error requesting your user data from Github." />
+            <Button className={style.button} onClick={this.requestCurrentUser}>
+              Try again
+            </Button>
+          </div>
         ) : null}
         <h2 className={style.pageTitle}>Setup</h2>
         {progressBar}
@@ -90,12 +106,14 @@ SetupContainer.propTypes = {
   requestCurrentUser: PropTypes.func.isRequired,
   loginError: PropTypes.string,
   logout: PropTypes.func,
+  githubCurrentUserError: PropTypes.string,
 };
 
 SetupContainer.defaultProps = {
   githubToken: null,
   githubClientId: null,
   githubClientSecret: null,
+  githubCurrentUserError: null,
   login: null,
   avatarUrl: null,
   loginError: null,
@@ -109,6 +127,7 @@ const mapStateToProps = state => ({
   login: state.home.currentUser ? state.home.currentUser.login : null,
   avatarUrl: state.home.currentUser ? state.home.currentUser.avatarUrl : null,
   loginError: state.setup.loginError,
+  githubCurrentUserError: state.home.githubCurrentUserError,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -2,7 +2,7 @@ export const queries = {
   currentUser: () =>
     `
 query {
-	viewer {
+	gfsdgdsviewer {
     login
     avatarUrl
     url
