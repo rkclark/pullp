@@ -1,22 +1,30 @@
 @import "../../css/colors.css";
 
+.wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 .container {
-  color: var(--error-red);
+  color: var(--white);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-height: 5rem;
   margin-bottom: 2rem;
-  padding: 1rem;
+  padding: 1rem 2rem;
   border-radius: 0.3rem;
-  box-shadow: 0 0.1rem 0.4rem 0 var(--error-red);
+  box-shadow: 0 0.1rem 0.4rem 0 var(--tertiary-dark);
+  background-color: var(--tertiary-dark);
+  max-width: 60rem;
 }
 
 .icon {
   min-width: 3.5rem;
   min-height: 3.5rem;
   border-radius: 100%;
-  border: 3px solid var(--error-red);
+  border: 0.3rem solid var(--white);
   display: inline-block;
   text-align: center;
   font-family: 'Roboto', sans-serif;
