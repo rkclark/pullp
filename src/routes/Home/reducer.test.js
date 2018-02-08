@@ -19,6 +19,7 @@ describe('Home reducer', () => {
       const baseState = {
         ...initialState,
         githubCurrentUserError: 'error',
+        currentUserLoading: true,
       };
 
       const expectedState = {
@@ -29,6 +30,7 @@ describe('Home reducer', () => {
           url: data.viewer.url,
         },
         githubCurrentUserError: null,
+        currentUserLoading: false,
       };
 
       const newState = reducer(
@@ -40,15 +42,35 @@ describe('Home reducer', () => {
   });
   describe('Request currentUser failure', () => {
     it('Saves github failure error', () => {
+      const baseState = {
+        ...initialState,
+        currentUserLoading: true,
+      };
+
       const error = 'error';
       const expectedState = {
         ...initialState,
         githubCurrentUserError: error,
+        currentUserLoading: false,
+      };
+
+      const newState = reducer(
+        baseState,
+        actions.requestCurrentUserFail(error),
+      );
+      expect(newState).toEqual(expectedState);
+    });
+  });
+  describe('Request currentUser loading', () => {
+    it('Sets loading state to true', () => {
+      const expectedState = {
+        ...initialState,
+        currentUserLoading: true,
       };
 
       const newState = reducer(
         initialState,
-        actions.requestCurrentUserFail(error),
+        actions.requestCurrentUserLoading(),
       );
       expect(newState).toEqual(expectedState);
     });

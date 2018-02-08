@@ -8,6 +8,7 @@ export const initialState = {
   repositories: [],
   openRepoId: null,
   pullRequestsLoading: false,
+  currentUserLoading: false,
   userTeams: [],
 };
 
@@ -42,11 +43,18 @@ export default function(state = initialState, action) {
           url: action.data.viewer.url,
         },
         githubCurrentUserError: null,
+        currentUserLoading: false,
       };
     case types.REQUEST_CURRENT_USER_FAIL:
       return {
         ...state,
         githubCurrentUserError: action.error,
+        currentUserLoading: false,
+      };
+    case types.REQUEST_CURRENT_USER_LOADING:
+      return {
+        ...state,
+        currentUserLoading: true,
       };
     case types.REQUEST_PULL_REQUESTS_LOADING:
       return {

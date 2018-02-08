@@ -11,8 +11,13 @@ export const requestCurrentUserFail = error => ({
   error,
 });
 
+export const requestCurrentUserLoading = () => ({
+  type: types.REQUEST_CURRENT_USER_LOADING,
+});
+
 export const requestCurrentUser = token => async dispatch => {
   try {
+    dispatch(requestCurrentUserLoading());
     const query = queries.currentUser();
     const results = await get(query, token);
     dispatch(requestCurrentUserSuccess(results));
