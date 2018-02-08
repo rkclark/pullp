@@ -27,6 +27,14 @@ describe('Home actions', () => {
           queryMock.restore();
           getMock.restore();
         });
+        it('dispatches requestCurrentUserLoading', async () => {
+          const requestCurrentUser = actions.requestCurrentUser('testToken');
+          const dispatch = jest.fn();
+          await requestCurrentUser(dispatch);
+          expect(dispatch).toHaveBeenCalledWith(
+            actions.requestCurrentUserLoading(),
+          );
+        });
         it('dispatches requestCurrentUserSuccess with the result', async () => {
           const requestCurrentUser = actions.requestCurrentUser('testToken');
           const dispatch = jest.fn();
@@ -80,6 +88,14 @@ describe('Home actions', () => {
           error,
         };
         expect(actions.requestCurrentUserFail(error)).toEqual(expectedAction);
+      });
+    });
+    describe('requestCurrentUserLoading', () => {
+      it('creates an action to save currentUser error message', () => {
+        const expectedAction = {
+          type: types.REQUEST_CURRENT_USER_LOADING,
+        };
+        expect(actions.requestCurrentUserLoading()).toEqual(expectedAction);
       });
     });
   });

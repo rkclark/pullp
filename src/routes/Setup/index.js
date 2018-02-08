@@ -9,6 +9,7 @@ import { requestCurrentUser } from '../../routes/Home/actions';
 import { logout } from '../Account/actions';
 import Error from '../../components/Error';
 import Button from '../../components/Button';
+import Loading from '../../components/Loading';
 
 export class SetupContainer extends React.Component {
   constructor(props) {
@@ -18,14 +19,17 @@ export class SetupContainer extends React.Component {
     this.requestCurrentUser = this.requestCurrentUser.bind(this);
   }
 
-  async componentDidUpdate() {
-    if (!this.props.login && this.props.githubToken) {
-      await this.requestCurrentUser();
-    }
-  }
+  // async componentDidUpdate() {
+  //   if (
+  //     !this.props.login &&
+  //     this.props.githubToken &&
+  //     !this.props.currentUserLoading
+  //   ) {
+  //     await this.requestCurrentUser();
+  //   }
+  // }
 
   requestCurrentUser() {
-    console.log('request current user');
     this.props.requestCurrentUser(this.props.githubToken);
   }
 
@@ -74,10 +78,19 @@ export class SetupContainer extends React.Component {
         ) : null}
         {this.props.githubCurrentUserError ? (
           <div>
-            <Error message="Error requesting your user data from Github." />
-            <Button className={style.button} onClick={this.requestCurrentUser}>
-              Try again
-            </Button>
+            {this.props.currentUserLoading ? (
+              <Loading />
+            ) : (
+              <div>
+                <Error message="Error requesting your user data from Github." />
+                <Button
+                  className={style.button}
+                  onClick={this.requestCurrentUser}
+                >
+                  Try again
+                </Button>
+              </div>
+            )}
           </div>
         ) : null}
         <h2 className={style.pageTitle}>Setup</h2>
@@ -107,6 +120,7 @@ SetupContainer.propTypes = {
   loginError: PropTypes.string,
   logout: PropTypes.func,
   githubCurrentUserError: PropTypes.string,
+  currentUserLoading: PropTypes.bool,
 };
 
 SetupContainer.defaultProps = {
@@ -118,6 +132,7 @@ SetupContainer.defaultProps = {
   avatarUrl: null,
   loginError: null,
   logout: () => {},
+  currentUserLoading: false,
 };
 
 const mapStateToProps = state => ({
@@ -128,6 +143,7 @@ const mapStateToProps = state => ({
   avatarUrl: state.home.currentUser ? state.home.currentUser.avatarUrl : null,
   loginError: state.setup.loginError,
   githubCurrentUserError: state.home.githubCurrentUserError,
+  currentUserLoading: state.home.currentUserLoading,
 });
 
 const mapDispatchToProps = dispatch => ({
