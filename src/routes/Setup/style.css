@@ -51,3 +51,13 @@
   text-align: center;
   margin-top: 2rem;
 }
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  margin: 10rem 0;
+}
+
+.loadingContainer div {
+  left: -2.5rem;
+}

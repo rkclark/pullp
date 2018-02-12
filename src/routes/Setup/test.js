@@ -66,21 +66,39 @@ describe('Setup', () => {
     });
   });
 
-  describe('componentDidUpdate', () => {
-    describe('when current user login is not present and github token is present', () => {
+  describe('componentWillReceiveProps', () => {
+    describe('when props show current user can be requested and auto request has not yet occured', () => {
       it('dispatches requestCurrentUser action', () => {
         const requestCurrentUser = jest.fn();
         const component = shallow(
           <SetupContainer
             {...defaultProps}
             requestCurrentUser={requestCurrentUser}
-            githubToken={'test'}
           />,
-          { lifecycleExperimental: true },
         );
         expect(requestCurrentUser).not.toHaveBeenCalled();
-        component.setProps({});
+        component.instance().componentWillReceiveProps({
+          githubToken: 'test',
+          login: null,
+          currentUserLoading: false,
+        });
         expect(requestCurrentUser).toHaveBeenCalled();
+      });
+      it('updates autoRequestCurrentUser to true in component state', async () => {
+        const requestCurrentUser = () => {};
+        const component = shallow(
+          <SetupContainer
+            {...defaultProps}
+            requestCurrentUser={requestCurrentUser}
+          />,
+        );
+        expect(component.state().autoRequestedCurrentUser).toBe(false);
+        await component.instance().componentWillReceiveProps({
+          githubToken: 'test',
+          login: null,
+          currentUserLoading: false,
+        });
+        expect(component.state().autoRequestedCurrentUser).toBe(true);
       });
     });
   });
