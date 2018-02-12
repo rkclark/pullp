@@ -15,19 +15,23 @@ export class SetupContainer extends React.Component {
   constructor(props) {
     super(props);
     this.props = props;
-
+    this.state = {
+      autoRequestedCurrentUser: false,
+    };
     this.requestCurrentUser = this.requestCurrentUser.bind(this);
   }
 
-  // async componentDidUpdate() {
-  //   if (
-  //     !this.props.login &&
-  //     this.props.githubToken &&
-  //     !this.props.currentUserLoading
-  //   ) {
-  //     await this.requestCurrentUser();
-  //   }
-  // }
+  async componentWillReceiveProps(nextProps) {
+    if (
+      !nextProps.login &&
+      nextProps.githubToken &&
+      !nextProps.currentUserLoading &&
+      !this.state.autoRequestedCurrentUser
+    ) {
+      await this.requestCurrentUser();
+      this.setState({ autoRequestedCurrentUser: true });
+    }
+  }
 
   requestCurrentUser() {
     this.props.requestCurrentUser(this.props.githubToken);
@@ -73,13 +77,17 @@ export class SetupContainer extends React.Component {
 
     return (
       <div className={style.setupContainer}>
+        <h2 className={style.pageTitle}>Setup</h2>
+        {progressBar}
         {this.props.loginError ? (
           <Error message="Github sign in failed." />
         ) : null}
         {this.props.githubCurrentUserError ? (
           <div>
             {this.props.currentUserLoading ? (
-              <Loading />
+              <div className={style.loadingContainer}>
+                <Loading />
+              </div>
             ) : (
               <div>
                 <Error message="Error requesting your user data from Github." />
@@ -93,8 +101,7 @@ export class SetupContainer extends React.Component {
             )}
           </div>
         ) : null}
-        <h2 className={style.pageTitle}>Setup</h2>
-        {progressBar}
+
         <SignInForm
           saveGithubCredentials={this.props.saveGithubCredentialsAction}
           githubClientId={this.props.githubClientId}
