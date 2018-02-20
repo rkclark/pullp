@@ -92,7 +92,6 @@ describe('Home reducer', () => {
       nodes: [
         {
           id: 'MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==',
-          name: 'Atticus_Legal',
           pullRequests: {
             edges: [
               {
@@ -304,7 +303,6 @@ describe('Home reducer', () => {
         },
         {
           id: 'MDEwOlJlcG9zaXRvcnk3Mjc1NzkxNg==',
-          name: 'minesweeper',
           pullRequests: {
             edges: [],
           },
@@ -329,6 +327,11 @@ describe('Home reducer', () => {
         {
           id: 'MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==',
           name: 'Atticus_Legal',
+          url: 'test.com',
+          owner: {
+            name: 'owner',
+            avatarUrl: 'test.com',
+          },
           pullRequests: [
             {
               createdAt: prCreatedAt,
@@ -532,22 +535,51 @@ describe('Home reducer', () => {
         {
           id: 'MDEwOlJlcG9zaXRvcnk3Mjc1NzkxNg==',
           name: 'minesweeper',
+          url: 'test.com',
+          owner: {
+            name: 'owner',
+            avatarUrl: 'test.com',
+          },
           pullRequests: [],
           currentUserReviewRequests: 0,
           currentUserReviews: 0,
         },
       ],
     };
+
+    const watchedRepos = [
+      {
+        id: 'MDEwOlJlcG9zaXRvcnk3Mjc1NzkxNg==',
+        name: 'minesweeper',
+        url: 'test.com',
+        owner: {
+          name: 'owner',
+          avatarUrl: 'test.com',
+        },
+      },
+      {
+        id: 'MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==',
+        name: 'Atticus_Legal',
+        url: 'test.com',
+        owner: {
+          name: 'owner',
+          avatarUrl: 'test.com',
+        },
+      },
+    ];
     it('saves pull request data', () => {
       const newState = reducer(
         { ...baseState, pullRequestsLoading: true },
-        actions.requestPullRequestsSuccess(data),
+        actions.requestPullRequestsSuccess(data, watchedRepos),
       );
       expect(newState).toEqual(expectedState);
     });
     describe('when github response includes a null for not found repo', () => {
       it('successfully saves pull request data', () => {
-        const actionResult = actions.requestPullRequestsSuccess(data);
+        const actionResult = actions.requestPullRequestsSuccess(
+          data,
+          watchedRepos,
+        );
         actionResult.data.nodes = [...actionResult.data.nodes, null];
         const newState = reducer(baseState, actionResult);
         expect(newState).toEqual(expectedState);

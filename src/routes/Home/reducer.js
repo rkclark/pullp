@@ -179,8 +179,15 @@ export default function(state = initialState, action) {
           }
         });
 
+        const extendedRepoData = action.watchedRepos.find(
+          watchedRepo => watchedRepo.id === node.id,
+        );
+
         return {
           ...node,
+          name: extendedRepoData.name,
+          url: extendedRepoData.url,
+          owner: extendedRepoData.owner,
           pullRequests: reformattedPrs,
           currentUserReviewRequests,
           currentUserReviews,

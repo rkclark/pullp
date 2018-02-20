@@ -117,8 +117,6 @@ query {
           nodes (ids:${JSON.stringify(testIds)}) {
             id
             ... on Repository {
-              name
-              url
               pullRequests(last: 100 states: [OPEN] orderBy:{ field: CREATED_AT, direction: DESC }) {
                 edges {
                   node {

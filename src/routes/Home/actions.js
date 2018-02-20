@@ -51,9 +51,10 @@ export const requestPullRequestsLoading = () => ({
   type: types.REQUEST_PULL_REQUESTS_LOADING,
 });
 
-export const requestPullRequestsSuccess = data => ({
+export const requestPullRequestsSuccess = (data, watchedRepos) => ({
   type: types.REQUEST_PULL_REQUESTS_SUCCESS,
   data,
+  watchedRepos,
 });
 
 export const requestPullRequestsFail = error => ({
@@ -61,12 +62,16 @@ export const requestPullRequestsFail = error => ({
   error,
 });
 
-export const requestPullRequests = (token, repoIds) => async dispatch => {
+export const requestPullRequests = (token, repoIds) => async (
+  dispatch,
+  getState,
+) => {
+  const watchedRepos = getState().selectRepos.watchedRepos;
   try {
     dispatch(requestPullRequestsLoading());
     const query = queries.pullRequests(repoIds);
     const results = await get(query, token);
-    dispatch(requestPullRequestsSuccess(results));
+    dispatch(requestPullRequestsSuccess(results, watchedRepos));
   } catch (err) {
     dispatch(requestPullRequestsFail(err.message));
   }
