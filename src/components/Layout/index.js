@@ -33,7 +33,7 @@ export class Layout extends React.Component {
       <div className={theme.layout}>
         {this.props.rehydrationComplete ? (
           <div>
-            <NavContainer />
+            <NavContainer currentPath={this.props.location.pathname} />
             <div className={this.props.theme.routeContainer}>
               <Route exact path="/" component={HomeContainer} />
               <Route exact path="/Account" component={Account} />
@@ -62,6 +62,7 @@ Layout.propTypes = {
   rehydrationComplete: PropTypes.bool,
   userTeamsRequestComplete: PropTypes.bool,
   requestUserTeams: PropTypes.func.isRequired,
+  location: PropTypes.shape().isRequired,
 };
 
 Layout.defaultProps = {
