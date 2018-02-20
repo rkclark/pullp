@@ -106,13 +106,13 @@ export default function(state = initialState, action) {
     case types.SAVE_REPO_FILTER_VALUE: {
       return {
         ...state,
-        repoFilterValue: action.value,
+        repoFilterValue: action.value.toLowerCase(),
       };
     }
     case types.FILTER_REPOS: {
       const filteredRepos = state.repoFilterValue
         ? state.watchedRepos.filter(repo =>
-            repo.name.includes(state.repoFilterValue),
+            repo.name.toLowerCase().includes(state.repoFilterValue),
           )
         : state.watchedRepos;
       return {
