@@ -57,16 +57,25 @@
   font-size: 1.7rem;
   font-family: 'Roboto', sans-serif;
   padding: 0.8rem 1rem;
-  background-color: var(--primary-medium);
+}
+
+.ownerAvatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-left: 1rem;
+  border-radius: 0.3rem;
+  box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4);
 }
 
 .link {
   align-self: start;
   justify-self: start;
   grid-column: 1 / span 2;
-  border-radius: var(--spacing-1);
   transition: 0.5s ease all;
   width: 100%;
+  display: flex;
+  align-items: center;
+  background-color: var(--primary-medium);
 }
 
 .prCount {
@@ -220,7 +229,7 @@
   align-self: center;
 }
 
-.zeroCount .name {
+.zeroCount .link {
   background-color: var(--primary-dark);
 }
 
@@ -228,6 +237,11 @@
 .zeroCount .indicatorsContainer {
   opacity: 0.5;
 }
+
+.zeroCount .ownerAvatar, .zeroCount .name {
+  opacity: 0.7;
+}
+
 
 .zeroCount .prCountLabel {
   color: var(--white);

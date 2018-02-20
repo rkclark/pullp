@@ -57,6 +57,11 @@ export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
     <div className={`${theme.repoContainer} ${theme[spanClass]}`}>
       <div className={`${theme.repo} ${theme[countClass]}`}>
         <a href={data.url} className={theme.link}>
+          <img
+            className={theme.ownerAvatar}
+            src={data.owner.avatarUrl}
+            alt={`${data.owner.login} avatar`}
+          />
           <h3 className={theme.name}>{data.name}</h3>
         </a>
         <div
@@ -125,7 +130,12 @@ export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
 Repo.propTypes = {
   theme: PropTypes.shape(),
   data: PropTypes.shape({
-    name: PropTypes.string,
+    name: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+    owner: PropTypes.shape({
+      login: PropTypes.string.isRequired,
+      avatarUrl: PropTypes.string.isRequired,
+    }).isRequired,
     pullRequests: PropTypes.arrayOf(PropTypes.shape()),
   }).isRequired,
   openRepoId: PropTypes.string,

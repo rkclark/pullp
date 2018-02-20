@@ -8,6 +8,11 @@ describe('Repo', () => {
     data: {
       id: 'testId',
       name: 'testRepo',
+      owner: {
+        login: 'test',
+        avatarUrl: 'test.com',
+      },
+      url: 'test.com',
       pullRequests: [
         {
           createdAt: '2017-09-26T20:23:44Z',

@@ -16,9 +16,36 @@ describe('Home', () => {
     requestPullRequests: () => {},
     selectedRepos: ['1', '2', '3'],
     repositories: [
-      { id: '1', pullRequests: [] },
-      { id: '2', pullRequests: [] },
-      { id: '3', pullRequests: [] },
+      {
+        id: '1',
+        pullRequests: [],
+        name: 'testRepo',
+        owner: {
+          login: 'test',
+          avatarUrl: 'test.com',
+        },
+        url: 'test.com',
+      },
+      {
+        id: '2',
+        pullRequests: [],
+        name: 'testRepo',
+        owner: {
+          login: 'test',
+          avatarUrl: 'test.com',
+        },
+        url: 'test.com',
+      },
+      {
+        id: '3',
+        pullRequests: [],
+        name: 'testRepo',
+        owner: {
+          login: 'test',
+          avatarUrl: 'test.com',
+        },
+        url: 'test.com',
+      },
     ],
     toggleOpenRepo: () => {},
   };
