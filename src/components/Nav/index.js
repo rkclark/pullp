@@ -53,7 +53,7 @@ export class Nav extends React.Component {
   }
 
   render() {
-    const path = window.location.pathname;
+    const path = this.props.currentPath;
     const theme = this.props.theme;
     const currentUser = this.loadCurrentUser();
     const refreshIcon = this.loadRefreshIcon(path);
@@ -113,6 +113,7 @@ Nav.propTypes = {
   selectedRepos: PropTypes.arrayOf(PropTypes.string),
   requestPullRequests: PropTypes.func.isRequired,
   pullRequestsLoading: PropTypes.bool,
+  currentPath: PropTypes.string.isRequired,
 };
 
 Nav.defaultProps = {
