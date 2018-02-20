@@ -216,13 +216,19 @@ describe('Home actions', () => {
         });
         it('dispatches requestPullRequestsLoading and requestPullRequestsSuccess with the result', async () => {
           const requestPullRequests = actions.requestPullRequests('testToken');
+          const watchedRepos = [1, 2, 3];
           const dispatch = jest.fn();
-          await requestPullRequests(dispatch);
+          const getState = () => ({
+            selectRepos: {
+              watchedRepos,
+            },
+          });
+          await requestPullRequests(dispatch, getState);
           expect(dispatch.mock.calls[0][0]).toEqual(
             actions.requestPullRequestsLoading(),
           );
           expect(dispatch.mock.calls[1][0]).toEqual(
-            actions.requestPullRequestsSuccess(testResult),
+            actions.requestPullRequestsSuccess(testResult, watchedRepos),
           );
         });
       });
@@ -244,8 +250,14 @@ describe('Home actions', () => {
         });
         it('dispatches requestPullRequestsLoading and requestPullRequestsFail with the error message', async () => {
           const requestPullRequests = actions.requestPullRequests('testToken');
+          const watchedRepos = [1, 2, 3];
           const dispatch = jest.fn();
-          await requestPullRequests(dispatch);
+          const getState = () => ({
+            selectRepos: {
+              watchedRepos,
+            },
+          });
+          await requestPullRequests(dispatch, getState);
           expect(dispatch.mock.calls[0][0]).toEqual(
             actions.requestPullRequestsLoading(),
           );
@@ -258,11 +270,13 @@ describe('Home actions', () => {
     describe('requestPullRequestsSuccess', () => {
       it('creates an action to save Pull Requests data', () => {
         const data = { data: 'stuff' };
+        const watchedRepos = [1, 2, 3];
         const expectedAction = {
           type: types.REQUEST_PULL_REQUESTS_SUCCESS,
           data,
+          watchedRepos,
         };
-        expect(actions.requestPullRequestsSuccess(data)).toEqual(
+        expect(actions.requestPullRequestsSuccess(data, watchedRepos)).toEqual(
           expectedAction,
         );
       });
