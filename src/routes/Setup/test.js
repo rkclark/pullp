@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { SetupContainer } from '.';
 import SignInForm from './components/SignInForm';
 import Error from '../../components/Error';
+import Loading from '../../components/Loading';
 
 describe('Setup', () => {
   const defaultProps = {
@@ -145,10 +146,53 @@ describe('Setup', () => {
       const error = component.find(Error);
       expect(error.length).toBe(1);
       expect(error.props().message).toEqual(
-        'Error requesting your user data from Github.',
+        'Error requesting your user profile from Github.',
       );
     });
+
+    describe('try again button on click', () => {
+      it('dispatches requestCurrentUser action', () => {
+        const requestCurrentUser = jest.fn();
+        const component = shallow(
+          <SetupContainer
+            {...defaultProps}
+            githubCurrentUserError={'error'}
+            requestCurrentUser={requestCurrentUser}
+          />,
+        );
+        expect(requestCurrentUser).not.toBeCalled();
+        component.find('[data-test-id="try-again-button"]').simulate('click');
+        expect(requestCurrentUser).toBeCalled();
+      });
+    });
+
+    describe('when the current user is loading', () => {
+      it('renders a Loading component', () => {
+        const component = shallow(
+          <SetupContainer
+            {...defaultProps}
+            githubCurrentUserError={'error'}
+            currentUserLoading
+          />,
+        );
+        expect(component.find(Loading).length).toBe(1);
+      });
+    });
+
+    describe('when the current user is not loading', () => {
+      it('does not render a Loading component', () => {
+        const component = shallow(
+          <SetupContainer
+            {...defaultProps}
+            githubCurrentUserError={'error'}
+            currentUserLoading={false}
+          />,
+        );
+        expect(component.find(Loading).length).toBe(0);
+      });
+    });
   });
+
   describe('when there is not a githubCurrentUserError error', () => {
     it('does not render an error component', () => {
       const component = shallow(<SetupContainer {...defaultProps} />);

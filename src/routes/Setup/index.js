@@ -60,6 +60,31 @@ export class SetupContainer extends React.Component {
       </div>
     );
 
+    const currentUserError = this.props.githubCurrentUserError ? (
+      <div>
+        {this.props.currentUserLoading ? (
+          <div className={style.loadingContainer}>
+            <Loading />
+          </div>
+        ) : (
+          <div>
+            <Error message="Error requesting your user profile from Github." />
+            <Button
+              className={style.button}
+              onClick={this.requestCurrentUser}
+              data-test-id="try-again-button"
+            >
+              Try again
+            </Button>
+          </div>
+        )}
+      </div>
+    ) : null;
+
+    const loginError = this.props.loginError ? (
+      <Error message="Github sign in failed." />
+    ) : null;
+
     const proceedToSelect = this.props.login ? (
       <div>
         <p>
@@ -79,28 +104,8 @@ export class SetupContainer extends React.Component {
       <div className={style.setupContainer}>
         <h2 className={style.pageTitle}>Setup</h2>
         {progressBar}
-        {this.props.loginError ? (
-          <Error message="Github sign in failed." />
-        ) : null}
-        {this.props.githubCurrentUserError ? (
-          <div>
-            {this.props.currentUserLoading ? (
-              <div className={style.loadingContainer}>
-                <Loading />
-              </div>
-            ) : (
-              <div>
-                <Error message="Error requesting your user data from Github." />
-                <Button
-                  className={style.button}
-                  onClick={this.requestCurrentUser}
-                >
-                  Try again
-                </Button>
-              </div>
-            )}
-          </div>
-        ) : null}
+        {loginError}
+        {currentUserError}
 
         <SignInForm
           saveGithubCredentials={this.props.saveGithubCredentialsAction}
