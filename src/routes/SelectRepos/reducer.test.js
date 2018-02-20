@@ -485,14 +485,14 @@ describe('SelectRepos reducer', () => {
     });
   });
   describe('repoFilterValue', () => {
-    it('saves repo filter value to state', () => {
-      const filterValue = 'value';
+    it('saves lowercased repo filter value to state', () => {
+      const filterValue = 'Value';
       const baseState = {
         ...initialState,
       };
       const expectedState = {
         ...initialState,
-        repoFilterValue: filterValue,
+        repoFilterValue: filterValue.toLowerCase(),
       };
       const newState = reducer(
         baseState,
@@ -519,7 +519,7 @@ describe('SelectRepos reducer', () => {
           id: 'testid1==',
         },
         {
-          name: 'foo4',
+          name: 'Foo4',
           id: 'testid2==',
         },
         {
@@ -533,7 +533,7 @@ describe('SelectRepos reducer', () => {
       ];
     });
 
-    it('filters watchedRepos into filteredRepos array', () => {
+    it('filters watchedRepos into filteredRepos array based on case insensitive search', () => {
       const filterValue = 'foo';
       const baseState = {
         ...initialState,
@@ -550,7 +550,7 @@ describe('SelectRepos reducer', () => {
             id: 'testid1==',
           },
           {
-            name: 'foo4',
+            name: 'Foo4',
             id: 'testid2==',
           },
         ],
