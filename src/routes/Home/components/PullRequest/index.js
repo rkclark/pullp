@@ -174,7 +174,7 @@ export default function PullRequest({
             {reviewRequestStatus()}
             {reviewRequests.length > 0 ? (
               <h3 className={theme.requestedReviewsTitle}>
-                Other Review Requests
+                Requested Reviewers
               </h3>
             ) : null}
             <div className={theme.requestedReviewersContainer}>
