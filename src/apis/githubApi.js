@@ -85,10 +85,12 @@ query {
                           requestedReviewer {
                             ... on User {
                               login
+                              avatarUrl
                             }
                             ... on Team {
                               name
                               id
+                              avatarUrl
                             }
                           }
                         }

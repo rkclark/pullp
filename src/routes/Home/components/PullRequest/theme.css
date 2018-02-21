@@ -135,6 +135,42 @@
   font-family: 'Roboto', sans-serif;
 }
 
+.requestedReviewersContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 20rem;
+}
+
+.requestedReviewer {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.requestedReviewerAvatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 100%;
+  box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4);
+}
+
+.requestedReviewerName {
+  color: var(--primary-dark);
+  font-size: 1.1rem;
+  font-family: 'Roboto', sans-serif;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.requestedReviewsTitle {
+  font-size: 1.1rem;
+  font-family: 'Roboto', sans-serif;
+  margin-left: 0.5rem;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
 .statusSpan {
   font-weight: normal;
   font-size: 1.4rem;
@@ -283,5 +319,11 @@
   .rightColumn {
     flex-basis: 100%;
     margin-top: 2rem;
+  }
+}
+
+@media (min-width: 1600px) {
+  .requestedReviewersContainer {
+    max-width: 30rem;
   }
 }
