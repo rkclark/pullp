@@ -14,6 +14,7 @@ export default function PullRequest({
   reviewedByCurrentUser,
   currentUserReviewRequested,
   reviewsByAuthor,
+  reviewRequests,
 }) {
   const reviewRequestStatus = () => {
     if (reviewedByCurrentUser) {
@@ -118,6 +119,25 @@ export default function PullRequest({
     </div>
   ));
 
+  const requestedReviewers = reviewRequests.map(reviewRequest => {
+    const name = reviewRequest.requestedReviewer.login
+      ? reviewRequest.requestedReviewer.login
+      : reviewRequest.requestedReviewer.name;
+    return (
+      <div
+        className={theme.requestedReviewer}
+        key={`${name}_${reviewRequest.requestedReviewer.avatarUrl}`}
+      >
+        <img
+          src={reviewRequest.requestedReviewer.avatarUrl}
+          alt={`${name} avatar`}
+          className={theme.requestedReviewerAvatar}
+        />
+        <span className={theme.requestedReviewerName}>{name}</span>
+      </div>
+    );
+  });
+
   return (
     <a href={url} className={theme.link}>
       <div className={`${theme.pullRequest}`}>
@@ -150,7 +170,17 @@ export default function PullRequest({
             <span className={theme.infoSpan}>{date}</span>
             <span className={theme.infoSpan}>{time}</span>
           </div>
-          <div className={theme.middleColumn}>{reviewRequestStatus()}</div>
+          <div className={theme.middleColumn}>
+            {reviewRequestStatus()}
+            {reviewRequests.length > 0 ? (
+              <h3 className={theme.requestedReviewsTitle}>
+                Other Review Requests
+              </h3>
+            ) : null}
+            <div className={theme.requestedReviewersContainer}>
+              {requestedReviewers}
+            </div>
+          </div>
           <div className={theme.rightColumn}>
             <h3 className={theme.reviewsTitle}>Reviews</h3>
             <div className={theme.reviewsContainer}>
@@ -193,6 +223,7 @@ PullRequest.propTypes = {
   currentUserReviewRequested: PropTypes.bool.isRequired,
   reviewedByCurrentUser: PropTypes.bool.isRequired,
   reviewsByAuthor: PropTypes.arrayOf(PropTypes.shape()),
+  reviewRequests: PropTypes.arrayOf(PropTypes.shape()),
 };
 
 PullRequest.defaultProps = {
