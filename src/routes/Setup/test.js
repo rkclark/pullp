@@ -71,6 +71,11 @@ describe('Setup', () => {
     describe('when props show current user can be requested and auto request has not yet occured', () => {
       it('dispatches requestCurrentUser action', () => {
         const requestCurrentUser = jest.fn();
+        const nextProps = {
+          githubToken: 'test',
+          login: null,
+          currentUserLoading: false,
+        };
         const component = shallow(
           <SetupContainer
             {...defaultProps}
@@ -78,12 +83,8 @@ describe('Setup', () => {
           />,
         );
         expect(requestCurrentUser).not.toHaveBeenCalled();
-        component.instance().componentWillReceiveProps({
-          githubToken: 'test',
-          login: null,
-          currentUserLoading: false,
-        });
-        expect(requestCurrentUser).toHaveBeenCalled();
+        component.instance().componentWillReceiveProps(nextProps);
+        expect(requestCurrentUser).toHaveBeenCalledWith(nextProps.githubToken);
       });
       it('updates autoRequestCurrentUser to true in component state', async () => {
         const requestCurrentUser = () => {};
@@ -153,16 +154,18 @@ describe('Setup', () => {
     describe('try again button on click', () => {
       it('dispatches requestCurrentUser action', () => {
         const requestCurrentUser = jest.fn();
+        const token = 'testToken';
         const component = shallow(
           <SetupContainer
             {...defaultProps}
             githubCurrentUserError={'error'}
             requestCurrentUser={requestCurrentUser}
+            githubToken={token}
           />,
         );
         expect(requestCurrentUser).not.toBeCalled();
         component.find('[data-test-id="try-again-button"]').simulate('click');
-        expect(requestCurrentUser).toBeCalled();
+        expect(requestCurrentUser).toBeCalledWith(token);
       });
     });
 

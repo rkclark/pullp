@@ -28,7 +28,7 @@ export class SetupContainer extends React.Component {
       !nextProps.currentUserLoading &&
       !this.state.autoRequestedCurrentUser
     ) {
-      await this.requestCurrentUser();
+      await this.props.requestCurrentUser(nextProps.githubToken);
       this.setState({ autoRequestedCurrentUser: true });
     }
   }
