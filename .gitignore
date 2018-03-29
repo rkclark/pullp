@@ -24,3 +24,5 @@ yarn-error.log*
 jest_0
 
 .env
+
+/dist
