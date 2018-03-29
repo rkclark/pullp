@@ -1,14 +1,16 @@
 {
   "name": "pullp",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": false,
   "main": "src/electron-starter.js",
-  "homepage": "./",
+  "license": "MIT",
+  "author": "Rick Clark <rkingsleyclark@gmail.com>",
+  "description": "Pull request monitoring app for Github",
   "dependencies": {
     "body-parser": "^1.17.2",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
-    "electron": "^1.8.2-beta5",
+    "electron-is-dev": "^0.3.0",
     "express": "^4.15.4",
     "helmet": "^3.6.1",
     "node-fetch": "^1.7.3",
@@ -37,6 +39,8 @@
     "chalk": "1.1.3",
     "css-loader": "0.28.1",
     "debug": "^2.6.8",
+    "electron": "^1.8.2-beta5",
+    "electron-builder": "^20.8.1",
     "electron-devtools-installer": "^2.2.0",
     "enzyme": "^2.8.2",
     "eslint": "^3.19.0",
@@ -86,6 +90,36 @@
     "style-fix": "eslint --fix '**/*.js'",
     "precommit": "npm run style && CI=true npm run test",
     "electron": "electron .",
-    "electron-dev": "ELECTRON_START_URL=http://localhost:3333 electron ."
+    "electron-dev": "ELECTRON_START_URL=http://localhost:3333 electron .",
+    "pack": "build --dir",
+    "dist": "build"
+  },
+  "build": {
+    "appId": "com.rkclark.pullp",
+    "productName": "Pullp",
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    },
+    "win": {
+      "target": "NSIS",
+      "icon": "build/icon.ico"
+    }
   }
 }
