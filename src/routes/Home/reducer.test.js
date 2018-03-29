@@ -93,6 +93,7 @@ describe('Home reducer', () => {
         {
           id: 'MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==',
           pullRequests: {
+            totalCount: 4,
             edges: [
               {
                 node: {
@@ -107,9 +108,6 @@ describe('Home reducer', () => {
                       'https://avatars0.githubusercontent.com/u/18387550?v=4',
                     login: 'jh2633',
                     url: 'https://github.com/jh2633',
-                  },
-                  comments: {
-                    totalCount: 0,
                   },
                   reviewRequests: {
                     edges: [
@@ -183,9 +181,6 @@ describe('Home reducer', () => {
                     login: 'jh2633',
                     url: 'https://github.com/jh2633',
                   },
-                  comments: {
-                    totalCount: 1,
-                  },
                   reviewRequests: {
                     edges: [
                       {
@@ -236,9 +231,6 @@ describe('Home reducer', () => {
                     login: 'jh2633',
                     url: 'https://github.com/jh2633',
                   },
-                  comments: {
-                    totalCount: 2,
-                  },
                   reviewRequests: {
                     edges: [
                       {
@@ -271,9 +263,6 @@ describe('Home reducer', () => {
                     login: 'testUser',
                     url: 'https://github.com/jh2633',
                   },
-                  comments: {
-                    totalCount: 2,
-                  },
                   reviewRequests: {
                     edges: [
                       {
@@ -304,6 +293,7 @@ describe('Home reducer', () => {
         {
           id: 'MDEwOlJlcG9zaXRvcnk3Mjc1NzkxNg==',
           pullRequests: {
+            totalCount: 0,
             edges: [],
           },
         },
@@ -332,6 +322,7 @@ describe('Home reducer', () => {
             name: 'owner',
             avatarUrl: 'test.com',
           },
+          totalPullRequests: 4,
           pullRequests: [
             {
               createdAt: prCreatedAt,
@@ -347,9 +338,6 @@ describe('Home reducer', () => {
                   'https://avatars0.githubusercontent.com/u/18387550?v=4',
                 login: 'jh2633',
                 url: 'https://github.com/jh2633',
-              },
-              comments: {
-                totalCount: 0,
               },
               reviewRequests: [
                 {
@@ -424,9 +412,6 @@ describe('Home reducer', () => {
                 login: 'jh2633',
                 url: 'https://github.com/jh2633',
               },
-              comments: {
-                totalCount: 1,
-              },
               reviewRequests: [
                 {
                   requestedReviewer: {
@@ -473,9 +458,6 @@ describe('Home reducer', () => {
                 login: 'jh2633',
                 url: 'https://github.com/jh2633',
               },
-              comments: {
-                totalCount: 2,
-              },
               reviewRequests: [
                 {
                   requestedReviewer: {
@@ -505,9 +487,6 @@ describe('Home reducer', () => {
                   'https://avatars0.githubusercontent.com/u/18387550?v=4',
                 login: 'testUser',
                 url: 'https://github.com/jh2633',
-              },
-              comments: {
-                totalCount: 2,
               },
               reviewRequests: [
                 {
@@ -540,6 +519,7 @@ describe('Home reducer', () => {
             name: 'owner',
             avatarUrl: 'test.com',
           },
+          totalPullRequests: 0,
           pullRequests: [],
           currentUserReviewRequests: 0,
           currentUserReviews: 0,

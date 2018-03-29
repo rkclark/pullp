@@ -191,6 +191,7 @@ export default function(state = initialState, action) {
           pullRequests: reformattedPrs,
           currentUserReviewRequests,
           currentUserReviews,
+          totalPullRequests: node.pullRequests.totalCount,
         };
       });
 

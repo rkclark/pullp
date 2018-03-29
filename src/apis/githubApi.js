@@ -61,10 +61,17 @@ query {
   pullRequests: ids =>
     `
         query {
+          rateLimit {
+            limit
+            cost
+            remaining
+            resetAt
+          }
           nodes (ids:${JSON.stringify(ids)}) {
             id
             ... on Repository {
-              pullRequests(last: 100 states: [OPEN] orderBy:{ field: CREATED_AT, direction: DESC }) {
+              pullRequests(last: 10 states: [OPEN] orderBy:{ field: CREATED_AT, direction: DESC }) {
+                totalCount
                 edges {
                   node {
                     createdAt
@@ -75,9 +82,6 @@ query {
                       avatarUrl
                       login
                       url
-                    }
-                    comments(last: 100) {
-                      totalCount
                     }
                     reviewRequests(last: 100) {
                       edges {
