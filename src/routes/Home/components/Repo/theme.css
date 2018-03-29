@@ -5,11 +5,10 @@
   background-color: white;
   transition: 0.5s ease-in-out all;
   overflow: hidden;
-  box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4), inset 0 -0.4rem 0 0 var(--primary-medium);
 }
 
 .indicatorsContainer {
-  box-shadow:  inset 0 -0.4rem 0 0 var(--primary-medium);
   display: flex;
   justify-content: center;
   width: 100%;
@@ -213,6 +212,38 @@
 
 .noRequests .countLabel {
   color: var(--white);
+}
+
+.maxPrWarning {
+  background-color: var(--tertiary-dark);
+  width: 100%;
+  text-align: center;
+  margin-bottom: 0.4rem;
+  color: var(--white);
+  font-size: 1.2rem;
+  padding: 0.4rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.maxPrWarning span {
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
+}
+
+.warningIcon {
+  min-width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 100%;
+  border: 0.2rem solid var(--white);
+  display: inline-block;
+  text-align: center;
+  line-height: 1.4;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-right: 0.4rem;
 }
 
 @keyframes spin { 

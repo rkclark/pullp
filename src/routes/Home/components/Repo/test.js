@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import Repo from './';
+import { MAXIMUM_PRS } from '../../../../constants';
 
 describe('Repo', () => {
   const props = {
@@ -13,6 +14,7 @@ describe('Repo', () => {
         avatarUrl: 'test.com',
       },
       url: 'test.com',
+      totalPullRequests: 2,
       pullRequests: [
         {
           createdAt: '2017-09-26T20:23:44Z',
@@ -120,6 +122,25 @@ describe('Repo', () => {
       );
       component.find('.indicatorsContainer').simulate('click');
       expect(toggleOpenRepo).toHaveBeenCalledWith(props.data.id);
+    });
+  });
+
+  describe('when total PRs is more than maximum PRs', () => {
+    it('shows max PR warning', () => {
+      const totalPrs = MAXIMUM_PRS + 1;
+      const testProps = {
+        ...props,
+        data: { ...props.data, totalPullRequests: totalPrs },
+      };
+      const component = shallow(<Repo {...testProps} />);
+      expect(component.find('[data-test-id="maxPrWarning"]').length).toBe(1);
+    });
+  });
+
+  describe('when total PRs is not more than maximum PRs', () => {
+    it('does not show max PR warning', () => {
+      const component = shallow(<Repo {...props} />);
+      expect(component.find('[data-test-id="maxPrWarning"]').length).toBe(0);
     });
   });
 });

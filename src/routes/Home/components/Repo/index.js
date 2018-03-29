@@ -5,14 +5,12 @@ import PropTypes from 'prop-types';
 import CircularProgressbar from 'react-circular-progressbar';
 import defaultTheme from './theme.css';
 import RepoModal from '../RepoModal';
-import { REPO_SUMMARY_MAX_PRS } from '../../../../constants';
+import { REPO_SUMMARY_MAX_PRS, MAXIMUM_PRS } from '../../../../constants';
 import userIcon from '../../../../images/anon-user.svg';
 
 export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
   const numberOfPrs = data.pullRequests.length;
-
-  const spanClass = numberOfPrs > 5 ? 'spanMax' : `span${numberOfPrs + 1}`;
-
+  const totalPrs = data.totalPullRequests;
   const countClass = numberOfPrs === 0 ? 'zeroCount' : null;
 
   const open = data.id === openRepoId;
@@ -53,8 +51,21 @@ export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
   const reviewCompletionPercentage =
     data.currentUserReviews / numberOfPrs * 100;
 
+  const notShownPrs = totalPrs - MAXIMUM_PRS;
+
+  const maxPrWarning =
+    totalPrs > MAXIMUM_PRS ? (
+      <div className={theme.maxPrWarning} data-test-id="maxPrWarning">
+        <span className={theme.warningIcon}>!</span>
+        <span>
+          {notShownPrs} additional pull request{notShownPrs > 1 ? 's' : ''} not
+          shown
+        </span>
+      </div>
+    ) : null;
+
   return (
-    <div className={`${theme.repoContainer} ${theme[spanClass]}`}>
+    <div className={`${theme.repoContainer}`}>
       <div className={`${theme.repo} ${theme[countClass]}`}>
         <a href={data.url} className={theme.link}>
           <img
@@ -121,6 +132,7 @@ export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
             </div>
           ) : null}
         </div>
+        {maxPrWarning}
       </div>
       {openRepo}
     </div>
