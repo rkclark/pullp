@@ -29,6 +29,11 @@ export default function RepoModal({ theme, data, toggleOpenRepo }) {
         <div className={theme.repo}>
           <div className={theme.repoHeader}>
             <a href={data.url} className={theme.link}>
+              <img
+                className={theme.ownerAvatar}
+                src={data.owner.avatarUrl}
+                alt={`${data.owner.login} avatar`}
+              />
               <h3 className={theme.name}>{data.name}</h3>
             </a>
             <button
