@@ -1,5 +1,6 @@
 import fetchMock from 'fetch-mock';
 import { queries, get } from './githubApi';
+import { MAXIMUM_PRS } from '../constants';
 
 describe('Github API', () => {
   describe('queries', () => {
@@ -123,7 +124,7 @@ query {
           nodes (ids:${JSON.stringify(testIds)}) {
             id
             ... on Repository {
-              pullRequests(last: 10 states: [OPEN] orderBy:{ field: CREATED_AT, direction: DESC }) {
+              pullRequests(last: ${MAXIMUM_PRS} states: [OPEN] orderBy:{ field: CREATED_AT, direction: DESC }) {
                 totalCount
                 edges {
                   node {
