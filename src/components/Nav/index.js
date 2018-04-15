@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { requestPullRequests } from '../../routes/Home/actions';
+import pullpIcon from '../../images/pullpIcon.png';
 
 import defaultTheme from './theme.css';
 import CurrentUser from '../CurrentUser';
@@ -61,7 +62,7 @@ export class Nav extends React.Component {
     return (
       <div className={theme.header}>
         <div className={theme.titleContainer}>
-          <h1 className={theme.title}>PULLP</h1>
+          <img className={theme.pullpIcon} src={pullpIcon} alt="Pullp Icon" />
           {refreshIcon}
         </div>
         <div className={theme.links}>
