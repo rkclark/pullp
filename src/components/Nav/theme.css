@@ -29,10 +29,11 @@
   align-items: center;
 }
 
-.title {
+.pullpIcon {
   display: inline-block;
-  margin-bottom: 0;
-  margin-right: var(--spacing-2);
+  margin: 0.5rem var(--spacing-2) 0.5rem 0;
+  height: 5rem;
+  width: 5rem;
 }
 
 .sync {
