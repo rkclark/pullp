@@ -118,7 +118,6 @@
     },
     "linux": {
       "target": [
-        "AppImage",
         "deb"
       ]
     },
