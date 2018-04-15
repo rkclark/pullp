@@ -1,8 +1,6 @@
 import { setup as types } from '../../actionTypes';
 import { SERVER_PORT } from '../../constants';
 
-console.log('SERVER PORT IN REACT IS', SERVER_PORT);
-
 export const saveGithubCredentials = credentials => ({
   type: types.SAVE_GITHUB_CREDENTIALS,
   credentials,
