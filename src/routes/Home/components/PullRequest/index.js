@@ -42,7 +42,9 @@ export default function PullRequest({
       return (
         <div className={theme.reviewStatusWrapper}>
           <div
-            className={`${theme.reviewStatusIndicator} ${theme.reviewRequested}`}
+            className={`${theme.reviewStatusIndicator} ${
+              theme.reviewRequested
+            }`}
           >
             <svg className={theme.spinCircle}>
               <circle cx="50%" cy="50%" r="45px" />

@@ -102,16 +102,15 @@ export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
                   strokeWidth={20}
                   initialAnimation
                 />
-                <span
-                  className={theme.reviewCoverage}
-                >{`${data.currentUserReviews}/${numberOfPrs}`}</span>
+                <span className={theme.reviewCoverage}>{`${
+                  data.currentUserReviews
+                }/${numberOfPrs}`}</span>
               </div>
               <span className={theme.prCountLabel}>Reviewed by you</span>
               <div
-                className={`${theme.reviewRequestsContainer} ${data.currentUserReviewRequests ===
-                0
-                  ? theme.noRequests
-                  : null}`}
+                className={`${theme.reviewRequestsContainer} ${
+                  data.currentUserReviewRequests === 0 ? theme.noRequests : null
+                }`}
               >
                 <div className={theme.requestsCircle}>
                   <span

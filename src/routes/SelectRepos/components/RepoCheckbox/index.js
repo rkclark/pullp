@@ -51,9 +51,9 @@ export default function RepoCheckbox({
           <p className={theme.date}>{createdAtDate}</p>
         </div>
         <div
-          className={`${theme.checkBox} ${checked
-            ? theme.checkBoxActive
-            : null}`}
+          className={`${theme.checkBox} ${
+            checked ? theme.checkBoxActive : null
+          }`}
         />
       </label>
       <a className={theme.link} href={url}>

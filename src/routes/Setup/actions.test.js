@@ -1,6 +1,7 @@
 import fetchMock from 'fetch-mock';
 import * as actions from './actions';
 import { setup as types } from '../../actionTypes';
+import { SERVER_PORT } from '../../constants';
 
 describe('Login actions', () => {
   describe('saveGithubCredentials', () => {
@@ -20,7 +21,7 @@ describe('Login actions', () => {
     describe('when call to pullp oAuth server succeeds', () => {
       it('dispatches requestGithubTokenSuccess action with the received token', async () => {
         const result = { access_token: 'anAccessToken' };
-        fetchMock.mock('http://localhost:9821/authenticate/', result);
+        fetchMock.mock(`http://localhost:${SERVER_PORT}/authenticate/`, result);
         const requestGithubToken = actions.requestGithubToken({
           client_id: 'id',
           client_secret: 'secret',
@@ -37,7 +38,7 @@ describe('Login actions', () => {
   });
   describe('when call to pullp oAuth server fails', () => {
     it('dispatches requestGithubTokenFailure action with the received error', async () => {
-      fetchMock.mock('http://localhost:9821/authenticate/', 400);
+      fetchMock.mock(`http://localhost:${SERVER_PORT}/authenticate/`, 400);
       const requestGithubToken = actions.requestGithubToken({
         client_id: 'id',
         client_secret: 'secret',
