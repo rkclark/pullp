@@ -90,7 +90,7 @@
     "style": "eslint '**/*.js'",
     "style-fix": "eslint --fix '**/*.js'",
     "precommit": "npm run style && CI=true npm run test",
-    "electron": "electron .",
+    "electron": "NODE_ENV=production electron .",
     "electron-dev": "ELECTRON_START_URL=http://localhost:3333 electron .",
     "pack": "build --dir",
     "dist": "build"
@@ -98,6 +98,9 @@
   "build": {
     "appId": "com.rkclark.pullp",
     "productName": "Pullp",
+    "directories": {
+      "buildResources": "public"
+    },
     "dmg": {
       "contents": [
         {

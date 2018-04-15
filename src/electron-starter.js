@@ -5,7 +5,12 @@ const electron = require('electron');
 // Module to control application life.
 const app = electron.app;
 const shell = electron.shell;
-require('../server');
+
+// Set server port depending on environment
+const serverPort = isDev ? '9821' : '9822';
+
+require('../server')(serverPort);
+
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
 

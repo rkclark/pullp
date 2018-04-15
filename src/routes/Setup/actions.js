@@ -1,4 +1,7 @@
 import { setup as types } from '../../actionTypes';
+import { SERVER_PORT } from '../../constants';
+
+console.log('SERVER PORT IN REACT IS', SERVER_PORT);
 
 export const saveGithubCredentials = credentials => ({
   type: types.SAVE_GITHUB_CREDENTIALS,
@@ -18,7 +21,7 @@ export const requestGithubTokenFailure = error => ({
 export const requestGithubToken = oAuthParams => async dispatch => {
   const oAuthData = JSON.stringify(oAuthParams);
   try {
-    const res = await fetch(`http://localhost:9821/authenticate/`, {
+    const res = await fetch(`http://localhost:${SERVER_PORT}/authenticate/`, {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',

@@ -44,16 +44,16 @@ export class SetupContainer extends React.Component {
           1
         </span>
         <span
-          className={`${style.stepTwo} ${style.step} ${this.props.githubClientId
-            ? style.activeStep
-            : null}`}
+          className={`${style.stepTwo} ${style.step} ${
+            this.props.githubClientId ? style.activeStep : null
+          }`}
         >
           2
         </span>
         <span
-          className={`${style.stepThree} ${style.step} ${this.props.githubToken
-            ? style.activeStep
-            : null}`}
+          className={`${style.stepThree} ${style.step} ${
+            this.props.githubToken ? style.activeStep : null
+          }`}
         >
           3
         </span>

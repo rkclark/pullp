@@ -41,9 +41,9 @@ export class Nav extends React.Component {
         <button className={theme.refresh} onClick={onClick}>
           <Loading loading={this.props.pullRequestsLoading} />
           <span
-            className={`${theme.sync} ${this.props.pullRequestsLoading
-              ? theme.syncActive
-              : null}`}
+            className={`${theme.sync} ${
+              this.props.pullRequestsLoading ? theme.syncActive : null
+            }`}
           >
             Sync
           </span>
@@ -68,9 +68,9 @@ export class Nav extends React.Component {
           <div className={theme.linkContainer}>
             <Link
               to="/"
-              className={`${theme.link} ${path === '/'
-                ? theme.activeLink
-                : null}`}
+              className={`${theme.link} ${
+                path === '/' ? theme.activeLink : null
+              }`}
             >
               Monitor
             </Link>
@@ -78,9 +78,9 @@ export class Nav extends React.Component {
           <div className={theme.linkContainer}>
             <Link
               to="/selectRepos"
-              className={`${theme.link} ${path === '/selectRepos'
-                ? theme.activeLink
-                : null}`}
+              className={`${theme.link} ${
+                path === '/selectRepos' ? theme.activeLink : null
+              }`}
             >
               Select
             </Link>
@@ -88,9 +88,9 @@ export class Nav extends React.Component {
           <div className={theme.linkContainer}>
             <Link
               to="/Account"
-              className={`${theme.link} ${path === '/Account'
-                ? theme.activeLink
-                : null}`}
+              className={`${theme.link} ${
+                path === '/Account' ? theme.activeLink : null
+              }`}
             >
               Account
             </Link>
