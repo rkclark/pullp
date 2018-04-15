@@ -1,7 +1,9 @@
 /* eslint-disable no-console */
 const isDev = require('electron-is-dev');
-
+const path = require('path');
+const url = require('url');
 const electron = require('electron');
+
 // Module to control application life.
 const app = electron.app;
 const shell = electron.shell;
@@ -11,11 +13,10 @@ const serverPort = isDev ? '9821' : '9822';
 
 require('../server')(serverPort);
 
+require('electron-debug')({ enabled: true });
+
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
-
-const path = require('path');
-const url = require('url');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -26,6 +27,10 @@ function createMainWindow() {
   mainWindow = new BrowserWindow({
     width: 1920,
     height: 1080,
+    webPreferences: {
+      nodeIntegration: false,
+      preload: path.join(__dirname, '/preload.js'),
+    },
   });
 
   // and load the index.html of the app.

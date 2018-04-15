@@ -1,7 +1,7 @@
 import { requestGithubToken } from '../actions';
 
 export default function githubAuth(clientId, clientSecret, dispatch) {
-  const electron = window.require('electron');
+  const electron = window.electron;
 
   const remote = electron.remote;
   const BrowserWindow = remote.BrowserWindow;
