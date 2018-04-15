@@ -6,6 +6,7 @@
   "license": "MIT",
   "author": "Rick Clark <rkingsleyclark@gmail.com>",
   "description": "Pull request monitoring app for Github",
+  "homepage": "./",
   "dependencies": {
     "body-parser": "^1.17.2",
     "cors": "^2.8.4",
