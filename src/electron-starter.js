@@ -4,9 +4,7 @@ const path = require('path');
 const url = require('url');
 const electron = require('electron');
 
-// Module to control application life.
-const app = electron.app;
-const shell = electron.shell;
+const { app, shell, Menu } = electron;
 
 // Set server port depending on environment
 const serverPort = isDev ? '9821' : '9822';
@@ -85,6 +83,27 @@ app.on('ready', () => {
       .then(name => console.log(`Added Extension:  ${name}`))
       .catch(err => console.log('An error occurred: ', err));
   }
+  const template = [
+    {
+      label: 'Edit',
+      submenu: [
+        { label: 'Undo', accelerator: 'CmdOrCtrl+Z', selector: 'undo:' },
+        { label: 'Redo', accelerator: 'Shift+CmdOrCtrl+Z', selector: 'redo:' },
+        { type: 'separator' },
+        { label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
+        { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
+        { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
+        {
+          label: 'Select All',
+          accelerator: 'CmdOrCtrl+A',
+          selector: 'selectAll:',
+        },
+      ],
+    },
+  ];
+
+  const menu = Menu.buildFromTemplate(template);
+  Menu.setApplicationMenu(menu);
 
   electron.protocol.interceptFileProtocol(
     'file',

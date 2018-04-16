@@ -94,7 +94,7 @@
     "electron": "NODE_ENV=production electron .",
     "electron-dev": "ELECTRON_START_URL=http://localhost:3333 electron .",
     "pack": "build --dir",
-    "dist": "build"
+    "dist": "npm run build && build"
   },
   "build": {
     "appId": "com.rkclark.pullp",
