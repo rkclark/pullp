@@ -138,10 +138,8 @@ export const get = async (query, token) => {
 
   if (response.ok) {
     const result = await response.json();
-    if (result.data) {
-      return result.data;
-    }
     if (result.errors) {
+      console.error(result.errors); // eslint-disable-line no-console
       if (result.errors[0].type === 'MAX_NODE_LIMIT_EXCEEDED') {
         throw new Error(
           `The amount of pull request data for your selected repositories exceeds Github's maximum limit. Try selecting fewer repositories and trying again. Here is the specific error from Github as guidance: ${
@@ -150,6 +148,9 @@ export const get = async (query, token) => {
         );
       }
       throw new Error(result.errors[0].message);
+    }
+    if (result.data) {
+      return result.data;
     }
   }
 
