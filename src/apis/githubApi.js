@@ -124,6 +124,7 @@ query {
 };
 
 export const get = async (query, token) => {
+  console.log(query);
   const body = {
     query,
   };
@@ -150,6 +151,7 @@ export const get = async (query, token) => {
       throw new Error(result.errors[0].message);
     }
     if (result.data) {
+      console.log(result);
       return result.data;
     }
   }
