@@ -126,7 +126,8 @@ export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
                 ) : null}
               </div>
               <span className={theme.prCountLabel}>
-                Requests for your review
+                Request{data.currentUserReviewRequests === 1 ? '' : 's'} for
+                your review
               </span>
             </div>
           ) : null}
