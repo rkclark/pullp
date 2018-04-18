@@ -63,12 +63,6 @@ query {
   pullRequests: ids =>
     `
         query {
-          rateLimit {
-            limit
-            cost
-            remaining
-            resetAt
-          }
           nodes (ids:${JSON.stringify(ids)}) {
             id
             ... on Repository {

@@ -115,12 +115,6 @@ query {
         const testIds = ['test1', 'test2', 'test3'];
         const expectedQuery = `
         query {
-          rateLimit {
-            limit
-            cost
-            remaining
-            resetAt
-          }
           nodes (ids:${JSON.stringify(testIds)}) {
             id
             ... on Repository {
