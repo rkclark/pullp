@@ -24,13 +24,15 @@ When using Pullp you need to provide Github oAuth credentials. The way you shoul
 
 If you are using Pullp within an organisation that has private repositories, you should create one set of oAuth credentials and share them. This way, your Github administrator will only need to approve one oAuth application to access the organisation. If you are an individual or you only require access to public repositories, you can make your own credentials.
 
+_Note: the Github API applies a limit to the amount of data per hour that can be requested by an oAuth application. If you are sharing credentials within an organisation, you may hit that limit if too many users share one set of credentials. A rough estimate would be that around 30 users can use one set of credentials, assuming they monitor around 10 repositories each. Pullp will display an error if the API limit is reached so you can always use that as an indication that another set of oAuth credentials is needed._
+
 #### How to make the credentials
 
 - In Github, go to your settings
-- Go to Developer Settings, select oAuth Apps (usually selected by default)
-- Click New oAuth App
+- Go to **Developer Settings**, select oAuth Apps (usually selected by default)
+- Click **New oAuth App**
 - Give the app a name, this will be seen when/if your app requests access to any organisations that you are a part of
 - Set the homepage to whatever you like
 - The authorization callback URL is not actually used by Pullp, I'd suggest just setting it to `http://localhost:3001/auth/github/callback`
 - Click to register the app
-- Make a note of the client ID and client secret that you are shown on the next screen
+- Make a note of the **client ID** and **client secret** that you are shown on the next screen
