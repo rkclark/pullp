@@ -61,6 +61,7 @@ export class Nav extends React.Component {
 
     return (
       <div className={theme.header}>
+        <div className={theme.draggable} />
         <div className={theme.titleContainer}>
           <img className={theme.pullpIcon} src={pullpIcon} alt="Pullp Icon" />
           {refreshIcon}
