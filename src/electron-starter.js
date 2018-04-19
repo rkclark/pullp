@@ -103,7 +103,7 @@ app.on('ready', () => {
       ],
     },
     {
-      label: 'Controls',
+      label: 'Edit',
       submenu: [
         { label: 'Undo', accelerator: 'CmdOrCtrl+Z', selector: 'undo:' },
         { label: 'Redo', accelerator: 'Shift+CmdOrCtrl+Z', selector: 'redo:' },
@@ -116,7 +116,11 @@ app.on('ready', () => {
           accelerator: 'CmdOrCtrl+A',
           selector: 'selectAll:',
         },
-        { type: 'separator' },
+      ],
+    },
+    {
+      label: 'View',
+      submenu: [
         {
           role: 'zoomin',
         },
