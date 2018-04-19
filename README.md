@@ -36,3 +36,24 @@ _Note: the Github API applies a limit to the amount of data per hour that can be
 - The authorization callback URL is not actually used by Pullp, I'd suggest just setting it to `http://localhost:3001/auth/github/callback`
 - Click to register the app
 - Make a note of the **client ID** and **client secret** that you are shown on the next screen
+
+### Signing In
+
+Now you have your oAuth credentials, open Pullp. You will be asked to enter your client id and client secret. Once saved, you can click to sign in to Github.
+
+On the Github sign in window you can request any organisations that you are part of to authorise Pullp. Assuming they do so, you will be able to see their private repositories in addition to public ones.
+
+Once you are signed in click `Let's Get Started`.
+
+### Selecting the repositories you want to monitor
+
+In the `Select` page you can choose which repos you want to monitor with Pullp. You will see listed all of the repositories that you **watch** on Github. If you don't see one of your repos, make sure you are watching it!
+
+### Monitoring
+
+The `Monitor` page shows all the repos you have selected, these are ordered by the number of pull requests they currently have open.
+
+You can click on the repository name to open its page in Github.
+
+Clicking the body of the repository frame will open a more detailed summary of the open pull requests.
+
