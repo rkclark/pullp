@@ -12,6 +12,17 @@
   position: sticky;
   top: 0px;
   z-index: var(--z-nav);
+  height: 6.5rem;
+}
+
+.draggable {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 2rem;
+  width: 100%;
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
 }
 
 .links {
@@ -32,8 +43,8 @@
 .pullpIcon {
   display: inline-block;
   margin: 0.5rem var(--spacing-2) 0.5rem 0;
-  height: 5rem;
-  width: 5rem;
+  height: 2.5rem;
+  width: 2.5rem;
 }
 
 .sync {
@@ -42,7 +53,7 @@
   font-size: 1rem;
   color: transparent;
   position: absolute;
-  top: 2.3rem;
+  top: 1.05rem;
   left: 6rem;
   transition: 0.3s ease-in-out all;
 }
