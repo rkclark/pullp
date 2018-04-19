@@ -61,15 +61,15 @@ Clicking the body of the repository frame will open a more detailed summary of t
 
 Q: Why does my repository only show a maximum of 15 open pull requests?
 
-    A: Github applies a cost in points to each request Pullp makes for data. Each hour your oAuth app is permitted to spend 5000 points. By restricting the maximum pull requests to 15, the cost of each request is significantly reduced compared to, say, requesting 50. This means Pullp can make more frequent requests, giving you a more "near-time" experience. Allowing this maximum limit to be configurable by the user could be a feature in the future.
+A: Github applies a cost in points to each request Pullp makes for data. Each hour your oAuth app is permitted to spend 5000 points. By restricting the maximum pull requests to 15, the cost of each request is significantly reduced compared to, say, requesting 50. This means Pullp can make more frequent requests, giving you a more "near-time" experience. Allowing this maximum limit to be configurable by the user could be a feature in the future.
 
 Q: I am seeing an error saying `The amount of pull request data for your selected repositories exceeds Github's maximum limit.`
 
-    A: Github places a limit on the maximum number of data nodes that can be returned from a single request. This limit may be breached if you have selected a large number of repositories that have many pull requests. The only solution to this currently is to select fewer repositories.
+A: Github places a limit on the maximum number of data nodes that can be returned from a single request. This limit may be breached if you have selected a large number of repositories that have many pull requests. The only solution to this currently is to select fewer repositories.
 
 Q: Can I access the console/Chrome dev tools inside the app?
 
-    A: Yes! Just use the normal Chrome shortcut to open them, e.g. cmd + opt + i on Mac. React and Redux dev tools are not available in the production app, but are enabled if you are running the app in the dev environment.
+A: Yes! Just use the normal Chrome shortcut to open them, e.g. cmd + opt + i on Mac. React and Redux dev tools are not available in the production app, but are enabled if you are running the app in the dev environment.
 
 ## Developer Instructions
 
