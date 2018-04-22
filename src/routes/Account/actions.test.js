@@ -11,12 +11,19 @@ describe('Login actions', () => {
     });
   });
 
-  describe('logout', () => {
+  describe('clearPersistedLocalStorage', () => {
     it('creates an action to logout', () => {
       const expectedAction = {
         type: types.LOGOUT,
       };
-      expect(actions.logout()).toEqual(expectedAction);
+      expect(actions.clearPersistedLocalStorage()).toEqual(expectedAction);
     });
   });
+
+  // describe('logout', () => {
+  //   it('clears all session cookies', () => {
+  //     console.log('global is, ', global);
+  //     expect(true).toBe(true);
+  //   });
+  // });
 });
