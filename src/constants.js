@@ -2,7 +2,7 @@
 
 export const REPO_SUMMARY_MAX_PRS = 3;
 
-export const MAXIMUM_PRS = 15;
+export const MAXIMUM_PRS = 50;
 
 export const SERVER_PORT =
   process.env.NODE_ENV === 'production'
