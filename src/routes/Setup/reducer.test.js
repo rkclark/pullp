@@ -1,6 +1,6 @@
 import * as actions from './actions';
 import reducer, { initialState } from './reducer';
-import { logout } from '../Account/actions';
+import { clearPersistedLocalStorage } from '../Account/actions';
 
 describe('setup reducer', () => {
   it('should return same state when no action matches', () => {
@@ -75,7 +75,7 @@ describe('setup reducer', () => {
       expect(newState).toEqual(expectedState);
     });
   });
-  describe('logout', () => {
+  describe('clear persisted local storage', () => {
     it('returns to initial state', () => {
       const baseState = {
         test: true,
@@ -84,7 +84,7 @@ describe('setup reducer', () => {
         ...initialState,
       };
 
-      const newState = reducer(baseState, logout());
+      const newState = reducer(baseState, clearPersistedLocalStorage());
       expect(newState).toEqual(expectedState);
     });
   });

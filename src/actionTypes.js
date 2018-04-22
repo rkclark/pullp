@@ -14,7 +14,7 @@ export const home = {
 
 export const account = {
   TOGGLE_LOGOUT_MODAL: 'TOGGLE_LOGOUT_MODAL',
-  LOGOUT: 'LOGOUT',
+  CLEAR_PERSISTED_LOCAL_STORAGE: 'CLEAR_PERSISTED_LOCAL_STORAGE',
 };
 
 export const setup = {

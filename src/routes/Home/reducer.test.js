@@ -1,5 +1,5 @@
 import * as actions from './actions';
-import { logout } from '../Account/actions';
+import { clearPersistedLocalStorage } from '../Account/actions';
 import reducer, { initialState } from './reducer';
 
 describe('Home reducer', () => {
@@ -633,7 +633,7 @@ describe('Home reducer', () => {
       });
     });
   });
-  describe('logout', () => {
+  describe('clear persisted local storage', () => {
     it('returns to initial state', () => {
       const baseState = {
         test: true,
@@ -642,7 +642,7 @@ describe('Home reducer', () => {
         ...initialState,
       };
 
-      const newState = reducer(baseState, logout());
+      const newState = reducer(baseState, clearPersistedLocalStorage());
       expect(newState).toEqual(expectedState);
     });
   });
