@@ -34,7 +34,7 @@ describe('login reducer', () => {
       expect(newState).toEqual(expectedState);
     });
   });
-  describe('logout', () => {
+  describe('clear persisted local storage', () => {
     it('returns to initial state', () => {
       const baseState = {
         test: true,
@@ -43,7 +43,7 @@ describe('login reducer', () => {
         ...initialState,
       };
 
-      const newState = reducer(baseState, actions.logout());
+      const newState = reducer(baseState, actions.clearPersistedLocalStorage());
       expect(newState).toEqual(expectedState);
     });
   });

@@ -30,7 +30,7 @@ const timeOptions = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case accountTypes.LOGOUT:
+    case accountTypes.CLEAR_PERSISTED_LOCAL_STORAGE:
       return {
         ...initialState,
       };
