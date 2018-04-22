@@ -17,6 +17,7 @@ export const requestGithubTokenFailure = error => ({
 });
 
 export const requestGithubToken = oAuthParams => async dispatch => {
+  console.log('server port is ', SERVER_PORT);
   const oAuthData = JSON.stringify(oAuthParams);
   try {
     const res = await fetch(`http://localhost:${SERVER_PORT}/authenticate/`, {

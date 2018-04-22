@@ -6,8 +6,13 @@ const electron = require('electron');
 
 const { app, shell, Menu } = electron;
 
-// Set server port depending on environment
-const serverPort = isDev ? '9821' : '9822';
+// Set server port depending on electron environment
+let serverPort = isDev ? '9821' : '9822';
+
+// Override if running electron in dev mode against built production files
+if (process.env.NODE_ENV === 'production') {
+  serverPort = 9822;
+}
 
 require('../server')(serverPort);
 
