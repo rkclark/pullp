@@ -11,7 +11,7 @@ let serverPort = isDev ? '9821' : '9822';
 
 // Override if running electron in dev mode against built production files
 if (process.env.NODE_ENV === 'production') {
-  serverPort = 9822;
+  serverPort = '9822';
 }
 
 require('../server')(serverPort);
