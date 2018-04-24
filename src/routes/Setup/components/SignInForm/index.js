@@ -79,7 +79,7 @@ export default class SignInForm extends React.Component {
           </p>
           <Button
             onClick={() => {
-              githubAuth(githubClientId, githubClientSecret, dispatch);
+              githubAuth(dispatch);
             }}
           >
             Sign in with Github

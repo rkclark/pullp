@@ -1,5 +1,4 @@
 import { setup as types } from '../../actionTypes';
-import { SERVER_PORT } from '../../constants';
 
 export const saveGithubCredentials = credentials => ({
   type: types.SAVE_GITHUB_CREDENTIALS,
@@ -16,16 +15,17 @@ export const requestGithubTokenFailure = error => ({
   error,
 });
 
-export const requestGithubToken = oAuthParams => async dispatch => {
-  const oAuthData = JSON.stringify(oAuthParams);
+const gatekeeperUrl = process.env.REACT_APP_OAUTH_GATEKEEPER_URL;
+
+export const requestGithubToken = code => async dispatch => {
+  console.log('gatkeeper url,', gatekeeperUrl);
   try {
-    const res = await fetch(`http://localhost:${SERVER_PORT}/authenticate/`, {
+    const res = await fetch(`${gatekeeperUrl}/authenticate/${code}`, {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      method: 'POST',
-      body: oAuthData,
+      method: 'GET',
     });
     const result = await res.json();
     dispatch(requestGithubTokenSuccess(result.access_token));

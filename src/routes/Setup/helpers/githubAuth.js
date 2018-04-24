@@ -1,12 +1,11 @@
 import { requestGithubToken } from '../actions';
 
-export default function githubAuth(clientId, clientSecret, dispatch) {
+export default function githubAuth(dispatch) {
   const electron = window.electron;
 
   const remote = electron.remote;
   const BrowserWindow = remote.BrowserWindow;
   const dialog = remote.dialog;
-  const scopes = ['read:org', 'repo'];
   const authWindow = new BrowserWindow({
     width: 800,
     height: 600,
@@ -16,6 +15,8 @@ export default function githubAuth(clientId, clientSecret, dispatch) {
     },
   });
 
+  const scopes = ['read:org', 'repo'];
+  const clientId = process.env.REACT_APP_GITHUB_CLIENT_ID;
   const githubUrl = `https://github.com/login/oauth/authorize?`;
   const authUrl = `${githubUrl}client_id=${clientId}&scope=${scopes}`;
   authWindow.loadURL(authUrl);
@@ -26,13 +27,7 @@ export default function githubAuth(clientId, clientSecret, dispatch) {
     const error = /\?error=(.+)$/.exec(url);
     // If there is a code, proceed to get token from github
     if (code) {
-      await dispatch(
-        requestGithubToken({
-          client_id: clientId,
-          client_secret: clientSecret,
-          code,
-        }),
-      );
+      await dispatch(requestGithubToken(code));
       authWindow.destroy();
     }
 
