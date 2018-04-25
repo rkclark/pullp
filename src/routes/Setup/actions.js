@@ -28,7 +28,7 @@ export const requestGithubToken = code => async dispatch => {
       method: 'GET',
     });
     const result = await res.json();
-    dispatch(requestGithubTokenSuccess(result.access_token));
+    dispatch(requestGithubTokenSuccess(result.token));
   } catch (err) {
     dispatch(requestGithubTokenFailure(err));
   }
