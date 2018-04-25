@@ -1,7 +1,6 @@
 import fetchMock from 'fetch-mock';
 import * as actions from './actions';
 import { setup as types } from '../../actionTypes';
-import { SERVER_PORT } from '../../constants';
 
 describe('Login actions', () => {
   describe('saveGithubCredentials', () => {
@@ -17,20 +16,21 @@ describe('Login actions', () => {
     });
   });
 
+  const code = '1234';
+  const gatekeeperUrl = `${
+    process.env.REACT_APP_OAUTH_GATEKEEPER_URL
+  }/authenticate/${code}`;
+
   describe('requestGithubToken', () => {
     describe('when call to pullp oAuth server succeeds', () => {
       it('dispatches requestGithubTokenSuccess action with the received token', async () => {
-        const result = { access_token: 'anAccessToken' };
-        fetchMock.mock(`http://localhost:${SERVER_PORT}/authenticate/`, result);
-        const requestGithubToken = actions.requestGithubToken({
-          client_id: 'id',
-          client_secret: 'secret',
-          code: 'code',
-        });
+        const result = { token: 'anAccessToken' };
+        fetchMock.mock(gatekeeperUrl, result);
+        const requestGithubToken = actions.requestGithubToken(code);
         const dispatch = jest.fn();
         await requestGithubToken(dispatch);
         expect(dispatch).toHaveBeenCalledWith(
-          actions.requestGithubTokenSuccess(result.access_token),
+          actions.requestGithubTokenSuccess(result.token),
         );
         fetchMock.restore();
       });
@@ -38,12 +38,8 @@ describe('Login actions', () => {
   });
   describe('when call to pullp oAuth server fails', () => {
     it('dispatches requestGithubTokenFailure action with the received error', async () => {
-      fetchMock.mock(`http://localhost:${SERVER_PORT}/authenticate/`, 400);
-      const requestGithubToken = actions.requestGithubToken({
-        client_id: 'id',
-        client_secret: 'secret',
-        code: 'code',
-      });
+      fetchMock.mock(gatekeeperUrl, 400);
+      const requestGithubToken = actions.requestGithubToken(code);
       const dispatch = jest.fn();
       await requestGithubToken(dispatch);
       const errorObj = dispatch.mock.calls[0][0];

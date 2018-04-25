@@ -72,11 +72,7 @@ describe('SignInForm', () => {
           .find(Button)
           .at(0)
           .simulate('click');
-        expect(authMock).toHaveBeenCalledWith(
-          id,
-          secret,
-          defaultProps.dispatch,
-        );
+        expect(authMock).toHaveBeenCalledWith(defaultProps.dispatch);
       });
     });
 

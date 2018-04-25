@@ -18,7 +18,6 @@ export const requestGithubTokenFailure = error => ({
 const gatekeeperUrl = process.env.REACT_APP_OAUTH_GATEKEEPER_URL;
 
 export const requestGithubToken = code => async dispatch => {
-  console.log('gatkeeper url,', gatekeeperUrl);
   try {
     const res = await fetch(`${gatekeeperUrl}/authenticate/${code}`, {
       headers: {
