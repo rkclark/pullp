@@ -12,7 +12,10 @@ import Button from '../../../../components/Button';
 export default function SignInForm({ githubToken, dispatch }) {
   const signIn = !githubToken ? (
     <div className={style.signInContainer}>
-      <p>Click the button below to sign in with Github:</p>
+      <p className={style.welcome}>Welcome to Pullp!</p>
+      <p className={style.begin}>
+        To begin, click the button below to sign in with Github:
+      </p>
       <Button
         onClick={() => {
           githubAuth(dispatch);

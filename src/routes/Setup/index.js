@@ -64,12 +64,12 @@ export class SetupContainer extends React.Component {
 
     const proceedToSelect = this.props.login ? (
       <div>
-        <p>
+        <p className={style.success}>
           Successfully signed in as <strong>{this.props.login}</strong>!
         </p>
-        <p>
-          Next you can select the repos that you would like to monitor with
-          Pullp.
+        <p className={style.continue}>
+          Now its time to select the Github repos that you would like to monitor
+          with Pullp.
         </p>
         <Link to="/selectRepos">
           <Button className={style.button}>Let&#39;s get started</Button>
@@ -79,16 +79,17 @@ export class SetupContainer extends React.Component {
 
     return (
       <div className={style.setupContainer}>
-        <h2 className={style.pageTitle}>Setup</h2>
-        {loginError}
-        {currentUserError}
+        <div className={style.innerContainer}>
+          {loginError}
+          {currentUserError}
 
-        <SignInForm
-          githubToken={this.props.githubToken}
-          dispatch={this.props.dispatch}
-          logout={this.props.logout}
-        />
-        {proceedToSelect}
+          <SignInForm
+            githubToken={this.props.githubToken}
+            dispatch={this.props.dispatch}
+            logout={this.props.logout}
+          />
+          {proceedToSelect}
+        </div>
       </div>
     );
   }
