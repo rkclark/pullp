@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import SignInForm from './components/SignInForm';
-import { saveGithubCredentials } from './actions';
 import style from './style.css';
 import { requestCurrentUser } from '../../routes/Home/actions';
 import { logout } from '../Account/actions';
@@ -38,28 +37,6 @@ export class SetupContainer extends React.Component {
   }
 
   render() {
-    const progressBar = (
-      <div className={style.progressBar}>
-        <span className={`${style.stepOne} ${style.step} ${style.activeStep}`}>
-          1
-        </span>
-        <span
-          className={`${style.stepTwo} ${style.step} ${
-            this.props.githubClientId ? style.activeStep : null
-          }`}
-        >
-          2
-        </span>
-        <span
-          className={`${style.stepThree} ${style.step} ${
-            this.props.githubToken ? style.activeStep : null
-          }`}
-        >
-          3
-        </span>
-      </div>
-    );
-
     const currentUserError = this.props.githubCurrentUserError ? (
       <div>
         {this.props.currentUserLoading ? (
@@ -103,14 +80,10 @@ export class SetupContainer extends React.Component {
     return (
       <div className={style.setupContainer}>
         <h2 className={style.pageTitle}>Setup</h2>
-        {progressBar}
         {loginError}
         {currentUserError}
 
         <SignInForm
-          saveGithubCredentials={this.props.saveGithubCredentialsAction}
-          githubClientId={this.props.githubClientId}
-          githubClientSecret={this.props.githubClientSecret}
           githubToken={this.props.githubToken}
           dispatch={this.props.dispatch}
           logout={this.props.logout}
@@ -122,9 +95,6 @@ export class SetupContainer extends React.Component {
 }
 
 SetupContainer.propTypes = {
-  saveGithubCredentialsAction: PropTypes.func.isRequired,
-  githubClientId: PropTypes.string,
-  githubClientSecret: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
   githubToken: PropTypes.string,
   login: PropTypes.string,
@@ -137,8 +107,6 @@ SetupContainer.propTypes = {
 
 SetupContainer.defaultProps = {
   githubToken: null,
-  githubClientId: null,
-  githubClientSecret: null,
   githubCurrentUserError: null,
   login: null,
   avatarUrl: null,
@@ -148,8 +116,6 @@ SetupContainer.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  githubClientId: state.setup.githubClientId,
-  githubClientSecret: state.setup.githubClientSecret,
   githubToken: state.setup.githubToken,
   login: state.home.currentUser ? state.home.currentUser.login : null,
   avatarUrl: state.home.currentUser ? state.home.currentUser.avatarUrl : null,
@@ -159,9 +125,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  saveGithubCredentialsAction: credentials => {
-    dispatch(saveGithubCredentials(credentials));
-  },
   requestCurrentUser(token) {
     dispatch(requestCurrentUser(token));
   },

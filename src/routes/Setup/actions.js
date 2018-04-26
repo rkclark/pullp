@@ -1,10 +1,5 @@
 import { setup as types } from '../../actionTypes';
 
-export const saveGithubCredentials = credentials => ({
-  type: types.SAVE_GITHUB_CREDENTIALS,
-  credentials,
-});
-
 export const requestGithubTokenSuccess = token => ({
   type: types.REQUEST_GITHUB_TOKEN_SUCCESS,
   token,
