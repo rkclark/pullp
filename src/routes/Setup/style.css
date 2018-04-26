@@ -6,15 +6,10 @@
   width: 80%;
   margin: 0 10%;
   text-align: center;
-}
-
-.pageTitle {
-  text-transform: uppercase;
-  font-weight: normal;
-  font-size: 1.5rem;
-  font-family: 'Roboto', sans-serif;
-  text-align: center;
-  margin-top: 2rem;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .loadingContainer {
@@ -25,4 +20,14 @@
 
 .loadingContainer div {
   left: -2.5rem;
+}
+
+.success {
+  font-weight: bold;
+  color: var(--primary-medium);
+  font-size: 1.8rem;
+}
+
+.continue {
+  margin: 3rem auto;
 }
