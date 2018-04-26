@@ -15,12 +15,6 @@ export default function(state = initialState, action) {
       return {
         ...initialState,
       };
-    case types.SAVE_GITHUB_CREDENTIALS:
-      return {
-        ...state,
-        githubClientId: action.credentials.githubClientId,
-        githubClientSecret: action.credentials.githubClientSecret,
-      };
     case types.REQUEST_GITHUB_TOKEN_FAILURE:
       return {
         ...state,

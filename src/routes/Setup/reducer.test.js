@@ -7,24 +7,6 @@ describe('setup reducer', () => {
     expect(reducer(initialState, {})).toEqual(initialState);
   });
 
-  describe('Github credentials', () => {
-    it('Saves github credentials', () => {
-      const credentials = {
-        githubClientId: 'test',
-        githubClientSecret: 'test',
-      };
-      const expectedState = {
-        ...initialState,
-        ...credentials,
-      };
-
-      const newState = reducer(
-        initialState,
-        actions.saveGithubCredentials(credentials),
-      );
-      expect(newState).toEqual(expectedState);
-    });
-  });
   describe('Request Github token failure', () => {
     it('Saves github failure error', () => {
       const error = 'error';

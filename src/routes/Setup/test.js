@@ -8,9 +8,6 @@ import Loading from '../../components/Loading';
 
 describe('Setup', () => {
   const defaultProps = {
-    saveGithubCredentialsAction: () => {},
-    githubClientId: null,
-    githubClientSecret: null,
     githubCurrentUserError: null,
     githubToken: null,
     dispatch: () => {},
@@ -26,45 +23,6 @@ describe('Setup', () => {
   it('renders a SignInForm', () => {
     const component = shallow(<SetupContainer {...defaultProps} />);
     expect(component.find(SignInForm).length).toBe(1);
-  });
-
-  describe('progress bar', () => {
-    it('sets active class on step 1', () => {
-      const component = shallow(<SetupContainer {...defaultProps} />);
-      expect(component.find('.stepOne').hasClass('activeStep')).toBe(true);
-    });
-
-    describe('when github client id is set', () => {
-      it('sets active class step 2', () => {
-        const component = shallow(
-          <SetupContainer {...defaultProps} githubClientId="test" />,
-        );
-        expect(component.find('.stepTwo').hasClass('activeStep')).toBe(true);
-      });
-    });
-
-    describe('when github client id is not set', () => {
-      it('does not set active class step 2', () => {
-        const component = shallow(<SetupContainer {...defaultProps} />);
-        expect(component.find('.stepTwo').hasClass('activeStep')).toBe(false);
-      });
-    });
-
-    describe('when github token is set', () => {
-      it('sets active class step 3', () => {
-        const component = shallow(
-          <SetupContainer {...defaultProps} githubToken="test" />,
-        );
-        expect(component.find('.stepThree').hasClass('activeStep')).toBe(true);
-      });
-    });
-
-    describe('when github token is not set', () => {
-      it('does not set active class step 3', () => {
-        const component = shallow(<SetupContainer {...defaultProps} />);
-        expect(component.find('.stepThree').hasClass('activeStep')).toBe(false);
-      });
-    });
   });
 
   describe('componentWillReceiveProps', () => {

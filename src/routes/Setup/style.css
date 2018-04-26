@@ -8,41 +8,6 @@
   text-align: center;
 }
 
-.progressBar {
-  text-align: center;
-  margin: 1rem auto 3rem;
-  position: relative;
-  max-width: 18.2rem;
-}
-
-.step {
-  width: 3.4rem;
-  height: 3.4rem;
-  border-radius: 100%;
-  border: 2px solid var(--medium-grey);
-  background-color: white;
-  display: inline-block;
-  text-align: center;
-  font-family: 'Roboto', sans-serif;
-  line-height: 2;
-  z-index: 20;
-}
-
-.activeStep {
-  background-color: var(--secondary-medium);
-  color: var(--primary-dark);
-}
-
-.stepOne {
-  margin-right: 4rem;
-}
-
-.stepTwo {
-  margin-right: 4rem;
-}
-
-.stepThree {}
-
 .pageTitle {
   text-transform: uppercase;
   font-weight: normal;
