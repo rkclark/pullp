@@ -4,11 +4,11 @@ Pullp is a tool to help you manage pull requests and reviews on your Github repo
 
 An interactive dashboard shows all the open pull requests for your chosen repositories and highlights where your review has been requested. This information syncs with Github every minute!
 
-![Pullp example](https://i.imgur.com/O1qEiT5.png)
+![Pullp example](https://i.imgur.com/DfARiue.png)
 
 Want to find out more about the pull requests on a particular repository? Selecting a repository shows a full summary of each pull request, including all of the requested reviewers and submitted reviews. If you need to action anything, a click will take you directly to the pull request in Github.
 
-![Repo example](https://i.imgur.com/Wd3U3mN.png)
+![pullp example](https://i.imgur.com/fbjBWAA.png)
 
 Pullp is built on Electron and is a single page React application. Each user is able to specify their own Github oAuth credentials which the app uses to query the Github Graphql API.
 
@@ -50,7 +50,9 @@ After `npm install`, run `npm start` to start the webpack dev server. Once runni
 
 React and Redux dev tools will be available inside the Chrome dev tools.
 
-Pullp uses an external auth server to complete Github sign in and receive a code for the Github API. You may want to host a local version of this server. Clone it from https://github.com/rkclark/pullp-oauth-gatekeeper, run it on the port of your choosing and then add the server URL to `REACT_APP_OAUTH_GATEKEEPER_URL` in the `.env.development` file.
+### Running the oAuth server
+
+Pullp uses an external auth server to complete Github sign in and receive a code for the Github API. You may want to host a local version of this server. Clone it from https://github.com/rkclark/pullp-oauth-gatekeeper, run it on the port of your choosing and then add the server URL to `REACT_APP_OAUTH_GATEKEEPER_URL` in the `/env/.env.development` file inside of Pullp.
 
 Your oauth server will need set of Github oAuth app credentials. To make these:
 
