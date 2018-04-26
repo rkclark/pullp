@@ -14,19 +14,45 @@ Pullp is built on Electron and is a single page React application. Each user is 
 
 ## Getting Started
 
-First you will need to download and install the latest release.
+- Download and install the latest release.
+- Open the app
+- Click to Sign in with Github
+- Complete the Github sign in. If you want to see any private repositories from your organisation(s), make sure you request that they provide Pullp access on the sign in screen.
+- Once signed in, click to get started.
+- You will now be on the select screen where you will see all the repositories you watch on Github.
+- Click the ones you want to monitor with Pullp
+- Click Monitor at the top of the screen when you have made your selections
+- You are done!
 
-Next you will need to create your own oAuth credentials that Pullp can use to communicate with Github.
+## FAQs
 
-### Creating your oAuth Credentials
+Q: Why does my repository only show a maximum of 50 open pull requests?
 
-When using Pullp you need to provide Github oAuth credentials. The way you should approach this will differ depending on whether you are using Pullp as an individual or if you are using it within an organisation.
+A: Github applies a cost in points to each request Pullp makes for data. Each hour you are permitted to spend 5000 points. By restricting the maximum pull requests to 50, the cost of each request is manageable. This means Pullp can make more frequent requests, giving you a more "near-time" experience. Allowing this maximum limit to be configurable by the user could be a feature in the future.
 
-If you are using Pullp within an organisation that has private repositories, you should create one set of oAuth credentials and share them with your colleagues. This way, your Github administrator will only need to approve one oAuth application to access the organisation. If you are an individual or you only require access to public repositories, you can make your own personal credentials.
+Q: I am seeing an error saying `The amount of pull request data for your selected repositories exceeds Github's maximum limit.`
 
-_Note: the Github API applies a limit to the amount of data per hour that can be requested by an oAuth application. If you are sharing credentials within an organisation, you may hit that limit if too many users share one set of credentials. A rough estimate would be that around 30 users can use one set of credentials, assuming they choose to monitor around 10 repositories each. Pullp will display an error if the API limit is reached so you can always use that as an indication that another set of oAuth credentials is needed to spread the load._
+A: Github places a limit on the maximum number of data nodes that can be returned from a single request. This limit may be breached if you have selected a large number of repositories that have many pull requests. The only solution to this currently is to select fewer repositories.
 
-#### How to make the credentials
+Q: Can I access the console/Chrome dev tools inside the app?
+
+A: Yes! Just use the normal Chrome shortcut to open them, e.g. cmd + opt + i on Mac. React and Redux dev tools are not available in the production app, but are enabled if you are running the app in the dev environment.
+
+Q: I can't see my repository on the Select screen.
+
+A: Make sure you are _watching_ the repository in Github, otherwise it won't appear on the select screen.
+
+## Developer Instructions
+
+### Running dev environment
+
+After `npm install`, run `npm start` to start the webpack dev server. Once running, run `npm run electron-dev` to open the app.
+
+React and Redux dev tools will be available inside the Chrome dev tools.
+
+Pullp uses an external auth server to complete Github sign in and receive a code for the Github API. You may want to host a local version of this server. Clone it from https://github.com/rkclark/pullp-oauth-gatekeeper, run it on the port of your choosing and then add the server URL to `REACT_APP_OAUTH_GATEKEEPER_URL` in the `.env.development` file.
+
+Your oauth server will need set of Github oAuth app credentials. To make these:
 
 - In Github, go to your settings
 - Go to **Developer Settings**, select oAuth Apps (usually selected by default)
@@ -37,47 +63,11 @@ _Note: the Github API applies a limit to the amount of data per hour that can be
 - Click to register the app
 - Make a note of the **client ID** and **client secret** that you are shown on the next screen
 
-### Signing In
-
-Now you have your oAuth credentials, open Pullp. You will be asked to enter your client id and client secret. Once entered and saved, you can click to sign in to Github.
-
-On the Github sign in window you can request any organisations that you are part of to authorise Pullp. Assuming they do so, you will be able to see their private repositories in addition to public ones.
-
-Once you are signed in click `Let's Get Started`.
-
-### Selecting the repositories you want to monitor
-
-In the `Select` page you can choose which repos you want to monitor with Pullp. You will see listed all of the repositories that you **watch** on Github. If you don't see one of your repos, make sure you are watching it!
-
-### Monitoring
-
-The `Monitor` page shows all the repos you have selected, these are ordered by the number of pull requests they currently have open.
-
-You can click on the repository name to open its page in Github.
-
-Clicking the body of the repository frame will open a more detailed summary of the open pull requests.
-
-## FAQs
-
-Q: Why does my repository only show a maximum of 15 open pull requests?
-
-A: Github applies a cost in points to each request Pullp makes for data. Each hour your oAuth app is permitted to spend 5000 points. By restricting the maximum pull requests to 15, the cost of each request is significantly reduced compared to, say, requesting 50. This means Pullp can make more frequent requests, giving you a more "near-time" experience. Allowing this maximum limit to be configurable by the user could be a feature in the future.
-
-Q: I am seeing an error saying `The amount of pull request data for your selected repositories exceeds Github's maximum limit.`
-
-A: Github places a limit on the maximum number of data nodes that can be returned from a single request. This limit may be breached if you have selected a large number of repositories that have many pull requests. The only solution to this currently is to select fewer repositories.
-
-Q: Can I access the console/Chrome dev tools inside the app?
-
-A: Yes! Just use the normal Chrome shortcut to open them, e.g. cmd + opt + i on Mac. React and Redux dev tools are not available in the production app, but are enabled if you are running the app in the dev environment.
-
-## Developer Instructions
-
-### Running dev environment
-
-After `npm install`, run `npm start` to start the webpack dev server. Once running, run `npm run electron-dev` to open the app.
-
-React and Redux dev tools will be available inside the Chrome dev tools.
+Once you have the credentials, create a new `.env` file in the server project root and add them as
+```
+OAUTH_CLIENT_ID=xxx
+OAUTH_CLIENT_SECRET=xxx
+```
 
 ### Running the tests
 
