@@ -10,7 +10,7 @@ Want to find out more about the pull requests on a particular repository? Select
 
 <img src="https://i.imgur.com/fbjBWAA.png" alt="pullp example" width="600px" />
 
-Pullp is built on Electron and is a single page React application. Each user is able to specify their own Github oAuth credentials which the app uses to query the Github Graphql API.
+Pullp is a Electron application built with React.
 
 ## Getting Started
 
