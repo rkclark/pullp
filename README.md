@@ -4,11 +4,11 @@ Pullp is a tool to help you manage pull requests and reviews on your Github repo
 
 An interactive dashboard shows all the open pull requests for your chosen repositories and highlights where your review has been requested. This information syncs with Github every minute!
 
-<img src="https://i.imgur.com/DfARiue.png" alt="pullp example" width="500px" />
+<img src="https://i.imgur.com/DfARiue.png" alt="pullp example" width="700px" />
 
 Want to find out more about the pull requests on a particular repository? Selecting a repository shows a full summary of each pull request, including all of the requested reviewers and submitted reviews. If you need to action anything, a click will take you directly to the pull request in Github.
 
-![pullp example](https://i.imgur.com/fbjBWAA.png)
+<img src="https://i.imgur.com/fbjBWAA.png" alt="pullp example" width="600px" />
 
 Pullp is built on Electron and is a single page React application. Each user is able to specify their own Github oAuth credentials which the app uses to query the Github Graphql API.
 
