@@ -17,7 +17,7 @@ Pullp is an Electron application built with React.
 - Download and install the latest release.
 - Open the app
 - Follow the on screen instructions to sign in with Github
-- Select the repos you want to monitor with Pullp (you are able to choose from all the repositories that you __watch__ on Github
+- Select the repositories you want to monitor with Pullp (you are able to choose from all the ones that you __watch__ on Github
 - Click Monitor to go to the dashboard screen.
 - Pullp will refresh the dashboard every minute!
 
