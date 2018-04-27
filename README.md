@@ -10,19 +10,16 @@ Want to find out more about the pull requests on a particular repository? Select
 
 <img src="https://i.imgur.com/fbjBWAA.png" alt="pullp example" width="600px" />
 
-Pullp is a Electron application built with React.
+Pullp is an Electron application built with React.
 
 ## Getting Started
 
 - Download and install the latest release.
 - Open the app
-- Click to Sign in with Github
-- Complete the Github sign in. If you want to see any private repositories from your organisation(s), make sure you request that they provide Pullp access on the sign in screen.
-- Once signed in, click to get started.
-- You will now be on the select screen where you will see all the repositories you watch on Github.
-- Click the ones you want to monitor with Pullp
-- Click Monitor at the top of the screen when you have made your selections
-- You are done!
+- Follow the on screen instructions to sign in with Github
+- Select the repos you want to monitor with Pullp (you are able to choose from all the repositories that you __watch__ on Github
+- Click Monitor to go to the dashboard screen.
+- Pullp will refresh the dashboard every minute!
 
 ## FAQs
 
