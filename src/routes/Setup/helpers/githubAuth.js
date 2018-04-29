@@ -8,7 +8,7 @@ export default function githubAuth(dispatch) {
   const dialog = remote.dialog;
   const authWindow = new BrowserWindow({
     width: 800,
-    height: 600,
+    height: 800,
     show: true,
     webPreferences: {
       nodeIntegration: false,
