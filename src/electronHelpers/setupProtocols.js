@@ -11,7 +11,7 @@ module.exports = function setupProtocols(electron) {
         return;
       }
       const newPath = strippedUrl.startsWith('/static')
-        ? path.resolve(__dirname, `../build/${strippedUrl}`)
+        ? path.resolve(__dirname, `../../build/${strippedUrl}`)
         : path.resolve(`/${strippedUrl}`);
 
       callback({ path: newPath });
