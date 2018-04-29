@@ -3,12 +3,10 @@ const isDev = require('electron-is-dev');
 const path = require('path');
 const url = require('url');
 const electron = require('electron');
-const { autoUpdater } = require('electron-updater');
 const menuTemplate = require('./electronHelpers/menuTemplate');
+const runAutoUpdater = require('./electronHelpers/autoUpdater');
 
-autoUpdater.autoDownload = false;
-
-const { app, shell, Menu, dialog } = electron;
+const { app, shell, Menu } = electron;
 
 // Set server port depending on electron environment
 let serverPort = isDev ? '9821' : '9822';
@@ -89,11 +87,6 @@ app.on('ready', () => {
     installExtension(REDUX_DEVTOOLS)
       .then(name => console.log(`Added Extension:  ${name}`))
       .catch(err => console.log('An error occurred: ', err));
-
-    // eslint-disable-next-line global-require
-    const logger = require('electron-log');
-    autoUpdater.logger = logger;
-    autoUpdater.logger.transports.file.level = 'info';
   }
 
   const menu = Menu.buildFromTemplate(menuTemplate);
@@ -118,26 +111,7 @@ app.on('ready', () => {
     } // eslint-disable-line
   );
   createMainWindow();
-  autoUpdater.checkForUpdates();
-
-  const linkToUpdatePage = response => {
-    if (response === 0) {
-      shell.openExternal('https://github.com/rkclark/pullp/releases');
-    }
-  };
-
-  autoUpdater.on('update-available', info => {
-    dialog.showMessageBox(
-      mainWindow,
-      {
-        type: 'info',
-        title: 'Update Available',
-        message: `Version ${info.version} of Pullp is now available!`,
-        buttons: ['Get the update', 'Skip for now'],
-      },
-      linkToUpdatePage,
-    );
-  });
+  runAutoUpdater(mainWindow);
 });
 
 // Quit when all windows are closed.
