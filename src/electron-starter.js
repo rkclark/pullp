@@ -33,6 +33,7 @@ function createMainWindow() {
   mainWindow = new BrowserWindow({
     width: 1920,
     height: 1080,
+    center: true,
     webPreferences: {
       nodeIntegration: false,
       preload: path.join(__dirname, '/preload.js'),

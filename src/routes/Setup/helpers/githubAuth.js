@@ -9,6 +9,7 @@ export default function githubAuth(dispatch) {
   const authWindow = new BrowserWindow({
     width: 800,
     height: 800,
+    center: true,
     show: true,
     webPreferences: {
       nodeIntegration: false,
