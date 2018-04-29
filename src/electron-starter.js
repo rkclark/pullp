@@ -4,6 +4,7 @@ const path = require('path');
 const url = require('url');
 const electron = require('electron');
 const { autoUpdater } = require('electron-updater');
+const menuTemplate = require('./electronHelpers/menuTemplate');
 
 autoUpdater.autoDownload = false;
 
@@ -50,9 +51,6 @@ function createMainWindow() {
     });
   mainWindow.loadURL(startUrl);
 
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
-
   // Emitted when the window is closed.
   mainWindow.on('closed', () => {
     // Dereference the window object, usually you would store windows
@@ -97,55 +95,8 @@ app.on('ready', () => {
     autoUpdater.logger = logger;
     autoUpdater.logger.transports.file.level = 'info';
   }
-  const template = [
-    {
-      label: 'Application',
-      submenu: [
-        {
-          label: 'About Application',
-          selector: 'orderFrontStandardAboutPanel:',
-        },
-        { type: 'separator' },
-        {
-          label: 'Quit',
-          accelerator: 'Command+Q',
-          click() {
-            app.quit();
-          },
-        },
-      ],
-    },
-    {
-      label: 'Edit',
-      submenu: [
-        { label: 'Undo', accelerator: 'CmdOrCtrl+Z', selector: 'undo:' },
-        { label: 'Redo', accelerator: 'Shift+CmdOrCtrl+Z', selector: 'redo:' },
-        { type: 'separator' },
-        { label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
-        { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
-        { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
-        {
-          label: 'Select All',
-          accelerator: 'CmdOrCtrl+A',
-          selector: 'selectAll:',
-        },
-      ],
-    },
-    {
-      label: 'View',
-      submenu: [
-        {
-          role: 'zoomin',
-        },
-        {
-          role: 'zoomout',
-        },
-        { role: 'resetzoom' },
-      ],
-    },
-  ];
 
-  const menu = Menu.buildFromTemplate(template);
+  const menu = Menu.buildFromTemplate(menuTemplate);
   Menu.setApplicationMenu(menu);
 
   electron.protocol.interceptFileProtocol(
