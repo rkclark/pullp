@@ -75,7 +75,7 @@ Run `npm test`.
 ### Other developer scripts
 
  - `npm run serve`: Run a server that hosts the production files
-- `npm run build`: Build the React/CSS production files
+- `npm run react-build`: Build the React/CSS production files
 - `npm run style`: Run the linter report
 - `npm run style-fix`: Fix all auto-fixable lint errors
 - `npm run precommit`: Runs the linter and test suite - used by Husky whenever a git commit is created

@@ -26,3 +26,4 @@ jest_0
 /dist
 
 .env
+electron-builder.env

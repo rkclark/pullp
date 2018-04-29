@@ -7,6 +7,7 @@
   "author": "Rick Clark <rkingsleyclark@gmail.com>",
   "description": "Pull request monitoring app for Github",
   "homepage": "./",
+  "repository": "https://github.com/rkclark/pullp",
   "dependencies": {
     "body-parser": "^1.17.2",
     "cors": "^2.8.4",
@@ -87,15 +88,16 @@
   "scripts": {
     "start": "BROWSER=none node scripts/start.js",
     "serve": "npm run build && node server",
-    "build": "node scripts/build.js",
+    "react-build": "node scripts/build.js",
     "test": "node scripts/test.js  --config .jestrc.json --env=jsdom",
     "style": "eslint '**/*.js'",
     "style-fix": "eslint --fix '**/*.js'",
     "precommit": "npm run style && CI=true npm run test",
     "electron": "NODE_ENV=production electron .",
     "electron-dev": "ELECTRON_START_URL=http://localhost:3333 electron .",
-    "pack": "build --dir",
-    "dist": "npm run build && build"
+    "pack": "npm run react-build && build --dir",
+    "dist": "npm run react-build && build",
+    "ship": "npm run react-build && build --publish always"
   },
   "build": {
     "appId": "com.rkclark.pullp",
@@ -103,6 +105,7 @@
     "directories": {
       "buildResources": "public"
     },
+    "copyright": "Copyright © year ${author}",
     "dmg": {
       "contents": [
         {
