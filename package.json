@@ -46,6 +46,7 @@
     "electron": "^1.8.2-beta5",
     "electron-builder": "^20.8.1",
     "electron-devtools-installer": "^2.2.0",
+    "electron-log": "^2.2.14",
     "enzyme": "^2.8.2",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.1",
@@ -122,7 +123,7 @@
     },
     "linux": {
       "target": [
-        "deb"
+        "AppImage"
       ]
     },
     "win": {
