@@ -5,11 +5,29 @@ module.exports = function setupProtocols(electron) {
   electron.protocol.interceptFileProtocol(
     'file',
     (request, callback) => {
-      const strippedUrl = request.url.substr(7); /* all urls start with 'file://' */ // eslint-disable-line
+      if (
+        request.url.startsWith('file:///app') &&
+        !request.url.includes('/static/')
+      ) {
+        callback({
+          path: path.resolve(__dirname, '../../build/index.html'),
+        });
+        return;
+      }
+
+      let strippedUrl = request.url.substr(7); /* all urls start with 'file://' */ // eslint-disable-line
+
       if (strippedUrl.includes('index.html')) {
         callback({ path: strippedUrl });
         return;
       }
+
+      if (strippedUrl.startsWith('/app')) {
+        strippedUrl = strippedUrl.substr(
+          4,
+        ); /* static asset requests from a /app/ path will not work */
+      }
+
       const newPath = strippedUrl.startsWith('/static')
         ? path.resolve(__dirname, `../../build/${strippedUrl}`)
         : path.resolve(`/${strippedUrl}`);

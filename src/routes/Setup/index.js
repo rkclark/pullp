@@ -71,7 +71,7 @@ export class SetupContainer extends React.Component {
           Now its time to select the Github repos that you would like to monitor
           with Pullp.
         </p>
-        <Link to="/selectRepos">
+        <Link to="/app/selectRepos">
           <Button className={style.button}>Let&#39;s get started</Button>
         </Link>
       </div>

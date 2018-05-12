@@ -38,7 +38,7 @@ export class Nav extends React.Component {
     };
     const theme = this.props.theme;
     const icon =
-      path === '/' && this.props.currentUser ? (
+      path === '/app' && this.props.currentUser ? (
         <button className={theme.refresh} onClick={onClick}>
           <Loading loading={this.props.pullRequestsLoading} />
           <span
@@ -69,9 +69,9 @@ export class Nav extends React.Component {
         <div className={theme.links}>
           <div className={theme.linkContainer}>
             <Link
-              to="/"
+              to="/app"
               className={`${theme.link} ${
-                path === '/' ? theme.activeLink : null
+                path === '/app' ? theme.activeLink : null
               }`}
             >
               Monitor
@@ -79,9 +79,9 @@ export class Nav extends React.Component {
           </div>
           <div className={theme.linkContainer}>
             <Link
-              to="/selectRepos"
+              to="/app/selectRepos"
               className={`${theme.link} ${
-                path === '/selectRepos' ? theme.activeLink : null
+                path === '/app/selectRepos' ? theme.activeLink : null
               }`}
             >
               Select
@@ -89,9 +89,9 @@ export class Nav extends React.Component {
           </div>
           <div className={theme.linkContainer}>
             <Link
-              to="/Account"
+              to="/app/account"
               className={`${theme.link} ${
-                path === '/Account' ? theme.activeLink : null
+                path === '/app/account' ? theme.activeLink : null
               }`}
             >
               Account
