@@ -35,17 +35,21 @@ export class Layout extends React.Component {
           <div>
             <NavContainer currentPath={this.props.location.pathname} />
             <div className={this.props.theme.routeContainer}>
-              <Route exact path="/" component={HomeContainer} />
-              <Route exact path="/Account" component={Account} />
-              <Route exact path="/selectRepos" component={SelectRepos} />
-              <Route exact path="/setup" component={Setup} />
+              <Route exact path="/app" component={HomeContainer} />
+              <Route exact path="/app/account" component={Account} />
+              <Route exact path="/app/selectRepos" component={SelectRepos} />
+              <Route exact path="/app/setup" component={Setup} />
             </div>
           </div>
         ) : null}
-        {window.location.pathname.includes('index.html') && <Redirect to="/" />}
+        {window.location.pathname.includes('index.html') && (
+          <Redirect to="/app" />
+        )}
         {this.props.rehydrationComplete &&
           !this.props.currentUser &&
-          window.location.pathname !== '/setup' && <Redirect to="/setup" />}
+          window.location.pathname !== '/app/setup' && (
+            <Redirect to="/app/setup" />
+          )}
       </div>
     );
   }

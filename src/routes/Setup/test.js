@@ -68,7 +68,7 @@ describe('Setup', () => {
       const component = shallow(
         <SetupContainer {...defaultProps} login={'test'} />,
       );
-      expect(component.find(Link).props().to).toEqual('/selectRepos');
+      expect(component.find(Link).props().to).toEqual('/app/selectRepos');
     });
 
     it("renders user's login", () => {

@@ -95,7 +95,7 @@
     "style-fix": "eslint --fix '**/*.js'",
     "precommit": "npm run style && CI=true npm run test",
     "electron": "NODE_ENV=production electron .",
-    "electron-dev": "ELECTRON_START_URL=http://localhost:3333 electron .",
+    "electron-dev": "ELECTRON_START_URL=http://localhost:3333/app electron .",
     "pack": "npm run react-build && build --dir",
     "dist": "npm run react-build && build",
     "ship": "npm run react-build && build --publish always"
