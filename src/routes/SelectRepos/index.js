@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import * as actions from './actions';
 import RepoCheckbox from './components/RepoCheckbox';
@@ -164,6 +165,12 @@ export class SelectRepos extends React.Component {
                   </Button>
                 </div>
               ) : null}
+            </div>
+            <div className={theme.linkContainer}>
+              <p className={theme.intro}>Finished with your selections?</p>
+              <Link to="/app/">
+                <Button className={theme.button}>Show me my dashboard</Button>
+              </Link>
             </div>
           </div>
         )}

@@ -1,5 +1,7 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
+import ReactRouterEnzymeContext from 'react-router-enzyme-context';
+import { Link } from 'react-router-dom';
 import { SelectRepos } from './';
 import RepoCheckbox from './components/RepoCheckbox';
 import Loading from '../../components/Loading';
@@ -119,7 +121,11 @@ describe('SelectRepos', () => {
   });
 
   it('calls requestWatchedRepos when mounted', () => {
-    const component = mount(<SelectRepos {...props} />);
+    const options = new ReactRouterEnzymeContext();
+    const component = mount(<SelectRepos {...props} />, {
+      context: options.getContext(),
+      childContextTypes: options.getChildContextTypes(),
+    });
     expect(component.requestWatchedRepos).toHaveBeenCalled;
   });
 
@@ -313,6 +319,11 @@ describe('SelectRepos', () => {
         const component = shallow(<SelectRepos {...testProps} />);
         expect(component.find(Loading).length).toBe(1);
       });
+
+      it('does not render a link to home', () => {
+        const component = shallow(<SelectRepos {...testProps} />);
+        expect(component.find(Link).length).toBe(0);
+      });
     });
 
     describe('when loaded', () => {
@@ -324,6 +335,11 @@ describe('SelectRepos', () => {
       it('does not render loading icon', () => {
         const component = shallow(<SelectRepos {...props} />);
         expect(component.find(Loading).length).toBe(0);
+      });
+
+      it('renders a link to home', () => {
+        const component = shallow(<SelectRepos {...props} />);
+        expect(component.find(Link).props().to).toBe('/app/');
       });
     });
 
