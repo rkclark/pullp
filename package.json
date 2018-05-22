@@ -75,6 +75,7 @@
     "promise": "7.1.1",
     "react-dev-utils": "^3.0.0",
     "react-error-overlay": "^1.0.7",
+    "react-router-enzyme-context": "^1.2.0",
     "react-test-renderer": "^15.6.1",
     "sinon": "^3.2.1",
     "style-loader": "0.17.0",
