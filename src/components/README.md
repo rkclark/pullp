@@ -1,1 +1,0 @@
-This directory is for your project's shared components, i.e. those that are not route-specific.

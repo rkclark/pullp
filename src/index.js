@@ -6,12 +6,15 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
 import Layout from './components/Layout';
+import ScrollToTop from './components/ScrollToTop';
 import './css/index.css';
 
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <Route path="*" component={Layout} />
+      <ScrollToTop>
+        <Route path="*" component={Layout} />
+      </ScrollToTop>
     </Router>
   </Provider>,
   document.getElementById('root'),
