@@ -1,4 +1,8 @@
-import { home as types, account as accountTypes } from '../../actionTypes';
+import {
+  home as types,
+  account as accountTypes,
+  layout as layoutTypes,
+} from '../../actionTypes';
 
 export const initialState = {
   currentUser: null,
@@ -233,6 +237,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         githubUserTeamsError: action.error,
+      };
+    case layoutTypes.REHYDRATION_COMPLETE:
+      return {
+        ...state,
+        openRepoId: null,
       };
     default:
       return state;

@@ -1,6 +1,7 @@
 import * as actions from './actions';
 import { clearPersistedLocalStorage } from '../Account/actions';
 import reducer, { initialState } from './reducer';
+import { rehydrationComplete } from '../../components/Layout/actions';
 
 describe('Home reducer', () => {
   it('should return same state when no action matches', () => {
@@ -725,6 +726,14 @@ describe('Home reducer', () => {
         );
         expect(newState).toEqual(expectedState);
       });
+    });
+  });
+
+  describe('rehydration complete', () => {
+    it('sets state of openRepoId to null', () => {
+      const baseState = { ...initialState, openRepoId: 'test' };
+      const newState = reducer(baseState, rehydrationComplete());
+      expect(newState.openRepoId).toBe(null);
     });
   });
 });
