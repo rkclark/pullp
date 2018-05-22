@@ -107,7 +107,7 @@
     "directories": {
       "buildResources": "public"
     },
-    "copyright": "Copyright © year ${author}",
+    "copyright": "Copyright © 2018 Rick Clark",
     "dmg": {
       "contents": [
         {
