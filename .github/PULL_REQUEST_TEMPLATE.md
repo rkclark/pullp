@@ -8,4 +8,4 @@
 
 1. State what the PR is solving
 2. Link it to an issue/enhancement if applicable
-3. Get yourself a beer - you deserve it :beer:
+3. Get yourself a beer - you deserve it
