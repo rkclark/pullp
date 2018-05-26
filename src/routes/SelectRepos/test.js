@@ -339,7 +339,7 @@ describe('SelectRepos', () => {
 
       it('renders a link to home', () => {
         const component = shallow(<SelectRepos {...props} />);
-        expect(component.find(Link).props().to).toBe('/app/');
+        expect(component.find(Link).props().to).toBe('/app');
       });
     });
 
