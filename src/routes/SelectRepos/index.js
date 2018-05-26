@@ -168,7 +168,7 @@ export class SelectRepos extends React.Component {
             </div>
             <div className={theme.linkContainer}>
               <p className={theme.intro}>Finished with your selections?</p>
-              <Link to="/app/">
+              <Link to="/app">
                 <Button className={theme.button}>Show me my dashboard</Button>
               </Link>
             </div>
