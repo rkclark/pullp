@@ -1,4 +1,5 @@
-# Pullp
+
+# Pullp <img src="https://travis-ci.com/rkclark/pullp.svg?branch=master" alt="pullp ci badge" align="right" />
 
 Pullp is a tool to help you manage pull requests and reviews on your Github repositories, available for Mac and Linux.
 
