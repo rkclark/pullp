@@ -94,6 +94,7 @@
     "test": "node scripts/test.js  --config .jestrc.json --env=jsdom",
     "style": "eslint '**/*.js'",
     "style-fix": "eslint --fix '**/*.js'",
+    "validate": "npm run test && npm run style",
     "precommit": "npm run style && CI=true npm run test",
     "electron": "NODE_ENV=production electron .",
     "electron-dev": "ELECTRON_START_URL=http://localhost:3333/app electron .",
