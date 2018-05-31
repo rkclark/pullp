@@ -136,6 +136,7 @@ describe('RepoModal', () => {
       expect(toggleOpenRepo).toHaveBeenCalledWith(null);
     });
   });
+
   describe('when close button clicked', () => {
     it('dispatches toggleOpenRepo with null', () => {
       const toggleOpenRepo = jest.fn();
@@ -143,6 +144,21 @@ describe('RepoModal', () => {
         <RepoModal {...props} toggleOpenRepo={toggleOpenRepo} />,
       );
       component.find('[data-test-id="closeButton"]').simulate('click');
+      expect(toggleOpenRepo).toHaveBeenCalledWith(null);
+    });
+  });
+
+  describe('when esc key is pressed', () => {
+    it('dispatches toggleOpenRepo with null', () => {
+      const toggleOpenRepo = jest.fn();
+      const component = shallow(
+        <RepoModal {...props} toggleOpenRepo={toggleOpenRepo} />,
+      );
+
+      component.instance().onKeyDown({
+        keyCode: 27,
+      });
+
       expect(toggleOpenRepo).toHaveBeenCalledWith(null);
     });
   });
