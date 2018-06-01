@@ -4,8 +4,9 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
-const userResponse = require('./graphqlResponses/user.json');
+const getUserResponse = require('./graphqlResponses/user');
 const userQuery = require('./expectedGraphqlQueries/user');
+const getUserTeamsQuery = require('./expectedGraphqlQueries/userTeams');
 
 const app = express();
 app.use(cors());
@@ -29,10 +30,23 @@ app.get('/authenticate/*', async (req, res) => {
 app.post('/graphql', async (req, res) => {
   console.log('Stub server received POST /graphql');
 
+  const userLogin = 'dev';
+  const userResponse = JSON.stringify(getUserResponse(userLogin));
+  const userTeamsQuery = JSON.stringify(getUserTeamsQuery(userLogin));
+
+  console.log('usre teams query', userTeamsQuery);
+  console.log('____________________________________________');
+  console.log('req', JSON.stringify(req.body));
+
   switch (JSON.stringify(req.body)) {
     case JSON.stringify(userQuery): {
       console.log('Stub server returning user response');
       res.send(userResponse);
+      break;
+    }
+    case userTeamsQuery: {
+      console.log('Stub server returning user teams response');
+      res.sendStatus(404);
       break;
     }
     default: {
