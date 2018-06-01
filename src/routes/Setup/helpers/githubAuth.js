@@ -28,7 +28,6 @@ export default function githubAuth(dispatch) {
     const error = /\?error=(.+)$/.exec(url);
     // If there is a code, proceed to get token from github
     if (code) {
-      console.log('Got oauth CODE', code);
       await dispatch(requestGithubToken(code));
       authWindow.destroy();
     }

@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
+const userResponse = require('./graphqlResponses/user.json');
+const userQuery = require('./expectedGraphqlQueries/user');
 
 const app = express();
 app.use(cors());
@@ -22,6 +24,21 @@ app.get('/authenticate/*', async (req, res) => {
   console.log('Stub server fake Github token');
   const response = JSON.stringify({ token: '123456789' });
   res.send(response);
+});
+
+app.post('/graphql', async (req, res) => {
+  console.log('Stub server received POST /graphql');
+
+  switch (JSON.stringify(req.body)) {
+    case JSON.stringify(userQuery): {
+      console.log('Stub server returning user response');
+      res.send(userResponse);
+      break;
+    }
+    default: {
+      res.sendStatus(404);
+    }
+  }
 });
 
 app.listen(3334, null, () => {
