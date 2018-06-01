@@ -121,7 +121,7 @@ export const get = async (query, token) => {
   const body = {
     query,
   };
-  const response = await fetch('https://api.github.com/graphql', {
+  const response = await fetch(process.env.REACT_APP_GITHUB_API_URL, {
     method: 'post',
     headers: {
       'Content-type': 'application/json',
