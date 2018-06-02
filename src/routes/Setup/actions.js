@@ -10,6 +10,10 @@ export const requestGithubTokenFailure = error => ({
   error,
 });
 
+export const requestGithubTokenLoading = () => ({
+  type: types.REQUEST_GITHUB_TOKEN_LOADING,
+});
+
 const gatekeeperUrl = process.env.REACT_APP_OAUTH_GATEKEEPER_URL;
 
 export const requestGithubToken = code => async dispatch => {
