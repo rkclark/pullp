@@ -9,11 +9,13 @@ const path = require('path');
 const getUserQuery = require('./expectedGraphqlQueries/user');
 const getUserTeamsQuery = require('./expectedGraphqlQueries/userTeams');
 const getWatchedReposQuery = require('./expectedGraphqlQueries/watchedRepos');
+const getPullRequestsQuery = require('./expectedGraphqlQueries/pullRequests');
 
 // Graphql responses
 const getUserResponse = require('./graphqlResponses/user');
 const getUserTeamsResponse = require('./graphqlResponses/userTeams');
 const getWatchedReposResponse = require('./graphqlResponses/watchedRepos');
+const getPullRequestsResponse = require('./graphqlResponses/pullRequests');
 
 const app = express();
 app.use(cors());
@@ -47,6 +49,7 @@ app.post('/graphql', async (req, res) => {
   const userQuery = stringify(getUserQuery());
   const userTeamsQuery = stringify(getUserTeamsQuery(userLogin));
   const watchedReposQuery = stringify(getWatchedReposQuery());
+  const pullRequestsQuery = stringify(getPullRequestsQuery([], 50));
 
   const receivedQuery = stringify(req.body);
   console.log('Received query is:\n', receivedQuery);
@@ -70,7 +73,14 @@ app.post('/graphql', async (req, res) => {
       res.send(watchedReposResponse);
       break;
     }
+    case pullRequestsQuery: {
+      console.log('Stub server returning pull requests response');
+      const pullRequestsResponse = stringify(getPullRequestsResponse());
+      res.send(pullRequestsResponse);
+      break;
+    }
     default: {
+      console.log('Stub server cannot match graphql query:\n', receivedQuery);
       res.sendStatus(404);
     }
   }
@@ -79,5 +89,5 @@ app.post('/graphql', async (req, res) => {
 });
 
 app.listen(3334, null, () => {
-  console.log(`Pullp oAuth token server running on: http://localhost:3334`);
+  console.log(`Pullp stub server running on: http://localhost:3334`);
 });

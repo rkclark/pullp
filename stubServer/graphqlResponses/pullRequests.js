@@ -2,47 +2,96 @@ module.exports = () => ({
   data: {
     nodes: [
       {
-        id: 'MDEwOlJlcG9zaXRvcnk4MzQxNjQ0OA==',
+        id: 'repo1',
+        pullRequests: {
+          totalCount: 1,
+          edges: [
+            {
+              node: {
+                createdAt: '2018-05-31T10:53:51Z',
+                url: 'https://github.com/',
+                number: 162,
+                title: 'Dockerise test suite',
+                author: {
+                  avatarUrl: 'https://avatars1.githubusercontent.com/',
+                  login: 'dev5',
+                  url: 'https://github.com/',
+                },
+                reviewRequests: { edges: [] },
+                reviews: {
+                  edges: [
+                    {
+                      node: {
+                        author: {
+                          login: 'dev',
+                          avatarUrl: 'https://avatars3.githubusercontent.com/',
+                        },
+                        createdAt: '2018-05-31T11:22:08Z',
+                        state: 'DISMISSED',
+                      },
+                    },
+                    {
+                      node: {
+                        author: {
+                          login: 'dev2',
+                          avatarUrl: 'https://avatars3.githubusercontent.com/',
+                        },
+                        createdAt: '2018-05-31T11:25:05Z',
+                        state: 'CHANGES_REQUESTED',
+                      },
+                    },
+                    {
+                      node: {
+                        author: {
+                          login: 'dev3',
+                          avatarUrl: 'https://avatars3.githubusercontent.com/',
+                        },
+                        createdAt: '2018-05-31T12:59:32Z',
+                        state: 'CHANGES_REQUESTED',
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          ],
+        },
+      },
+      {
+        id: 'repo2',
         pullRequests: { totalCount: 0, edges: [] },
       },
       {
-        id: 'MDEwOlJlcG9zaXRvcnk4NDgxOTQ2NA==',
+        id: 'repo3',
         pullRequests: { totalCount: 0, edges: [] },
       },
       {
-        id: 'MDEwOlJlcG9zaXRvcnk5ODA5MTgzNA==',
+        id: 'repo4',
         pullRequests: { totalCount: 0, edges: [] },
       },
       {
-        id: 'MDEwOlJlcG9zaXRvcnkxMzA4NDkzMzk=',
-        pullRequests: { totalCount: 0, edges: [] },
-      },
-      {
-        id: 'MDEwOlJlcG9zaXRvcnkxMjY4MzYxMjE=',
+        id: 'repo5',
         pullRequests: {
           totalCount: 2,
           edges: [
             {
               node: {
                 createdAt: '2018-05-29T15:31:08Z',
-                url:
-                  'https://github.com/ComparetheMarket/rewards.gateway/pull/75',
+                url: 'https://github.com/',
                 number: 75,
-                title: 'REW-3690 Add process.exit to sigterm stop',
+                title: 'update readme',
                 author: {
-                  avatarUrl:
-                    'https://avatars1.githubusercontent.com/u/22013969?v=4',
-                  login: 'ledleds',
-                  url: 'https://github.com/ledleds',
+                  avatarUrl: 'https://avatars1.githubusercontent.com/',
+                  login: 'dev2',
+                  url: 'https://github.com/dev2',
                 },
                 reviewRequests: {
                   edges: [
                     {
                       node: {
                         requestedReviewer: {
-                          login: 'bvjones',
-                          avatarUrl:
-                            'https://avatars0.githubusercontent.com/u/23141561?v=4',
+                          login: 'dev',
+                          avatarUrl: 'https://avatars0.githubusercontent.com/',
                         },
                       },
                     },
@@ -53,9 +102,8 @@ module.exports = () => ({
                     {
                       node: {
                         author: {
-                          login: 'jshjohnson',
-                          avatarUrl:
-                            'https://avatars1.githubusercontent.com/u/3064889?v=4',
+                          login: 'dev3',
+                          avatarUrl: 'https://avatars1.githubusercontent.com/',
                         },
                         createdAt: '2018-05-29T15:38:16Z',
                         state: 'APPROVED',
@@ -64,9 +112,8 @@ module.exports = () => ({
                     {
                       node: {
                         author: {
-                          login: 'KATT',
-                          avatarUrl:
-                            'https://avatars1.githubusercontent.com/u/459267?v=4',
+                          login: 'dev4',
+                          avatarUrl: 'https://avatars1.githubusercontent.com/',
                         },
                         createdAt: '2018-05-30T10:47:43Z',
                         state: 'CHANGES_REQUESTED',
@@ -79,92 +126,16 @@ module.exports = () => ({
             {
               node: {
                 createdAt: '2018-04-05T09:06:34Z',
-                url:
-                  'https://github.com/ComparetheMarket/rewards.gateway/pull/12',
+                url: 'https://github.com/',
                 number: 12,
-                title:
-                  "Showcase with more services activated (❌ don't merge to master)",
+                title: 'Add integration tests',
                 author: {
-                  avatarUrl:
-                    'https://avatars1.githubusercontent.com/u/459267?v=4',
-                  login: 'KATT',
-                  url: 'https://github.com/KATT',
+                  avatarUrl: 'https://avatars1.githubusercontent.com/',
+                  login: 'dev3',
+                  url: 'https://github.com/dev3',
                 },
                 reviewRequests: { edges: [] },
                 reviews: { edges: [] },
-              },
-            },
-          ],
-        },
-      },
-      {
-        id: 'MDEwOlJlcG9zaXRvcnkxMjEyNTk5NjM=',
-        pullRequests: { totalCount: 0, edges: [] },
-      },
-      {
-        id: 'MDEwOlJlcG9zaXRvcnkxMjIzMTU0NDk=',
-        pullRequests: { totalCount: 0, edges: [] },
-      },
-      {
-        id: 'MDEwOlJlcG9zaXRvcnkxMjIzMTM5MTk=',
-        pullRequests: { totalCount: 0, edges: [] },
-      },
-      {
-        id: 'MDEwOlJlcG9zaXRvcnkxMjI0ODQzNDc=',
-        pullRequests: {
-          totalCount: 1,
-          edges: [
-            {
-              node: {
-                createdAt: '2018-05-31T10:53:51Z',
-                url:
-                  'https://github.com/ComparetheMarket/rewards.meerkat.memberships/pull/162',
-                number: 162,
-                title: 'Ability to run tests without docker',
-                author: {
-                  avatarUrl:
-                    'https://avatars1.githubusercontent.com/u/459267?v=4',
-                  login: 'KATT',
-                  url: 'https://github.com/KATT',
-                },
-                reviewRequests: { edges: [] },
-                reviews: {
-                  edges: [
-                    {
-                      node: {
-                        author: {
-                          login: 'gledrich',
-                          avatarUrl:
-                            'https://avatars3.githubusercontent.com/u/11244994?v=4',
-                        },
-                        createdAt: '2018-05-31T11:22:08Z',
-                        state: 'DISMISSED',
-                      },
-                    },
-                    {
-                      node: {
-                        author: {
-                          login: 'gledrich',
-                          avatarUrl:
-                            'https://avatars3.githubusercontent.com/u/11244994?v=4',
-                        },
-                        createdAt: '2018-05-31T11:25:05Z',
-                        state: 'CHANGES_REQUESTED',
-                      },
-                    },
-                    {
-                      node: {
-                        author: {
-                          login: 'gledrich',
-                          avatarUrl:
-                            'https://avatars3.githubusercontent.com/u/11244994?v=4',
-                        },
-                        createdAt: '2018-05-31T12:59:32Z',
-                        state: 'CHANGES_REQUESTED',
-                      },
-                    },
-                  ],
-                },
               },
             },
           ],

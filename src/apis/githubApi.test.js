@@ -1,6 +1,5 @@
 import fetchMock from 'fetch-mock';
 import { queries, get } from './githubApi';
-import { MAXIMUM_PRS } from '../constants';
 
 describe('Github API', () => {
   describe('queries', () => {
@@ -113,12 +112,13 @@ query {
     describe('pullRequests', () => {
       it('returns correct graphql query', () => {
         const testIds = ['test1', 'test2', 'test3'];
+        const maxmimumPrs = 20;
         const expectedQuery = `
         query {
           nodes (ids:${JSON.stringify(testIds)}) {
             id
             ... on Repository {
-              pullRequests(last: ${MAXIMUM_PRS} states: [OPEN] orderBy:{ field: CREATED_AT, direction: DESC }) {
+              pullRequests(last: ${maxmimumPrs} states: [OPEN] orderBy:{ field: CREATED_AT, direction: DESC }) {
                 totalCount
                 edges {
                   node {
@@ -167,7 +167,9 @@ query {
           }
         }
         `;
-        expect(queries.pullRequests(testIds)).toEqual(expectedQuery);
+        expect(queries.pullRequests(testIds, maxmimumPrs)).toEqual(
+          expectedQuery,
+        );
       });
     });
 

@@ -1,5 +1,3 @@
-import { MAXIMUM_PRS } from '../constants';
-
 export const queries = {
   currentUser: () =>
     `
@@ -60,13 +58,13 @@ query {
             }
           }`;
   },
-  pullRequests: ids =>
+  pullRequests: (ids, maximumPrs) =>
     `
         query {
           nodes (ids:${JSON.stringify(ids)}) {
             id
             ... on Repository {
-              pullRequests(last: ${MAXIMUM_PRS} states: [OPEN] orderBy:{ field: CREATED_AT, direction: DESC }) {
+              pullRequests(last: ${maximumPrs} states: [OPEN] orderBy:{ field: CREATED_AT, direction: DESC }) {
                 totalCount
                 edges {
                   node {
