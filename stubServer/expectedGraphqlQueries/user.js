@@ -1,4 +1,4 @@
-module.exports = {
+module.exports = () => ({
   query: `
 query {
 	viewer {
@@ -8,4 +8,4 @@ query {
   }
 }
 `,
-};
+});

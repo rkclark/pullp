@@ -5,7 +5,7 @@ const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const getUserResponse = require('./graphqlResponses/user');
-const userQuery = require('./expectedGraphqlQueries/user');
+const getUserQuery = require('./expectedGraphqlQueries/user');
 const getUserTeamsQuery = require('./expectedGraphqlQueries/userTeams');
 
 const app = express();
@@ -27,19 +27,23 @@ app.get('/authenticate/*', async (req, res) => {
   res.send(response);
 });
 
+// Stringify then remove spaces and \n from string
+const stringify = string => JSON.stringify(string).replace(/(\s|\\n)/gm, '');
+
 app.post('/graphql', async (req, res) => {
   console.log('Stub server received POST /graphql');
 
   const userLogin = 'dev';
-  const userResponse = JSON.stringify(getUserResponse(userLogin));
-  const userTeamsQuery = JSON.stringify(getUserTeamsQuery(userLogin));
+  const userResponse = stringify(getUserResponse(userLogin));
 
-  console.log('usre teams query', userTeamsQuery);
-  console.log('____________________________________________');
-  console.log('req', JSON.stringify(req.body));
+  const userQuery = stringify(getUserQuery());
+  const userTeamsQuery = stringify(getUserTeamsQuery(userLogin));
 
-  switch (JSON.stringify(req.body)) {
-    case JSON.stringify(userQuery): {
+  const receivedQuery = stringify(req.body);
+  console.log('Received query is:\n', receivedQuery);
+
+  switch (receivedQuery) {
+    case userQuery: {
       console.log('Stub server returning user response');
       res.send(userResponse);
       break;
