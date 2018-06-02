@@ -5,6 +5,7 @@ const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const getUserResponse = require('./graphqlResponses/user');
+const getUserTeamsResponse = require('./graphqlResponses/userTeams');
 const getUserQuery = require('./expectedGraphqlQueries/user');
 const getUserTeamsQuery = require('./expectedGraphqlQueries/userTeams');
 
@@ -18,6 +19,7 @@ app.get('/oauth/authorize', async (req, res) => {
   console.log('Stub server received GET /oauth/authorize');
   console.log('Stub server returning fake Github sign in page');
   res.send(content);
+  console.log('------------------------------');
 });
 
 app.get('/authenticate/*', async (req, res) => {
@@ -25,6 +27,7 @@ app.get('/authenticate/*', async (req, res) => {
   console.log('Stub server fake Github token');
   const response = JSON.stringify({ token: '123456789' });
   res.send(response);
+  console.log('------------------------------');
 });
 
 // Stringify then remove spaces and \n from string
@@ -34,7 +37,6 @@ app.post('/graphql', async (req, res) => {
   console.log('Stub server received POST /graphql');
 
   const userLogin = 'dev';
-  const userResponse = stringify(getUserResponse(userLogin));
 
   const userQuery = stringify(getUserQuery());
   const userTeamsQuery = stringify(getUserTeamsQuery(userLogin));
@@ -45,18 +47,22 @@ app.post('/graphql', async (req, res) => {
   switch (receivedQuery) {
     case userQuery: {
       console.log('Stub server returning user response');
+      const userResponse = stringify(getUserResponse(userLogin));
       res.send(userResponse);
       break;
     }
     case userTeamsQuery: {
       console.log('Stub server returning user teams response');
-      res.sendStatus(404);
+      const userTeamsResponse = stringify(getUserTeamsResponse());
+      res.send(userTeamsResponse);
       break;
     }
     default: {
       res.sendStatus(404);
     }
   }
+
+  console.log('------------------------------');
 });
 
 app.listen(3334, null, () => {

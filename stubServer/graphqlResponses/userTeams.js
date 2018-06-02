@@ -8,21 +8,7 @@ module.exports = () => ({
               teams: {
                 edges: [
                   {
-                    node: { id: 'MDQ6VGVhbTExMjE4MzI=', name: 'Team: Rewards' },
-                  },
-                ],
-              },
-            },
-          },
-          {
-            node: {
-              teams: {
-                edges: [
-                  {
-                    node: {
-                      id: 'MDQ6VGVhbTIwNTY1OTc=',
-                      name: 'January 2017 Cohort',
-                    },
+                    node: { id: 'MDQ6VGVhbTExMjE4MzI=', name: 'Team Awesome' },
                   },
                 ],
               },
