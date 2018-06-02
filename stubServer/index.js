@@ -27,6 +27,7 @@ app.get('/oauth/authorize', async (req, res) => {
   console.log('Stub server received GET /oauth/authorize');
   console.log('Stub server returning fake Github sign in page');
   res.send(content);
+
   console.log('------------------------------');
 });
 
@@ -34,7 +35,10 @@ app.get('/authenticate/*', async (req, res) => {
   console.log('Stub server received GET /authenticate/');
   console.log('Stub server fake Github token');
   const response = JSON.stringify({ token: '123456789' });
-  res.send(response);
+  setTimeout(() => {
+    res.send(response);
+  }, 3000);
+
   console.log('------------------------------');
 });
 
