@@ -55,4 +55,13 @@ describe('Login actions', () => {
       expect(actions.requestGithubTokenFailure(error)).toEqual(expectedAction);
     });
   });
+
+  describe('requestGithubTokenLoading', () => {
+    it('creates an action to save github token loading state', () => {
+      const expectedAction = {
+        type: types.REQUEST_GITHUB_TOKEN_LOADING,
+      };
+      expect(actions.requestGithubTokenLoading()).toEqual(expectedAction);
+    });
+  });
 });

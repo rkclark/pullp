@@ -7,6 +7,7 @@ export const initialState = {
   githubToken: null,
   redirectPath: null,
   logoutModalOpen: false,
+  loadingGithubToken: false,
 };
 
 export default function(state = initialState, action) {
@@ -19,12 +20,20 @@ export default function(state = initialState, action) {
       return {
         ...state,
         loginError: action.error,
+        loadingGithubToken: false,
       };
     case types.REQUEST_GITHUB_TOKEN_SUCCESS:
       return {
         ...state,
         githubToken: action.token,
         loginError: null,
+        loadingGithubToken: false,
+      };
+    case types.REQUEST_GITHUB_TOKEN_LOADING:
+      return {
+        ...state,
+        loginError: null,
+        loadingGithubToken: true,
       };
     default:
       return state;
