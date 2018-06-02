@@ -4,10 +4,16 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
-const getUserResponse = require('./graphqlResponses/user');
-const getUserTeamsResponse = require('./graphqlResponses/userTeams');
+
+// Expected graphql queries
 const getUserQuery = require('./expectedGraphqlQueries/user');
 const getUserTeamsQuery = require('./expectedGraphqlQueries/userTeams');
+const getWatchedReposQuery = require('./expectedGraphqlQueries/watchedRepos');
+
+// Graphql responses
+const getUserResponse = require('./graphqlResponses/user');
+const getUserTeamsResponse = require('./graphqlResponses/userTeams');
+const getWatchedReposResponse = require('./graphqlResponses/watchedRepos');
 
 const app = express();
 app.use(cors());
@@ -40,6 +46,7 @@ app.post('/graphql', async (req, res) => {
 
   const userQuery = stringify(getUserQuery());
   const userTeamsQuery = stringify(getUserTeamsQuery(userLogin));
+  const watchedReposQuery = stringify(getWatchedReposQuery());
 
   const receivedQuery = stringify(req.body);
   console.log('Received query is:\n', receivedQuery);
@@ -55,6 +62,12 @@ app.post('/graphql', async (req, res) => {
       console.log('Stub server returning user teams response');
       const userTeamsResponse = stringify(getUserTeamsResponse());
       res.send(userTeamsResponse);
+      break;
+    }
+    case watchedReposQuery: {
+      console.log('Stub server returning watched repos response');
+      const watchedReposResponse = stringify(getWatchedReposResponse());
+      res.send(watchedReposResponse);
       break;
     }
     default: {
