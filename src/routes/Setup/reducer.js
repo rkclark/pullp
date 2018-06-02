@@ -1,8 +1,6 @@
 import { setup as types, account as accountTypes } from '../../actionTypes';
 
 export const initialState = {
-  githubClientId: null,
-  githubClientSecret: null,
   loginError: null,
   githubToken: null,
   redirectPath: null,

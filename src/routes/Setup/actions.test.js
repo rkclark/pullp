@@ -7,6 +7,18 @@ describe('Login actions', () => {
   const gatekeeperUrl = `${process.env.REACT_APP_OAUTH_GATEKEEPER_URL}/${code}`;
 
   describe('requestGithubToken', () => {
+    it('dispatches requestGithubTokenLoading action', async () => {
+      const result = { token: 'anAccessToken' };
+      fetchMock.mock(gatekeeperUrl, result);
+      const requestGithubToken = actions.requestGithubToken(code);
+      const dispatch = jest.fn();
+      await requestGithubToken(dispatch);
+      expect(dispatch).toHaveBeenCalledWith(
+        actions.requestGithubTokenLoading(),
+      );
+      fetchMock.restore();
+    });
+
     describe('when call to pullp oAuth server succeeds', () => {
       it('dispatches requestGithubTokenSuccess action with the received token', async () => {
         const result = { token: 'anAccessToken' };
@@ -27,7 +39,7 @@ describe('Login actions', () => {
       const requestGithubToken = actions.requestGithubToken(code);
       const dispatch = jest.fn();
       await requestGithubToken(dispatch);
-      const errorObj = dispatch.mock.calls[0][0];
+      const errorObj = dispatch.mock.calls[1][0];
       expect(errorObj.type).toEqual(types.REQUEST_GITHUB_TOKEN_FAILURE);
       expect(errorObj.error).toBeDefined;
       fetchMock.restore();

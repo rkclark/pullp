@@ -37,12 +37,16 @@ export class SetupContainer extends React.Component {
   }
 
   render() {
+    const loader = (
+      <div className={style.loadingContainer}>
+        <Loading />
+      </div>
+    );
+
     const currentUserError = this.props.githubCurrentUserError ? (
       <div>
         {this.props.currentUserLoading ? (
-          <div className={style.loadingContainer}>
-            <Loading />
-          </div>
+          loader
         ) : (
           <div>
             <Error message="Error requesting your user profile from Github." />
@@ -61,6 +65,8 @@ export class SetupContainer extends React.Component {
     const loginError = this.props.loginError ? (
       <Error message="Github sign in failed." />
     ) : null;
+
+    const githubTokenLoader = this.props.loadingGithubToken ? loader : null;
 
     const proceedToSelect = this.props.login ? (
       <div>
@@ -82,12 +88,15 @@ export class SetupContainer extends React.Component {
         <div className={style.innerContainer}>
           {loginError}
           {currentUserError}
+          {githubTokenLoader}
 
-          <SignInForm
-            githubToken={this.props.githubToken}
-            dispatch={this.props.dispatch}
-            logout={this.props.logout}
-          />
+          {!this.props.loadingGithubToken ? (
+            <SignInForm
+              githubToken={this.props.githubToken}
+              dispatch={this.props.dispatch}
+              logout={this.props.logout}
+            />
+          ) : null}
           {proceedToSelect}
         </div>
       </div>
@@ -104,6 +113,7 @@ SetupContainer.propTypes = {
   logout: PropTypes.func,
   githubCurrentUserError: PropTypes.string,
   currentUserLoading: PropTypes.bool,
+  loadingGithubToken: PropTypes.bool,
 };
 
 SetupContainer.defaultProps = {
@@ -114,6 +124,7 @@ SetupContainer.defaultProps = {
   loginError: null,
   logout: () => {},
   currentUserLoading: false,
+  loadingGithubToken: false,
 };
 
 const mapStateToProps = state => ({
@@ -121,6 +132,7 @@ const mapStateToProps = state => ({
   login: state.home.currentUser ? state.home.currentUser.login : null,
   avatarUrl: state.home.currentUser ? state.home.currentUser.avatarUrl : null,
   loginError: state.setup.loginError,
+  loadingGithubToken: state.setup.loadingGithubToken,
   githubCurrentUserError: state.home.githubCurrentUserError,
   currentUserLoading: state.home.currentUserLoading,
 });
