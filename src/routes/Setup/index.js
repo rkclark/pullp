@@ -37,28 +37,25 @@ export class SetupContainer extends React.Component {
   }
 
   render() {
-    const loader = (
-      <div className={style.loadingContainer}>
-        <Loading />
+    const loader = message => (
+      <div>
+        <div className={style.loadingContainer}>
+          <Loading />
+        </div>
+        <p className={style.loadingMessage}>{message}</p>
       </div>
     );
 
     const currentUserError = this.props.githubCurrentUserError ? (
       <div>
-        {this.props.currentUserLoading ? (
-          loader
-        ) : (
-          <div>
-            <Error message="Error requesting your user profile from Github." />
-            <Button
-              className={style.button}
-              onClick={this.requestCurrentUser}
-              data-test-id="try-again-button"
-            >
-              Try again
-            </Button>
-          </div>
-        )}
+        <Error message="Error requesting your user profile from Github." />
+        <Button
+          className={style.button}
+          onClick={this.requestCurrentUser}
+          data-test-id="try-again-button"
+        >
+          Try again
+        </Button>
       </div>
     ) : null;
 
@@ -66,7 +63,13 @@ export class SetupContainer extends React.Component {
       <Error message="Github sign in failed." />
     ) : null;
 
-    const githubTokenLoader = this.props.loadingGithubToken ? loader : null;
+    const githubTokenLoader = this.props.loadingGithubToken
+      ? loader('Authenticating with Github...')
+      : null;
+
+    const userProfileLoader = this.props.currentUserLoading
+      ? loader('Loading your Github profile...')
+      : null;
 
     const proceedToSelect = this.props.login ? (
       <div>
@@ -89,6 +92,7 @@ export class SetupContainer extends React.Component {
           {loginError}
           {currentUserError}
           {githubTokenLoader}
+          {userProfileLoader}
 
           {!this.props.loadingGithubToken ? (
             <SignInForm

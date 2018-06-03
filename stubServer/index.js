@@ -62,7 +62,9 @@ app.post('/graphql', async (req, res) => {
     case userQuery: {
       console.log('Stub server returning user response');
       const userResponse = stringify(getUserResponse(userLogin));
-      res.send(userResponse);
+      setTimeout(() => {
+        res.send(userResponse);
+      }, 3000);
       break;
     }
     case userTeamsQuery: {
