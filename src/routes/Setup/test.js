@@ -13,6 +13,7 @@ describe('Setup', () => {
     dispatch: () => {},
     login: null,
     requestCurrentUser: () => {},
+    loadingGithubToken: false,
   };
 
   it('renders successsfully', () => {
@@ -20,9 +21,22 @@ describe('Setup', () => {
     expect(component).toHaveLength(1);
   });
 
-  it('renders a SignInForm', () => {
-    const component = shallow(<SetupContainer {...defaultProps} />);
-    expect(component.find(SignInForm).length).toBe(1);
+  describe('when not loading github token', () => {
+    it('renders a SignInForm', () => {
+      const component = shallow(
+        <SetupContainer {...defaultProps} loadingGithubToken={false} />,
+      );
+      expect(component.find(SignInForm).length).toBe(1);
+    });
+  });
+
+  describe('when loading github token', () => {
+    it('does not render a SignInForm', () => {
+      const component = shallow(
+        <SetupContainer {...defaultProps} loadingGithubToken />,
+      );
+      expect(component.find(SignInForm).length).toBe(0);
+    });
   });
 
   describe('componentWillReceiveProps', () => {
@@ -130,11 +144,7 @@ describe('Setup', () => {
     describe('when the current user is loading', () => {
       it('renders a Loading component', () => {
         const component = shallow(
-          <SetupContainer
-            {...defaultProps}
-            githubCurrentUserError={'error'}
-            currentUserLoading
-          />,
+          <SetupContainer {...defaultProps} currentUserLoading />,
         );
         expect(component.find(Loading).length).toBe(1);
       });
@@ -143,11 +153,7 @@ describe('Setup', () => {
     describe('when the current user is not loading', () => {
       it('does not render a Loading component', () => {
         const component = shallow(
-          <SetupContainer
-            {...defaultProps}
-            githubCurrentUserError={'error'}
-            currentUserLoading={false}
-          />,
+          <SetupContainer {...defaultProps} currentUserLoading={false} />,
         );
         expect(component.find(Loading).length).toBe(0);
       });
@@ -158,6 +164,24 @@ describe('Setup', () => {
     it('does not render an error component', () => {
       const component = shallow(<SetupContainer {...defaultProps} />);
       expect(component.find(Error).length).toBe(0);
+    });
+  });
+
+  describe('when the github token is loading', () => {
+    it('renders a Loading component', () => {
+      const component = shallow(
+        <SetupContainer {...defaultProps} loadingGithubToken />,
+      );
+      expect(component.find(Loading).length).toBe(1);
+    });
+  });
+
+  describe('when the github token is not loading', () => {
+    it('does not render a Loading component', () => {
+      const component = shallow(
+        <SetupContainer {...defaultProps} loadingGithubToken={false} />,
+      );
+      expect(component.find(Loading).length).toBe(0);
     });
   });
 });

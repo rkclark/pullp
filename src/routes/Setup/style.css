@@ -15,7 +15,7 @@
 .loadingContainer {
   display: flex;
   justify-content: center;
-  margin: 10rem 0;
+  margin: 10rem 0 0;
 }
 
 .loadingContainer div {
@@ -30,4 +30,13 @@
 
 .continue {
   margin: 3rem auto;
+}
+
+.loadingMessage {
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  color: var(--medium-grey);
+  text-align: center;
+  margin-top: 3rem;
 }
