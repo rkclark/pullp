@@ -18,8 +18,8 @@ export default function githubAuth(dispatch) {
 
   const scopes = ['read:org', 'repo'];
   const clientId = process.env.REACT_APP_GITHUB_CLIENT_ID;
-  const githubUrl = `https://github.com/login/oauth/authorize?`;
-  const authUrl = `${githubUrl}client_id=${clientId}&scope=${scopes}`;
+  const githubUrl = process.env.REACT_APP_GITHUB_AUTH_URL;
+  const authUrl = `${githubUrl}?client_id=${clientId}&scope=${scopes}`;
   authWindow.loadURL(authUrl);
 
   async function handleCallback(url) {

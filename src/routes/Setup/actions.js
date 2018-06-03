@@ -14,7 +14,7 @@ const gatekeeperUrl = process.env.REACT_APP_OAUTH_GATEKEEPER_URL;
 
 export const requestGithubToken = code => async dispatch => {
   try {
-    const res = await fetch(`${gatekeeperUrl}/authenticate/${code}`, {
+    const res = await fetch(`${gatekeeperUrl}/${code}`, {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',

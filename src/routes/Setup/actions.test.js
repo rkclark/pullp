@@ -4,9 +4,7 @@ import { setup as types } from '../../actionTypes';
 
 describe('Login actions', () => {
   const code = '1234';
-  const gatekeeperUrl = `${
-    process.env.REACT_APP_OAUTH_GATEKEEPER_URL
-  }/authenticate/${code}`;
+  const gatekeeperUrl = `${process.env.REACT_APP_OAUTH_GATEKEEPER_URL}/${code}`;
 
   describe('requestGithubToken', () => {
     describe('when call to pullp oAuth server succeeds', () => {

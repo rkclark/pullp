@@ -1,5 +1,6 @@
 import { home as types } from '../../actionTypes';
 import { get, queries } from '../../apis/githubApi';
+import { MAXIMUM_PRS } from '../../constants';
 
 export const requestCurrentUserSuccess = data => ({
   type: types.REQUEST_CURRENT_USER_SUCCESS,
@@ -69,7 +70,7 @@ export const requestPullRequests = (token, repoIds) => async (
   const watchedRepos = getState().selectRepos.watchedRepos;
   try {
     dispatch(requestPullRequestsLoading());
-    const query = queries.pullRequests(repoIds);
+    const query = queries.pullRequests(repoIds, MAXIMUM_PRS);
     const results = await get(query, token);
     dispatch(requestPullRequestsSuccess(results, watchedRepos));
   } catch (err) {

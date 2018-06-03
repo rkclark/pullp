@@ -66,6 +66,8 @@
     "husky": "^0.14.3",
     "identity-obj-proxy": "^3.0.0",
     "jest": "20.0.3",
+    "nodemon": "^1.17.5",
+    "npm-run-all": "^4.1.3",
     "object-assign": "4.1.1",
     "postcss-css-variables": "^0.8.0",
     "postcss-flexbugs-fixes": "^3.0.0",
@@ -89,6 +91,9 @@
   },
   "scripts": {
     "start": "BROWSER=none node scripts/start.js",
+    "stub:server": "nodemon stubServer",
+    "stub:start": "BROWSER=none REACT_APP_GITHUB_API_URL=http://localhost:3334/graphql REACT_APP_OAUTH_GATEKEEPER_URL=http://localhost:3334/authenticate REACT_APP_GITHUB_AUTH_URL=http://localhost:3334/oauth/authorize node scripts/start.js",
+    "stub": "run-p stub:*",
     "serve": "npm run build && node server",
     "react-build": "node scripts/build.js",
     "test": "node scripts/test.js  --config .jestrc.json --env=jsdom",
