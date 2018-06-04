@@ -61,7 +61,7 @@ React and Redux dev tools will be available inside the Chrome dev tools.
 
 ### :dizzy: Optional - Running a local oAuth server
 
-Pullp uses an external auth server to complete Github sign in and receive a code for the Github API. You may want to host a local version of this server. Clone it from https://github.com/rkclark/pullp-oauth-gatekeeper, run it on the port of your choosing and then add the server URL to `REACT_APP_OAUTH_GATEKEEPER_URL` in the `/env/.env.development` file inside of Pullp.
+Pullp uses an external auth server to complete Github sign in and receive a token for the Github API. You may want to host a local version of this server. Clone it from https://github.com/rkclark/pullp-oauth-gatekeeper, run it on the port of your choosing and then add the server URL to `REACT_APP_OAUTH_GATEKEEPER_URL` in the `/env/.env.development` file inside of Pullp.
 
 Your oauth server will need set of Github oAuth app credentials. To make these:
 
