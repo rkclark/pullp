@@ -13,42 +13,53 @@ Want to find out more about the pull requests on a particular repository? Select
 
 Pullp is an Electron application built with React.
 
-## Getting Started
+## :zap: Getting Started
 
-- Download and install the [latest release](https://github.com/rkclark/pullp/releases/).
+- Download and install the [latest release](https://github.com/rkclark/pullp/releases/). You'll want the `.dmg` file for MacOS or the `.AppImage` file for Linux
 - Open the app
+- On MacOS, if your security settings block you from opening the app, right-click it and select Open. You can then click Open on the warning dialogue that opens up.
 - Follow the on screen instructions to sign in with Github
 - Select the repositories you want to monitor with Pullp (you are able to choose from all the ones that you __watch__ on Github
 - Click Monitor to go to the dashboard screen.
 - Pullp will refresh the dashboard every minute!
 
-## FAQs
+---
 
-Q: Why does my repository only show a maximum of 50 open pull requests?
+## :grey_question: FAQs
 
-A: Github applies a cost in points to each request Pullp makes for data. Each hour you are permitted to spend 5000 points. By restricting the maximum pull requests to 50, the cost of each request is manageable. This means Pullp can make more frequent requests, giving you a more "near-time" experience. Allowing this maximum limit to be configurable by the user could be a feature in the future.
+:question:   Why does my repository only show a maximum of 50 open pull requests?
 
-Q: I am seeing an error saying `The amount of pull request data for your selected repositories exceeds Github's maximum limit.`
+> :bulb: Github applies a cost in points to each request Pullp makes for data. Each hour you are permitted to spend 5000 points. By restricting the maximum pull requests to 50, the cost of each request is manageable. This means Pullp can make more frequent requests, giving you a more "near-time" experience. Allowing this maximum limit to be configurable by the user could be a feature in the future.
 
-A: Github places a limit on the maximum number of data nodes that can be returned from a single request. This limit may be breached if you have selected a large number of repositories that have many pull requests. The only solution to this currently is to select fewer repositories.
+:question:  I am seeing an error saying `The amount of pull request data for your selected repositories exceeds Github's maximum limit.`
 
-Q: Can I access the console/Chrome dev tools inside the app?
+> :bulb: Github places a limit on the maximum number of data nodes that can be returned from a single request. This limit may be breached if you have selected a large number of repositories that have many pull requests. The only solution to this currently is to select fewer repositories.
 
-A: Yes! Just use the normal Chrome shortcut to open them, e.g. cmd + opt + i on Mac. React and Redux dev tools are not available in the production app, but are enabled if you are running the app in the dev environment.
+:question:  Can I access the console/Chrome dev tools inside the app?
 
-Q: I can't see my repository on the Select screen.
+> :bulb: Yes! Just use the normal Chrome shortcut to open them, e.g. cmd + opt + i on Mac. React and Redux dev tools are not available in the production app, but are enabled if you are running the app in the dev environment.
 
-A: Make sure you are _watching_ the repository in Github, otherwise it won't appear on the select screen.
+:question:  I can't see my repository on the Select screen.
 
-## Developer Instructions
+> :bulb: Make sure you are _watching_ the repository in Github, otherwise it won't appear on the select screen.
 
-### Running dev environment
+---
+
+## :checkered_flag: Developer Instructions :checkered_flag:
+
+### :rocket: Running dev environment - The simplest way
 
 After `npm install`, run `npm start` to start the webpack dev server. Once running, run `npm run electron-dev` to open the app.
 
 React and Redux dev tools will be available inside the Chrome dev tools.
 
-### Running the oAuth server
+
+### :white_check_mark: Running the tests
+
+- Run `npm test`.
+- To run the tests without the file watcher, run `npm run test:no-watcher`
+
+### :dizzy: Optional - Running a local oAuth server
 
 Pullp uses an external auth server to complete Github sign in and receive a code for the Github API. You may want to host a local version of this server. Clone it from https://github.com/rkclark/pullp-oauth-gatekeeper, run it on the port of your choosing and then add the server URL to `REACT_APP_OAUTH_GATEKEEPER_URL` in the `/env/.env.development` file inside of Pullp.
 
@@ -69,11 +80,23 @@ OAUTH_CLIENT_ID=xxx
 OAUTH_CLIENT_SECRET=xxx
 ```
 
-### Running the tests
+### :octocat: Optional - Stubbing Github
 
-Run `npm test`.
+The project includes a server that provides stub responses for all external dependencies:
+- Github login page
+- Github oAuth flow
+- Github GraphQl server
 
-### Other developer scripts
+To run the stub server run `npn run stub`. This will start the server along with the webpack dev server. Then just run `npm run electron-dev` in another terminal window.
+
+This can be used if you want to work offline or have finer control over the data being received by the app.
+
+Limitations:
+- The GraphQl endpoint is not a real GraphQl implementation! If you change any queries then they will not work without updating the stub endpoint to watch for them.
+- To have repos appear on the dashboard, do not select any on the Select screen
+- Images are not currently stubbed so will simply not be loaded
+
+### :crystal_ball: Other developer scripts
 
  - `npm run serve`: Run a server that hosts the production files
 - `npm run react-build`: Build the React/CSS production files
