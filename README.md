@@ -87,7 +87,7 @@ The project includes a server that provides stub responses for all external depe
 - Github oAuth flow
 - Github GraphQl server
 
-To run the stub server run `npn run stub`. This will start the server along with the webpack dev server. Then just run `npm run electron-dev` in another terminal window.
+To run the stub server run `npm run stub`. This will start the server along with the webpack dev server. Then just run `npm run electron-dev` in another terminal window.
 
 This can be used if you want to work offline or have finer control over the data being received by the app.
 
