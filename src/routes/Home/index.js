@@ -10,6 +10,64 @@ import Error from '../../components/Error';
 import transform from './transform';
 import { MAXIMUM_PRS } from '../../constants';
 
+const pullRequestsQuery = gql`
+  query pullRequests($ids: [ID!]!, $maximumPrs: Int!) {
+    nodes(ids: $ids) {
+      id
+      ... on Repository {
+        pullRequests(
+          last: $maximumPrs
+          states: [OPEN]
+          orderBy: { field: CREATED_AT, direction: DESC }
+        ) {
+          totalCount
+          edges {
+            node {
+              createdAt
+              url
+              number
+              title
+              author {
+                avatarUrl
+                login
+                url
+              }
+              reviewRequests(last: 100) {
+                edges {
+                  node {
+                    requestedReviewer {
+                      ... on User {
+                        login
+                        avatarUrl
+                      }
+                      ... on Team {
+                        name
+                        id
+                        avatarUrl
+                      }
+                    }
+                  }
+                }
+              }
+              reviews(last: 100) {
+                edges {
+                  node {
+                    author {
+                      login
+                      avatarUrl
+                    }
+                    createdAt
+                    state
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 export class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -79,58 +137,12 @@ export class Home extends React.Component {
             Authorization: `bearer ${this.props.githubToken}`,
           },
         }}
-        query={gql`
-        {nodes (ids:${JSON.stringify(this.props.selectedRepos)}) {
-          id
-          ... on Repository {
-            pullRequests(last: ${MAXIMUM_PRS} states: [OPEN] orderBy:{ field: CREATED_AT, direction: DESC }) {
-              totalCount
-              edges {
-                node {
-                  createdAt
-                  url
-                  number
-                  title
-                  author {
-                    avatarUrl
-                    login
-                    url
-                  }
-                  reviewRequests(last: 100) {
-                    edges {
-                      node {
-                        requestedReviewer {
-                          ... on User {
-                            login
-                            avatarUrl
-                          }
-                          ... on Team {
-                            name
-                            id
-                            avatarUrl
-                          }
-                        }
-                      }
-                    }
-                  }
-                  reviews(last: 100) {
-                    edges {
-                      node {
-                        author {
-                          login
-                          avatarUrl
-                        }
-                        createdAt
-                        state
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
+        query={pullRequestsQuery}
+        variables={{
+          ids: this.props.selectedRepos,
+          maximumPrs: MAXIMUM_PRS,
         }}
-      `}
+        options={{ fetchPolicy: 'network-only' }}
       >
         {({ loading, error, data }) => {
           if (loading) return <p>Loading...</p>;
