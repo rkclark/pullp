@@ -1,5 +1,6 @@
 @import "../../../../css/colors.css";
 @import "../../../../css/units.css";
+@import "../../../../css/fonts.css";
 
 .checkboxContainer {
   display: flex;
@@ -112,8 +113,7 @@
  }
 
  .date {
-  font-family: 'Roboto', sans-serif;
-  text-transform: uppercase;
+  font-family: var(--pullp-font);
   font-size: 1rem;
   margin-left: 1rem;
   margin: 0;

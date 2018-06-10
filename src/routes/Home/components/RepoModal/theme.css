@@ -1,5 +1,6 @@
 @import "../../../../css/colors.css";
 @import "../../../../css/units.css";
+@import "../../../../css/fonts.css";
 
 .repoContainer {
   z-index: var(--z-modal);
@@ -35,9 +36,8 @@
 }
 
 .name {
-  font-weight: normal;
   font-size: 2.3rem;
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--pullp-font);
   color: var(--white);
 }
 
@@ -99,8 +99,7 @@
   color: var(--white);
   margin-left: 2rem;
   font-size: 1.7rem;
-  font-family: 'Roboto', sans-serif;
-  text-transform: uppercase;
+  font-family: var(--pullp-font);
 }
 
 .noPrsIcon {

@@ -1,5 +1,6 @@
 @import "../../../../css/colors.css";
 @import "../../../../css/units.css";
+@import "../../../../css/fonts.css";
 
 .repoContainer {
   background-color: white;
@@ -52,9 +53,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
   margin-bottom: 0;
-  font-weight: normal;
   font-size: 1.7rem;
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--pullp-font);
   padding: 0.8rem 1rem;
 }
 
@@ -94,8 +94,7 @@
 }
 
 .prCountLabel {
-  font-family: 'Roboto', sans-serif;
-  font-weight: normal;
+  font-family: var(--pullp-font);
   font-size: 1.4rem;
   text-transform: uppercase;
   color: var(--primary-dark);
@@ -122,7 +121,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--pullp-font);
   color: var(--primary-dark);
 }
 
@@ -229,8 +228,7 @@
 
 
 .maxPrWarning span {
-  font-family: 'Roboto', sans-serif;
-  text-transform: uppercase;
+  font-family: var(--pullp-font);
 }
 
 .warningIcon {

@@ -1,5 +1,6 @@
 @import "../../css/colors.css";
 @import "../../css/units.css";
+@import "../../css/fonts.css";
 
 
 .loading, .error {
@@ -21,8 +22,7 @@
 }
 
 .intro {
-  font-family: 'Roboto', sans-serif;
-  text-transform: uppercase;
+  font-family: var(--pullp-font);
   font-size: 1.3rem;
   color: var(--light-grey);
   text-align: center;
@@ -92,8 +92,7 @@
 
 .currentPage {
   line-height: 4rem;
-  font-family: 'Roboto', sans-serif;
-  text-transform: uppercase;
+  font-family: var(--pullp-font);
   font-size: 1.3rem;
   color: var(--light-grey);
 }
@@ -111,8 +110,7 @@
 }
 
 .filterContainer label {
-  font-family: 'Roboto', sans-serif;
-  text-transform: uppercase;
+  font-family: var(--pullp-font);
   font-size: 1.5rem;
   color: var(--medium-grey);
 }
