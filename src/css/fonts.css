@@ -1,0 +1,11 @@
+@font-face{
+  font-family: 'Roboto';
+  src: url('https://fonts.googleapis.com/css?family=Roboto') format("tff");
+  text-transform: uppercase;
+  font-weight: normal;
+}
+
+:root{
+  --pullp-font: 'Roboto', sans-serif;
+}
+

@@ -3,4 +3,5 @@
 @import "./colors.css";
 
 /* Basic styles */
+@import "./fonts.css";
 @import "./elements.css";
