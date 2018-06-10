@@ -126,13 +126,19 @@ export class Home extends React.Component {
       >
         {({ loading, error, data }) => {
           if (loading) return <p>Loading...</p>;
-          if (error)
+          if (error) {
+            let message = error.message;
+            if (error.graphQLErrors[0].type === 'MAX_NODE_LIMIT_EXCEEDED') {
+              message = `The amount of pull request data for your selected repositories exceeds Github's maximum limit. Try selecting fewer repositories and trying again. Here is the specific error from Github as guidance: ${message}`;
+            }
             return (
               <Error
                 title="Error getting latest pull requests data from Github"
-                message={this.props.githubPullRequestsError}
+                message={message}
               />
             );
+          }
+
           let transformedData = transform(data, {
             watchedRepos: this.props.watchedRepos,
             userTeams: this.props.userTeams,
@@ -168,18 +174,14 @@ Home.propTypes = {
     url: PropTypes.string,
   }),
   githubToken: PropTypes.string,
-  // requestPullRequests: PropTypes.func.isRequired,
   selectedRepos: PropTypes.arrayOf(PropTypes.string),
-  // repositories: PropTypes.arrayOf(PropTypes.shape()),
   openRepoId: PropTypes.string,
   toggleOpenRepo: PropTypes.func.isRequired,
-  githubPullRequestsError: PropTypes.string,
   watchedRepos: PropTypes.arrayOf(PropTypes.shape({})),
   userTeams: PropTypes.arrayOf(PropTypes.shape({})),
 };
 
 Home.defaultProps = {
-  githubPullRequestsError: null,
   redirectPath: null,
   currentUser: null,
   githubToken: null,
@@ -198,13 +200,9 @@ const mapStateToProps = state => ({
   watchedRepos: state.selectRepos.watchedRepos,
   repositories: state.home.repositories,
   openRepoId: state.home.openRepoId,
-  githubPullRequestsError: state.home.githubPullRequestsError,
 });
 
 const mapDispatchToProps = dispatch => ({
-  requestPullRequests(token, repoIds) {
-    dispatch(actions.requestPullRequests(token, repoIds));
-  },
   toggleOpenRepo(repoId) {
     dispatch(actions.toggleOpenRepo(repoId));
   },

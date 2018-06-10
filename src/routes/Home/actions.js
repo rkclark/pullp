@@ -1,6 +1,5 @@
 import { home as types } from '../../actionTypes';
 import { get, queries } from '../../apis/githubApi';
-import { MAXIMUM_PRS } from '../../constants';
 
 export const requestCurrentUserSuccess = data => ({
   type: types.REQUEST_CURRENT_USER_SUCCESS,
@@ -45,36 +44,6 @@ export const requestUserTeams = token => async (dispatch, getState) => {
     dispatch(requestUserTeamsSuccess(results));
   } catch (err) {
     dispatch(requestUserTeamsFail(err.message));
-  }
-};
-
-export const requestPullRequestsLoading = () => ({
-  type: types.REQUEST_PULL_REQUESTS_LOADING,
-});
-
-export const requestPullRequestsSuccess = (data, watchedRepos) => ({
-  type: types.REQUEST_PULL_REQUESTS_SUCCESS,
-  data,
-  watchedRepos,
-});
-
-export const requestPullRequestsFail = error => ({
-  type: types.REQUEST_PULL_REQUESTS_FAIL,
-  error,
-});
-
-export const requestPullRequests = (token, repoIds) => async (
-  dispatch,
-  getState,
-) => {
-  const watchedRepos = getState().selectRepos.watchedRepos;
-  try {
-    dispatch(requestPullRequestsLoading());
-    const query = queries.pullRequests(repoIds, MAXIMUM_PRS);
-    const results = await get(query, token);
-    dispatch(requestPullRequestsSuccess(results, watchedRepos));
-  } catch (err) {
-    dispatch(requestPullRequestsFail(err.message));
   }
 };
 

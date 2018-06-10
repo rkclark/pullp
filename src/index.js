@@ -13,10 +13,6 @@ import './css/index.css';
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_GITHUB_API_URL,
-  request: operation => {
-    console.log(operation);
-    console.log(operation.getContext());
-  },
 });
 
 ReactDOM.render(

@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { requestPullRequests } from '../../routes/Home/actions';
 import pullpIcon from '../../images/pullpIcon.png';
 
 import defaultTheme from './theme.css';
@@ -31,10 +30,7 @@ export class Nav extends React.Component {
 
   loadRefreshIcon(path) {
     const onClick = () => {
-      this.props.requestPullRequests(
-        this.props.githubToken,
-        this.props.selectedRepos,
-      );
+      // TO DO - make this run apollo get PRs query
     };
     const theme = this.props.theme;
     const icon =
@@ -111,9 +107,6 @@ Nav.propTypes = {
     avatarUrl: PropTypes.string,
     url: PropTypes.string,
   }),
-  githubToken: PropTypes.string,
-  selectedRepos: PropTypes.arrayOf(PropTypes.string),
-  requestPullRequests: PropTypes.func.isRequired,
   pullRequestsLoading: PropTypes.bool,
   currentPath: PropTypes.string.isRequired,
 };
@@ -128,15 +121,7 @@ Nav.defaultProps = {
 
 const mapStateToProps = state => ({
   currentUser: state.home.currentUser,
-  githubToken: state.setup.githubToken,
-  selectedRepos: state.selectRepos.selectedRepos,
   pullRequestsLoading: state.home.pullRequestsLoading,
 });
 
-const mapDispatchToProps = dispatch => ({
-  requestPullRequests(token, repoIds) {
-    dispatch(requestPullRequests(token, repoIds));
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Nav);
+export default connect(mapStateToProps)(Nav);
