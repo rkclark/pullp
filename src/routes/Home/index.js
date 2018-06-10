@@ -108,26 +108,6 @@ export class Home extends React.Component {
     //   });
     // }
 
-    // return (
-    //   <div>
-    //     {this.props.githubPullRequestsError ? (
-    // <Error
-    //   title="Error getting latest pull requests data from Github"
-    //   message={this.props.githubPullRequestsError}
-    // />
-    //     ) : null}
-
-    // <div className={theme.reposContainer}>
-    //   {sortedRepos.map(repo => (
-    //     <Repo
-    //       data={repo}
-    //       key={repo.id}
-    //       openRepoId={this.props.openRepoId}
-    //       toggleOpenRepo={this.props.toggleOpenRepo}
-    //     />
-    //   ))}
-    // </div>
-    //   </div>
     return (
       <Query
         pollInterval={60000}

@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ApolloClient from 'apollo-boost';
-import { ApolloProvider } from 'react-apollo';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { requestUserTeams } from '../../routes/Home/actions';
@@ -11,14 +9,6 @@ import SelectRepos from '../../routes/SelectRepos'; //eslint-disable-line
 import Setup from '../../routes/Setup';
 import defaultTheme from './theme.css';
 import NavContainer from '../Nav';
-
-const client = new ApolloClient({
-  uri: process.env.REACT_APP_GITHUB_API_URL,
-  request: operation => {
-    console.log(operation);
-    console.log(operation.getContext());
-  },
-});
 
 export class Layout extends React.Component {
   constructor(props) {
@@ -40,29 +30,27 @@ export class Layout extends React.Component {
     const theme = this.props.theme;
 
     return (
-      <ApolloProvider client={client}>
-        <div className={theme.layout}>
-          {this.props.rehydrationComplete ? (
-            <div>
-              <NavContainer currentPath={this.props.location.pathname} />
-              <div className={this.props.theme.routeContainer}>
-                <Route exact path="/app" component={HomeContainer} />
-                <Route exact path="/app/account" component={Account} />
-                <Route exact path="/app/selectRepos" component={SelectRepos} />
-                <Route exact path="/app/setup" component={Setup} />
-              </div>
+      <div className={theme.layout}>
+        {this.props.rehydrationComplete ? (
+          <div>
+            <NavContainer currentPath={this.props.location.pathname} />
+            <div className={this.props.theme.routeContainer}>
+              <Route exact path="/app" component={HomeContainer} />
+              <Route exact path="/app/account" component={Account} />
+              <Route exact path="/app/selectRepos" component={SelectRepos} />
+              <Route exact path="/app/setup" component={Setup} />
             </div>
-          ) : null}
-          {window.location.pathname.includes('index.html') && (
-            <Redirect to="/app" />
+          </div>
+        ) : null}
+        {window.location.pathname.includes('index.html') && (
+          <Redirect to="/app" />
+        )}
+        {this.props.rehydrationComplete &&
+          !this.props.currentUser &&
+          window.location.pathname !== '/app/setup' && (
+            <Redirect to="/app/setup" />
           )}
-          {this.props.rehydrationComplete &&
-            !this.props.currentUser &&
-            window.location.pathname !== '/app/setup' && (
-              <Redirect to="/app/setup" />
-            )}
-        </div>
-      </ApolloProvider>
+      </div>
     );
   }
 }
