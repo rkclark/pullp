@@ -60,7 +60,7 @@ export class Home extends React.Component {
         <div className={theme.reposContainer}>
           <TransitionGroup component={null}>
             {sortedRepos.map(repo => (
-              <Transition timeout={300} key={repo.id} appear>
+              <Transition timeout={500} key={repo.id} appear unmountOnExit>
                 {transitionState => (
                   <Repo
                     data={repo}

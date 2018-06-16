@@ -45,6 +45,8 @@ app.get('/authenticate/*', async (req, res) => {
 // Stringify then remove spaces and \n from string
 const stringify = string => JSON.stringify(string).replace(/(\s|\\n)/gm, '');
 
+let prResponseCount = 0;
+
 app.post('/graphql', async (req, res) => {
   console.log('Stub server received POST /graphql');
 
@@ -81,7 +83,12 @@ app.post('/graphql', async (req, res) => {
     }
     case pullRequestsQuery: {
       console.log('Stub server returning pull requests response');
-      const pullRequestsResponse = stringify(getPullRequestsResponse());
+      console.log('PR RESP INDEX', prResponseCount);
+      const pullRequestsResponse = stringify(
+        getPullRequestsResponse(prResponseCount),
+      );
+
+      prResponseCount = prResponseCount > 0 ? 0 : 1;
       res.send(pullRequestsResponse);
       break;
     }
