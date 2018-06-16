@@ -3,8 +3,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CircularProgressbar from 'react-circular-progressbar';
+
 import defaultTheme from './theme.css';
 import RepoModal from '../RepoModal';
+import CircularCounter from '../../../../components/CircularCounter';
 import { REPO_SUMMARY_MAX_PRS, MAXIMUM_PRS } from '../../../../constants';
 import userIcon from '../../../../images/anon-user.svg';
 
@@ -82,11 +84,7 @@ export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
           tabIndex="0"
         >
           <div className={`${theme.countContainer}`}>
-            <div className={`${theme.prCount}`}>
-              <span className={theme.countLabel}>
-                {data.pullRequests.length}
-              </span>
-            </div>
+            <CircularCounter count={data.pullRequests.length} />
             <span className={theme.prCountLabel}>OPEN</span>
             <div className={theme.authorsContainer}>
               {prRows}
