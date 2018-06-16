@@ -77,22 +77,6 @@
   background-color: var(--primary-medium);
 }
 
-.prCount {
-  width: 9rem;
-  height: 9rem;
-  border-radius: 100%;
-  background-color: var(--primary-medium);
-  color: var(--white);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.countLabel {
-  font-weight: bold;
-  font-size: 4rem;
-}
-
 .prCountLabel {
   font-family: 'Roboto', sans-serif;
   font-weight: normal;
