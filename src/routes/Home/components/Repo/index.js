@@ -10,7 +10,9 @@ import CircularCounter from '../../../../components/CircularCounter';
 import { REPO_SUMMARY_MAX_PRS, MAXIMUM_PRS } from '../../../../constants';
 import userIcon from '../../../../images/anon-user.svg';
 
-export default function Repo({ theme, data, toggleOpenRepo, openRepoId }) {
+export default function Repo(props) {
+  const { theme, data, toggleOpenRepo, openRepoId } = props;
+  console.log(props);
   const numberOfPrs = data.pullRequests.length;
   const totalPrs = data.totalPullRequests;
   const countClass = numberOfPrs === 0 ? 'zeroCount' : null;
