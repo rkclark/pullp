@@ -273,7 +273,3 @@
 .zeroCount .prCountLabel {
   color: var(--white);
 }
-
-.zeroCount .prCount {
-  background-color: var(--primary-extra-dark);
-}
