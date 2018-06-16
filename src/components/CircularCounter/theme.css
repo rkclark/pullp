@@ -16,3 +16,8 @@
   font-weight: bold;
   font-size: 4rem;
 }
+
+.zeroCount.counter {
+  background-color: var(--primary-extra-dark);
+}
+

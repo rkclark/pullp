@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import defaultTheme from './theme.css';
 
 export default function CircularCounter({ theme, count }) {
+  const zeroCountClass = count === 0 ? theme.zeroCount : null;
   return (
-    <div className={`${theme.counter}`}>
-      <span className={theme.label}>{count}</span>
+    <div className={`${theme.counter} ${zeroCountClass}`}>
+      <span className={`${theme.label}`}>{count}</span>
     </div>
   );
 }
