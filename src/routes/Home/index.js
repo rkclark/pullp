@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { TransitionGroup, Transition } from 'react-transition-group';
+
 import Repo from './components/Repo';
 import * as actions from './actions';
 import theme from './theme.css';
@@ -56,14 +58,20 @@ export class Home extends React.Component {
         ) : null}
 
         <div className={theme.reposContainer}>
-          {sortedRepos.map(repo => (
-            <Repo
-              data={repo}
-              key={repo.id}
-              openRepoId={this.props.openRepoId}
-              toggleOpenRepo={this.props.toggleOpenRepo}
-            />
-          ))}
+          <TransitionGroup component={null}>
+            {sortedRepos.map(repo => (
+              <Transition timeout={300} key={repo.id} appear>
+                {transitionState => (
+                  <Repo
+                    data={repo}
+                    openRepoId={this.props.openRepoId}
+                    toggleOpenRepo={this.props.toggleOpenRepo}
+                    transitionState={transitionState}
+                  />
+                )}
+              </Transition>
+            ))}
+          </TransitionGroup>
         </div>
       </div>
     );
