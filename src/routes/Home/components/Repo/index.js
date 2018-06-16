@@ -10,9 +10,13 @@ import CircularCounter from '../../../../components/CircularCounter';
 import { REPO_SUMMARY_MAX_PRS, MAXIMUM_PRS } from '../../../../constants';
 import userIcon from '../../../../images/anon-user.svg';
 
-export default function Repo(props) {
-  const { theme, data, toggleOpenRepo, openRepoId } = props;
-  console.log(props);
+export default function Repo({
+  theme,
+  data,
+  toggleOpenRepo,
+  openRepoId,
+  transitionState,
+}) {
   const numberOfPrs = data.pullRequests.length;
   const totalPrs = data.totalPullRequests;
   const countClass = numberOfPrs === 0 ? 'zeroCount' : null;
@@ -68,8 +72,16 @@ export default function Repo(props) {
       </div>
     ) : null;
 
+  const transitionStyles = {
+    entering: theme.repoEntering,
+    entered: theme.repoEntered,
+    exiting: theme.repoExiting,
+  };
+
   return (
-    <div className={`${theme.repoContainer}`}>
+    <div
+      className={`${theme.repoContainer} ${transitionStyles[transitionState]}`}
+    >
       <div className={`${theme.repo} ${theme[countClass]}`}>
         <a href={data.url} className={theme.link}>
           <img
@@ -152,9 +164,11 @@ Repo.propTypes = {
   }).isRequired,
   openRepoId: PropTypes.string,
   toggleOpenRepo: PropTypes.func.isRequired,
+  transitionState: PropTypes.string,
 };
 
 Repo.defaultProps = {
   theme: defaultTheme,
   openRepoId: null,
+  transitionState: null,
 };
