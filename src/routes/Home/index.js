@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { TransitionGroup, Transition } from 'react-transition-group';
+import FlipMove from 'react-flip-move';
 
 import Repo from './components/Repo';
 import * as actions from './actions';
@@ -58,20 +58,16 @@ export class Home extends React.Component {
         ) : null}
 
         <div className={theme.reposContainer}>
-          <TransitionGroup component={null}>
+          <FlipMove typeName={null} duration={500} appearAnimation={'fade'}>
             {sortedRepos.map(repo => (
-              <Transition timeout={500} key={repo.id} appear unmountOnExit>
-                {transitionState => (
-                  <Repo
-                    data={repo}
-                    openRepoId={this.props.openRepoId}
-                    toggleOpenRepo={this.props.toggleOpenRepo}
-                    transitionState={transitionState}
-                  />
-                )}
-              </Transition>
+              <Repo
+                key={repo.id}
+                data={repo}
+                openRepoId={this.props.openRepoId}
+                toggleOpenRepo={this.props.toggleOpenRepo}
+              />
             ))}
-          </TransitionGroup>
+          </FlipMove>
         </div>
       </div>
     );
