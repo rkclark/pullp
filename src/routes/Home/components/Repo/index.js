@@ -10,7 +10,7 @@ import CircularCounter from '../../../../components/CircularCounter';
 import { REPO_SUMMARY_MAX_PRS, MAXIMUM_PRS } from '../../../../constants';
 import userIcon from '../../../../images/anon-user.svg';
 
-/* This must be a class-based component for React Flip animations to work */
+/* This must be a class-based component for React Flip Move animations to work */
 export default class Repo extends React.Component {
   constructor(props) {
     super();

@@ -83,7 +83,6 @@ app.post('/graphql', async (req, res) => {
     }
     case pullRequestsQuery: {
       console.log('Stub server returning pull requests response');
-      console.log('PR RESP INDEX', prResponseCount);
       const pullRequestsResponse = stringify(
         getPullRequestsResponse(prResponseCount),
       );
