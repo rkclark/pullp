@@ -3,9 +3,9 @@
 
 .repoContainer {
   background-color: white;
-  transition: 0.5s ease-in-out all;
   overflow: hidden;
   box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4), inset 0 -0.4rem 0 0 var(--primary-medium);
+  margin: 1rem;
 }
 
 .repoEntering {
