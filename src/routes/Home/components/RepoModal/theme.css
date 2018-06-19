@@ -3,13 +3,15 @@
 
 .repoContainer {
   z-index: var(--z-modal);
-  position: absolute;
+  position: fixed;
   top: 10%;
   left: 10%;
   width: 80%;
   background-color: var(--primary-light);
   color: var(--white);
   margin-bottom: 5rem;
+  max-height: 85vh;
+  overflow-y: scroll;
 }
 
 .prsContainer {
