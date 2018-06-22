@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import FlipMove from 'react-flip-move';
+import _ from 'lodash';
 
 import Repo from './components/Repo';
 import * as actions from './actions';
@@ -36,16 +37,19 @@ export class Home extends React.Component {
 
   render() {
     let sortedRepos = [];
+
+    // if (this.props.repositories.length > 0) {
+    //   sortedRepos = _.reverse(
+    //     _.sortBy(this.props.repositories, ['pullRequests', 'name']),
+    //   );
+    // }
+
     if (this.props.repositories.length > 0) {
-      sortedRepos = this.props.repositories.sort((a, b) => {
-        if (a.pullRequests.length > b.pullRequests.length) {
-          return -1;
-        }
-        if (a.pullRequests.length < b.pullRequests.length) {
-          return 1;
-        }
-        return 0;
-      });
+      sortedRepos = _.orderBy(
+        this.props.repositories,
+        [repo => repo.pullRequests.length, repo => repo.name],
+        ['desc', 'asc'],
+      );
     }
 
     return (
