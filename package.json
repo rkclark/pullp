@@ -46,7 +46,7 @@
     "css-loader": "0.28.1",
     "debug": "^2.6.8",
     "electron": "^2.0.2",
-    "electron-builder": "^20.15.3",
+    "electron-builder": "20.14.7",
     "electron-devtools-installer": "^2.2.4",
     "electron-log": "^2.2.14",
     "enzyme": "^3.3.0",
