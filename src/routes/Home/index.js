@@ -38,12 +38,6 @@ export class Home extends React.Component {
   render() {
     let sortedRepos = [];
 
-    // if (this.props.repositories.length > 0) {
-    //   sortedRepos = _.reverse(
-    //     _.sortBy(this.props.repositories, ['pullRequests', 'name']),
-    //   );
-    // }
-
     if (this.props.repositories.length > 0) {
       sortedRepos = _.orderBy(
         this.props.repositories,
