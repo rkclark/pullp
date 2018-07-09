@@ -56,7 +56,7 @@ describe('Home', () => {
   });
 
   it('renders a repo for each repo in props', () => {
-    const component = shallow(<Home {...baseProps} />);
+    const component = mount(<Home {...baseProps} />);
     expect(component.find(Repo).length).toBe(3);
   });
 

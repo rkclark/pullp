@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
+import FlipMove from 'react-flip-move';
+import _ from 'lodash';
+
 import Repo from './components/Repo';
 import * as actions from './actions';
 import theme from './theme.css';
@@ -95,19 +98,6 @@ export class Home extends React.Component {
   // }
 
   render() {
-    // let sortedRepos = [];
-    // if (this.props.repositories.length > 0) {
-    //   sortedRepos = this.props.repositories.sort((a, b) => {
-    //     if (a.pullRequests.length > b.pullRequests.length) {
-    //       return -1;
-    //     }
-    //     if (a.pullRequests.length < b.pullRequests.length) {
-    //       return 1;
-    //     }
-    //     return 0;
-    //   });
-    // }
-
     return (
       <Query
         pollInterval={60000}
@@ -139,26 +129,36 @@ export class Home extends React.Component {
             );
           }
 
-          let transformedData = transform(data, {
+          let transformedRepos = transform(data, {
             watchedRepos: this.props.watchedRepos,
             userTeams: this.props.userTeams,
             currentUser: this.props.currentUser,
           });
 
-          if (!transformedData) {
-            transformedData = [];
+          if (!transformedRepos) {
+            transformedRepos = [];
+          }
+
+          if (transformedRepos.length > 0) {
+            transformedRepos = _.orderBy(
+              transformedRepos,
+              [repo => repo.pullRequests.length, repo => repo.name],
+              ['desc', 'asc'],
+            );
           }
 
           return (
             <div className={theme.reposContainer}>
-              {transformedData.map(repo => (
-                <Repo
-                  data={repo}
-                  key={repo.id}
-                  openRepoId={this.props.openRepoId}
-                  toggleOpenRepo={this.props.toggleOpenRepo}
-                />
-              ))}
+              <FlipMove typeName={null} duration={500} appearAnimation={'fade'}>
+                {transformedRepos.map(repo => (
+                  <Repo
+                    key={repo.id}
+                    data={repo}
+                    openRepoId={this.props.openRepoId}
+                    toggleOpenRepo={this.props.toggleOpenRepo}
+                  />
+                ))}
+              </FlipMove>
             </div>
           );
         }}

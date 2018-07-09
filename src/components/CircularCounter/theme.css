@@ -1,0 +1,23 @@
+@import "../../css/colors.css";
+@import "../../css/units.css";
+
+.counter {
+  width: 9rem;
+  height: 9rem;
+  border-radius: 100%;
+  background-color: var(--primary-medium);
+  color: var(--white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.label {
+  font-weight: bold;
+  font-size: 4rem;
+}
+
+.zeroCount.counter {
+  background-color: var(--primary-extra-dark);
+}
+
