@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
+// import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import FlipMove from 'react-flip-move';
 import _ from 'lodash';
@@ -12,65 +12,8 @@ import theme from './theme.css';
 import Error from '../../components/Error';
 import transform from './transform';
 import { MAXIMUM_PRS } from '../../constants';
+import reposWithPullRequestsQuery from '../../queries/reposWithPullRequests.graphql';
 
-const pullRequestsQuery = gql`
-  query pullRequests($ids: [ID!]!, $maximumPrs: Int!) {
-    nodes(ids: $ids) {
-      id
-      ... on Repository {
-        pullRequests(
-          last: $maximumPrs
-          states: [OPEN]
-          orderBy: { field: CREATED_AT, direction: DESC }
-        ) {
-          totalCount
-          edges {
-            node {
-              createdAt
-              url
-              number
-              title
-              author {
-                avatarUrl
-                login
-                url
-              }
-              reviewRequests(last: 100) {
-                edges {
-                  node {
-                    requestedReviewer {
-                      ... on User {
-                        login
-                        avatarUrl
-                      }
-                      ... on Team {
-                        name
-                        id
-                        avatarUrl
-                      }
-                    }
-                  }
-                }
-              }
-              reviews(last: 100) {
-                edges {
-                  node {
-                    author {
-                      login
-                      avatarUrl
-                    }
-                    createdAt
-                    state
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
 export class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -107,7 +50,7 @@ export class Home extends React.Component {
             Authorization: `bearer ${this.props.githubToken}`,
           },
         }}
-        query={pullRequestsQuery}
+        query={reposWithPullRequestsQuery}
         variables={{
           ids: this.props.selectedRepos,
           maximumPrs: MAXIMUM_PRS,
@@ -128,7 +71,7 @@ export class Home extends React.Component {
               />
             );
           }
-
+          console.log('DATA IS -------------- \n', data);
           let transformedRepos = transform(data, {
             watchedRepos: this.props.watchedRepos,
             userTeams: this.props.userTeams,

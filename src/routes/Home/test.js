@@ -1,7 +1,44 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
+import { MockedProvider } from 'react-apollo/test-utils';
+import wait from 'waait';
 import { Home } from '.';
 import Repo from './components/Repo';
+import { MAXIMUM_PRS } from '../../constants';
+import reposWithPullRequestsQuery from '../../queries/reposWithPullRequests.graphql';
+
+const repositories = [
+  {
+    id: '1',
+    pullRequests: [],
+    name: 'testRepo',
+    owner: {
+      login: 'test',
+      avatarUrl: 'test.com',
+    },
+    url: 'test.com',
+  },
+  {
+    id: '2',
+    pullRequests: [],
+    name: 'testRepo',
+    owner: {
+      login: 'test',
+      avatarUrl: 'test.com',
+    },
+    url: 'test.com',
+  },
+  {
+    id: '3',
+    pullRequests: [],
+    name: 'testRepo',
+    owner: {
+      login: 'test',
+      avatarUrl: 'test.com',
+    },
+    url: 'test.com',
+  },
+];
 
 describe('Home', () => {
   const baseProps = {
@@ -15,38 +52,6 @@ describe('Home', () => {
     githubToken: 'token',
     requestPullRequests: () => {},
     selectedRepos: ['1', '2', '3'],
-    repositories: [
-      {
-        id: '1',
-        pullRequests: [],
-        name: 'testRepo',
-        owner: {
-          login: 'test',
-          avatarUrl: 'test.com',
-        },
-        url: 'test.com',
-      },
-      {
-        id: '2',
-        pullRequests: [],
-        name: 'testRepo',
-        owner: {
-          login: 'test',
-          avatarUrl: 'test.com',
-        },
-        url: 'test.com',
-      },
-      {
-        id: '3',
-        pullRequests: [],
-        name: 'testRepo',
-        owner: {
-          login: 'test',
-          avatarUrl: 'test.com',
-        },
-        url: 'test.com',
-      },
-    ],
     toggleOpenRepo: () => {},
   };
 
@@ -55,8 +60,27 @@ describe('Home', () => {
     expect(component.length).toBe(1);
   });
 
-  it('renders a repo for each repo in props', () => {
-    const component = mount(<Home {...baseProps} />);
+  it.only('renders a repo for each repo in props', async () => {
+    const component = mount(
+      <MockedProvider
+        mocks={[
+          {
+            result: { data: repositories },
+            request: {
+              query: reposWithPullRequestsQuery,
+              variables: {
+                ids: baseProps.selectedRepos,
+                maximumPrs: MAXIMUM_PRS,
+              },
+            },
+          },
+        ]}
+      >
+        <Home {...baseProps} />
+      </MockedProvider>,
+    );
+    // console.log(reposWithPullRequestsQuery);
+    await wait(0);
     expect(component.find(Repo).length).toBe(3);
   });
 
