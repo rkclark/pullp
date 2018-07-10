@@ -58,6 +58,7 @@ export class Home extends React.Component {
         options={{ fetchPolicy: 'network-only' }}
       >
         {({ loading, error, data }) => {
+          console.log('RENDERING WITH -------', { loading, error, data });
           if (loading) return <p>Loading...</p>;
           if (error) {
             let message = error.message;
