@@ -82,6 +82,20 @@ export class SelectRepos extends React.Component {
           Can&#8217;t find one of your repos here? Make sure you are watching it
           on Github!
         </p>
+        {this.props.selectedRepos.length ? (
+          <p className={theme.intro}>
+            <Button
+              className={theme.button}
+              onClick={() => {
+                this.props.resetRepoSelection();
+              }}
+            >
+              Reset repo selection
+            </Button>
+          </p>
+        ) : (
+          undefined
+        )}
         {this.props.loading ? (
           <div className={theme.loading}>
             <Loading />
@@ -197,6 +211,7 @@ SelectRepos.propTypes = {
   repoFilterValue: PropTypes.string,
   changeReposPage: PropTypes.func.isRequired,
   loading: PropTypes.bool,
+  resetRepoSelection: PropTypes.func.isRequired,
 };
 
 SelectRepos.defaultProps = {
@@ -236,6 +251,9 @@ const mapDispatchToProps = dispatch => ({
   },
   changeReposPage(page) {
     dispatch(actions.changeReposPage(page));
+  },
+  resetRepoSelection() {
+    dispatch(actions.resetSelectedRepos());
   },
 });
 

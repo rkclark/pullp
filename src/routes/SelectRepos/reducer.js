@@ -127,6 +127,12 @@ export default function(state = initialState, action) {
         githubError: null,
       };
     }
+    case types.RESET_SELECTED_REPOS: {
+      return {
+        ...state,
+        selectedRepos: [],
+      };
+    }
     default: {
       return state;
     }
