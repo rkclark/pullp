@@ -87,7 +87,7 @@ export class SelectRepos extends React.Component {
             <Button
               className={theme.button}
               onClick={() => {
-                this.props.resetRepoSelection();
+                this.props.resetSelectedRepos();
               }}
             >
               Reset repo selection
@@ -211,7 +211,7 @@ SelectRepos.propTypes = {
   repoFilterValue: PropTypes.string,
   changeReposPage: PropTypes.func.isRequired,
   loading: PropTypes.bool,
-  resetRepoSelection: PropTypes.func.isRequired,
+  resetSelectedRepos: PropTypes.func.isRequired,
 };
 
 SelectRepos.defaultProps = {
@@ -252,7 +252,7 @@ const mapDispatchToProps = dispatch => ({
   changeReposPage(page) {
     dispatch(actions.changeReposPage(page));
   },
-  resetRepoSelection() {
+  resetSelectedRepos() {
     dispatch(actions.resetSelectedRepos());
   },
 });

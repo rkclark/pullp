@@ -309,4 +309,13 @@ describe('SelectRepos actions', () => {
       expect(actions.loadingWatchedRepos()).toEqual(expectedAction);
     });
   });
+
+  describe('resetSelectedRepos', () => {
+    it('creates an acion to reset selected repos', () => {
+      const expectedAction = {
+        type: types.RESET_SELECTED_REPOS,
+      };
+      expect(actions.resetSelectedRepos()).toEqual(expectedAction);
+    });
+  });
 });

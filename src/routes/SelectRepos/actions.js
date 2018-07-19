@@ -22,9 +22,8 @@ export const toggleRepoSelection = id => ({
   id,
 });
 
-export const resetSelectedRepos = id => ({
+export const resetSelectedRepos = () => ({
   type: types.RESET_SELECTED_REPOS,
-  id,
 });
 
 export const saveRepoFilterValue = value => ({

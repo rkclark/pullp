@@ -96,6 +96,7 @@ describe('SelectRepos', () => {
     selectedRepos: [],
     repoFilterValue: null,
     changeReposPage: () => {},
+    resetSelectedRepos: () => {},
   };
 
   it('renders successfully', () => {
