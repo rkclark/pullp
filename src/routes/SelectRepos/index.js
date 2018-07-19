@@ -85,12 +85,13 @@ export class SelectRepos extends React.Component {
         {this.props.selectedRepos.length ? (
           <p className={theme.intro}>
             <Button
+              data-test-id="clearAllSelectionsButton"
               className={theme.button}
               onClick={() => {
                 this.props.resetSelectedRepos();
               }}
             >
-              Reset repo selection
+              Clear all selections
             </Button>
           </p>
         ) : (

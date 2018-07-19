@@ -130,6 +130,50 @@ describe('SelectRepos', () => {
     expect(component.requestWatchedRepos).toHaveBeenCalled;
   });
 
+  describe('when there are repos selected', () => {
+    it('renders a clear repo selections button', () => {
+      const component = shallow(
+        <SelectRepos
+          {...props}
+          selectedRepos={['MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==']}
+        />,
+      );
+      const button = component.find(
+        '[data-test-id="clearAllSelectionsButton"]',
+      );
+      expect(button.length).toBe(1);
+    });
+
+    describe('clear repo selections', () => {
+      it('dispatches resetSelectedRepos on click', () => {
+        const resetSelectedRepos = jest.fn();
+        const component = shallow(
+          <SelectRepos
+            {...props}
+            selectedRepos={['MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==']}
+            resetSelectedRepos={resetSelectedRepos}
+          />,
+        );
+        const button = component.find(
+          '[data-test-id="clearAllSelectionsButton"]',
+        );
+        expect(resetSelectedRepos).not.toHaveBeenCalled;
+        button.simulate('click');
+        expect(resetSelectedRepos).toHaveBeenCalled;
+      });
+    });
+  });
+
+  describe('when there are no repos selected', () => {
+    it('does not render a clear repo selections button', () => {
+      const component = shallow(<SelectRepos {...props} selectedRepos={[]} />);
+      const button = component.find(
+        '[data-test-id="clearAllSelectionsButton"]',
+      );
+      expect(button.length).toBe(0);
+    });
+  });
+
   describe('filtering', () => {
     describe('filter input field', () => {
       it('calls performFiltering on change', () => {
