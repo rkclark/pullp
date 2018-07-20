@@ -4,17 +4,29 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { ApolloClient } from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import {
+  InMemoryCache,
+  IntrospectionFragmentMatcher,
+} from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
 import { ApolloLink } from 'apollo-link';
-
 import { ApolloProvider } from 'react-apollo';
 import { Provider } from 'react-redux';
+
+import introspectionQueryResultData from './apollo/githubFragmentTypes.json';
 import store from './store';
 import Layout from './components/Layout';
 import ScrollToTop from './components/ScrollToTop';
 import './css/index.css';
+
+// We need to inform Apollo about the Github API's possible grapql fragment types
+// See https://www.apollographql.com/docs/react/advanced/fragments.html for more info
+const fragmentMatcher = new IntrospectionFragmentMatcher({
+  introspectionQueryResultData: introspectionQueryResultData.data,
+});
+
+const cache = new InMemoryCache({ fragmentMatcher });
 
 const client = new ApolloClient({
   link: ApolloLink.from([
@@ -32,7 +44,7 @@ const client = new ApolloClient({
       credentials: 'same-origin',
     }),
   ]),
-  cache: new InMemoryCache(),
+  cache,
 });
 
 ReactDOM.render(
