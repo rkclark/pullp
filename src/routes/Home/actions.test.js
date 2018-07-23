@@ -293,13 +293,31 @@ describe('Home actions', () => {
     });
   });
   describe('Toggle open repo', () => {
+    const repoId = 'id';
     it('creates a toggle repo action', () => {
-      const repoId = 'id';
       const expectedAction = {
         type: types.TOGGLE_OPEN_REPO,
         id: repoId,
       };
       expect(actions.toggleOpenRepo(repoId)).toEqual(expectedAction);
+    });
+
+    describe('when id arg is defined', () => {
+      it('sets "modal-active" class on document body', () => {
+        actions.toggleOpenRepo(repoId);
+        expect(Object.values(document.body.classList)).toContain(
+          'modal-active',
+        );
+      });
+    });
+
+    describe('when id arg is undefined', () => {
+      it('removes "modal-active" class from document body', () => {
+        actions.toggleOpenRepo();
+        expect(Object.values(document.body.classList)).not.toContain(
+          'modal-active',
+        );
+      });
     });
   });
 });
