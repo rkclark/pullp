@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Transition from 'react-transition-group/Transition';
 import PropTypes from 'prop-types';
 import * as actions from './actions';
 import RepoCheckbox from './components/RepoCheckbox';
@@ -9,6 +10,10 @@ import Button from '../../components/Button';
 import buttonTheme from './buttonTheme.css';
 import Loading from '../../components/Loading';
 import Error from '../../components/Error';
+
+const fadeInDuration = 300;
+
+const capitalise = string => string.charAt(0).toUpperCase() + string.slice(1);
 
 export class SelectRepos extends React.Component {
   constructor(props) {
@@ -82,21 +87,35 @@ export class SelectRepos extends React.Component {
           Can&#8217;t find one of your repos here? Make sure you are watching it
           on Github!
         </p>
-        {this.props.selectedRepos.length ? (
-          <p className={theme.intro}>
-            <Button
-              data-test-id="clearAllSelectionsButton"
-              className={theme.button}
-              onClick={() => {
-                this.props.resetSelectedRepos();
-              }}
-            >
-              Clear all selections
-            </Button>
-          </p>
-        ) : (
-          undefined
-        )}
+        <div className={theme.selectionControls}>
+          <Transition
+            appear
+            timeout={fadeInDuration}
+            in={this.props.selectedRepos.length > 0}
+            unmountOnExit
+          >
+            {state => {
+              const transitionState = capitalise(state);
+
+              const fadeTransitionClassNames = `${theme.fadeDefault} ${
+                theme[`fade${transitionState}`]
+              }`;
+
+              return (
+                <div className={fadeTransitionClassNames}>
+                  <Button
+                    data-test-id="clearAllSelectionsButton"
+                    onClick={() => {
+                      this.props.resetSelectedRepos();
+                    }}
+                  >
+                    Clear all selections
+                  </Button>
+                </div>
+              );
+            }}
+          </Transition>
+        </div>
         {this.props.loading ? (
           <div className={theme.loading}>
             <Loading />

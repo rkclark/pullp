@@ -8,6 +8,7 @@ import Loading from '../../components/Loading';
 import Error from '../../components/Error';
 
 describe('SelectRepos', () => {
+  const mockRouter = new ReactRouterEnzymeContext();
   const props = {
     githubError: null,
     requestWatchedRepos: jest.fn(),
@@ -122,21 +123,24 @@ describe('SelectRepos', () => {
   });
 
   it('calls requestWatchedRepos when mounted', () => {
-    const options = new ReactRouterEnzymeContext();
     const component = mount(<SelectRepos {...props} />, {
-      context: options.getContext(),
-      childContextTypes: options.getChildContextTypes(),
+      context: mockRouter.getContext(),
+      childContextTypes: mockRouter.getChildContextTypes(),
     });
     expect(component.requestWatchedRepos).toHaveBeenCalled;
   });
 
   describe('when there are repos selected', () => {
     it('renders a clear repo selections button', () => {
-      const component = shallow(
+      const component = mount(
         <SelectRepos
           {...props}
           selectedRepos={['MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==']}
         />,
+        {
+          context: mockRouter.getContext(),
+          childContextTypes: mockRouter.getChildContextTypes(),
+        },
       );
       const button = component.find(
         '[data-test-id="clearAllSelectionsButton"]',
@@ -147,12 +151,16 @@ describe('SelectRepos', () => {
     describe('clear repo selections', () => {
       it('dispatches resetSelectedRepos on click', () => {
         const resetSelectedRepos = jest.fn();
-        const component = shallow(
+        const component = mount(
           <SelectRepos
             {...props}
             selectedRepos={['MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==']}
             resetSelectedRepos={resetSelectedRepos}
           />,
+          {
+            context: mockRouter.getContext(),
+            childContextTypes: mockRouter.getChildContextTypes(),
+          },
         );
         const button = component.find(
           '[data-test-id="clearAllSelectionsButton"]',
@@ -166,7 +174,10 @@ describe('SelectRepos', () => {
 
   describe('when there are no repos selected', () => {
     it('does not render a clear repo selections button', () => {
-      const component = shallow(<SelectRepos {...props} selectedRepos={[]} />);
+      const component = mount(<SelectRepos {...props} selectedRepos={[]} />, {
+        context: mockRouter.getContext(),
+        childContextTypes: mockRouter.getChildContextTypes(),
+      });
       const button = component.find(
         '[data-test-id="clearAllSelectionsButton"]',
       );
