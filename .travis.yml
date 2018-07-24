@@ -22,3 +22,6 @@ script: ./ci-build.sh
 
 before_cache:
   - rm -rf $HOME/.cache/electron-builder
+
+  before_install:
+  - chmod +x ci-build.sh
