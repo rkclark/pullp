@@ -33,7 +33,7 @@ script: ./ci-build.sh
 #       yarn release
 #     fi
 before_cache:
-  - rm -rf $HOME/.cache/electron-builder/wine
+  - rm -rf $HOME/.cache/electron-builder
 
 # branches:
 #   include:
