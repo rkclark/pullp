@@ -1,7 +1,7 @@
 #!/bin/bash
 set -ev
 
-yarn install
+npm install
 
 if [[ "${TRAVIS_BRANCH}" =~ "/^v\d+\.\d+(\.\d+)?(-\S*)?$/" ]]; then
   if [ "$TRAVIS_OS_NAME" == "linux" ]; then
@@ -11,10 +11,10 @@ if [[ "${TRAVIS_BRANCH}" =~ "/^v\d+\.\d+(\.\d+)?(-\S*)?$/" ]]; then
         -v ~/.cache/electron:/root/.cache/electron \
         -v ~/.cache/electron-builder:/root/.cache/electron-builder \
         electronuserland/builder \
-        /bin/bash -c "yarn --link-duplicates --pure-lockfile && yarn release --linux"
+        /bin/bash -c "npm install && npm run dist"
     else
-      yarn dist
+      npm run dist
     fi
 else
-  yarn validate
+  npm run validate
 fi
