@@ -1,6 +1,8 @@
 #!/bin/bash
 set -ev
 
+yarn install
+
 if [[ "${TRAVIS_BRANCH}" =~ "/^v\d+\.\d+(\.\d+)?(-\S*)?$/" ]]; then
   if [ "$TRAVIS_OS_NAME" == "linux" ]; then
       docker run --rm \
