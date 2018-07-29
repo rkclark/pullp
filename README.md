@@ -108,14 +108,16 @@ Limitations:
 - `npm run dist`: Builds the production files and then packages them into a distributable for the current OS
 - `npm run ship`: Builds the production files, packages them for the current OS, and then pushes them to a draft Github release on the Pullp repository. For this to work, you must have the relevant access rights on the Pullp repository. In addition, you must create a personal token on Github and add it as `GH_TOKEN=**YOURTOKEN**` in a new file `electron-builder.env` in the project root. See `electron-builder.example.env` for an example.
 
-### :shipit: Releasing
+### :shipit: CI/CD and Releasing
 
-The project uses Travis for CI. This is configured so that any branch that is pushed with a name in the format vX.X.X will be automatically packaged for Mac and Linux and uploaded to Github as a draft release.
+Pullp uses Travis for CI/CD. This is configured so that any branch that is pushed with a name in the format vX.X.X will be automatically packaged for Mac and Linux and uploaded to Github as a draft release.
+
+Any branch name that doesn't match will have the test suite and linter run against it.
 
 e.g.
 
 - a branch with a name `v1.9.70` will be created as a draft release with both the Mac and Linux installation files attached.
-- a branch with a name `add-new-feature` will not be created as a draft release.
+- a branch with a name `add-new-feature` will not be created as a draft release, but will be tested and linted.
 
 
 Once the draft release is on Github it can have release notes added and then be published! :ok_hand:
