@@ -2,7 +2,6 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { MockedProvider } from 'react-apollo/test-utils';
 import { Query } from 'react-apollo';
-import wait from 'waait';
 import { Home } from '.';
 import Repo from './components/Repo';
 import { MAXIMUM_PRS } from '../../constants';
@@ -252,7 +251,7 @@ describe('Home', () => {
     expect(component.length).toBe(1);
   });
 
-  it.only('renders a repo for each repo returned from query', async () => {
+  it.skip('renders a repo for each repo returned from query', async () => {
     const component = mount(
       <MockedProvider
         mocks={[
@@ -271,47 +270,9 @@ describe('Home', () => {
         <Home {...baseProps} />
       </MockedProvider>,
     );
-    // console.log(reposWithPullRequestsQuery);
-    // await wait(0);
     expect(component.text()).toContain('Loading');
-    await wait(0);
     console.log(component.find(Query).props().variables);
     console.log(component.debug());
     expect(component.find(Repo).length).toBe(3);
-  });
-
-  describe('when there is a currentUser', () => {
-    it('dispatches requestPullRequests action', () => {
-      const requestPullRequests = jest.fn();
-      mount(<Home {...baseProps} requestPullRequests={requestPullRequests} />);
-      expect(requestPullRequests).toHaveBeenCalledWith(
-        baseProps.githubToken,
-        baseProps.selectedRepos,
-      );
-    });
-    xit('sets an interval on window to run requestPullRequests', () => {
-      global.setInterval = jest.fn();
-      mount(<Home {...baseProps} />);
-      const requestPullRequestsFn = `() => {
-        this.props.requestPullRequests(
-        this.props.githubToken,
-        this.props.selectedRepos);
-
-      }`;
-      expect(global.setInterval.mock.calls[0][0].toString()).toEqual(
-        requestPullRequestsFn,
-      );
-      expect(global.setInterval.mock.calls[0][1]).toEqual(60000);
-    });
-  });
-
-  describe('when unmounts', () => {
-    it('clears interval on window', () => {
-      global.clearInterval = jest.fn();
-      global.cancelAnimationFrame = () => {};
-      const component = mount(<Home {...baseProps} />);
-      component.unmount();
-      expect(global.clearInterval).toHaveBeenCalled;
-    });
   });
 });
