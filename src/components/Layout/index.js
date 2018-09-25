@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
@@ -7,6 +9,7 @@ import HomeContainer from '../../routes/Home';
 import Account from '../../routes/Account';
 import SelectRepos from '../../routes/SelectRepos'; //eslint-disable-line
 import Setup from '../../routes/Setup';
+import SetupNew from '../../routes/SetupNew';
 import defaultTheme from './theme.css';
 import NavContainer from '../Nav';
 
@@ -31,7 +34,7 @@ export class Layout extends React.Component {
 
     return (
       <div className={theme.layout}>
-        {this.props.rehydrationComplete ? (
+        {/* {this.props.rehydrationComplete ? (
           <div>
             <NavContainer currentPath={this.props.location.pathname} />
             <div className={this.props.theme.routeContainer}>
@@ -49,7 +52,13 @@ export class Layout extends React.Component {
           !this.props.currentUser &&
           window.location.pathname !== '/app/setup' && (
             <Redirect to="/app/setup" />
-          )}
+          )} */}
+
+
+            <Route exact path="/app/setup" component={SetupNew} />
+            {window.location.pathname !== '/app/setup' && (
+              <Redirect to="/app/setup" />
+            )}
       </div>
     );
   }
