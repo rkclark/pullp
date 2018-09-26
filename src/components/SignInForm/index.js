@@ -15,23 +15,25 @@ export default function SignInForm({
   setLoadingToken,
   loadingToken,
 }) {
-  if (loadingToken) {
-    return <LoadingMessage message={'Authenticating with Github...'} />;
-  }
-
   return (
     <div className={style.signInContainer}>
-      <p className={style.welcome}>Welcome to Pullp!</p>
-      <p className={style.begin}>
-        To begin, click the button below to sign in with Github:
-      </p>
-      <Button
-        onClick={() => {
-          githubAuth(saveGithubToken, setLoadingToken);
-        }}
-      >
-        Sign in with Github
-      </Button>
+      {loadingToken ? (
+        <LoadingMessage message={'Authenticating with Github...'} />
+      ) : (
+        <div>
+          <p className={style.welcome}>Welcome to Pullp!</p>
+          <p className={style.begin}>
+            To begin, click the button below to sign in with Github:
+          </p>
+          <Button
+            onClick={() => {
+              githubAuth(saveGithubToken, setLoadingToken);
+            }}
+          >
+            Sign in with Github
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

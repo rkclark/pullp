@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import gql from 'graphql-tag';
@@ -16,7 +16,7 @@ export const GET_GITHUB_TOKEN_FROM_CACHE = gql`
 
 export function SetupNew({ data, client }) {
   return (
-    <div>
+    <Fragment>
       {!get(data, 'githubAuth.token') && (
         <SignInForm
           saveGithubToken={token => {
@@ -43,7 +43,7 @@ export function SetupNew({ data, client }) {
           loadingToken={get(data, 'githubAuth.loadingToken')}
         />
       )}
-    </div>
+    </Fragment>
   );
 }
 
