@@ -3,6 +3,7 @@ import { shallow } from 'enzyme';
 import { SetupNew } from './';
 
 import SignInForm from '../../components/SignInForm';
+import { GetStarted } from '../../components/GetStarted';
 
 describe('Setup', () => {
   const defaultProps = {
@@ -42,6 +43,10 @@ describe('Setup', () => {
       expect(signInForm.length).toBe(1);
       expect(props.loadingToken).toBe(data.githubAuth.loadingToken);
       expect(props.error).toBe(data.githubAuth.error);
+    });
+
+    it('does not render a <GetStarted/> component', () => {
+      expect(component.find(GetStarted).length).toBe(0);
     });
 
     describe('saveGithubToken fn passed to <SignInForm/> as a prop', () => {
@@ -101,6 +106,25 @@ describe('Setup', () => {
           });
         });
       });
+    });
+  });
+
+  describe('when apollo data contains github auth token', () => {
+    const data = {
+      githubAuth: {
+        token: '1234',
+        loadingToken: false,
+        error: null,
+      },
+    };
+    const component = shallow(<SetupNew {...defaultProps} data={data} />);
+
+    it('renders a <GetStarted/> component', () => {
+      expect(component.find(GetStarted).length).toBe(1);
+    });
+
+    it('does not render a <SignInForm/> component', () => {
+      expect(component.find(SignInForm).length).toBe(0);
     });
   });
 });

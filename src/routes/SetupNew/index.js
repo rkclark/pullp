@@ -4,6 +4,7 @@ import { get } from 'lodash';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import SignInForm from '../../components/SignInForm';
+import { GetStarted } from '../../components/GetStarted';
 
 export const GET_GITHUB_TOKEN_FROM_CACHE = gql`
   {
@@ -16,9 +17,11 @@ export const GET_GITHUB_TOKEN_FROM_CACHE = gql`
 `;
 
 export function SetupNew({ data, client }) {
+  const authToken = get(data, 'githubAuth.token');
+
   return (
     <Fragment>
-      {!get(data, 'githubAuth.token') && (
+      {!authToken && (
         <SignInForm
           saveGithubToken={token => {
             client.writeData({
@@ -58,6 +61,7 @@ export function SetupNew({ data, client }) {
           error={get(data, 'githubAuth.error')}
         />
       )}
+      {authToken && <GetStarted />}
     </Fragment>
   );
 }

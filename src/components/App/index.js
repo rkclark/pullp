@@ -1,6 +1,7 @@
 /* eslint-disable import/no-named-as-default, no-console */
 
 import React from 'react';
+import { get } from 'lodash';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { ApolloClient } from 'apollo-client';
 import {
@@ -11,6 +12,7 @@ import { HttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
 import { ApolloLink } from 'apollo-link';
 import { ApolloProvider } from 'react-apollo';
+import { setContext } from 'apollo-link-context';
 import { withClientState } from 'apollo-link-state';
 import { persistCache } from 'apollo-cache-persist';
 import { Provider } from 'react-redux';
@@ -62,6 +64,22 @@ export default class App extends React.Component {
       },
     });
 
+    const authLink = setContext((_, previousContext) => {
+      // get the authentication token from the cache
+      const token = get(
+        previousContext,
+        'cache.data.data["$ROOT_QUERY.githubAuth"].token',
+      );
+
+      // return the headers to the context so httpLink can read them
+      return {
+        headers: {
+          ...previousContext.headers,
+          authorization: token ? `Bearer ${token}` : '',
+        },
+      };
+    });
+
     const client = new ApolloClient({
       link: ApolloLink.from([
         onError(({ graphQLErrors, networkError }) => {
@@ -74,6 +92,7 @@ export default class App extends React.Component {
           if (networkError) console.log(`[Network error]: ${networkError}`);
         }),
         stateLink,
+        authLink,
         new HttpLink({
           uri: process.env.REACT_APP_GITHUB_API_URL,
           credentials: 'same-origin',
