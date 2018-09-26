@@ -25,7 +25,7 @@ export function GetStarted({ data, loading, error, refetch, networkStatus }) {
               'Failed to load your Github profile from the Github API. Please try again later.'
             }
           />
-          <Button onClick={refetch}>Retry</Button>
+          <Button onClick={() => refetch()}>Retry</Button>
         </div>
       );
     }
