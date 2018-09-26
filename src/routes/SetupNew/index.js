@@ -9,6 +9,7 @@ export const GET_GITHUB_TOKEN_FROM_CACHE = gql`
   {
     githubAuth @client {
       token
+      loadingToken
     }
   }
 `;
@@ -23,11 +24,23 @@ export function SetupNew({ data, client }) {
               data: {
                 githubAuth: {
                   token,
+                  loadingToken: false,
                   __typename: 'GithubAuth',
                 },
               },
             });
           }}
+          setLoadingToken={() => {
+            client.writeData({
+              data: {
+                githubAuth: {
+                  loadingToken: true,
+                  __typename: 'GithubAuth',
+                },
+              },
+            });
+          }}
+          loadingToken={get(data, 'githubAuth.loadingToken')}
         />
       )}
     </div>

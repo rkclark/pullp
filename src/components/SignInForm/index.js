@@ -8,8 +8,17 @@ import githubAuth from '../../routes/Setup/helpers/githubAuthNew';
 import style from './style.css';
 
 import Button from '../Button';
+import LoadingMessage from '../LoadingMessage';
 
-export default function SignInForm({ saveGithubToken }) {
+export default function SignInForm({
+  saveGithubToken,
+  setLoadingToken,
+  loadingToken,
+}) {
+  if (loadingToken) {
+    return <LoadingMessage message={'Authenticating with Github...'} />;
+  }
+
   return (
     <div className={style.signInContainer}>
       <p className={style.welcome}>Welcome to Pullp!</p>
@@ -18,7 +27,7 @@ export default function SignInForm({ saveGithubToken }) {
       </p>
       <Button
         onClick={() => {
-          githubAuth(saveGithubToken);
+          githubAuth(saveGithubToken, setLoadingToken);
         }}
       >
         Sign in with Github
@@ -29,4 +38,10 @@ export default function SignInForm({ saveGithubToken }) {
 
 SignInForm.propTypes = {
   saveGithubToken: PropTypes.func.isRequired,
+  setLoadingToken: PropTypes.func.isRequired,
+  loadingToken: PropTypes.bool,
+};
+
+SignInForm.defaultProps = {
+  loadingToken: false,
 };

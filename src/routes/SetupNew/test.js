@@ -30,12 +30,16 @@ describe('Setup', () => {
       component = shallow(<SetupNew data={data} client={clientMock} />);
     });
 
+    afterEach(() => {
+      clientMock.writeData.mockClear();
+    });
+
     it('renders a <SignInForm/>', async () => {
       expect(component.find(SignInForm).length).toBe(1);
     });
 
     describe('saveGithubToken fn passed to <SignInForm/> as a prop', () => {
-      it('writes github token to apollo client', () => {
+      it('writes github token to apollo client and sets loading to false', () => {
         const token = '1234';
         const saveGithubToken = component.find(SignInForm).props()
           .saveGithubToken;
@@ -46,9 +50,28 @@ describe('Setup', () => {
           data: {
             githubAuth: {
               token,
+              loadingToken: false,
               __typename: 'GithubAuth',
             },
           },
+        });
+      });
+
+      describe('setLoadingToken fn passed to <SignInForm/> as a prop', () => {
+        it('sets token loading state to true', () => {
+          const setLoadingToken = component.find(SignInForm).props()
+            .setLoadingToken;
+
+          expect(clientMock.writeData).not.toBeCalled;
+          setLoadingToken();
+          expect(clientMock.writeData).toHaveBeenLastCalledWith({
+            data: {
+              githubAuth: {
+                loadingToken: true,
+                __typename: 'GithubAuth',
+              },
+            },
+          });
         });
       });
     });

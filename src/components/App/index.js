@@ -21,9 +21,6 @@ import Layout from '../Layout';
 import ScrollToTop from '../ScrollToTop';
 import '../../css/index.css';
 
-// We need to inform Apollo about the Github API's possible grapql fragment types
-// See https://www.apollographql.com/docs/react/advanced/fragments.html for more info
-
 export default class App extends React.Component {
   state = {
     client: null,
@@ -31,6 +28,8 @@ export default class App extends React.Component {
   };
 
   async componentDidMount() {
+    // We need to inform Apollo about the Github API's possible grapql fragment types
+    // See https://www.apollographql.com/docs/react/advanced/fragments.html for more info
     const fragmentMatcher = new IntrospectionFragmentMatcher({
       introspectionQueryResultData: introspectionQueryResultData.data,
     });
@@ -57,6 +56,7 @@ export default class App extends React.Component {
         githubAuth: {
           __typename: 'GithubAuth',
           token: null,
+          loadingToken: false,
         },
       },
     });

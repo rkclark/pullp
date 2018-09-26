@@ -1,6 +1,6 @@
 const gatekeeperUrl = process.env.REACT_APP_OAUTH_GATEKEEPER_URL;
 
-export default function githubAuth(saveGithubToken) {
+export default function githubAuth(saveGithubToken, setLoadingToken) {
   const electron = window.electron;
 
   const remote = electron.remote;
@@ -29,6 +29,8 @@ export default function githubAuth(saveGithubToken) {
     // If there is a code, proceed to get token from github
     if (code) {
       authWindow.destroy();
+
+      setLoadingToken();
       const res = await fetch(`${gatekeeperUrl}/${code}`, {
         headers: {
           Accept: 'application/json',
