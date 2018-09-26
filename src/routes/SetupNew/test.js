@@ -23,6 +23,8 @@ describe('Setup', () => {
     const data = {
       githubAuth: {
         token: null,
+        loadingToken: false,
+        error: null,
       },
     };
 
@@ -34,12 +36,16 @@ describe('Setup', () => {
       clientMock.writeData.mockClear();
     });
 
-    it('renders a <SignInForm/>', async () => {
-      expect(component.find(SignInForm).length).toBe(1);
+    it('renders a <SignInForm/> with correct props', async () => {
+      const signInForm = component.find(SignInForm);
+      const props = signInForm.props();
+      expect(signInForm.length).toBe(1);
+      expect(props.loadingToken).toBe(data.githubAuth.loadingToken);
+      expect(props.error).toBe(data.githubAuth.error);
     });
 
     describe('saveGithubToken fn passed to <SignInForm/> as a prop', () => {
-      it('writes github token to apollo client and sets loading to false', () => {
+      it('writes github token to apollo client + sets loading false', () => {
         const token = '1234';
         const saveGithubToken = component.find(SignInForm).props()
           .saveGithubToken;
@@ -58,7 +64,7 @@ describe('Setup', () => {
       });
 
       describe('setLoadingToken fn passed to <SignInForm/> as a prop', () => {
-        it('sets token loading state to true', () => {
+        it('sets token loading state to true and error to null', () => {
           const setLoadingToken = component.find(SignInForm).props()
             .setLoadingToken;
 
@@ -68,6 +74,27 @@ describe('Setup', () => {
             data: {
               githubAuth: {
                 loadingToken: true,
+                error: null,
+                __typename: 'GithubAuth',
+              },
+            },
+          });
+        });
+      });
+
+      describe('saveTokenError fn passed to <SignInForm/> as a prop', () => {
+        it('saves token error message and sets loading to false', () => {
+          const error = 'Borked';
+          const saveTokenError = component.find(SignInForm).props()
+            .saveTokenError;
+
+          expect(clientMock.writeData).not.toBeCalled;
+          saveTokenError(error);
+          expect(clientMock.writeData).toHaveBeenLastCalledWith({
+            data: {
+              githubAuth: {
+                loadingToken: false,
+                error,
                 __typename: 'GithubAuth',
               },
             },

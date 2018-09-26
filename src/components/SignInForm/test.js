@@ -4,6 +4,7 @@ import SignInForm from '.';
 import * as githubAuth from '../../routes/Setup/helpers/githubAuthNew';
 import Button from '../Button';
 import LoadingMessage from '../LoadingMessage';
+import Error from '../Error';
 
 const authMock = jest.fn();
 githubAuth.default = authMock;
@@ -12,6 +13,7 @@ describe('SignInForm', () => {
   const defaultProps = {
     saveGithubToken: () => {},
     setLoadingToken: () => {},
+    saveTokenError: () => {},
   };
 
   let component;
@@ -37,6 +39,7 @@ describe('SignInForm', () => {
         expect(authMock).toHaveBeenCalledWith(
           defaultProps.saveGithubToken,
           defaultProps.setLoadingToken,
+          defaultProps.saveTokenError,
         );
       });
     });
@@ -57,6 +60,23 @@ describe('SignInForm', () => {
     it('does not render github sign in button', () => {
       const button = component.find(Button);
       expect(button.length).toBe(0);
+    });
+  });
+
+  describe('when error is truthy', () => {
+    beforeEach(() => {
+      component = shallow(<SignInForm {...defaultProps} error={'borked'} />);
+    });
+    it('renders a <Error /> with correct message', () => {
+      const error = component.find(Error);
+      expect(error.length).toBe(1);
+      expect(error.props().title).toBe('Github Sign In Failed');
+      expect(error.props().message).toBe('Please try again.');
+    });
+
+    it('renders github sign in button', () => {
+      const button = component.find(Button).at(0);
+      expect(button.props().children).toBe('Sign in with Github');
     });
   });
 });

@@ -9,11 +9,14 @@ import style from './style.css';
 
 import Button from '../Button';
 import LoadingMessage from '../LoadingMessage';
+import Error from '../Error';
 
 export default function SignInForm({
   saveGithubToken,
   setLoadingToken,
+  saveTokenError,
   loadingToken,
+  error,
 }) {
   return (
     <div className={style.signInContainer}>
@@ -21,13 +24,19 @@ export default function SignInForm({
         <LoadingMessage message={'Authenticating with Github...'} />
       ) : (
         <div>
+          {error && (
+            <Error
+              title={'Github Sign In Failed'}
+              message={'Please try again.'}
+            />
+          )}
           <p className={style.welcome}>Welcome to Pullp!</p>
           <p className={style.begin}>
             To begin, click the button below to sign in with Github:
           </p>
           <Button
             onClick={() => {
-              githubAuth(saveGithubToken, setLoadingToken);
+              githubAuth(saveGithubToken, setLoadingToken, saveTokenError);
             }}
           >
             Sign in with Github
@@ -41,9 +50,12 @@ export default function SignInForm({
 SignInForm.propTypes = {
   saveGithubToken: PropTypes.func.isRequired,
   setLoadingToken: PropTypes.func.isRequired,
+  saveTokenError: PropTypes.func.isRequired,
   loadingToken: PropTypes.bool,
+  error: PropTypes.string,
 };
 
 SignInForm.defaultProps = {
   loadingToken: false,
+  error: null,
 };

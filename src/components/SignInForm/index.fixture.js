@@ -22,4 +22,12 @@ export default [
       loadingToken: true,
     },
   },
+  {
+    component: SignInForm,
+    name: 'With error',
+    props: {
+      ...baseProps,
+      error: 'Borked',
+    },
+  },
 ];

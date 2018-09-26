@@ -10,6 +10,7 @@ export const GET_GITHUB_TOKEN_FROM_CACHE = gql`
     githubAuth @client {
       token
       loadingToken
+      error
     }
   }
 `;
@@ -25,6 +26,7 @@ export function SetupNew({ data, client }) {
                 githubAuth: {
                   token,
                   loadingToken: false,
+
                   __typename: 'GithubAuth',
                 },
               },
@@ -35,12 +37,25 @@ export function SetupNew({ data, client }) {
               data: {
                 githubAuth: {
                   loadingToken: true,
+                  error: null,
+                  __typename: 'GithubAuth',
+                },
+              },
+            });
+          }}
+          saveTokenError={error => {
+            client.writeData({
+              data: {
+                githubAuth: {
+                  loadingToken: false,
+                  error,
                   __typename: 'GithubAuth',
                 },
               },
             });
           }}
           loadingToken={get(data, 'githubAuth.loadingToken')}
+          error={get(data, 'githubAuth.error')}
         />
       )}
     </Fragment>

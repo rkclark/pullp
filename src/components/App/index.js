@@ -57,6 +57,7 @@ export default class App extends React.Component {
           __typename: 'GithubAuth',
           token: null,
           loadingToken: false,
+          error: null,
         },
       },
     });

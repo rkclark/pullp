@@ -1,6 +1,10 @@
 const gatekeeperUrl = process.env.REACT_APP_OAUTH_GATEKEEPER_URL;
 
-export default function githubAuth(saveGithubToken, setLoadingToken) {
+export default function githubAuth(
+  saveGithubToken,
+  setLoadingToken,
+  saveTokenError,
+) {
   const electron = window.electron;
 
   const remote = electron.remote;
@@ -31,17 +35,30 @@ export default function githubAuth(saveGithubToken, setLoadingToken) {
       authWindow.destroy();
 
       setLoadingToken();
-      const res = await fetch(`${gatekeeperUrl}/${code}`, {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        method: 'GET',
-      });
-      const json = await res.json();
-      console.log('JSON is', json);
-      const token = json.token;
-      await saveGithubToken(token);
+      try {
+        const res = await fetch(`${gatekeeperUrl}/${code}`, {
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          method: 'GET',
+        });
+
+        if (!res.ok) {
+          throw new Error('Auth request to Pullp gatekeeper failed');
+        }
+        const json = await res.json();
+        const token = json.token;
+        if (!token) {
+          throw new Error('Cannot find token in Github auth response');
+        }
+
+        await saveGithubToken(token);
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error(err);
+        saveTokenError(err.message);
+      }
     }
 
     if (error) {
