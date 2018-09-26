@@ -1,39 +1,85 @@
 /* eslint-disable no-return-assign */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import { Link } from 'react-router-dom';
 
+import LoadingMessage from '../LoadingMessage';
+import Error from '../Error';
+import Button from '../Button';
 import style from './style.css';
 
-export function GetStarted({ data }) {
-  console.log(data);
-  return <div className={style.container} />;
+export function GetStarted({ data, loading, error, refetch, networkStatus }) {
+  const renderContent = () => {
+    if (loading || networkStatus === 4) {
+      return <LoadingMessage message="Loading your Github profile..." />;
+    }
+
+    if (error) {
+      return (
+        <div>
+          <Error
+            message={
+              'Failed to load your Github profile from the Github API. Please try again later.'
+            }
+          />
+          <Button onClick={refetch}>Retry</Button>
+        </div>
+      );
+    }
+    return (
+      <Fragment>
+        <p className={style.success}>
+          Successfully signed in as <strong>{data.viewer.login}</strong>!
+        </p>
+        <p className={style.continue}>
+          Now its time to select the Github repos that you would like to monitor
+          with Pullp.
+        </p>
+        <Link to="/app/selectRepos">
+          <Button className={style.button}>Let&#39;s get started</Button>
+        </Link>
+      </Fragment>
+    );
+  };
+
+  return <div className={style.container}>{renderContent()}</div>;
 }
 
 GetStarted.propTypes = {
   data: PropTypes.shape({}).isRequired,
+  loading: PropTypes.bool.isRequired,
+  error: PropTypes.shape({}),
+  refetch: PropTypes.func.isRequired,
+  networkStatus: PropTypes.number.isRequired,
 };
 
-// GetStarted.defaultProps = {
-
-// };
+GetStarted.defaultProps = {
+  error: null,
+};
 
 const GET_CURRENT_USER = gql(`
 query {
 	viewer {
     login
     avatarUrl
-    url
   }
 }
 `);
 
 export default function GetStartedContainer() {
   return (
-    <Query query={GET_CURRENT_USER}>
-      {({ data, client }) => <GetStarted data={data} client={client} />}
+    <Query
+      query={GET_CURRENT_USER}
+      notifyOnNetworkStatusChange
+      fetchPolicy="network-only"
+    >
+      {props => {
+        console.log('props are', props);
+        return <GetStarted {...props} />;
+      }}
     </Query>
   );
 }

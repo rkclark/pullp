@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import { SetupNew } from './';
 
 import SignInForm from '../../components/SignInForm';
-import { GetStarted } from '../../components/GetStarted';
+import GetStartedContainer from '../../components/GetStarted';
 
 describe('Setup', () => {
   const defaultProps = {
@@ -45,8 +45,8 @@ describe('Setup', () => {
       expect(props.error).toBe(data.githubAuth.error);
     });
 
-    it('does not render a <GetStarted/> component', () => {
-      expect(component.find(GetStarted).length).toBe(0);
+    it('does not render a <GetStartedContainer/> component', () => {
+      expect(component.find(GetStartedContainer).length).toBe(0);
     });
 
     describe('saveGithubToken fn passed to <SignInForm/> as a prop', () => {
@@ -119,8 +119,8 @@ describe('Setup', () => {
     };
     const component = shallow(<SetupNew {...defaultProps} data={data} />);
 
-    it('renders a <GetStarted/> component', () => {
-      expect(component.find(GetStarted).length).toBe(1);
+    it('renders a <GetStartedContainer/> component', () => {
+      expect(component.find(GetStartedContainer).length).toBe(1);
     });
 
     it('does not render a <SignInForm/> component', () => {

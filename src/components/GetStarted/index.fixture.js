@@ -1,26 +1,44 @@
 import { GetStarted } from '.';
 
 const baseProps = {
-  saveGithubToken: () => {},
-  setLoadingToken: () => {},
-  loadingToken: false,
+  data: {
+    viewer: {
+      login: 'rkclark',
+      avatarUrl: 'https://avatars2.githubusercontent.com/u/15447744?v=4',
+    },
+  },
+  loading: false,
+  error: null,
+  refetch: () => {},
+  networkStatus: 1,
 };
 
 export default [
   {
     component: GetStarted,
-    name: 'Not loading the token',
+    name: 'With data',
     props: {
       ...baseProps,
     },
+    url: '/',
   },
   {
     component: GetStarted,
-    name: 'Loading the token',
+    name: 'Loading',
     props: {
       ...baseProps,
-      loadingToken: true,
+      loading: true,
     },
+    url: '/',
+  },
+  {
+    component: GetStarted,
+    name: 'Refetching',
+    props: {
+      ...baseProps,
+      networkStatus: 4,
+    },
+    url: '/',
   },
   {
     component: GetStarted,
@@ -29,5 +47,6 @@ export default [
       ...baseProps,
       error: 'Borked',
     },
+    url: '/',
   },
 ];
