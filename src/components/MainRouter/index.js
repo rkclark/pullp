@@ -37,10 +37,6 @@ MainRouter.propTypes = {
   data: PropTypes.shape({}).isRequired,
 };
 
-MainRouter.defaultProps = {
-  error: null,
-};
-
 const GET_CURRENT_USER = gql(`
 query CurrentUser {
 	viewer {
@@ -71,24 +67,18 @@ const GET_USER_TEAMS = gql(`query UserTeams($login: String!)  {
 
 export default compose(
   graphql(GET_CURRENT_USER, {
-    options: props => {
-      console.log('GET_CURRENT_USER received props', props);
-      return {
-        pollInterval: 60000,
-        fetchPolicy: 'cache-and-network',
-      };
-    },
+    options: () => ({
+      pollInterval: 60000,
+      fetchPolicy: 'cache-and-network',
+    }),
   }),
   graphql(GET_USER_TEAMS, {
-    options: props => {
-      console.log('GET_USER_TEAMS received props', props);
-      return {
-        variables: {
-          login: get(props, 'data.viewer.login'),
-        },
-        pollInterval: 60000,
-        fetchPolicy: 'cache-and-network',
-      };
-    },
+    options: props => ({
+      variables: {
+        login: get(props, 'data.viewer.login'),
+      },
+      pollInterval: 60000,
+      fetchPolicy: 'cache-and-network',
+    }),
   }),
 )(MainRouter);

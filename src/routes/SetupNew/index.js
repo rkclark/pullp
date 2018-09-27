@@ -6,16 +6,6 @@ import { Query } from 'react-apollo';
 import SignInForm from '../../components/SignInForm';
 import GetStartedContainer from '../../components/GetStarted';
 
-export const GET_GITHUB_TOKEN_FROM_CACHE = gql`
-  query GithubAuth {
-    githubAuth @client {
-      token
-      loadingToken
-      error
-    }
-  }
-`;
-
 export function SetupNew({ data, client }) {
   const authToken = get(data, 'githubAuth.token');
 
@@ -29,7 +19,6 @@ export function SetupNew({ data, client }) {
                 githubAuth: {
                   token,
                   loadingToken: false,
-
                   __typename: 'GithubAuth',
                 },
               },
@@ -70,6 +59,16 @@ SetupNew.propTypes = {
   data: PropTypes.shape({}).isRequired,
   client: PropTypes.shape({}).isRequired,
 };
+
+export const GET_GITHUB_TOKEN_FROM_CACHE = gql`
+  query GithubAuth {
+    githubAuth @client {
+      token
+      loadingToken
+      error
+    }
+  }
+`;
 
 export default function SetupNewContainer() {
   return (

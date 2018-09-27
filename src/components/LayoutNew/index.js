@@ -9,14 +9,6 @@ import SetupNewContainer from '../../routes/SetupNew';
 import style from './style.css';
 import MainRouterContainer from '../MainRouter';
 
-export const GET_GITHUB_TOKEN_FROM_CACHE = gql`
-  query GithubToken {
-    githubAuth @client {
-      token
-    }
-  }
-`;
-
 export function Layout({ data, error, location }) {
   const renderContent = () => {
     if (error) {
@@ -53,6 +45,14 @@ Layout.propTypes = {
 Layout.defaultProps = {
   error: null,
 };
+
+export const GET_GITHUB_TOKEN_FROM_CACHE = gql`
+  query GithubToken {
+    githubAuth @client {
+      token
+    }
+  }
+`;
 
 export default function LayoutContainer(routerProps) {
   return (
