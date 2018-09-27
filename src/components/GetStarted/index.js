@@ -62,7 +62,7 @@ GetStarted.defaultProps = {
 };
 
 const GET_CURRENT_USER = gql(`
-query {
+query CurrentUser {
 	viewer {
     login
     avatarUrl

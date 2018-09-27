@@ -5,15 +5,12 @@ import gql from 'graphql-tag';
 import { Route, Redirect } from 'react-router-dom';
 import { Query } from 'react-apollo';
 import Error from '../Error';
-import HomeContainer from '../../routes/Home';
-import Account from '../../routes/Account';
-import SelectRepos from '../../routes/SelectRepos'; //eslint-disable-line
 import SetupNewContainer from '../../routes/SetupNew';
 import style from './style.css';
-import NavContainer from '../Nav';
+import MainRouterContainer from '../MainRouter';
 
 export const GET_GITHUB_TOKEN_FROM_CACHE = gql`
-  {
+  query GithubToken {
     githubAuth @client {
       token
     }
@@ -29,17 +26,7 @@ export function Layout({ data, error, location }) {
     }
 
     if (get(data, 'githubAuth.token')) {
-      return (
-        <div>
-          <NavContainer currentPath={get(location, 'pathname')} />
-          <div className={style.routeContainer}>
-            <Route exact path="/app" component={HomeContainer} />
-            <Route exact path="/app/account" component={Account} />
-            <Route exact path="/app/selectRepos" component={SelectRepos} />
-            <Route exact path="/app/setup" component={SetupNewContainer} />
-          </div>
-        </div>
-      );
+      return <MainRouterContainer location={location} />;
     }
 
     return (

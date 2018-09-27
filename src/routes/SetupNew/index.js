@@ -7,7 +7,7 @@ import SignInForm from '../../components/SignInForm';
 import GetStartedContainer from '../../components/GetStarted';
 
 export const GET_GITHUB_TOKEN_FROM_CACHE = gql`
-  {
+  query GithubAuth {
     githubAuth @client {
       token
       loadingToken
