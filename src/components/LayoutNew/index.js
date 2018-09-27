@@ -21,18 +21,20 @@ export function Layout({ data, error, location }) {
   const renderContent = () => {
     if (error) {
       return (
-        <Error message="Error starting up Pullp. If this continues then try opening the console and clearing local storage with 'window.localStorage.clear()'. You will then need to sign in again." />
+        <Error message="Error starting up Pullp. If this continues then try opening the console and clearing local storage with 'window.localStorage.clear()'. You will then need to sign in again after closing and re-opening the app." />
       );
     }
 
+    // If user is authed, render the main app router
     if (get(data, 'githubAuth.token')) {
       return <MainRouterContainer location={location} />;
     }
 
+    // If user is not authed, run setup
     return (
       <Fragment>
         <Route exact path="/app/setup" component={SetupNewContainer} />
-        {window.location.pathname !== '/app/setup' && (
+        {get(location, 'pathname') !== '/app/setup' && (
           <Redirect to="/app/setup" />
         )}
       </Fragment>
@@ -55,11 +57,7 @@ Layout.defaultProps = {
 export default function LayoutContainer(routerProps) {
   return (
     <Query query={GET_GITHUB_TOKEN_FROM_CACHE} fetchPolicy="cache-only">
-      {props => {
-        console.log('QUERY PROPS ARE', props);
-        console.log('ROUTER PROPS ARE', routerProps);
-        return <Layout {...props} {...routerProps} />;
-      }}
+      {props => <Layout {...props} {...routerProps} />}
     </Query>
   );
 }
