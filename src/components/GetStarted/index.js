@@ -35,8 +35,8 @@ export function GetStarted({ data, loading, error, refetch, networkStatus }) {
           Successfully signed in as <strong>{data.viewer.login}</strong>!
         </p>
         <p className={style.continue}>
-          Now its time to select the Github repos that you would like to monitor
-          with Pullp.
+          Now it&#8217;s time to select the Github repos that you would like to
+          monitor with Pullp.
         </p>
         <Link to="/app/selectRepos">
           <Button className={style.button}>Let&#39;s get started</Button>
