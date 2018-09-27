@@ -15,8 +15,10 @@ import style from './style.css';
 
 export function MainRouter({ data }) {
   return (
-    <div>
-      <NavContainer currentPath={get(location, 'pathname')} />
+    <div className={style.mainRouterContainer}>
+      <div className={style.navContainer}>
+        <NavContainer currentPath={get(location, 'pathname')} />
+      </div>
       <div className={style.routeContainer}>
         <Route exact path="/app" component={HomeContainer} />
         <Route exact path="/app/account" component={Account} />
