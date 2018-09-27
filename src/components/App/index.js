@@ -19,7 +19,7 @@ import { Provider } from 'react-redux';
 
 import introspectionQueryResultData from '../../apollo/githubFragmentTypes.json';
 import store from '../../store';
-import Layout from '../Layout';
+import LayoutContainer from '../LayoutNew';
 import ScrollToTop from '../ScrollToTop';
 import '../../css/index.css';
 
@@ -131,7 +131,7 @@ export default class App extends React.Component {
         <Provider store={store}>
           <Router>
             <ScrollToTop>
-              <Route path="*" component={Layout} />
+              <Route path="*" component={LayoutContainer} />
             </ScrollToTop>
           </Router>
         </Provider>

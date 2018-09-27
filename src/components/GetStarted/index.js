@@ -13,6 +13,7 @@ import style from './style.css';
 
 export function GetStarted({ data, loading, error, refetch, networkStatus }) {
   const renderContent = () => {
+    // networkStatus 4 is refetching
     if (loading || networkStatus === 4) {
       return <LoadingMessage message="Loading your Github profile..." />;
     }
@@ -76,10 +77,7 @@ export default function GetStartedContainer() {
       notifyOnNetworkStatusChange
       fetchPolicy="network-only"
     >
-      {props => {
-        console.log('props are', props);
-        return <GetStarted {...props} />;
-      }}
+      {props => <GetStarted {...props} />}
     </Query>
   );
 }
