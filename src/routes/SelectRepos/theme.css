@@ -44,6 +44,34 @@
   padding-bottom: 3rem;
 }
 
+.selectionControls {
+  min-height: 6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fadeDefault {
+  transition: opacity 300ms ease-out;
+  opacity: 0;
+}
+
+.fadeEntering {
+  opacity: 0;
+}
+
+.fadeEntered {
+  opacity: 1;
+}
+
+.fadeExiting {
+  opacity: 0;
+}
+
+.fadeExited {
+  opacity: 0;
+}
+
 @media only screen and (min-width: 840px) {
   .paginationContainer {
     width: 80rem;

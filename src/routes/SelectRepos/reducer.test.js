@@ -626,4 +626,20 @@ describe('SelectRepos reducer', () => {
       expect(newState).toEqual(expectedState);
     });
   });
+  describe('reseting selected repos', () => {
+    it('clears selected repos', () => {
+      const baseState = {
+        ...initialState,
+        selectedRepos: [1, 2, 3],
+      };
+
+      const expectedState = {
+        ...initialState,
+        selectedRepos: [],
+      };
+
+      const newState = reducer(baseState, actions.resetSelectedRepos());
+      expect(newState).toEqual(expectedState);
+    });
+  });
 });

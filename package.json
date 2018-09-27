@@ -1,6 +1,6 @@
 {
   "name": "pullp",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "private": false,
   "main": "src/electron-starter.js",
   "license": "MIT",
@@ -59,6 +59,7 @@
     "react-flip-move": "^3.0.2",
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.1",
+    "react-transition-group": "^2.4.0",
     "redux": "^3.7.0",
     "redux-devtools-extension": "^2.13.2",
     "redux-persist": "^4.9.1",

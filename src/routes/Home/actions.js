@@ -47,7 +47,12 @@ export const requestUserTeams = token => async (dispatch, getState) => {
   }
 };
 
-export const toggleOpenRepo = id => ({
-  type: types.TOGGLE_OPEN_REPO,
-  id,
-});
+export const toggleOpenRepo = id => {
+  id
+    ? document.body.classList.add('modal-active')
+    : document.body.classList.remove('modal-active');
+  return {
+    type: types.TOGGLE_OPEN_REPO,
+    id,
+  };
+};
