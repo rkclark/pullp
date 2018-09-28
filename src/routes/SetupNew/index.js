@@ -9,48 +9,55 @@ import GetStartedContainer from '../../components/GetStarted';
 export function SetupNew({ data, client }) {
   const authToken = get(data, 'githubAuth.token');
 
+  const saveGithubToken = token => {
+    client.writeData({
+      data: {
+        githubAuth: {
+          token,
+          loadingToken: false,
+          __typename: 'GithubAuth',
+        },
+      },
+    });
+  };
+
+  const setLoadingToken = () => {
+    client.writeData({
+      data: {
+        githubAuth: {
+          loadingToken: true,
+          error: null,
+          __typename: 'GithubAuth',
+        },
+      },
+    });
+  };
+
+  const saveTokenError = error => {
+    client.writeData({
+      data: {
+        githubAuth: {
+          loadingToken: false,
+          error,
+          __typename: 'GithubAuth',
+        },
+      },
+    });
+  };
+
   return (
     <Fragment>
-      {!authToken && (
+      {authToken ? (
+        <GetStartedContainer />
+      ) : (
         <SignInForm
-          saveGithubToken={token => {
-            client.writeData({
-              data: {
-                githubAuth: {
-                  token,
-                  loadingToken: false,
-                  __typename: 'GithubAuth',
-                },
-              },
-            });
-          }}
-          setLoadingToken={() => {
-            client.writeData({
-              data: {
-                githubAuth: {
-                  loadingToken: true,
-                  error: null,
-                  __typename: 'GithubAuth',
-                },
-              },
-            });
-          }}
-          saveTokenError={error => {
-            client.writeData({
-              data: {
-                githubAuth: {
-                  loadingToken: false,
-                  error,
-                  __typename: 'GithubAuth',
-                },
-              },
-            });
-          }}
+          saveGithubToken={saveGithubToken}
+          setLoadingToken={setLoadingToken}
+          saveTokenError={saveTokenError}
           loadingToken={get(data, 'githubAuth.loadingToken')}
           error={get(data, 'githubAuth.error')}
         />
       )}
-      {authToken && <GetStartedContainer />}
     </Fragment>
   );
 }
