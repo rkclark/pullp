@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import { GET_GITHUB_AUTH_STATE_FROM_CACHE } from '../../apollo/queries';
 import SignInForm from '../../components/SignInForm';
 import GetStartedContainer from '../../components/GetStarted';
 
@@ -60,19 +60,9 @@ SetupNew.propTypes = {
   client: PropTypes.shape({}).isRequired,
 };
 
-export const GET_GITHUB_TOKEN_FROM_CACHE = gql`
-  query GithubAuth {
-    githubAuth @client {
-      token
-      loadingToken
-      error
-    }
-  }
-`;
-
 export default function SetupNewContainer() {
   return (
-    <Query query={GET_GITHUB_TOKEN_FROM_CACHE} fetchPolicy="cache-only">
+    <Query query={GET_GITHUB_AUTH_STATE_FROM_CACHE} fetchPolicy="cache-only">
       {({ data, client }) => <SetupNew data={data} client={client} />}
     </Query>
   );

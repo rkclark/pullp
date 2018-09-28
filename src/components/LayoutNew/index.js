@@ -1,9 +1,10 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import gql from 'graphql-tag';
 import { Route, Redirect } from 'react-router-dom';
 import { Query } from 'react-apollo';
+
+import { GET_GITHUB_TOKEN_FROM_CACHE } from '../../apollo/queries';
 import Error from '../Error';
 import SetupNewContainer from '../../routes/SetupNew';
 import style from './style.css';
@@ -45,14 +46,6 @@ Layout.propTypes = {
 Layout.defaultProps = {
   error: null,
 };
-
-export const GET_GITHUB_TOKEN_FROM_CACHE = gql`
-  query GithubToken {
-    githubAuth @client {
-      token
-    }
-  }
-`;
 
 export default function LayoutContainer(routerProps) {
   return (

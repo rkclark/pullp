@@ -1,11 +1,9 @@
-/* eslint-disable no-return-assign */
-
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { Link } from 'react-router-dom';
 
+import { GET_CURRENT_USER } from '../../apollo/queries';
 import LoadingMessage from '../LoadingMessage';
 import Error from '../Error';
 import Button from '../Button';
@@ -60,15 +58,6 @@ GetStarted.propTypes = {
 GetStarted.defaultProps = {
   error: null,
 };
-
-const GET_CURRENT_USER = gql(`
-query CurrentUser {
-	viewer {
-    login
-    avatarUrl
-  }
-}
-`);
 
 export default function GetStartedContainer() {
   return (

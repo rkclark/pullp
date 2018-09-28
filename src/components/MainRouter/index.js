@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { graphql, compose } from 'react-apollo';
 import { get } from 'lodash';
-import gql from 'graphql-tag';
+import { GET_CURRENT_USER, GET_USER_TEAMS } from '../../apollo/queries';
 import LoadingMessage from '../LoadingMessage';
 import HomeContainer from '../../routes/Home';
 import Account from '../../routes/Account';
@@ -39,34 +39,6 @@ export function MainRouter({ data }) {
 MainRouter.propTypes = {
   data: PropTypes.shape({}).isRequired,
 };
-
-const GET_CURRENT_USER = gql(`
-query CurrentUser {
-	viewer {
-    login
-    avatarUrl
-  }
-}
-`);
-
-const GET_USER_TEAMS = gql(`query UserTeams($login: String!)  {
-  viewer {
-    organizations(last:100) {
-      edges {
-        node {
-          teams(last:100, userLogins: [$login]) {
-            edges {
-              node {
-                id
-                name
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}`);
 
 export default compose(
   graphql(GET_CURRENT_USER, {
