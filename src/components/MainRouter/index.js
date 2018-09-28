@@ -3,18 +3,18 @@ import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { graphql, compose } from 'react-apollo';
 import { get } from 'lodash';
+
 import { GET_CURRENT_USER, GET_USER_TEAMS } from '../../apollo/queries';
+import { USER_INFO_AND_TEAMS_REFRESH_TIME } from '../../constants';
 import LoadingMessage from '../LoadingMessage';
 import HomeContainer from '../../routes/Home';
 import Account from '../../routes/Account';
 import SelectRepos from '../../routes/SelectRepos'; //eslint-disable-line
 import SetupNewContainer from '../../routes/SetupNew';
-import { USER_INFO_AND_TEAMS_REFRESH_TIME } from '../../constants';
-
 import NavContainer from '../Nav';
 import style from './style.css';
 
-export function MainRouter({ data }) {
+export function MainRouter({ data, location }) {
   return (
     <div className={style.mainRouterContainer}>
       <div className={style.navContainer}>
@@ -38,6 +38,7 @@ export function MainRouter({ data }) {
 
 MainRouter.propTypes = {
   data: PropTypes.shape({}).isRequired,
+  location: PropTypes.shape({}).isRequired,
 };
 
 export default compose(
