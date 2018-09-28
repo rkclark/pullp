@@ -9,6 +9,7 @@ import HomeContainer from '../../routes/Home';
 import Account from '../../routes/Account';
 import SelectRepos from '../../routes/SelectRepos'; //eslint-disable-line
 import SetupNewContainer from '../../routes/SetupNew';
+import { USER_INFO_AND_TEAMS_REFRESH_TIME } from '../../constants';
 
 import NavContainer from '../Nav';
 import style from './style.css';
@@ -70,7 +71,7 @@ const GET_USER_TEAMS = gql(`query UserTeams($login: String!)  {
 export default compose(
   graphql(GET_CURRENT_USER, {
     options: () => ({
-      pollInterval: 60000,
+      pollInterval: USER_INFO_AND_TEAMS_REFRESH_TIME,
       fetchPolicy: 'cache-and-network',
     }),
   }),
@@ -79,7 +80,7 @@ export default compose(
       variables: {
         login: get(props, 'data.viewer.login'),
       },
-      pollInterval: 60000,
+      pollInterval: USER_INFO_AND_TEAMS_REFRESH_TIME,
       fetchPolicy: 'cache-and-network',
     }),
   }),
