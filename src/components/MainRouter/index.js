@@ -9,7 +9,7 @@ import { USER_INFO_AND_TEAMS_REFRESH_TIME } from '../../constants';
 import LoadingMessage from '../LoadingMessage';
 import HomeContainer from '../../routes/Home';
 import Account from '../../routes/Account';
-import SelectRepos from '../../routes/SelectRepos'; //eslint-disable-line
+import SelectReposNewContainer from '../../routes/SelectReposNew';
 import SetupNewContainer from '../../routes/SetupNew';
 import NavContainer from '../Nav';
 import style from './style.css';
@@ -23,7 +23,11 @@ export function MainRouter({ data, location }) {
       <div className={style.routeContainer}>
         <Route exact path="/app" component={HomeContainer} />
         <Route exact path="/app/account" component={Account} />
-        <Route exact path="/app/selectRepos" component={SelectRepos} />
+        <Route
+          exact
+          path="/app/selectRepos"
+          component={SelectReposNewContainer}
+        />
         <Route exact path="/app/setup" component={SetupNewContainer} />
 
         {get(data, 'loading') && (

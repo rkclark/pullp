@@ -21,6 +21,7 @@ export const GET_GITHUB_TOKEN_FROM_CACHE = gql`
 export const GET_CURRENT_USER = gql(`
 query CurrentUser {
 	viewer {
+    id
     login
     avatarUrl
   }
@@ -29,6 +30,7 @@ query CurrentUser {
 
 export const GET_USER_TEAMS = gql(`query UserTeams($login: String!)  {
   viewer {
+    id
     organizations(last:100) {
       edges {
         node {
@@ -40,6 +42,33 @@ export const GET_USER_TEAMS = gql(`query UserTeams($login: String!)  {
               }
             }
           }
+        }
+      }
+    }
+  }
+}`);
+
+export const GET_WATCHED_REPOS = gql(`query WatchedRepos($cursor: String) { 
+  viewer { 
+    id
+    watching(first:100, affiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER], after: $cursor) {
+      totalCount
+      pageInfo {
+        hasNextPage
+      }
+      edges {
+        cursor
+        node {
+          name
+          id
+          url
+          owner {
+            login
+            avatarUrl
+            id
+          }
+          isFork
+          createdAt
         }
       }
     }
