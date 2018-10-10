@@ -1,11 +1,38 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { last, get } from 'lodash';
 import { Query } from 'react-apollo';
 import { GET_WATCHED_REPOS } from '../../apollo/queries';
+import RepoCheckbox from '../../components/RepoCheckbox';
 
-export function SelectReposNew(props) {
-  return <div>{JSON.stringify(props)}</div>;
+export function SelectReposNew({ data }) {
+  console.log(data);
+  return (
+    <div>
+      {data.viewer.watching.edges.map(({ node }) => (
+        <RepoCheckbox
+          key={node.id}
+          name={node.name}
+          url={node.url}
+          checked
+          onChange={() => {}}
+          id={node.id}
+          isFork={node.isFork}
+          owner={node.owner}
+          createdAt={node.createdAt}
+        />
+      ))}
+    </div>
+  );
 }
+
+SelectReposNew.propTypes = {
+  data: PropTypes.shape({}),
+};
+
+SelectReposNew.defaultProps = {
+  data: null,
+};
 
 export default function SelectReposNewContainer() {
   return (

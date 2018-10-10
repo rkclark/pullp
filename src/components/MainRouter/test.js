@@ -6,7 +6,7 @@ import { MainRouter } from '.';
 import NavContainer from '../Nav';
 import HomeContainer from '../../routes/Home';
 import Account from '../../routes/Account';
-import SelectRepos from '../../routes/SelectRepos'; //eslint-disable-line
+import SelectReposNewContainer from '../../routes/SelectReposNew';
 import SetupNewContainer from '../../routes/SetupNew';
 import LoadingMessage from '../LoadingMessage';
 
@@ -36,7 +36,7 @@ describe('<MainRouter/>', () => {
   const routes = [
     { path: '/app', component: HomeContainer },
     { path: '/app/account', component: Account },
-    { path: '/app/selectRepos', component: SelectRepos },
+    { path: '/app/selectRepos', component: SelectReposNewContainer },
     { path: '/app/setup', component: SetupNewContainer },
   ];
 
