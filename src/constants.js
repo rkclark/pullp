@@ -6,3 +6,5 @@ export const MAXIMUM_PRS = 50;
 
 // One hour in ms
 export const USER_INFO_AND_TEAMS_REFRESH_TIME = 3600000;
+
+export const WATCHED_REPOS_PER_PAGE = 25;
