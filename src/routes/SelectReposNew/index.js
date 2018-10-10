@@ -4,7 +4,10 @@ import { last, get } from 'lodash';
 import { Query } from 'react-apollo';
 import { GET_WATCHED_REPOS } from '../../apollo/queries';
 import RepoCheckbox from '../../components/RepoCheckbox';
+import Button from '../../components/Button';
 import { WATCHED_REPOS_PER_PAGE } from '../../constants';
+import style from './style.css';
+import buttonTheme from './buttonTheme.css';
 
 export class SelectReposNew extends Component {
   constructor(props) {
@@ -22,7 +25,12 @@ export class SelectReposNew extends Component {
   }
 
   render() {
-    const { filteredRepos, currentPage, reposPerPage } = this.state;
+    const {
+      filteredRepos,
+      currentPage,
+      reposPerPage,
+      hasNextPage,
+    } = this.state;
 
     const startPosition = (currentPage - 1) * reposPerPage;
     const endPosition = currentPage * reposPerPage;
@@ -43,7 +51,24 @@ export class SelectReposNew extends Component {
         />
       ));
 
-    return <div>{repos}</div>;
+    return (
+      <div>
+        {repos}
+        <div>
+          {hasNextPage && (
+            <div className={`${style.buttonContainer} ${style.nextButton}`}>
+              <Button
+                data-test-id="nextButton"
+                onClick={() => {}}
+                theme={buttonTheme}
+              >
+                Next
+              </Button>
+            </div>
+          )}
+        </div>
+      </div>
+    );
   }
 }
 
