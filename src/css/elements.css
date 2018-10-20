@@ -6,7 +6,6 @@ html {
   /* This percentage allows us to use REM values that map to pixels (e.g. 1.6rem === 16px) */
   font-size: 62.5%;
   background-color: var(--primary-light);
-  height: 100%;
 }
 
 * {
@@ -24,7 +23,6 @@ body {
   font-size: var(--font-size-6);
   line-height: var(--line-height-2);
   overflow-y: scroll;
-  height: 100%;
   background: linear-gradient(to right, var(--primary-dark) 0rem, var(--primary-dark) 1rem, var(--primary-light) 1rem);
 }
 

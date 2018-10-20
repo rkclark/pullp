@@ -1,7 +1,7 @@
 @import "../../css/colors.css";
 
 .mainRouterContainer {
-  height: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -15,5 +15,5 @@
 }
 
 .routeContainer {
-  flex-basis: 100%;
+  flex: 1 0 100%;
 }
