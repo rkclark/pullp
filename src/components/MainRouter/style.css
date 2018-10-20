@@ -16,4 +16,7 @@
 
 .routeContainer {
   flex: 1 0 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

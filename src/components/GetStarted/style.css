@@ -1,7 +1,6 @@
 @import "../../css/colors.css";
 
-.container {
-  height: 100%;
+.getStartedContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;

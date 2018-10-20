@@ -44,7 +44,7 @@ export function GetStarted({ data, loading, error, refetch, networkStatus }) {
     );
   };
 
-  return <div className={style.container}>{renderContent()}</div>;
+  return <div className={style.getStartedContainer}>{renderContent()}</div>;
 }
 
 GetStarted.propTypes = {
