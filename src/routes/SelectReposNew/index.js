@@ -2,40 +2,48 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { last, get } from 'lodash';
 import { Query } from 'react-apollo';
+import Pagination from 'react-js-pagination';
 import { GET_WATCHED_REPOS } from '../../apollo/queries';
 import RepoCheckbox from '../../components/RepoCheckbox';
-import Button from '../../components/Button';
-import { WATCHED_REPOS_PER_PAGE } from '../../constants';
+import LoadingMessage from '../../components/LoadingMessage';
+import {
+  WATCHED_REPOS_PER_PAGE,
+  WATCHED_REPOS_PAGINATION_RANGE,
+} from '../../constants';
 import style from './style.css';
-import buttonTheme from './buttonTheme.css';
 
 export class SelectReposNew extends Component {
-  constructor(props) {
+  constructor() {
     super();
 
-    this.props = props;
-
-    const { data, reposPerPage } = props;
-
     this.state = {
-      reposPerPage,
-      currentPage: 1,
-      filteredRepos: get(data, 'viewer.watching.edges'),
+      activePage: 1,
     };
+
+    this.handlePageChange = this.handlePageChange.bind(this);
+  }
+
+  handlePageChange(pageNumber) {
+    this.setState({ activePage: pageNumber });
   }
 
   render() {
-    const {
-      filteredRepos,
-      currentPage,
-      reposPerPage,
-      hasNextPage,
-    } = this.state;
+    const { activePage } = this.state;
+    const { reposPerPage, loading, data } = this.props;
 
-    const startPosition = (currentPage - 1) * reposPerPage;
-    const endPosition = currentPage * reposPerPage;
+    if (loading) {
+      return (
+        <div className={style.loadingContainer}>
+          <LoadingMessage message="Asking Github for your watched repos..." />
+        </div>
+      );
+    }
+    const startPosition = (activePage - 1) * reposPerPage;
+    const endPosition = activePage * reposPerPage;
 
-    const repos = filteredRepos
+    const repos = get(data, 'viewer.watching.edges');
+
+    const activePageOfRepos = repos
       .slice(startPosition, endPosition)
       .map(({ node }) => (
         <RepoCheckbox
@@ -53,19 +61,15 @@ export class SelectReposNew extends Component {
 
     return (
       <div>
-        {repos}
+        {activePageOfRepos}
         <div>
-          {hasNextPage && (
-            <div className={`${style.buttonContainer} ${style.nextButton}`}>
-              <Button
-                data-test-id="nextButton"
-                onClick={() => {}}
-                theme={buttonTheme}
-              >
-                Next
-              </Button>
-            </div>
-          )}
+          <Pagination
+            activePage={activePage}
+            itemsCountPerPage={reposPerPage}
+            totalItemsCount={repos.length}
+            pageRangeDisplayed={WATCHED_REPOS_PAGINATION_RANGE}
+            onChange={this.handlePageChange}
+          />
         </div>
       </div>
     );
@@ -74,6 +78,7 @@ export class SelectReposNew extends Component {
 
 SelectReposNew.propTypes = {
   data: PropTypes.shape({}),
+  loading: PropTypes.bool.isRequired,
   reposPerPage: PropTypes.number.isRequired,
 };
 

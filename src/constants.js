@@ -8,3 +8,5 @@ export const MAXIMUM_PRS = 50;
 export const USER_INFO_AND_TEAMS_REFRESH_TIME = 3600000;
 
 export const WATCHED_REPOS_PER_PAGE = 25;
+
+export const WATCHED_REPOS_PAGINATION_RANGE = 5;
