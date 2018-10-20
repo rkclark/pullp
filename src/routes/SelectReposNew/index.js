@@ -62,15 +62,16 @@ export class SelectReposNew extends Component {
     return (
       <div>
         {activePageOfRepos}
-        <div>
-          <Pagination
-            activePage={activePage}
-            itemsCountPerPage={reposPerPage}
-            totalItemsCount={repos.length}
-            pageRangeDisplayed={WATCHED_REPOS_PAGINATION_RANGE}
-            onChange={this.handlePageChange}
-          />
-        </div>
+        <Pagination
+          activePage={activePage}
+          itemsCountPerPage={reposPerPage}
+          totalItemsCount={repos.length}
+          pageRangeDisplayed={WATCHED_REPOS_PAGINATION_RANGE}
+          onChange={this.handlePageChange}
+          innerClass={style.paginationContainer}
+          itemClass={style.paginationItem}
+          activeClass={style.activeItem}
+        />
       </div>
     );
   }

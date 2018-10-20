@@ -1,6 +1,50 @@
+@import "../../css/colors.css";
+
 .loadingContainer {
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.paginationContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 5rem;
+}
+
+.paginationItem {
+  list-style: none;
+  width: 5rem;
+  height: 3rem;
+  margin-right: 0.1rem;
+  background-color: var(--primary-medium);
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.paginationItem:first-child {
+  border-top-left-radius: 0.3rem;
+  border-bottom-left-radius: 0.3rem;
+}
+
+.paginationItem:last-child {
+  border-top-right-radius: 0.3rem;
+  border-bottom-right-radius: 0.3rem;
+  margin-right: 0;
+}
+
+.paginationItem:hover{
+  background-color: var(--primary-dark);
+}
+
+.paginationItem a {
+  color: var(--white);
+  line-height: 3rem;
+}
+
+.activeItem {
+  background-color: var(--primary-dark);
 }
