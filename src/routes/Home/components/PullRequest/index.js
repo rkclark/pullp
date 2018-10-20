@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 import defaultTheme from './theme.css';
 
 /* eslint-disable react/no-array-index-key */
@@ -169,7 +170,9 @@ export default function PullRequest({
             />
             <span className={theme.authorLogin}>{author.login}</span>
             <span className={theme.infoSpan}>#{number}</span>
-            <span className={theme.infoSpan}>{date}</span>
+            <span className={theme.infoSpan}>
+              {distanceInWordsToNow(date)} ago
+            </span>
             <span className={theme.infoSpan}>{time}</span>
           </div>
           <div className={theme.middleColumn}>
