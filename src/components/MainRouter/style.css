@@ -5,10 +5,13 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  position: relative;
 }
 
 .navContainer {
   margin-bottom: auto;
+  position: sticky;
+  top: 0;
 }
 
 .routeContainer {
