@@ -102,7 +102,7 @@
     "serve": "npm run build && node server",
     "react-build": "node scripts/build.js",
     "test": "node scripts/test.js  --config .jestrc.json --env=jsdom",
-    "test:no-watcher": "CI=true npm run test",
+    "test:no-watcher": "cross-env CI=true npm run test",
     "style": "eslint '**/*.js'",
     "style-fix": "eslint --fix '**/*.js'",
     "validate": "npm run test && npm run style",
