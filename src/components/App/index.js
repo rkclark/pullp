@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { get } from 'lodash';
+import gql from 'graphql-tag';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { ApolloClient } from 'apollo-client';
 import {
@@ -41,18 +42,54 @@ export default class App extends React.Component {
     const stateLink = withClientState({
       cache: apolloCache,
       resolvers: {
-        // Mutation: {
-        //   updateGithubToken: (_, { token }, { cache }) => {
-        //     const data = {
-        //       githubAuth: {
-        //         __typename: 'GithubAuth',
-        //         token,
-        //       },
-        //     };
-        //     cache.writeData({ data });
-        //     return null;
-        //   },
-        // },
+        Mutation: {
+          toggleSelectedRepo: (_, variables, { cache, getCacheKey }) => {
+            const id = getCacheKey({
+              __typename: 'Repository',
+              id: variables.id,
+            });
+
+            const fragment = gql(`
+            fragment selectedRepo on Repository {
+              isSelected
+            }`);
+
+            const repo = cache.readFragment({ fragment, id });
+            const data = { ...repo, isSelected: !repo.isSelected };
+
+            cache.writeData({ id, data });
+            return null;
+          },
+        },
+        Repository: {
+          isSelected: (_, variables, { cache, getCacheKey }) => {
+            // Look for existing repo with this id in the cache
+            const id = getCacheKey({
+              __typename: 'Repository',
+              id: _.id,
+            });
+
+            // This repo isn't in the cache, so isSelected must be false
+            if (!id) {
+              return false;
+            }
+
+            const fragment = gql(`
+            fragment selectedRepo on Repository {
+              isSelected
+            }`);
+
+            const repo = cache.readFragment({ fragment, id });
+
+            // Repo is selected in the cache, so set isSelected to true
+            if (repo.isSelected) {
+              return true;
+            }
+
+            // Repo is not selected in the cache, so set isSelected to false
+            return false;
+          },
+        },
       },
       defaults: {
         githubAuth: {

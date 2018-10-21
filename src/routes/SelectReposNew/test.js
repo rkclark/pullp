@@ -1,6 +1,8 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import Pagination from 'react-js-pagination';
+import { MockedProvider } from 'react-apollo/test-utils';
+
 import { SelectReposNew } from './';
 import watchedRepos from './watchedReposFixture';
 import RepoCheckbox from '../../components/RepoCheckbox';
@@ -38,7 +40,11 @@ describe('<SelectReposNew />', () => {
       describe('repo pages rendering', () => {
         let component;
         beforeAll(() => {
-          component = shallow(<SelectReposNew {...props} />);
+          component = mount(
+            <MockedProvider>
+              <SelectReposNew {...props} />
+            </MockedProvider>,
+          );
         });
         describe('when active page is 1', () => {
           it('renders first page of results', () => {
@@ -51,7 +57,7 @@ describe('<SelectReposNew />', () => {
 
         describe('when active page is 2', () => {
           it('renders second page of results', () => {
-            component.setState({ activePage: 2 });
+            component.find(SelectReposNew).setState({ activePage: 2 });
             const repos = component.find(RepoCheckbox);
             expect(repos.length).toBe(reposPerPage);
             expect(repos.at(0).props().id).toBe('3');
@@ -61,7 +67,7 @@ describe('<SelectReposNew />', () => {
 
         describe('when active page is 3', () => {
           it('renders third page of results', () => {
-            component.setState({ activePage: 3 });
+            component.find(SelectReposNew).setState({ activePage: 3 });
             const repos = component.find(RepoCheckbox);
             expect(repos.length).toBe(1);
             expect(repos.at(0).props().id).toBe('5');

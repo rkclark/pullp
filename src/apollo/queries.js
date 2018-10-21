@@ -69,6 +69,7 @@ export const GET_WATCHED_REPOS = gql(`query WatchedRepos($cursor: String) {
           }
           isFork
           createdAt
+          isSelected @client
         }
       }
     }

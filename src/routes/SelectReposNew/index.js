@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { last, get } from 'lodash';
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 import Pagination from 'react-js-pagination';
 import { GET_WATCHED_REPOS } from '../../apollo/queries';
+import { TOGGLE_REPO_SELECTION } from '../../apollo/mutations';
 import RepoCheckbox from '../../components/RepoCheckbox';
 import LoadingMessage from '../../components/LoadingMessage';
 import {
@@ -46,17 +47,24 @@ export class SelectReposNew extends Component {
     const activePageOfRepos = repos
       .slice(startPosition, endPosition)
       .map(({ node }) => (
-        <RepoCheckbox
+        <Mutation
+          mutation={TOGGLE_REPO_SELECTION}
+          variables={{ id: node.id }}
           key={node.id}
-          name={node.name}
-          url={node.url}
-          checked
-          onChange={() => {}}
-          id={node.id}
-          isFork={node.isFork}
-          owner={node.owner}
-          createdAt={node.createdAt}
-        />
+        >
+          {toggleRepoSelection => (
+            <RepoCheckbox
+              name={node.name}
+              url={node.url}
+              checked={node.isSelected || false}
+              onChange={toggleRepoSelection}
+              id={node.id}
+              isFork={node.isFork}
+              owner={node.owner}
+              createdAt={node.createdAt}
+            />
+          )}
+        </Mutation>
       ));
 
     return (
