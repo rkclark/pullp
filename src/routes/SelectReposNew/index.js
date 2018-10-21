@@ -5,7 +5,10 @@ import { Query, Mutation } from 'react-apollo';
 import Transition from 'react-transition-group/Transition';
 import Pagination from 'react-js-pagination';
 import { GET_WATCHED_REPOS } from '../../apollo/queries';
-import { TOGGLE_REPO_SELECTION } from '../../apollo/mutations';
+import {
+  TOGGLE_REPO_SELECTION,
+  CLEAR_SELECTED_REPOS,
+} from '../../apollo/mutations';
 import RepoCheckbox from '../../components/RepoCheckbox';
 import Button from '../../components/Button';
 import LoadingMessage from '../../components/LoadingMessage';
@@ -125,14 +128,16 @@ export class SelectReposNew extends Component {
 
                 return (
                   <div className={fadeTransitionClassNames}>
-                    <Button
-                      data-test-id="clearAllSelectionsButton"
-                      onClick={() => {
-                        // this.props.resetSelectedRepos();
-                      }}
-                    >
-                      Clear all selections
-                    </Button>
+                    <Mutation mutation={CLEAR_SELECTED_REPOS}>
+                      {clearSelectedRepos => (
+                        <Button
+                          data-test-id="clearAllSelectionsButton"
+                          onClick={clearSelectedRepos}
+                        >
+                          Clear all selections
+                        </Button>
+                      )}
+                    </Mutation>
                   </div>
                 );
               }}

@@ -60,6 +60,26 @@ export default class App extends React.Component {
             cache.writeData({ id, data });
             return null;
           },
+          clearSelectedRepos: (_, variables, { cache }) => {
+            console.log(cache);
+            const query = gql(`
+            {
+              viewer {
+                watching(first: 100) {
+                  edges {
+                    node {
+                      id
+                    }
+                  }
+                }
+              }
+            }`);
+
+            const repos = cache.readQuery({ query });
+            console.log('repos are', repos);
+
+            return null;
+          },
         },
         Repository: {
           isSelected: (_, variables, { cache, getCacheKey }) => {
