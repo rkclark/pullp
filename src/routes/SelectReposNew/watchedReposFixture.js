@@ -13,6 +13,7 @@ export default {
               login: 'githubUser',
             },
             url: '/repo/url',
+            isSelected: false,
           },
         },
         {
@@ -26,6 +27,7 @@ export default {
               login: 'githubUser',
             },
             url: '/repo/url',
+            isSelected: false,
           },
         },
         {
@@ -39,6 +41,7 @@ export default {
               login: 'githubUser',
             },
             url: '/repo/url',
+            isSelected: false,
           },
         },
         {
@@ -52,6 +55,7 @@ export default {
               login: 'githubUser',
             },
             url: '/repo/url',
+            isSelected: false,
           },
         },
         {
@@ -65,6 +69,7 @@ export default {
               login: 'githubUser',
             },
             url: '/repo/url',
+            isSelected: false,
           },
         },
       ],

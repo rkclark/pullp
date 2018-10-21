@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { last, get } from 'lodash';
 import { Query, Mutation } from 'react-apollo';
+import Transition from 'react-transition-group/Transition';
 import Pagination from 'react-js-pagination';
 import { GET_WATCHED_REPOS } from '../../apollo/queries';
 import { TOGGLE_REPO_SELECTION } from '../../apollo/mutations';
 import RepoCheckbox from '../../components/RepoCheckbox';
+import Button from '../../components/Button';
 import LoadingMessage from '../../components/LoadingMessage';
 import {
   WATCHED_REPOS_PER_PAGE,
@@ -13,15 +15,26 @@ import {
 } from '../../constants';
 import style from './style.css';
 
+const fadeInDuration = 300;
+
+const capitalise = string => string.charAt(0).toUpperCase() + string.slice(1);
+
 export class SelectReposNew extends Component {
   constructor() {
     super();
 
     this.state = {
       activePage: 1,
+      filterValue: '',
     };
 
     this.handlePageChange = this.handlePageChange.bind(this);
+    this.setFilterValue = this.setFilterValue.bind(this);
+  }
+
+  setFilterValue(event) {
+    const value = event.target.value;
+    this.setState({ filterValue: value, activePage: 1 });
   }
 
   handlePageChange(pageNumber) {
@@ -29,7 +42,7 @@ export class SelectReposNew extends Component {
   }
 
   render() {
-    const { activePage } = this.state;
+    const { activePage, filterValue } = this.state;
     const { reposPerPage, loading, data } = this.props;
 
     if (loading) {
@@ -44,7 +57,13 @@ export class SelectReposNew extends Component {
 
     const repos = get(data, 'viewer.watching.edges');
 
-    const activePageOfRepos = repos
+    const anyReposSelected = repos.some(({ node }) => node.isSelected);
+
+    const filteredRepos = repos.filter(({ node }) =>
+      node.name.includes(filterValue),
+    );
+
+    const activePageOfRepos = filteredRepos
       .slice(startPosition, endPosition)
       .map(({ node }) => (
         <Mutation
@@ -69,11 +88,62 @@ export class SelectReposNew extends Component {
 
     return (
       <div>
+        <div>
+          <h3 className={style.title}>
+            Select the repos you want monitor with Pullp
+          </h3>
+          <div className={style.filterContainer}>
+            <label htmlFor="filter" className={style.filterLabel}>
+              Search
+            </label>
+            <input
+              name="filter"
+              className={style.filterInput}
+              type="text"
+              value={filterValue || ''}
+              data-test-id="filterInput"
+              onChange={this.setFilterValue}
+            />
+          </div>
+          <p className={style.intro}>
+            Can&#8217;t find one of your repos here? Make sure you are watching
+            it on Github!
+          </p>
+          <div className={style.selectionControls}>
+            <Transition
+              appear
+              timeout={fadeInDuration}
+              in={anyReposSelected}
+              unmountOnExit
+            >
+              {state => {
+                const transitionState = capitalise(state);
+
+                const fadeTransitionClassNames = `${style.fadeDefault} ${
+                  style[`fade${transitionState}`]
+                }`;
+
+                return (
+                  <div className={fadeTransitionClassNames}>
+                    <Button
+                      data-test-id="clearAllSelectionsButton"
+                      onClick={() => {
+                        // this.props.resetSelectedRepos();
+                      }}
+                    >
+                      Clear all selections
+                    </Button>
+                  </div>
+                );
+              }}
+            </Transition>
+          </div>
+        </div>
         {activePageOfRepos}
         <Pagination
           activePage={activePage}
           itemsCountPerPage={reposPerPage}
-          totalItemsCount={repos.length}
+          totalItemsCount={filteredRepos.length}
           pageRangeDisplayed={WATCHED_REPOS_PAGINATION_RANGE}
           onChange={this.handlePageChange}
           innerClass={style.paginationContainer}
