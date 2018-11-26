@@ -40,6 +40,7 @@ export class Nav extends React.Component {
     const icon =
       path === '/app' && this.props.currentUser ? (
         <button className={theme.refresh} onClick={onClick}>
+          <img className={theme.pullpIcon} src={pullpIcon} alt="Pullp Icon" />
           <Loading loading={this.props.pullRequestsLoading} />
           <span
             className={`${theme.sync} ${
@@ -62,10 +63,7 @@ export class Nav extends React.Component {
     return (
       <div className={theme.header}>
         <div className={theme.draggable} />
-        <div className={theme.titleContainer}>
-          <img className={theme.pullpIcon} src={pullpIcon} alt="Pullp Icon" />
-          {refreshIcon}
-        </div>
+        <div className={theme.titleContainer}>{refreshIcon}</div>
         <div className={theme.links}>
           <div className={theme.linkContainer}>
             <Link
