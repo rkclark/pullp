@@ -5,7 +5,7 @@
   display: flex;
   width: 90%;
   margin: 1rem auto;
-  box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4);
+  box-shadow: var(--boxshadow);
 }
 
 @media only screen and (min-width: 840px) {

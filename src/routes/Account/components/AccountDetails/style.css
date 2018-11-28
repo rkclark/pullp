@@ -18,7 +18,7 @@
   width: 15rem;
   height: 15rem;
   border-radius: 0.3rem;
-  box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4);
+  box-shadow: var(--boxshadow);
 }
 
 .signout {

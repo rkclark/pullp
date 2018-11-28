@@ -4,7 +4,7 @@
 .repoContainer {
   background-color: white;
   overflow: hidden;
-  box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4), inset 0 -0.4rem 0 0 var(--primary-medium);
+  box-shadow: var(--boxshadow), inset 0 -0.4rem 0 0 var(--primary-medium);
 }
 
 .indicatorsContainer {
@@ -61,7 +61,7 @@
   height: 2.5rem;
   margin-left: 1rem;
   border-radius: 0.3rem;
-  box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4);
+  box-shadow: var(--boxshadow);
 }
 
 .link {
@@ -112,7 +112,7 @@
   width: 3rem;
   height: 3rem;
   border-radius: 100%;
-  box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4);
+  box-shadow: var(--boxshadow);
   flex: 1 0 3rem;
 }
 
