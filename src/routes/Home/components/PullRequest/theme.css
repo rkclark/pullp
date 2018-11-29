@@ -4,7 +4,7 @@
 .pullRequest {
   margin: 0 auto 2rem auto; 
   background-color: var(--white);
-  box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4), inset 0 -0.4rem 0 0 var(--secondary-dark);
+  box-shadow: var(--boxshadow), inset 0 -0.4rem 0 0 var(--secondary-dark);
   color: var(--primary-dark);
   max-width: 140rem;
   transition: 0.3s ease-in-out all;
@@ -42,7 +42,7 @@
 }
 
 .link:hover .pullRequest {
-  box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4), inset 0 -0.4rem 0 0 var(--secondary-medium);
+  box-shadow: var(--boxshadow), inset 0 -0.4rem 0 0 var(--secondary-medium);
 }
 
 .linkIcon path {
@@ -92,7 +92,7 @@
   width: 8rem;
   height: 8rem;
   border-radius: 100%;
-  box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4);
+  box-shadow: var(--boxshadow);
 }
 
 .authorLogin {
@@ -152,7 +152,7 @@
   width: 2rem;
   height: 2rem;
   border-radius: 100%;
-  box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4);
+  box-shadow: var(--boxshadow);
 }
 
 .requestedReviewerName {
@@ -222,7 +222,7 @@
   flex-wrap: wrap;
   align-items: center;
   background-color: var(--white);
-  box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4);
+  box-shadow: var(--boxshadow);
   padding: 0 1.5rem;
   border-radius: 0.3rem;
   margin-bottom: 1.3rem;
@@ -243,7 +243,7 @@
   width: 3rem;
   height: 3rem;
   border-radius: 100%;
-  box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4);
+  box-shadow: var(--boxshadow);
 }
 
 .reviewAuthorLogin {

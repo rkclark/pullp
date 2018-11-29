@@ -14,5 +14,6 @@
   --medium-grey: #555;
   --light-grey: #888;
   --error-red: rgb(238, 67, 1);
+  --boxshadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4);
 }
 
