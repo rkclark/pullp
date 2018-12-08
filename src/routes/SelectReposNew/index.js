@@ -180,7 +180,6 @@ export default function SelectReposNewContainer() {
   return (
     <Query query={GET_WATCHED_REPOS} fetchPolicy="network-only">
       {({ data, loading, fetchMore }) => {
-        console.log('have data', data);
         if (get(data, 'viewer.watching.pageInfo.hasNextPage')) {
           fetchMore({
             variables: {
@@ -206,7 +205,6 @@ export default function SelectReposNewContainer() {
                     },
                   }
                 : previousResult;
-              console.log('merged results are', mergedResults);
               return mergedResults;
             },
           });
