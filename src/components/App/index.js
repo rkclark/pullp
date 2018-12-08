@@ -69,12 +69,14 @@ export default class App extends React.Component {
             }
 
             // Filter cache data to only Repository items
-            const repos = Object.entries(cacheData).filter(([id]) =>
+            const repos = Object.entries(cacheData).filter(({ 0: id }) =>
               id.startsWith('Repository:'),
             );
 
             // Filter Repositories to only those that are selected
-            const selectedRepos = repos.filter(([, value]) => value.isSelected);
+            const selectedRepos = repos.filter(
+              ({ 1: value }) => value.isSelected,
+            );
 
             const fragment = gql(`
             fragment selectedRepo on Repository {
@@ -82,7 +84,7 @@ export default class App extends React.Component {
             }`);
 
             // Iterate through selected repos and set their isSelected flag to false
-            selectedRepos.forEach(([id]) => {
+            selectedRepos.forEach(({ 0: id }) => {
               const repoFragment = cache.readFragment({
                 fragment,
                 id,
