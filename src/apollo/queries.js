@@ -75,3 +75,60 @@ export const GET_WATCHED_REPOS = gql(`query WatchedRepos($cursor: String) {
     }
   }
 }`);
+
+export const GET_PULL_REQUESTS = gql(`query getPullRequests($ids: [ID!]!, $maximumPrs: Int!) {
+  nodes(ids: $ids) {
+    id
+    ... on Repository {
+      pullRequests(
+        last: $maximumPrs
+        states: [OPEN]
+        orderBy: { field: CREATED_AT, direction: DESC }
+      ) {
+        totalCount
+        edges {
+          node {
+            createdAt
+            url
+            number
+            title
+            author {
+              avatarUrl
+              login
+              url
+            }
+            reviewRequests(last: 100) {
+              edges {
+                node {
+                  requestedReviewer {
+                    ... on User {
+                      login
+                      avatarUrl
+                    }
+                    ... on Team {
+                      name
+                      id
+                      avatarUrl
+                    }
+                  }
+                }
+              }
+            }
+            reviews(last: 100) {
+              edges {
+                node {
+                  author {
+                    login
+                    avatarUrl
+                  }
+                  createdAt
+                  state
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`);

@@ -1,0 +1,116 @@
+@import "../../../../css/colors.css";
+@import "../../../../css/units.css";
+
+.repoContainer {
+  z-index: var(--z-modal);
+  position: fixed;
+  top: 10%;
+  left: 10%;
+  width: 80%;
+  background-color: var(--primary-light);
+  color: var(--white);
+  margin-bottom: 5rem;
+  max-height: 85vh;
+  overflow-y: scroll;
+}
+
+.prsContainer {
+  padding: 3rem 2rem;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, var(--primary-extra-dark) 0rem, var(--primary-extra-dark) 1rem, var(--overlay) 1rem);
+  z-index: var(--z-overlay);
+}
+
+.repoHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.5rem 2rem;
+  background-color: var(--secondary-dark);
+}
+
+.name {
+  font-weight: normal;
+  font-size: 2.3rem;
+  font-family: 'Roboto', sans-serif;
+  color: var(--white);
+}
+
+.ownerAvatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.3rem;
+  box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4);
+  margin-right: 1.5rem;
+}
+
+.link {
+  transition: 0.3s ease-in-out all;
+  display: flex;
+  align-items: center;
+}
+
+.link:hover{
+  text-decoration-color: var(--secondary-medium);
+}
+
+.closeButton {
+  background-color: transparent;
+  line-height: 0;
+  padding: 1rem;
+  border-radius: 0.3rem;
+  transition: 0.5s ease-in-out all;
+  border: none;
+}
+
+.closeButton path {
+  transition: 0.5s ease-in-out all;
+}
+
+.closeButton:hover {
+  background-color: var(--secondary-medium);
+}
+
+.closeButton:hover path {
+  fill: var(--secondary-dark);
+}
+
+.closeIcon {
+  width: 2rem;
+  height: 2rem;
+}
+
+.noPrs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 4rem;
+  box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4);
+  margin: 10rem 20%;
+  background-color: var(--secondary-dark);
+}
+
+.noPrs span {
+  color: var(--white);
+  margin-left: 2rem;
+  font-size: 1.7rem;
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
+}
+
+.noPrsIcon {
+  width: 5rem;
+  height: 5rem;
+  padding: 1rem;
+  border-radius: 100%;
+  background-color: var(--light-grey);
+  opacity: 0.7;
+  flex: 0 0 auto;
+}

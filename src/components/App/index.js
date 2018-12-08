@@ -58,6 +58,8 @@ export default class App extends React.Component {
             const data = { ...repo, isSelected: !repo.isSelected };
 
             cache.writeData({ id, data });
+
+            console.log('cache is', cache);
             return null;
           },
           clearSelectedRepos: (_, variables, { cache }) => {
