@@ -60,34 +60,40 @@ export class SelectReposNew extends Component {
 
     const repos = get(data, 'viewer.watching.edges');
 
-    const anyReposSelected = repos.some(({ node }) => node.isSelected);
+    let anyReposSelected = null;
+    let activePageOfRepos = null;
+    let filteredRepos = [];
 
-    const filteredRepos = repos.filter(({ node }) =>
-      node.name.includes(filterValue),
-    );
+    if (Array.isArray(repos) && repos.length > 0) {
+      anyReposSelected = repos.some(({ node }) => node.isSelected);
 
-    const activePageOfRepos = filteredRepos
-      .slice(startPosition, endPosition)
-      .map(({ node }) => (
-        <Mutation
-          mutation={TOGGLE_REPO_SELECTION}
-          variables={{ id: node.id }}
-          key={node.id}
-        >
-          {toggleRepoSelection => (
-            <RepoCheckbox
-              name={node.name}
-              url={node.url}
-              checked={node.isSelected || false}
-              onChange={toggleRepoSelection}
-              id={node.id}
-              isFork={node.isFork}
-              owner={node.owner}
-              createdAt={node.createdAt}
-            />
-          )}
-        </Mutation>
-      ));
+      filteredRepos = repos.filter(({ node }) =>
+        node.name.includes(filterValue),
+      );
+
+      activePageOfRepos = filteredRepos
+        .slice(startPosition, endPosition)
+        .map(({ node }) => (
+          <Mutation
+            mutation={TOGGLE_REPO_SELECTION}
+            variables={{ id: node.id }}
+            key={node.id}
+          >
+            {toggleRepoSelection => (
+              <RepoCheckbox
+                name={node.name}
+                url={node.url}
+                checked={node.isSelected || false}
+                onChange={toggleRepoSelection}
+                id={node.id}
+                isFork={node.isFork}
+                owner={node.owner}
+                createdAt={node.createdAt}
+              />
+            )}
+          </Mutation>
+        ));
+    }
 
     return (
       <div>
@@ -174,6 +180,7 @@ export default function SelectReposNewContainer() {
   return (
     <Query query={GET_WATCHED_REPOS} fetchPolicy="network-only">
       {({ data, loading, fetchMore }) => {
+        console.log('have data', data);
         if (get(data, 'viewer.watching.pageInfo.hasNextPage')) {
           fetchMore({
             variables: {
@@ -199,7 +206,7 @@ export default function SelectReposNewContainer() {
                     },
                   }
                 : previousResult;
-
+              console.log('merged results are', mergedResults);
               return mergedResults;
             },
           });

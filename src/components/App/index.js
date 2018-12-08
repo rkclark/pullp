@@ -83,12 +83,15 @@ export default class App extends React.Component {
         },
         Repository: {
           isSelected: (_, variables, { cache, getCacheKey }) => {
+            console.log('setting isSelected on repo', _);
+            console.log('cache is', cache);
             // Look for existing repo with this id in the cache
             const id = getCacheKey({
               __typename: 'Repository',
               id: _.id,
             });
 
+            console.log('found existing id', id);
             // This repo isn't in the cache, so isSelected must be false
             if (!id) {
               return false;
@@ -100,9 +103,10 @@ export default class App extends React.Component {
             }`);
 
             const repo = cache.readFragment({ fragment, id });
+            console.log('repo found', repo);
 
             // Repo is selected in the cache, so set isSelected to true
-            if (repo.isSelected) {
+            if (repo && repo.isSelected) {
               return true;
             }
 
