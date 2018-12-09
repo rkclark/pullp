@@ -1,52 +1,156 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
-// import { last, get } from 'lodash';
-import { GET_WATCHED_REPOS, GET_PULL_REQUESTS } from '../../apollo/queries';
+import { orderBy } from 'lodash';
+import FlipMove from 'react-flip-move';
+
+import LoadingMessage from '../../components/LoadingMessage';
+import Repo from './components/Repo';
+import theme from './theme.css';
+import {
+  GET_WATCHED_REPOS,
+  GET_PULL_REQUESTS,
+  GET_USER_TEAMS,
+} from '../../apollo/queries';
 import { MAXIMUM_PRS } from '../../constants';
+import transform from './transform';
 
-/* eslint-disable */
+export class HomeNew extends React.Component {
+  constructor(props) {
+    super(props);
+    this.props = props;
+    this.state = {
+      openRepoId: null,
+    };
 
-export const HomeNew = ({ data, loading, error }) => {
-  console.log('pull request data is', data);
-  return <div>home</div>;
+    this.toggleOpenRepo = this.toggleOpenRepo.bind(this);
+  }
+
+  toggleOpenRepo(id) {
+    if (this.state.openRepoId === id) {
+      return this.setState({
+        openRepoId: null,
+      });
+    }
+
+    return this.setState({
+      openRepoId: id,
+    });
+  }
+
+  render() {
+    if (this.props.loading) {
+      return (
+        <div className={theme.loadingContainer}>
+          <LoadingMessage message="Loading pull request data..." />
+        </div>
+      );
+    }
+
+    return (
+      <div className={theme.reposContainer}>
+        <FlipMove typeName={null} duration={500} appearAnimation={'fade'}>
+          {this.props.data.map(repo => (
+            <Repo
+              key={repo.id}
+              data={repo}
+              openRepoId={this.state.openRepoId}
+              toggleOpenRepo={this.toggleOpenRepo}
+            />
+          ))}
+        </FlipMove>
+      </div>
+    );
+  }
+}
+
+HomeNew.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  loading: PropTypes.bool,
+  // error: PropTypes.shape({}),
 };
 
-/* eslint-enable */
+HomeNew.defaultProps = {
+  loading: false,
+  error: null,
+};
 
 export default function HomeNewContainer() {
   return (
     <Query
       query={GET_WATCHED_REPOS}
-      fetchPolicy="cache-only"
+      fetchPolicy="cache-first"
       notifyOnNetworkStatusChange
     >
-      {({ data }) => {
-        console.log('data is', data);
+      {({ data: watchedReposData }) => {
+        console.log('data is', watchedReposData);
 
-        const selectedRepoIds = data.viewer.watching.edges.reduce(
-          (selected, { node }) => {
-            if (node.isSelected) {
-              selected.push(node.id);
-            }
-
-            return selected;
-          },
-          [],
+        const selectedRepos = watchedReposData.viewer.watching.edges.filter(
+          ({ node }) => node.isSelected,
         );
+
+        console.log('selected repos are', selectedRepos);
+
+        const selectedRepoIds = selectedRepos.map(({ node }) => node.id);
 
         console.log('selected repo ids', selectedRepoIds);
 
-        /* eslint-disable no-shadow */
         return (
           <Query
-            query={GET_PULL_REQUESTS}
-            variables={{ ids: selectedRepoIds, maximumPrs: MAXIMUM_PRS }}
+            query={GET_USER_TEAMS}
+            variables={{ login: watchedReposData.viewer.login }}
+            fetchPolicy="cache-first"
           >
-            {({ data, loading, error, client }) => {
-              console.log('client is', client);
+            {({ data: userTeamsData }) => (
+              <Query
+                query={GET_PULL_REQUESTS}
+                variables={{ ids: selectedRepoIds, maximumPrs: MAXIMUM_PRS }}
+                fetchPolicy="network-only"
+                pollInterval={60000}
+              >
+                {({ data: pullRequestData, loading, error }) => {
+                  console.log('pull reuqests data', pullRequestData);
+                  console.log('pull reuqests error', error);
+                  console.log('loading', loading);
+                  let transformedRepoData = [];
 
-              return <HomeNew data={data} loading={loading} error={error} />;
-            }}
+                  if (pullRequestData && !loading) {
+                    const mergedRepos = selectedRepos.map(({ node }) => {
+                      const repoWithPullRequests = pullRequestData.nodes.find(
+                        repo => repo.id === node.id,
+                      );
+
+                      const mergedRepo = {
+                        ...node,
+                        pullRequests: repoWithPullRequests.pullRequests,
+                      };
+                      return mergedRepo;
+                    });
+
+                    console.log('rendering home page with data', mergedRepos);
+                    console.log('user teams data is', userTeamsData);
+
+                    transformedRepoData = transform(mergedRepos, userTeamsData);
+
+                    if (transformedRepoData.length > 0) {
+                      transformedRepoData = orderBy(
+                        transformedRepoData,
+                        [repo => repo.pullRequests.length, repo => repo.name],
+                        ['desc', 'asc'],
+                      );
+                    }
+                  }
+
+                  return (
+                    <HomeNew
+                      data={transformedRepoData}
+                      loading={loading}
+                      error={error}
+                    />
+                  );
+                }}
+              </Query>
+            )}
           </Query>
         );
       }}

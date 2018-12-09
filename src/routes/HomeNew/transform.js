@@ -1,3 +1,5 @@
+import { get } from 'lodash';
+
 const dateOptions = {
   weekday: 'long',
   year: 'numeric',
@@ -10,9 +12,9 @@ const timeOptions = {
   minute: 'numeric',
 };
 
-export default function transform(data, reduxState) {
-  const filteredNodes = data.nodes.filter(node => node);
-  const repos = filteredNodes.map(node => {
+export default function transform(reposData, userTeamsData) {
+  // const filteredNodes = data.nodes.filter(node => node);
+  const repos = reposData.map(node => {
     const reformattedPrs = node.pullRequests.edges.map(pr => {
       const createdAtDate = new Date(pr.node.createdAt);
       const reviews = pr.node.reviews.edges.map(review => ({
@@ -67,18 +69,31 @@ export default function transform(data, reduxState) {
       let currentUserReviewRequested = false;
       let reviewedByCurrentUser = false;
 
-      if (reduxState.currentUser.login !== pr.node.author.login) {
+      const userOrganizations = get(
+        userTeamsData,
+        'viewer.organizations.edges',
+      );
+
+      const userTeams = userOrganizations.reduce((teams, { node: org }) => {
+        const additionalTeams = org.teams.edges.map(
+          ({ node: team }) => team.id,
+        );
+
+        return [...teams, ...additionalTeams];
+      }, []);
+
+      if (userTeamsData.viewer.login !== pr.node.author.login) {
         reviewRequests.some(request => {
           if (
             request.requestedReviewer.login &&
-            request.requestedReviewer.login === reduxState.currentUser.login
+            request.requestedReviewer.login === userTeamsData.viewer.login
           ) {
             currentUserReviewRequested = true;
             return true;
           }
           if (
             request.requestedReviewer.id &&
-            reduxState.userTeams.some(team => {
+            userTeams.some(team => {
               if (team.id === request.requestedReviewer.id) {
                 return true;
               }
@@ -92,7 +107,7 @@ export default function transform(data, reduxState) {
         });
 
         reviews.some(review => {
-          if (review.author.login === reduxState.currentUser.login) {
+          if (review.author.login === userTeamsData.viewer.login) {
             reviewedByCurrentUser = true;
             return true;
           }
@@ -128,15 +143,15 @@ export default function transform(data, reduxState) {
       }
     });
 
-    const extendedRepoData = reduxState.watchedRepos.find(
-      watchedRepo => watchedRepo.id === node.id,
-    );
+    // const extendedRepoData = reduxState.watchedRepos.find(
+    //   watchedRepo => watchedRepo.id === node.id,
+    // );
 
     return {
       ...node,
-      name: extendedRepoData.name,
-      url: extendedRepoData.url,
-      owner: extendedRepoData.owner,
+      // name: extendedRepoData.name,
+      // url: extendedRepoData.url,
+      // owner: extendedRepoData.owner,
       pullRequests: reformattedPrs,
       currentUserReviewRequests,
       currentUserReviews,

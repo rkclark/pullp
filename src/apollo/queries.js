@@ -31,6 +31,7 @@ query CurrentUser {
 export const GET_USER_TEAMS = gql(`query UserTeams($login: String!)  {
   viewer {
     id
+    login
     organizations(last:100) {
       edges {
         node {
@@ -51,6 +52,7 @@ export const GET_USER_TEAMS = gql(`query UserTeams($login: String!)  {
 export const GET_WATCHED_REPOS = gql(`query WatchedRepos($cursor: String) { 
   viewer { 
     id
+    login
     watching(first:100, affiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER], after: $cursor) {
       totalCount
       pageInfo {
