@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
-import { orderBy } from 'lodash';
+import { get } from 'lodash';
 import FlipMove from 'react-flip-move';
+import ErrorBoundary from '../../components/ErrorBoundary';
 
 import LoadingMessage from '../../components/LoadingMessage';
 import Repo from './components/Repo';
@@ -14,6 +15,10 @@ import {
 } from '../../apollo/queries';
 import { MAXIMUM_PRS } from '../../constants';
 import transform from './transform';
+
+const loadingMessage = (
+  <LoadingMessage message="Asking Github for pull request data..." />
+);
 
 export class HomeNew extends React.Component {
   constructor(props) {
@@ -40,11 +45,7 @@ export class HomeNew extends React.Component {
 
   render() {
     if (this.props.loading) {
-      return (
-        <div className={theme.loadingContainer}>
-          <LoadingMessage message="Loading pull request data..." />
-        </div>
-      );
+      return <div className={theme.loadingContainer}>{loadingMessage}</div>;
     }
 
     return (
@@ -67,93 +68,112 @@ export class HomeNew extends React.Component {
 HomeNew.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   loading: PropTypes.bool,
-  // error: PropTypes.shape({}),
 };
 
 HomeNew.defaultProps = {
   loading: false,
-  error: null,
 };
 
 export default function HomeNewContainer() {
   return (
-    <Query
-      query={GET_WATCHED_REPOS}
-      fetchPolicy="cache-first"
-      notifyOnNetworkStatusChange
-    >
-      {({ data: watchedReposData }) => {
-        console.log('data is', watchedReposData);
+    <ErrorBoundary>
+      <Query
+        query={GET_WATCHED_REPOS}
+        fetchPolicy="cache-first"
+        notifyOnNetworkStatusChange
+      >
+        {({ data: watchedReposData, loading, error }) => {
+          if (loading) {
+            return loadingMessage;
+          }
 
-        const selectedRepos = watchedReposData.viewer.watching.edges.filter(
-          ({ node }) => node.isSelected,
-        );
+          if (error) {
+            throw new Error('Error loading watched repos');
+          }
 
-        console.log('selected repos are', selectedRepos);
+          // Get repo objects from cache that have been selected for monitoring by the user
+          const selectedRepos = get(
+            watchedReposData,
+            'viewer.watching.edges',
+          ).filter(({ node }) => node.isSelected);
 
-        const selectedRepoIds = selectedRepos.map(({ node }) => node.id);
+          // Get Github node ids for the selected repos
+          const selectedRepoIds = selectedRepos.map(({ node }) => node.id);
 
-        console.log('selected repo ids', selectedRepoIds);
+          return (
+            <Query
+              query={GET_USER_TEAMS}
+              variables={{ login: watchedReposData.viewer.login }}
+              fetchPolicy="cache-first"
+            >
+              {({
+                data: userTeamsData,
+                loading: userTeamsLoading,
+                error: userTeamsError,
+              }) => {
+                if (userTeamsLoading) {
+                  return loadingMessage;
+                }
 
-        return (
-          <Query
-            query={GET_USER_TEAMS}
-            variables={{ login: watchedReposData.viewer.login }}
-            fetchPolicy="cache-first"
-          >
-            {({ data: userTeamsData }) => (
-              <Query
-                query={GET_PULL_REQUESTS}
-                variables={{ ids: selectedRepoIds, maximumPrs: MAXIMUM_PRS }}
-                fetchPolicy="network-only"
-                pollInterval={60000}
-              >
-                {({ data: pullRequestData, loading, error }) => {
-                  console.log('pull reuqests data', pullRequestData);
-                  console.log('pull reuqests error', error);
-                  console.log('loading', loading);
-                  let transformedRepoData = [];
+                if (userTeamsError) {
+                  throw new Error('Error loading user teams');
+                }
 
-                  if (pullRequestData && !loading) {
-                    const mergedRepos = selectedRepos.map(({ node }) => {
-                      const repoWithPullRequests = pullRequestData.nodes.find(
-                        repo => repo.id === node.id,
+                return (
+                  <Query
+                    query={GET_PULL_REQUESTS}
+                    variables={{
+                      ids: selectedRepoIds,
+                      maximumPrs: MAXIMUM_PRS,
+                    }}
+                    fetchPolicy="network-only"
+                    pollInterval={60000}
+                  >
+                    {({
+                      data: pullRequestData,
+                      loading: pullRequestsLoading,
+                      error: pullRequestsError,
+                    }) => {
+                      if (pullRequestsError) {
+                        throw new Error('Error loading user teams');
+                      }
+
+                      let transformedRepoData = [];
+
+                      if (pullRequestData.nodes && !loading) {
+                        // Add pull request data to the existing selected repo objects
+                        const mergedRepos = selectedRepos.map(({ node }) => {
+                          const repoWithPullRequests = pullRequestData.nodes.find(
+                            repo => repo.id === node.id,
+                          );
+
+                          const mergedRepo = {
+                            ...node,
+                            pullRequests: repoWithPullRequests.pullRequests,
+                          };
+                          return mergedRepo;
+                        });
+
+                        transformedRepoData = transform(
+                          mergedRepos,
+                          userTeamsData,
+                        );
+                      }
+
+                      return (
+                        <HomeNew
+                          data={transformedRepoData}
+                          loading={pullRequestsLoading}
+                        />
                       );
-
-                      const mergedRepo = {
-                        ...node,
-                        pullRequests: repoWithPullRequests.pullRequests,
-                      };
-                      return mergedRepo;
-                    });
-
-                    console.log('rendering home page with data', mergedRepos);
-                    console.log('user teams data is', userTeamsData);
-
-                    transformedRepoData = transform(mergedRepos, userTeamsData);
-
-                    if (transformedRepoData.length > 0) {
-                      transformedRepoData = orderBy(
-                        transformedRepoData,
-                        [repo => repo.pullRequests.length, repo => repo.name],
-                        ['desc', 'asc'],
-                      );
-                    }
-                  }
-
-                  return (
-                    <HomeNew
-                      data={transformedRepoData}
-                      loading={loading}
-                      error={error}
-                    />
-                  );
-                }}
-              </Query>
-            )}
-          </Query>
-        );
-      }}
-    </Query>
+                    }}
+                  </Query>
+                );
+              }}
+            </Query>
+          );
+        }}
+      </Query>
+    </ErrorBoundary>
   );
 }

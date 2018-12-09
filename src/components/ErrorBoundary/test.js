@@ -20,7 +20,7 @@ describe('<ErrorBoundary />', () => {
     expect(component.find(Error).length).toBe(0);
   });
 
-  describe('when getDerivedStateFromError catches an error', () => {
+  describe('when a child component throws an error', () => {
     let component;
 
     const ErrorChild = () => {

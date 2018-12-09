@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import { get, orderBy } from 'lodash';
 
 const dateOptions = {
   weekday: 'long',
@@ -13,8 +13,7 @@ const timeOptions = {
 };
 
 export default function transform(reposData, userTeamsData) {
-  // const filteredNodes = data.nodes.filter(node => node);
-  const repos = reposData.map(node => {
+  let repos = reposData.map(node => {
     const reformattedPrs = node.pullRequests.edges.map(pr => {
       const createdAtDate = new Date(pr.node.createdAt);
       const reviews = pr.node.reviews.edges.map(review => ({
@@ -143,20 +142,22 @@ export default function transform(reposData, userTeamsData) {
       }
     });
 
-    // const extendedRepoData = reduxState.watchedRepos.find(
-    //   watchedRepo => watchedRepo.id === node.id,
-    // );
-
     return {
       ...node,
-      // name: extendedRepoData.name,
-      // url: extendedRepoData.url,
-      // owner: extendedRepoData.owner,
       pullRequests: reformattedPrs,
       currentUserReviewRequests,
       currentUserReviews,
       totalPullRequests: node.pullRequests.totalCount,
     };
   });
+
+  if (repos.length > 0) {
+    repos = orderBy(
+      repos,
+      [repo => repo.pullRequests.length, repo => repo.name],
+      ['desc', 'asc'],
+    );
+  }
+
   return repos;
 }
