@@ -14,7 +14,7 @@ import {
   GET_USER_TEAMS,
 } from '../../apollo/queries';
 import { MAXIMUM_PRS } from '../../constants';
-import transform from './transform';
+import transformRepos from './transformRepos';
 
 const loadingMessage = (
   <LoadingMessage message="Asking Github for pull request data..." />
@@ -154,7 +154,7 @@ export default function HomeNewContainer() {
                           return mergedRepo;
                         });
 
-                        transformedRepoData = transform(
+                        transformedRepoData = transformRepos(
                           mergedRepos,
                           userTeamsData,
                         );

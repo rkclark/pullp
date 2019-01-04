@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 
 import { MainRouter } from '.';
 import NavContainer from '../Nav';
-import HomeContainer from '../../routes/Home';
+import HomeNewContainer from '../../routes/HomeNew';
 import Account from '../../routes/Account';
 import SelectReposNewContainer from '../../routes/SelectReposNew';
 import SetupNewContainer from '../../routes/SetupNew';
@@ -34,7 +34,7 @@ describe('<MainRouter/>', () => {
   });
 
   const routes = [
-    { path: '/app', component: HomeContainer },
+    { path: '/app', component: HomeNewContainer },
     { path: '/app/account', component: Account },
     { path: '/app/selectRepos', component: SelectReposNewContainer },
     { path: '/app/setup', component: SetupNewContainer },
