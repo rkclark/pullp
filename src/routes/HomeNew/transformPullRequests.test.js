@@ -14,28 +14,63 @@ const timeOptions = {
 
 const basePR = {
   createdAt: '2019-01-04T08:11:29.816Z',
-};
-
-const pullRequests = {
-  edges: [{ node: basePR }],
+  reviews: {
+    edges: [
+      {
+        node: {
+          author: {
+            login: 'dev',
+            avatarUrl: 'https://avatars3.githubusercontent.com/',
+          },
+          createdAt: '2018-05-31T11:22:08Z',
+          state: 'DISMISSED',
+        },
+      },
+      {
+        node: {
+          author: {
+            login: 'dev2',
+            avatarUrl: 'https://avatars3.githubusercontent.com/',
+          },
+          createdAt: '2018-05-31T11:25:05Z',
+          state: 'CHANGES_REQUESTED',
+        },
+      },
+    ],
+  },
 };
 
 describe('transformPullRequests()', () => {
-  it('sets date field', () => {
-    const result = transformPullRequests(pullRequests)[0];
-    const expectedDate = new Date(basePR.createdAt).toLocaleDateString(
-      'en-GB',
-      dateOptions,
-    );
-    expect(result.date).toBe(expectedDate);
-  });
+  describe('when transforming a single pull request', () => {
+    const pullRequests = {
+      edges: [{ node: basePR }],
+    };
 
-  it('sets time field', () => {
     const result = transformPullRequests(pullRequests)[0];
-    const expectedTime = new Date(basePR.createdAt).toLocaleTimeString(
-      'en-US',
-      timeOptions,
-    );
-    expect(result.time).toBe(expectedTime);
+
+    it('sets date field', () => {
+      const expectedDate = new Date(basePR.createdAt).toLocaleDateString(
+        'en-GB',
+        dateOptions,
+      );
+      expect(result.date).toBe(expectedDate);
+    });
+
+    it('sets time field', () => {
+      const expectedTime = new Date(basePR.createdAt).toLocaleTimeString(
+        'en-US',
+        timeOptions,
+      );
+      expect(result.time).toBe(expectedTime);
+    });
+
+    it('normalizes the reviews array', () => {
+      const expectedReviews = [
+        basePR.reviews.edges[0].node,
+        basePR.reviews.edges[1].node,
+      ];
+
+      expect(result.reviews).toEqual(expectedReviews);
+    });
   });
 });
