@@ -58,6 +58,26 @@ const basePR = {
       },
     ],
   },
+  reviewRequests: {
+    edges: [
+      {
+        node: {
+          requestedReviewer: {
+            login: 'dev',
+            avatarUrl: 'https://avatars0.githubusercontent.com/',
+          },
+        },
+      },
+      {
+        node: {
+          requestedReviewer: {
+            login: 'dev2',
+            avatarUrl: 'https://avatars0.githubusercontent.com/',
+          },
+        },
+      },
+    ],
+  },
 };
 
 describe('transformPullRequests()', () => {
@@ -110,6 +130,15 @@ describe('transformPullRequests()', () => {
       ];
 
       expect(result.reviewsByAuthor).toEqual(expectedReviewsByAuthor);
+    });
+
+    it('normalizes the reviewRequests array', () => {
+      const expectedReviewRequests = [
+        basePR.reviewRequests.edges[0].node,
+        basePR.reviewRequests.edges[1].node,
+      ];
+
+      expect(result.reviewRequests).toEqual(expectedReviewRequests);
     });
   });
 });

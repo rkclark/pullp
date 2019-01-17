@@ -45,12 +45,14 @@ export default function transformPullRequests(pullRequests) {
   return pullRequests.edges.map(({ node }) => {
     const createdAtDate = new Date(node.createdAt);
     const reviews = normalizeGraphqlEdges(node.reviews);
+    const reviewRequests = normalizeGraphqlEdges(node.reviewRequests);
     const reviewsByAuthor = aggregateReviewsByAuthor(reviews);
 
     return {
       date: createdAtDate.toLocaleDateString('en-GB', dateOptions),
       time: createdAtDate.toLocaleTimeString('en-US', timeOptions),
       reviews,
+      reviewRequests,
       reviewsByAuthor,
     };
   });
