@@ -20,7 +20,7 @@ const basePR = {
         node: {
           author: {
             login: 'dev',
-            avatarUrl: 'https://avatars3.githubusercontent.com/',
+            avatarUrl: 'https://avatars3.githubusercontent.com/dev',
           },
           createdAt: '2018-05-31T11:22:08Z',
           state: 'DISMISSED',
@@ -30,10 +30,30 @@ const basePR = {
         node: {
           author: {
             login: 'dev2',
-            avatarUrl: 'https://avatars3.githubusercontent.com/',
+            avatarUrl: 'https://avatars3.githubusercontent.com/dev2',
           },
           createdAt: '2018-05-31T11:25:05Z',
           state: 'CHANGES_REQUESTED',
+        },
+      },
+      {
+        node: {
+          author: {
+            login: 'dev2',
+            avatarUrl: 'https://avatars3.githubusercontent.com/dev2',
+          },
+          createdAt: '2018-05-31T11:25:05Z',
+          state: 'CHANGES_REQUESTED',
+        },
+      },
+      {
+        node: {
+          author: {
+            login: 'dev',
+            avatarUrl: 'https://avatars3.githubusercontent.com/dev',
+          },
+          createdAt: '2018-05-31T11:25:05Z',
+          state: 'APPROVED',
         },
       },
     ],
@@ -41,7 +61,7 @@ const basePR = {
 };
 
 describe('transformPullRequests()', () => {
-  describe('when transforming a single pull request', () => {
+  describe('with a single pull request', () => {
     const pullRequests = {
       edges: [{ node: basePR }],
     };
@@ -68,9 +88,28 @@ describe('transformPullRequests()', () => {
       const expectedReviews = [
         basePR.reviews.edges[0].node,
         basePR.reviews.edges[1].node,
+        basePR.reviews.edges[2].node,
+        basePR.reviews.edges[3].node,
       ];
 
       expect(result.reviews).toEqual(expectedReviews);
+    });
+
+    it('aggregates reviews by author', () => {
+      const expectedReviewsByAuthor = [
+        {
+          login: 'dev',
+          avatarUrl: 'https://avatars3.githubusercontent.com/dev',
+          states: ['DISMISSED', 'APPROVED'],
+        },
+        {
+          login: 'dev2',
+          avatarUrl: 'https://avatars3.githubusercontent.com/dev2',
+          states: ['CHANGES_REQUESTED', 'CHANGES_REQUESTED'],
+        },
+      ];
+
+      expect(result.reviewsByAuthor).toEqual(expectedReviewsByAuthor);
     });
   });
 });
