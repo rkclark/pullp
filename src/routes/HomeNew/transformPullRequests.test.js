@@ -14,6 +14,14 @@ const timeOptions = {
 
 const basePR = {
   createdAt: '2019-01-04T08:11:29.816Z',
+  url: 'https://github.com/',
+  number: 162,
+  title: 'Dockerise test suite',
+  author: {
+    avatarUrl: 'https://avatars1.githubusercontent.com/',
+    login: 'dev3',
+    url: 'https://github.com/',
+  },
   reviews: {
     edges: [
       {
@@ -80,13 +88,24 @@ const basePR = {
   },
 };
 
+const userTeamsData = {
+  viewer: {
+    login: 'dev',
+    organizations: [
+      {
+        teams: [{ id: 'team1', name: 'Team Awesome' }],
+      },
+    ],
+  },
+};
+
 describe('transformPullRequests()', () => {
   describe('with a single pull request', () => {
     const pullRequests = {
       edges: [{ node: basePR }],
     };
 
-    const result = transformPullRequests(pullRequests)[0];
+    const result = transformPullRequests(pullRequests, userTeamsData)[0];
 
     it('sets date field', () => {
       const expectedDate = new Date(basePR.createdAt).toLocaleDateString(
@@ -139,6 +158,86 @@ describe('transformPullRequests()', () => {
       ];
 
       expect(result.reviewRequests).toEqual(expectedReviewRequests);
+    });
+
+    describe("when viewer's review has been requested via their personal login", () => {
+      it('sets currentUserReviewRequested to true', () => {
+        expect(result.currentUserReviewRequested).toBe(true);
+      });
+    });
+
+    describe("when viewer's review has not been requested via their personal login", () => {
+      it('sets currentUserReviewRequested to false', () => {
+        const testResult = transformPullRequests(pullRequests, {
+          ...userTeamsData,
+          viewer: {
+            ...userTeamsData.viewer,
+            login: 'someoneElse',
+          },
+        })[0];
+
+        expect(testResult.currentUserReviewRequested).toBe(false);
+      });
+
+      describe('when review has been requested from a team the user is part of', () => {
+        it('sets currentUserReviewRequested to true', () => {
+          const reviewRequests = {
+            edges: [
+              {
+                node: {
+                  requestedReviewer: {
+                    id: 'team1',
+                    avatarUrl: 'https://avatars0.githubusercontent.com/',
+                  },
+                },
+              },
+            ],
+          };
+
+          const pullRequestData = {
+            edges: [{ node: { ...basePR, reviewRequests } }],
+          };
+
+          const testResult = transformPullRequests(pullRequestData, {
+            ...userTeamsData,
+            viewer: {
+              ...userTeamsData.viewer,
+              login: 'someoneElse',
+            },
+          })[0];
+          expect(testResult.currentUserReviewRequested).toBe(true);
+        });
+      });
+
+      describe('when review has been requested from a team the user is not part of', () => {
+        it('sets currentUserReviewRequested to false', () => {
+          const reviewRequests = {
+            edges: [
+              {
+                node: {
+                  requestedReviewer: {
+                    id: 'team2',
+                    avatarUrl: 'https://avatars0.githubusercontent.com/',
+                  },
+                },
+              },
+            ],
+          };
+
+          const pullRequestData = {
+            edges: [{ node: { ...basePR, reviewRequests } }],
+          };
+
+          const testResult = transformPullRequests(pullRequestData, {
+            ...userTeamsData,
+            viewer: {
+              ...userTeamsData.viewer,
+              login: 'someoneElse',
+            },
+          })[0];
+          expect(testResult.currentUserReviewRequested).toBe(false);
+        });
+      });
     });
   });
 });

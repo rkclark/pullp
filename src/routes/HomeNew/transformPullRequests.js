@@ -1,4 +1,5 @@
 import normalizeGraphqlEdges from '../../utils/normalizeGraphqlEdges';
+import { get } from 'lodash';
 
 const dateOptions = {
   weekday: 'long',
@@ -41,12 +42,40 @@ const aggregateReviewsByAuthor = reviews => {
   return reviewsByAuthor;
 };
 
-export default function transformPullRequests(pullRequests) {
+export default function transformPullRequests(pullRequests, userTeams) {
   return pullRequests.edges.map(({ node }) => {
     const createdAtDate = new Date(node.createdAt);
     const reviews = normalizeGraphqlEdges(node.reviews);
     const reviewRequests = normalizeGraphqlEdges(node.reviewRequests);
     const reviewsByAuthor = aggregateReviewsByAuthor(reviews);
+
+    const currentUser = get(userTeams, 'viewer.login');
+
+    let currentUserReviewRequested = false;
+    reviewRequests.some(reviewRequest => {
+      const requestedReviewerLogin = get(
+        reviewRequest,
+        'requestedReviewer.login',
+      );
+      if (requestedReviewerLogin && requestedReviewerLogin === currentUser) {
+        currentUserReviewRequested = true;
+        return true;
+      }
+      const requestedReviewerId = get(reviewRequest, 'requestedReviewer.id');
+      if (
+        requestedReviewerId &&
+        userTeams.viewer.organizations.some(team => {
+          if (team.id === requestedReviewerId) {
+            return true;
+          }
+          return false;
+        })
+      ) {
+        currentUserReviewRequested = true;
+        return true;
+      }
+      return false;
+    });
 
     return {
       date: createdAtDate.toLocaleDateString('en-GB', dateOptions),
@@ -54,6 +83,7 @@ export default function transformPullRequests(pullRequests) {
       reviews,
       reviewRequests,
       reviewsByAuthor,
+      currentUserReviewRequested,
     };
   });
 }

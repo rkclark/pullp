@@ -17,7 +17,7 @@ const timeOptions = {
 //     Makes createdAtDate from createdAt
 //     Sets date and time from createdAtDate
 //     Normalizes reviews array
-//     Creates reviewStatuses object (aggregatedReviews)
+//     Creates reviewStatuses object (aggregatedReviews) - NOT USED
 //     Creates reviewsByAuthor array
 //     Normalizes review requests
 //     Determines and sets currentUserReviewRequested
