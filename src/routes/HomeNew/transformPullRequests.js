@@ -42,14 +42,14 @@ const aggregateReviewsByAuthor = reviews => {
   return reviewsByAuthor;
 };
 
-export default function transformPullRequests(pullRequests, userTeams) {
+export default function transformPullRequests(pullRequests, userTeamsData) {
   return pullRequests.edges.map(({ node }) => {
     const createdAtDate = new Date(node.createdAt);
     const reviews = normalizeGraphqlEdges(node.reviews);
     const reviewRequests = normalizeGraphqlEdges(node.reviewRequests);
     const reviewsByAuthor = aggregateReviewsByAuthor(reviews);
 
-    const currentUser = get(userTeams, 'viewer.login');
+    const currentUser = get(userTeamsData, 'viewer.login');
 
     let currentUserReviewRequested = false;
     reviewRequests.some(reviewRequest => {
@@ -61,10 +61,17 @@ export default function transformPullRequests(pullRequests, userTeams) {
         currentUserReviewRequested = true;
         return true;
       }
+
       const requestedReviewerId = get(reviewRequest, 'requestedReviewer.id');
+
+      const userTeams = get(userTeamsData, 'viewer.organizations').reduce(
+        (teamsArray, organization) => [...teamsArray, ...organization.teams],
+        [],
+      );
+
       if (
         requestedReviewerId &&
-        userTeams.viewer.organizations.some(team => {
+        userTeams.some(team => {
           if (team.id === requestedReviewerId) {
             return true;
           }

@@ -160,13 +160,13 @@ describe('transformPullRequests()', () => {
       expect(result.reviewRequests).toEqual(expectedReviewRequests);
     });
 
-    describe("when viewer's review has been requested via their personal login", () => {
+    describe("when current user's review has been requested via their personal login", () => {
       it('sets currentUserReviewRequested to true', () => {
         expect(result.currentUserReviewRequested).toBe(true);
       });
     });
 
-    describe("when viewer's review has not been requested via their personal login", () => {
+    describe("when current user's review has not been requested via their personal login", () => {
       it('sets currentUserReviewRequested to false', () => {
         const testResult = transformPullRequests(pullRequests, {
           ...userTeamsData,
@@ -235,6 +235,22 @@ describe('transformPullRequests()', () => {
               login: 'someoneElse',
             },
           })[0];
+          expect(testResult.currentUserReviewRequested).toBe(false);
+        });
+      });
+
+      describe('when the current user is the pull request author', () => {
+        it('sets currentUserReviewRequested to false', () => {
+          const testResult = transformPullRequests(pullRequests, {
+            ...userTeamsData,
+            viewer: {
+              ...userTeamsData.viewer,
+              login: 'dev3',
+            },
+          })[0];
+
+          throw new Error('continue work here');
+
           expect(testResult.currentUserReviewRequested).toBe(false);
         });
       });
