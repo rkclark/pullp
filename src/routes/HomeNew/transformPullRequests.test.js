@@ -207,6 +207,37 @@ describe('transformPullRequests()', () => {
           })[0];
           expect(testResult.currentUserReviewRequested).toBe(true);
         });
+
+        describe('when the current user is the pull request author', () => {
+          it('sets currentUserReviewRequested to false', () => {
+            const reviewRequests = {
+              edges: [
+                {
+                  node: {
+                    requestedReviewer: {
+                      id: 'team1',
+                      avatarUrl: 'https://avatars0.githubusercontent.com/',
+                    },
+                  },
+                },
+              ],
+            };
+
+            const pullRequestData = {
+              edges: [{ node: { ...basePR, reviewRequests } }],
+            };
+
+            const testResult = transformPullRequests(pullRequestData, {
+              ...userTeamsData,
+              viewer: {
+                ...userTeamsData.viewer,
+                login: 'dev3',
+              },
+            })[0];
+
+            expect(testResult.currentUserReviewRequested).toBe(false);
+          });
+        });
       });
 
       describe('when review has been requested from a team the user is not part of', () => {
@@ -235,22 +266,6 @@ describe('transformPullRequests()', () => {
               login: 'someoneElse',
             },
           })[0];
-          expect(testResult.currentUserReviewRequested).toBe(false);
-        });
-      });
-
-      describe('when the current user is the pull request author', () => {
-        it('sets currentUserReviewRequested to false', () => {
-          const testResult = transformPullRequests(pullRequests, {
-            ...userTeamsData,
-            viewer: {
-              ...userTeamsData.viewer,
-              login: 'dev3',
-            },
-          })[0];
-
-          throw new Error('continue work here');
-
           expect(testResult.currentUserReviewRequested).toBe(false);
         });
       });

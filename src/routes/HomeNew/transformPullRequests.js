@@ -1,5 +1,5 @@
-import normalizeGraphqlEdges from '../../utils/normalizeGraphqlEdges';
 import { get } from 'lodash';
+import normalizeGraphqlEdges from '../../utils/normalizeGraphqlEdges';
 
 const dateOptions = {
   weekday: 'long',
@@ -52,37 +52,40 @@ export default function transformPullRequests(pullRequests, userTeamsData) {
     const currentUser = get(userTeamsData, 'viewer.login');
 
     let currentUserReviewRequested = false;
-    reviewRequests.some(reviewRequest => {
-      const requestedReviewerLogin = get(
-        reviewRequest,
-        'requestedReviewer.login',
-      );
-      if (requestedReviewerLogin && requestedReviewerLogin === currentUser) {
-        currentUserReviewRequested = true;
-        return true;
-      }
 
-      const requestedReviewerId = get(reviewRequest, 'requestedReviewer.id');
+    if (currentUser !== node.author.login) {
+      reviewRequests.some(reviewRequest => {
+        const requestedReviewerLogin = get(
+          reviewRequest,
+          'requestedReviewer.login',
+        );
+        if (requestedReviewerLogin && requestedReviewerLogin === currentUser) {
+          currentUserReviewRequested = true;
+          return true;
+        }
 
-      const userTeams = get(userTeamsData, 'viewer.organizations').reduce(
-        (teamsArray, organization) => [...teamsArray, ...organization.teams],
-        [],
-      );
+        const requestedReviewerId = get(reviewRequest, 'requestedReviewer.id');
 
-      if (
-        requestedReviewerId &&
-        userTeams.some(team => {
-          if (team.id === requestedReviewerId) {
-            return true;
-          }
-          return false;
-        })
-      ) {
-        currentUserReviewRequested = true;
-        return true;
-      }
-      return false;
-    });
+        const userTeams = get(userTeamsData, 'viewer.organizations').reduce(
+          (teamsArray, organization) => [...teamsArray, ...organization.teams],
+          [],
+        );
+
+        if (
+          requestedReviewerId &&
+          userTeams.some(team => {
+            if (team.id === requestedReviewerId) {
+              return true;
+            }
+            return false;
+          })
+        ) {
+          currentUserReviewRequested = true;
+          return true;
+        }
+        return false;
+      });
+    }
 
     return {
       date: createdAtDate.toLocaleDateString('en-GB', dateOptions),
