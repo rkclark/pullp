@@ -42,6 +42,43 @@ const aggregateReviewsByAuthor = reviews => {
   return reviewsByAuthor;
 };
 
+const isUserReviewRequested = (currentUser, reviewRequests, userTeamsData) =>
+  reviewRequests.some(reviewRequest => {
+    const requestedReviewerLogin = get(
+      reviewRequest,
+      'requestedReviewer.login',
+    );
+    // First check whether PR has user's individual review requested
+    if (requestedReviewerLogin && requestedReviewerLogin === currentUser) {
+      return true;
+    }
+
+    // Secondarily check whether PR has review requested from any team that the user is part of
+
+    // Teams areidentified by ids rather than logins
+    const requestedReviewerId = get(reviewRequest, 'requestedReviewer.id');
+
+    // Flatten all user teams into one array
+    const userTeams = get(userTeamsData, 'viewer.organizations').reduce(
+      (teamsArray, organization) => [...teamsArray, ...organization.teams],
+      [],
+    );
+
+    // Check whether requested reviewer is one of the user's teams
+    if (
+      requestedReviewerId &&
+      userTeams.some(team => {
+        if (team.id === requestedReviewerId) {
+          return true;
+        }
+        return false;
+      })
+    ) {
+      return true;
+    }
+    return false;
+  });
+
 export default function transformPullRequests(pullRequests, userTeamsData) {
   return pullRequests.edges.map(({ node }) => {
     const createdAtDate = new Date(node.createdAt);
@@ -54,37 +91,11 @@ export default function transformPullRequests(pullRequests, userTeamsData) {
     let currentUserReviewRequested = false;
 
     if (currentUser !== node.author.login) {
-      reviewRequests.some(reviewRequest => {
-        const requestedReviewerLogin = get(
-          reviewRequest,
-          'requestedReviewer.login',
-        );
-        if (requestedReviewerLogin && requestedReviewerLogin === currentUser) {
-          currentUserReviewRequested = true;
-          return true;
-        }
-
-        const requestedReviewerId = get(reviewRequest, 'requestedReviewer.id');
-
-        const userTeams = get(userTeamsData, 'viewer.organizations').reduce(
-          (teamsArray, organization) => [...teamsArray, ...organization.teams],
-          [],
-        );
-
-        if (
-          requestedReviewerId &&
-          userTeams.some(team => {
-            if (team.id === requestedReviewerId) {
-              return true;
-            }
-            return false;
-          })
-        ) {
-          currentUserReviewRequested = true;
-          return true;
-        }
-        return false;
-      });
+      currentUserReviewRequested = isUserReviewRequested(
+        currentUser,
+        reviewRequests,
+        userTeamsData,
+      );
     }
 
     return {
