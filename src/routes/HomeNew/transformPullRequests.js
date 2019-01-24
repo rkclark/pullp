@@ -44,10 +44,10 @@ const aggregateReviewsByAuthor = reviews => {
 
 const isUserReviewRequested = ({
   currentUser,
-  reviewRequests,
+  normalizedReviewRequests,
   userTeamsData,
 }) =>
-  reviewRequests.some(reviewRequest => {
+  normalizedReviewRequests.some(reviewRequest => {
     const requestedReviewerLogin = get(
       reviewRequest,
       'requestedReviewer.login',
@@ -83,8 +83,8 @@ const isUserReviewRequested = ({
     return false;
   });
 
-const hasBeenReviewedByUser = ({ reviews, currentUser }) =>
-  reviews.some(review => {
+const hasBeenReviewedByUser = ({ normalizedReviews, currentUser }) =>
+  normalizedReviews.some(review => {
     if (review.author.login === currentUser) {
       return true;
     }
@@ -92,43 +92,45 @@ const hasBeenReviewedByUser = ({ reviews, currentUser }) =>
   });
 
 export default function transformPullRequests(pullRequests, userTeamsData) {
-  return pullRequests.edges.map(({ node }) => {
-    const createdAtDate = new Date(node.createdAt);
-    const reviews = normalizeGraphqlEdges(node.reviews);
-    const reviewRequests = normalizeGraphqlEdges(node.reviewRequests);
-    const reviewsByAuthor = aggregateReviewsByAuthor(reviews);
+  return normalizeGraphqlEdges(pullRequests).map(
+    ({ createdAt, reviews, reviewRequests, author }) => {
+      const createdAtDate = new Date(createdAt);
+      const normalizedReviews = normalizeGraphqlEdges(reviews);
+      const normalizedReviewRequests = normalizeGraphqlEdges(reviewRequests);
+      const reviewsByAuthor = aggregateReviewsByAuthor(normalizedReviews);
 
-    const currentUser = get(userTeamsData, 'viewer.login');
+      const currentUser = get(userTeamsData, 'viewer.login');
 
-    let currentUserReviewRequested = false;
+      let currentUserReviewRequested = false;
 
-    if (currentUser !== node.author.login) {
-      currentUserReviewRequested = isUserReviewRequested({
+      if (currentUser !== author.login) {
+        currentUserReviewRequested = isUserReviewRequested({
+          currentUser,
+          normalizedReviewRequests,
+          userTeamsData,
+        });
+      }
+
+      const reviewedByCurrentUser = hasBeenReviewedByUser({
+        normalizedReviews,
         currentUser,
-        reviewRequests,
-        userTeamsData,
       });
-    }
 
-    const reviewedByCurrentUser = hasBeenReviewedByUser({
-      reviews,
-      currentUser,
-    });
+      // Once a user has reviewed the PR, do not ask for their review again
+      // (May want to extend this logic in future for re-reviews)
+      if (currentUserReviewRequested && reviewedByCurrentUser) {
+        currentUserReviewRequested = false;
+      }
 
-    // Once a user has reviewed the PR, do not ask for their review again
-    // (May want to extend this logic in future for re-reviews)
-    if (currentUserReviewRequested && reviewedByCurrentUser) {
-      currentUserReviewRequested = false;
-    }
-
-    return {
-      date: createdAtDate.toLocaleDateString('en-GB', dateOptions),
-      time: createdAtDate.toLocaleTimeString('en-US', timeOptions),
-      reviews,
-      reviewRequests,
-      reviewsByAuthor,
-      currentUserReviewRequested,
-      reviewedByCurrentUser,
-    };
-  });
+      return {
+        date: createdAtDate.toLocaleDateString('en-GB', dateOptions),
+        time: createdAtDate.toLocaleTimeString('en-US', timeOptions),
+        reviews: normalizedReviews,
+        reviewRequests: normalizedReviewRequests,
+        reviewsByAuthor,
+        currentUserReviewRequested,
+        reviewedByCurrentUser,
+      };
+    },
+  );
 }
