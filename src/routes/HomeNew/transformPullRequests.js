@@ -42,7 +42,11 @@ const aggregateReviewsByAuthor = reviews => {
   return reviewsByAuthor;
 };
 
-const isUserReviewRequested = (currentUser, reviewRequests, userTeamsData) =>
+const isUserReviewRequested = ({
+  currentUser,
+  reviewRequests,
+  userTeamsData,
+}) =>
   reviewRequests.some(reviewRequest => {
     const requestedReviewerLogin = get(
       reviewRequest,
@@ -79,6 +83,14 @@ const isUserReviewRequested = (currentUser, reviewRequests, userTeamsData) =>
     return false;
   });
 
+const hasBeenReviewedByUser = ({ reviews, currentUser }) =>
+  reviews.some(review => {
+    if (review.author.login === currentUser) {
+      return true;
+    }
+    return false;
+  });
+
 export default function transformPullRequests(pullRequests, userTeamsData) {
   return pullRequests.edges.map(({ node }) => {
     const createdAtDate = new Date(node.createdAt);
@@ -91,11 +103,22 @@ export default function transformPullRequests(pullRequests, userTeamsData) {
     let currentUserReviewRequested = false;
 
     if (currentUser !== node.author.login) {
-      currentUserReviewRequested = isUserReviewRequested(
+      currentUserReviewRequested = isUserReviewRequested({
         currentUser,
         reviewRequests,
         userTeamsData,
-      );
+      });
+    }
+
+    const reviewedByCurrentUser = hasBeenReviewedByUser({
+      reviews,
+      currentUser,
+    });
+
+    // Once a user has reviewed the PR, do not ask for their review again
+    // (May want to extend this logic in future for re-reviews)
+    if (currentUserReviewRequested && reviewedByCurrentUser) {
+      currentUserReviewRequested = false;
     }
 
     return {
@@ -105,6 +128,7 @@ export default function transformPullRequests(pullRequests, userTeamsData) {
       reviewRequests,
       reviewsByAuthor,
       currentUserReviewRequested,
+      reviewedByCurrentUser,
     };
   });
 }
