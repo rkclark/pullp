@@ -63,7 +63,10 @@ const isUserReviewRequested = ({
     const requestedReviewerId = get(reviewRequest, 'requestedReviewer.id');
 
     // Flatten all user teams into one array
-    const userTeams = get(userTeamsData, 'viewer.organizations').reduce(
+    const userOrgs = normalizeGraphqlEdges(
+      get(userTeamsData, 'viewer.organizations'),
+    );
+    const userTeams = userOrgs.reduce(
       (teamsArray, organization) => [...teamsArray, ...organization.teams],
       [],
     );
@@ -93,7 +96,7 @@ const hasBeenReviewedByUser = ({ normalizedReviews, currentUser }) =>
 
 export default function transformPullRequests(pullRequests, userTeamsData) {
   return normalizeGraphqlEdges(pullRequests).map(
-    ({ createdAt, reviews, reviewRequests, author }) => {
+    ({ createdAt, reviews, reviewRequests, author, title, url, number }) => {
       const createdAtDate = new Date(createdAt);
       const normalizedReviews = normalizeGraphqlEdges(reviews);
       const normalizedReviewRequests = normalizeGraphqlEdges(reviewRequests);
@@ -123,6 +126,10 @@ export default function transformPullRequests(pullRequests, userTeamsData) {
       }
 
       return {
+        author,
+        title,
+        url,
+        number,
         date: createdAtDate.toLocaleDateString('en-GB', dateOptions),
         time: createdAtDate.toLocaleTimeString('en-US', timeOptions),
         reviews: normalizedReviews,

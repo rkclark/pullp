@@ -99,11 +99,15 @@ const basePR = {
 const userTeamsData = {
   viewer: {
     login: 'dev',
-    organizations: [
-      {
-        teams: [{ id: 'team1', name: 'Team Awesome' }],
-      },
-    ],
+    organizations: {
+      edges: [
+        {
+          node: {
+            teams: [{ id: 'team1', name: 'Team Awesome' }],
+          },
+        },
+      ],
+    },
   },
 };
 
@@ -114,6 +118,22 @@ describe('transformPullRequests()', () => {
     };
 
     const result = transformPullRequests(pullRequests, userTeamsData)[0];
+
+    it('sets PR author', () => {
+      expect(result.author).toEqual(basePR.author);
+    });
+
+    it('sets PR title', () => {
+      expect(result.title).toEqual(basePR.title);
+    });
+
+    it('sets PR url', () => {
+      expect(result.url).toEqual(basePR.url);
+    });
+
+    it('sets PR number', () => {
+      expect(result.number).toEqual(basePR.number);
+    });
 
     it('sets date field', () => {
       const expectedDate = new Date(basePR.createdAt).toLocaleDateString(
