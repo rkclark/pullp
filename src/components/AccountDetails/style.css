@@ -1,0 +1,26 @@
+@import "../../css/colors.css";
+
+.container {
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.title {
+  color: var(--medium-grey);
+  font-weight: normal;
+  margin-bottom: 2rem;
+}
+
+.avatar {
+  width: 15rem;
+  height: 15rem;
+  border-radius: 0.3rem;
+  box-shadow: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4);
+}
+
+.signout {
+  margin-top: 2rem;
+}

@@ -7,8 +7,7 @@ import { get } from 'lodash';
 import { GET_CURRENT_USER, GET_USER_TEAMS } from '../../apollo/queries';
 import { USER_INFO_AND_TEAMS_REFRESH_TIME } from '../../constants';
 import LoadingMessage from '../LoadingMessage';
-// import HomeContainer from '../../routes/Home';
-import Account from '../../routes/Account';
+import AccountNewContainer from '../../routes/AccountNew';
 import SelectReposNewContainer from '../../routes/SelectReposNew';
 import SetupNewContainer from '../../routes/SetupNew';
 import HomeNewContainer from '../../routes/HomeNew';
@@ -23,7 +22,7 @@ export function MainRouter({ data, location }) {
       </div>
       <div className={style.routeContainer}>
         <Route exact path="/app" component={HomeNewContainer} />
-        <Route exact path="/app/account" component={Account} />
+        <Route exact path="/app/account" component={AccountNewContainer} />
         <Route
           exact
           path="/app/selectRepos"
@@ -33,7 +32,7 @@ export function MainRouter({ data, location }) {
 
         {get(data, 'loading') && (
           <LoadingMessage
-            message={'Refreshing your user and teams data from Github...'}
+            message={'Refreshing your user data from Github...'}
           />
         )}
       </div>
