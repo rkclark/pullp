@@ -44,7 +44,10 @@ export class AccountNew extends React.Component {
           login={login}
           avatarUrl={avatarUrl}
           toggleLogoutModal={this.toggleLogoutModal}
-          logoutAction={() => {}}
+          logoutAction={() => {
+            window.localStorage.clear();
+            window.location.pathname = '/';
+          }}
           logoutModalOpen={this.state.logoutModalOpen}
         />
       </div>
