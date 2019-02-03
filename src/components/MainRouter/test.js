@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import { Route } from 'react-router-dom';
 
 import { MainRouter } from '.';
-import Nav from '../NavNew';
+import Nav from '../Nav';
 import HomeNewContainer from '../../routes/HomeNew';
 import AccountNewContainer from '../../routes/AccountNew';
 import SelectReposNewContainer from '../../routes/SelectReposNew';

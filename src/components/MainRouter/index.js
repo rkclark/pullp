@@ -11,7 +11,7 @@ import AccountNewContainer from '../../routes/AccountNew';
 import SelectReposNewContainer from '../../routes/SelectReposNew';
 import SetupNewContainer from '../../routes/SetupNew';
 import HomeNewContainer from '../../routes/HomeNew';
-import Nav from '../NavNew';
+import Nav from '../Nav';
 import style from './style.css';
 
 export function MainRouter({ data, location }) {
