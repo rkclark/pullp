@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import { Route } from 'react-router-dom';
 
 import { MainRouter } from '.';
-import NavContainer from '../Nav';
+import Nav from '../NavNew';
 import HomeNewContainer from '../../routes/HomeNew';
 import AccountNewContainer from '../../routes/AccountNew';
 import SelectReposNewContainer from '../../routes/SelectReposNew';
@@ -25,8 +25,8 @@ describe('<MainRouter/>', () => {
     component = shallow(<MainRouter {...defaultProps} />);
   });
 
-  it('renders a <NavContainer/> with correct path', () => {
-    const navContainer = component.find(NavContainer);
+  it('renders a <Nav/> with correct path', () => {
+    const navContainer = component.find(Nav);
     expect(navContainer.length).toBe(1);
     expect(navContainer.props().currentPath).toBe(
       defaultProps.location.pathname,

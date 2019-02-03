@@ -11,7 +11,7 @@ import AccountNewContainer from '../../routes/AccountNew';
 import SelectReposNewContainer from '../../routes/SelectReposNew';
 import SetupNewContainer from '../../routes/SetupNew';
 import HomeNewContainer from '../../routes/HomeNew';
-import NavContainer from '../Nav';
+import Nav from '../NavNew';
 import style from './style.css';
 
 export function MainRouter({ data, location }) {
@@ -20,7 +20,7 @@ export function MainRouter({ data, location }) {
   return (
     <div className={style.mainRouterContainer}>
       <div className={style.navContainer}>
-        <NavContainer
+        <Nav
           currentPath={get(location, 'pathname')}
           currentUser={get(data, 'viewer')}
         />
