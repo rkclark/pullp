@@ -66,11 +66,10 @@ describe('Account', () => {
   describe('logout function', () => {
     let clearStorageMock;
     let clearLocalStorageMock;
-    /* eslint-disable no-console */
-    const originalConsoleError = console.error;
+    const originalWindowLocation = window.location;
 
     beforeAll(async () => {
-      console.error = () => {};
+      // console.error = () => {};
       clearStorageMock = jest.fn();
       window.electron = {
         remote: {
@@ -88,15 +87,16 @@ describe('Account', () => {
         clear: clearLocalStorageMock,
       };
 
-      window.location.pathname = 'test';
+      // Have to delete and re-create window.location to avoid errors
+      delete window.location;
+      window.location = { pathname: 'test' };
 
       const logoutFn = component.find(AccountDetails).props().logout;
       await logoutFn();
     });
 
     afterAll(() => {
-      console.error = originalConsoleError;
-      /* eslint-enable no-console */
+      window.location = originalWindowLocation;
     });
 
     it('clears cookies', async () => {
@@ -108,7 +108,7 @@ describe('Account', () => {
     });
 
     it('redirects user to homepage', async () => {
-      expect(window.location.pathname).toBe('/');
+      expect(window.location.pathname).toBe('/app');
     });
   });
 });

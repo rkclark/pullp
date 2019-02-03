@@ -53,7 +53,7 @@ export class Account extends React.Component {
             window.localStorage.clear();
 
             // Push user back to homepage to allow router to push them into setup screen
-            window.location.pathname = '/';
+            window.location.pathname = '/app';
           }}
           logoutModalOpen={this.state.logoutModalOpen}
         />
