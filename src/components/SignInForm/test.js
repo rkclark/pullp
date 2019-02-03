@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import SignInForm from '.';
-import * as githubAuth from '../../routes/Setup/helpers/githubAuthNew';
+import * as githubAuth from '../../routes/SetupNew/helpers/githubAuthNew';
 import Button from '../Button';
 import LoadingMessage from '../LoadingMessage';
 import Error from '../Error';

@@ -16,10 +16,8 @@ import { ApolloProvider } from 'react-apollo';
 import { setContext } from 'apollo-link-context';
 import { withClientState } from 'apollo-link-state';
 import { persistCache } from 'apollo-cache-persist';
-import { Provider } from 'react-redux';
 
 import introspectionQueryResultData from '../../apollo/githubFragmentTypes.json';
-import store from '../../store';
 import LayoutContainer from '../LayoutNew';
 import ScrollToTop from '../ScrollToTop';
 import '../../css/index.css';
@@ -207,13 +205,11 @@ export default class App extends React.Component {
 
     return (
       <ApolloProvider client={client}>
-        <Provider store={store}>
-          <Router>
-            <ScrollToTop>
-              <Route path="*" component={LayoutContainer} />
-            </ScrollToTop>
-          </Router>
-        </Provider>
+        <Router>
+          <ScrollToTop>
+            <Route path="*" component={LayoutContainer} />
+          </ScrollToTop>
+        </Router>
       </ApolloProvider>
     );
   }
