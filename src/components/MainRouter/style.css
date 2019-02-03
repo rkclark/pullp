@@ -1,4 +1,5 @@
 @import "../../css/colors.css";
+@import "../../css/units.css";
 
 .mainRouterContainer {
   min-height: 100vh;
@@ -12,6 +13,7 @@
   margin-bottom: auto;
   position: sticky;
   top: 0;
+  z-index: var(--z-nav);
 }
 
 .routeContainer {
