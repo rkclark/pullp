@@ -1,10 +1,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import LoadingMessage from '../../components/LoadingMessage';
-import { HomeNew } from '.';
+import { Home } from '.';
 import Repo from './components/Repo';
 
-describe('HomeNew', () => {
+describe('Home', () => {
   const baseProps = {
     data: [
       {
@@ -30,25 +30,25 @@ describe('HomeNew', () => {
   };
 
   it('renders successfully', () => {
-    const component = shallow(<HomeNew {...baseProps} />);
+    const component = shallow(<Home {...baseProps} />);
     expect(component.length).toBe(1);
   });
 
   it('renders a repo for each repo returned from query', async () => {
-    const component = shallow(<HomeNew {...baseProps} />);
+    const component = shallow(<Home {...baseProps} />);
     expect(component.find(Repo).length).toBe(2);
   });
 
   describe('when loading repositories', () => {
     it('renders a loading message', () => {
-      const component = shallow(<HomeNew {...baseProps} loading />);
+      const component = shallow(<Home {...baseProps} loading />);
       expect(component.find(LoadingMessage).length).toBe(1);
     });
   });
 
   describe('when not loading repositories', () => {
     it('does not render a loading message', () => {
-      const component = shallow(<HomeNew {...baseProps} />);
+      const component = shallow(<Home {...baseProps} />);
       expect(component.find(LoadingMessage).length).toBe(0);
     });
   });
@@ -57,7 +57,7 @@ describe('HomeNew', () => {
     describe('when repo is not already open', () => {
       it('saves repo id as the currently open repo', () => {
         const componentInstance = shallow(
-          <HomeNew {...baseProps} />,
+          <Home {...baseProps} />,
         ).instance();
         const repoId = 'test';
         componentInstance.toggleOpenRepo(repoId);
@@ -68,7 +68,7 @@ describe('HomeNew', () => {
     describe('when repo is already open', () => {
       it('saves repo id as the currently open repo', () => {
         const componentInstance = shallow(
-          <HomeNew {...baseProps} />,
+          <Home {...baseProps} />,
         ).instance();
 
         const repoId = 'test';

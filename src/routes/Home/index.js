@@ -20,7 +20,7 @@ const loadingMessage = (
   <LoadingMessage message="Asking Github for pull request data..." />
 );
 
-export class HomeNew extends React.Component {
+export class Home extends React.Component {
   constructor(props) {
     super(props);
     this.props = props;
@@ -65,16 +65,16 @@ export class HomeNew extends React.Component {
   }
 }
 
-HomeNew.propTypes = {
+Home.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   loading: PropTypes.bool,
 };
 
-HomeNew.defaultProps = {
+Home.defaultProps = {
   loading: false,
 };
 
-export default function HomeNewContainer() {
+export default function HomeContainer() {
   return (
     <ErrorBoundary>
       <Query
@@ -161,7 +161,7 @@ export default function HomeNewContainer() {
                       }
 
                       return (
-                        <HomeNew
+                        <Home
                           data={transformedRepoData}
                           loading={pullRequestsLoading}
                         />

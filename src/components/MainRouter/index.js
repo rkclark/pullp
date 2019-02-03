@@ -10,7 +10,7 @@ import LoadingMessage from '../LoadingMessage';
 import AccountNewContainer from '../../routes/AccountNew';
 import SelectReposContainer from '../../routes/SelectRepos';
 import SetupContainer from '../../routes/Setup';
-import HomeNewContainer from '../../routes/HomeNew';
+import HomeContainer from '../../routes/Home';
 import Nav from '../Nav';
 import style from './style.css';
 
@@ -32,7 +32,7 @@ export function MainRouter({ data, location }) {
           />
         ) : (
           <Fragment>
-            <Route exact path="/app" component={HomeNewContainer} />
+            <Route exact path="/app" component={HomeContainer} />
             <Route exact path="/app/account" component={AccountNewContainer} />
             <Route
               exact
