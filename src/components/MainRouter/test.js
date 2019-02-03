@@ -56,6 +56,14 @@ describe('<MainRouter/>', () => {
 
       expect(loadingComponent.find(LoadingMessage).length).toBe(1);
     });
+
+    it('does not render any <Route/>s', () => {
+      const loadingComponent = shallow(
+        <MainRouter {...defaultProps} data={{ loading: true }} />,
+      );
+
+      expect(loadingComponent.find(Route).length).toBe(0);
+    });
   });
 
   describe('when loading is false', () => {

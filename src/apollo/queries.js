@@ -24,6 +24,7 @@ query CurrentUser {
     id
     login
     avatarUrl
+    url
   }
 }
 `);
