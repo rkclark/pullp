@@ -51,7 +51,7 @@ Pullp is an Electron application built with React.
 
 After `npm install`, run `npm start` to start the webpack dev server. Once running, run `npm run electron-dev` to open the app.
 
-React and Redux dev tools will be available inside the Chrome dev tools.
+React and Apollo dev tools will be available inside the Chrome dev tools.
 
 
 ### :white_check_mark: Running the tests
