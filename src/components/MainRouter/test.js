@@ -5,7 +5,7 @@ import { Route } from 'react-router-dom';
 import { MainRouter } from '.';
 import Nav from '../Nav';
 import HomeContainer from '../../routes/Home';
-import AccountNewContainer from '../../routes/AccountNew';
+import AccountContainer from '../../routes/Account';
 import SelectReposContainer from '../../routes/SelectRepos';
 import SetupContainer from '../../routes/Setup';
 import LoadingMessage from '../LoadingMessage';
@@ -35,7 +35,7 @@ describe('<MainRouter/>', () => {
 
   const routes = [
     { path: '/app', component: HomeContainer },
-    { path: '/app/account', component: AccountNewContainer },
+    { path: '/app/account', component: AccountContainer },
     { path: '/app/selectRepos', component: SelectReposContainer },
     { path: '/app/setup', component: SetupContainer },
   ];

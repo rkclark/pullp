@@ -7,7 +7,7 @@ import { get } from 'lodash';
 import { GET_CURRENT_USER, GET_USER_TEAMS } from '../../apollo/queries';
 import { USER_INFO_AND_TEAMS_REFRESH_TIME } from '../../constants';
 import LoadingMessage from '../LoadingMessage';
-import AccountNewContainer from '../../routes/AccountNew';
+import AccountContainer from '../../routes/Account';
 import SelectReposContainer from '../../routes/SelectRepos';
 import SetupContainer from '../../routes/Setup';
 import HomeContainer from '../../routes/Home';
@@ -33,7 +33,7 @@ export function MainRouter({ data, location }) {
         ) : (
           <Fragment>
             <Route exact path="/app" component={HomeContainer} />
-            <Route exact path="/app/account" component={AccountNewContainer} />
+            <Route exact path="/app/account" component={AccountContainer} />
             <Route
               exact
               path="/app/selectRepos"

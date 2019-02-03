@@ -56,9 +56,7 @@ describe('Home', () => {
   describe('toggleOpenRepo()', () => {
     describe('when repo is not already open', () => {
       it('saves repo id as the currently open repo', () => {
-        const componentInstance = shallow(
-          <Home {...baseProps} />,
-        ).instance();
+        const componentInstance = shallow(<Home {...baseProps} />).instance();
         const repoId = 'test';
         componentInstance.toggleOpenRepo(repoId);
         expect(componentInstance.state.openRepoId).toBe(repoId);
@@ -67,9 +65,7 @@ describe('Home', () => {
 
     describe('when repo is already open', () => {
       it('saves repo id as the currently open repo', () => {
-        const componentInstance = shallow(
-          <Home {...baseProps} />,
-        ).instance();
+        const componentInstance = shallow(<Home {...baseProps} />).instance();
 
         const repoId = 'test';
         componentInstance.setState({ openRepoId: repoId });

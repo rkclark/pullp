@@ -7,7 +7,7 @@ import LoadingMessage from '../../components/LoadingMessage';
 import Error from '../../components/Error';
 import { GET_CURRENT_USER } from '../../apollo/queries';
 
-export class AccountNew extends React.Component {
+export class Account extends React.Component {
   constructor(props) {
     super(props);
     this.props = props;
@@ -62,13 +62,13 @@ export class AccountNew extends React.Component {
   }
 }
 
-AccountNew.propTypes = {
+Account.propTypes = {
   data: PropTypes.shape({}),
   loading: PropTypes.bool.isRequired,
   error: PropTypes.shape({}),
 };
 
-AccountNew.defaultProps = {
+Account.defaultProps = {
   data: {},
   error: null,
 };
@@ -77,7 +77,7 @@ export default function AccountContainer() {
   return (
     <Query query={GET_CURRENT_USER} fetchPolicy="cache-first">
       {({ data, loading, error }) => (
-        <AccountNew data={data} loading={loading} error={error} />
+        <Account data={data} loading={loading} error={error} />
       )}
     </Query>
   );
