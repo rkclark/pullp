@@ -18,7 +18,7 @@ import { withClientState } from 'apollo-link-state';
 import { persistCache } from 'apollo-cache-persist';
 
 import introspectionQueryResultData from '../../apollo/githubFragmentTypes.json';
-import LayoutContainer from '../LayoutNew';
+import LayoutContainer from '../Layout';
 import ScrollToTop from '../ScrollToTop';
 import '../../css/index.css';
 
