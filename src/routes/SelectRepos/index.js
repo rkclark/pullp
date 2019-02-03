@@ -22,7 +22,7 @@ const fadeInDuration = 300;
 
 const capitalise = string => string.charAt(0).toUpperCase() + string.slice(1);
 
-export class SelectReposNew extends Component {
+export class SelectRepos extends Component {
   constructor() {
     super();
 
@@ -166,17 +166,17 @@ export class SelectReposNew extends Component {
   }
 }
 
-SelectReposNew.propTypes = {
+SelectRepos.propTypes = {
   data: PropTypes.shape({}),
   loading: PropTypes.bool.isRequired,
   reposPerPage: PropTypes.number.isRequired,
 };
 
-SelectReposNew.defaultProps = {
+SelectRepos.defaultProps = {
   data: null,
 };
 
-export default function SelectReposNewContainer() {
+export default function SelectReposContainer() {
   return (
     <Query query={GET_WATCHED_REPOS} fetchPolicy="network-only">
       {({ data, loading, fetchMore }) => {
@@ -211,7 +211,7 @@ export default function SelectReposNewContainer() {
         }
 
         return (
-          <SelectReposNew
+          <SelectRepos
             data={data}
             loading={loading}
             reposPerPage={WATCHED_REPOS_PER_PAGE}

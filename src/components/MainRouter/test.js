@@ -6,7 +6,7 @@ import { MainRouter } from '.';
 import Nav from '../Nav';
 import HomeNewContainer from '../../routes/HomeNew';
 import AccountNewContainer from '../../routes/AccountNew';
-import SelectReposNewContainer from '../../routes/SelectReposNew';
+import SelectReposContainer from '../../routes/SelectRepos';
 import SetupContainer from '../../routes/Setup';
 import LoadingMessage from '../LoadingMessage';
 
@@ -36,7 +36,7 @@ describe('<MainRouter/>', () => {
   const routes = [
     { path: '/app', component: HomeNewContainer },
     { path: '/app/account', component: AccountNewContainer },
-    { path: '/app/selectRepos', component: SelectReposNewContainer },
+    { path: '/app/selectRepos', component: SelectReposContainer },
     { path: '/app/setup', component: SetupContainer },
   ];
 

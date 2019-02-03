@@ -8,7 +8,7 @@ import { GET_CURRENT_USER, GET_USER_TEAMS } from '../../apollo/queries';
 import { USER_INFO_AND_TEAMS_REFRESH_TIME } from '../../constants';
 import LoadingMessage from '../LoadingMessage';
 import AccountNewContainer from '../../routes/AccountNew';
-import SelectReposNewContainer from '../../routes/SelectReposNew';
+import SelectReposContainer from '../../routes/SelectRepos';
 import SetupContainer from '../../routes/Setup';
 import HomeNewContainer from '../../routes/HomeNew';
 import Nav from '../Nav';
@@ -37,7 +37,7 @@ export function MainRouter({ data, location }) {
             <Route
               exact
               path="/app/selectRepos"
-              component={SelectReposNewContainer}
+              component={SelectReposContainer}
             />
             <Route exact path="/app/setup" component={SetupContainer} />
           </Fragment>

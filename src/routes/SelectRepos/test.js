@@ -4,7 +4,7 @@ import Pagination from 'react-js-pagination';
 import { MockedProvider } from 'react-apollo/test-utils';
 import { cloneDeep } from 'lodash';
 
-import { SelectReposNew } from './';
+import { SelectRepos } from './';
 import watchedRepos from './watchedReposFixture';
 import RepoCheckbox from '../../components/RepoCheckbox';
 import { WATCHED_REPOS_PAGINATION_RANGE } from '../../constants';
@@ -12,7 +12,7 @@ import LoadingMessage from '../../components/LoadingMessage';
 
 const reposPerPage = 2;
 
-describe('<SelectReposNew />', () => {
+describe('<SelectRepos />', () => {
   const props = {
     data: watchedRepos,
     loading: false,
@@ -20,20 +20,20 @@ describe('<SelectReposNew />', () => {
   };
 
   it('renders succesfully', () => {
-    const component = shallow(<SelectReposNew {...props} />);
+    const component = shallow(<SelectRepos {...props} />);
     expect(component.length).toBe(1);
   });
 
   describe('when loading', () => {
     it('renders a <LoadingMessage/>', () => {
-      const component = shallow(<SelectReposNew {...props} loading />);
+      const component = shallow(<SelectRepos {...props} loading />);
       expect(component.find(LoadingMessage).length).toBe(1);
     });
   });
 
   describe('when not loading', () => {
     it('does not render a <LoadingMessage/>', () => {
-      const component = shallow(<SelectReposNew {...props} loading={false} />);
+      const component = shallow(<SelectRepos {...props} loading={false} />);
       expect(component.find(LoadingMessage).length).toBe(0);
     });
   });
@@ -44,7 +44,7 @@ describe('<SelectReposNew />', () => {
       beforeAll(() => {
         component = mount(
           <MockedProvider>
-            <SelectReposNew {...props} />
+            <SelectRepos {...props} />
           </MockedProvider>,
         );
       });
@@ -59,7 +59,7 @@ describe('<SelectReposNew />', () => {
 
       describe('when active page is 2', () => {
         it('renders second page of results', () => {
-          component.find(SelectReposNew).setState({ activePage: 2 });
+          component.find(SelectRepos).setState({ activePage: 2 });
           const repos = component.find(RepoCheckbox);
           expect(repos.length).toBe(reposPerPage);
           expect(repos.at(0).props().id).toBe('3');
@@ -69,7 +69,7 @@ describe('<SelectReposNew />', () => {
 
       describe('when active page is 3', () => {
         it('renders third page of results', () => {
-          component.find(SelectReposNew).setState({ activePage: 3 });
+          component.find(SelectRepos).setState({ activePage: 3 });
           const repos = component.find(RepoCheckbox);
           expect(repos.length).toBe(1);
           expect(repos.at(0).props().id).toBe('5');
@@ -78,7 +78,7 @@ describe('<SelectReposNew />', () => {
     });
 
     it('renders a <Pagination/> with correct props', () => {
-      const component = shallow(<SelectReposNew {...props} />);
+      const component = shallow(<SelectRepos {...props} />);
       const pagination = component.find(Pagination);
       expect(pagination.length).toBe(1);
       const {
@@ -101,7 +101,7 @@ describe('<SelectReposNew />', () => {
 
   describe('handlePageChange', () => {
     it('sets the activePage to the provided page number', () => {
-      const component = shallow(<SelectReposNew {...props} />);
+      const component = shallow(<SelectRepos {...props} />);
       expect(component.state().activePage).toBe(1);
       component.instance().handlePageChange(2);
       expect(component.state().activePage).toBe(2);
@@ -111,7 +111,7 @@ describe('<SelectReposNew />', () => {
   describe('setFilterValue', () => {
     it('sets the filterValue based on the provided change event', () => {
       const filterValue = 'smeg';
-      const component = shallow(<SelectReposNew {...props} />);
+      const component = shallow(<SelectRepos {...props} />);
       expect(component.state().filterValue).toBe('');
       component.instance().setFilterValue({
         target: {
@@ -123,7 +123,7 @@ describe('<SelectReposNew />', () => {
 
     it('resets the activePage to 1', () => {
       const filterValue = 'smeg';
-      const component = shallow(<SelectReposNew {...props} />);
+      const component = shallow(<SelectRepos {...props} />);
       component.setState({ activePage: 2 });
       component.instance().setFilterValue({
         target: {
@@ -137,7 +137,7 @@ describe('<SelectReposNew />', () => {
   describe('filtering', () => {
     describe('filter input field', () => {
       it('has onChange set to setFilterValue', () => {
-        const component = shallow(<SelectReposNew {...props} />);
+        const component = shallow(<SelectRepos {...props} />);
         const input = component.find('[data-test-id="filterInput"]');
         expect(input.props().onChange).toBe(
           component.instance().setFilterValue,
@@ -146,7 +146,7 @@ describe('<SelectReposNew />', () => {
 
       it('has a value controlled by the filter value', () => {
         const filterValue = 'smeg';
-        const component = shallow(<SelectReposNew {...props} />);
+        const component = shallow(<SelectRepos {...props} />);
         component.setState({ filterValue });
         const field = component.find('[data-test-id="filterInput"]');
         expect(field.props().value).toEqual(filterValue);
@@ -158,10 +158,10 @@ describe('<SelectReposNew />', () => {
         const filterValue = watchedRepos.viewer.watching.edges[2].node.name;
         const component = mount(
           <MockedProvider>
-            <SelectReposNew {...props} />
+            <SelectRepos {...props} />
           </MockedProvider>,
         );
-        component.find(SelectReposNew).setState({ filterValue });
+        component.find(SelectRepos).setState({ filterValue });
         const repos = component.find(RepoCheckbox);
         expect(repos.length).toBe(1);
         expect(repos.at(0).props().name).toContain(filterValue);
@@ -176,7 +176,7 @@ describe('<SelectReposNew />', () => {
 
       const component = mount(
         <MockedProvider>
-          <SelectReposNew {...props} data={data} loading={false} />
+          <SelectRepos {...props} data={data} loading={false} />
         </MockedProvider>,
       );
       const button = component.find(
@@ -213,7 +213,7 @@ describe('<SelectReposNew />', () => {
     it('does not render a clear repo selections button', () => {
       const component = mount(
         <MockedProvider>
-          <SelectReposNew {...props} loading={false} />
+          <SelectRepos {...props} loading={false} />
         </MockedProvider>,
       );
       const button = component.find(
