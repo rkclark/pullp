@@ -1,0 +1,61 @@
+@import "../../css/colors.css";
+
+.loader {
+  position: relative;
+}
+
+.loader span {
+  display: block;
+  position: absolute;
+  bottom: -2.5px;
+  width: 9px;
+  height: 5px;
+  background: var(--primary-medium);
+}
+
+.loading span {
+  animation: preload-1 1.5s infinite ease-in-out;
+}
+
+.loader span:nth-child(2) {
+  left: 11px;
+  animation-delay: .2s;
+}
+
+.loader span:nth-child(3) {
+  left: 22px;
+  animation-delay: .4s;
+}
+
+.loader span:nth-child(4) {
+  left: 33px;
+  animation-delay: .6s;
+}
+
+.loader span:nth-child(5) {
+  left: 44px;
+  animation-delay: .8s;
+}
+
+@keyframes preload-1 {
+  0% {
+    height: 5px;
+    transform: translateY(0px);
+    background: var(--primary-medium);
+  }
+  25% {
+    height: 30px;
+    transform: translateY(15px);
+    background: var(--secondary-medium);
+  }
+  50% {
+    height: 5px;
+    transform: translateY(0px);
+    background: var(--secondary-medium);
+  }
+  100% {
+    height: 5px;
+    transform: translateY(0px);
+    background: var(--primary-medium);
+  }
+}

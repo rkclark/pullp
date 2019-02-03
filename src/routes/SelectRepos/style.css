@@ -1,0 +1,151 @@
+@import "../../css/colors.css";
+@import "../../css/units.css";
+
+.selectReposContainer {
+  min-height: calc(100vh - 6.5rem);
+  display: flex;
+  flex-direction: column;
+}
+
+.loadingContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.paginationContainer {
+  max-width: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  margin: 5rem auto;
+  padding: 0;
+  flex: 1 0 100%;
+}
+
+@media only screen and (min-width: 840px) {
+  .paginationContainer {
+    width: 80rem;
+  }
+} 
+
+.paginationItem {
+  list-style: none;
+  height: 4rem;
+  flex-basis: 100%;
+  margin-right: 0.3rem;
+  background-color: var(--primary-medium);
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.paginationItem:first-child {
+  border-top-left-radius: 0.3rem;
+  border-bottom-left-radius: 0.3rem;
+}
+
+.paginationItem:last-child {
+  border-top-right-radius: 0.3rem;
+  border-bottom-right-radius: 0.3rem;
+  margin-right: 0;
+}
+
+.paginationItem:hover{
+  background-color: var(--primary-dark);
+}
+
+.paginationItem a {
+  color: var(--white);
+  line-height: 4rem;
+  font-size: 2rem;
+  font-family: 'Roboto', sans-serif;
+}
+
+.activeItem {
+  background-color: var(--primary-dark);
+}
+
+.title {
+  color: var(--secondary-dark);
+  font-weight: normal;
+  font-size: 2rem;
+  text-align: center;
+  margin: 3rem auto;
+}
+
+.intro {
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
+  font-size: 1.3rem;
+  color: var(--light-grey);
+  text-align: center;
+  margin: 1rem auto;
+}
+
+.selectionControls {
+  min-height: 6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.filterInput {
+  width: 20rem;
+}
+
+.filterLabel {
+  margin-right: var(--spacing-2);
+}
+
+.filterContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem auto 4rem;
+}
+
+.filterContainer label {
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  color: var(--medium-grey);
+}
+
+.filterContainer input {
+  flex-basis: 40rem;
+  font-size: 1.5rem;
+  border-radius: 0.3rem;
+  border: 0.1rem solid var(--light-grey);
+  box-shadow: inset 0 -0.4rem 0 0 rgba(0, 0, 0, 0.08);
+  height: 5rem;
+  padding: 0 1rem;
+  transition: all 0.5s ease;
+  color: var(--medium-grey);
+}
+
+.filterContainer input:focus {
+  box-shadow: inset 0 -0.4rem 0 0 var(--secondary-medium);
+}
+
+.fadeDefault {
+  transition: opacity 300ms ease-out;
+  opacity: 0;
+}
+
+.fadeEntering {
+  opacity: 0;
+}
+
+.fadeEntered {
+  opacity: 1;
+}
+
+.fadeExiting {
+  opacity: 0;
+}
+
+.fadeExited {
+  opacity: 0;
+}

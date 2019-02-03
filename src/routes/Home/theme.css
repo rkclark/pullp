@@ -6,6 +6,14 @@
   justify-content: center;
   min-height: 90vh;
   align-content: center;
+  padding: 2% 5%;
+}
+
+.loadingContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 @media (min-width: 1400px) {

@@ -1,146 +1,183 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import ReactRouterEnzymeContext from 'react-router-enzyme-context';
-import { Link } from 'react-router-dom';
-import { SelectRepos } from './';
-import RepoCheckbox from './components/RepoCheckbox';
-import Loading from '../../components/Loading';
-import Error from '../../components/Error';
+import Pagination from 'react-js-pagination';
+import { MockedProvider } from 'react-apollo/test-utils';
+import { cloneDeep } from 'lodash';
 
-describe('SelectRepos', () => {
-  const mockRouter = new ReactRouterEnzymeContext();
+import { SelectRepos } from './';
+import watchedRepos from './watchedReposFixture';
+import RepoCheckbox from '../../components/RepoCheckbox';
+import { WATCHED_REPOS_PAGINATION_RANGE } from '../../constants';
+import LoadingMessage from '../../components/LoadingMessage';
+
+const reposPerPage = 2;
+
+describe('<SelectRepos />', () => {
   const props = {
-    githubError: null,
-    requestWatchedRepos: jest.fn(),
-    toggleRepoSelection: () => {},
-    performFiltering: () => {},
-    paginatedRepos: {
-      currentPage: 1,
-      hasNextPage: true,
-      hasPreviousPage: false,
-      totalPages: 3,
-      pages: {
-        1: [
-          {
-            name: 'test1',
-            id: 'MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==',
-            url: 'url',
-            owner: {
-              avatarUrl: 'testurl',
-              login: 'testlogin',
-            },
-            isFork: false,
-            createdAt: '2016-10-14T20:31:44Z',
-          },
-          {
-            name: 'test2',
-            id: 'MDEwOlJlcG9zaXRvcnk3Mjc1NzkxNg==',
-            url: 'url',
-            owner: {
-              avatarUrl: 'testurl',
-              login: 'testlogin',
-            },
-            isFork: false,
-            createdAt: '2016-10-14T20:31:44Z',
-          },
-        ],
-        2: [
-          {
-            name: 'test3',
-            id: 'testid1==',
-            url: 'url',
-            owner: {
-              avatarUrl: 'testurl',
-              login: 'testlogin',
-            },
-            isFork: false,
-            createdAt: '2016-10-14T20:31:44Z',
-          },
-          {
-            name: 'test4',
-            id: 'testid2==',
-            url: 'url',
-            owner: {
-              avatarUrl: 'testurl',
-              login: 'testlogin',
-            },
-            isFork: false,
-            createdAt: '2016-10-14T20:31:44Z',
-          },
-        ],
-        3: [
-          {
-            name: 'test5',
-            id: 'MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==',
-            url: 'url',
-            owner: {
-              avatarUrl: 'testurl',
-              login: 'testlogin',
-            },
-            isFork: false,
-            createdAt: '2016-10-14T20:31:44Z',
-          },
-          {
-            name: 'test6',
-            id: 'MDEwOlJlcG9zaXRvcnk3Mjc1NzkxNg==',
-            url: 'url',
-            owner: {
-              avatarUrl: 'testurl',
-              login: 'testlogin',
-            },
-            isFork: false,
-            createdAt: '2016-10-14T20:31:44Z',
-          },
-        ],
-      },
-    },
-    selectedRepos: [],
-    repoFilterValue: null,
-    changeReposPage: () => {},
-    resetSelectedRepos: () => {},
+    data: watchedRepos,
+    loading: false,
+    reposPerPage,
   };
 
-  it('renders successfully', () => {
+  it('renders succesfully', () => {
     const component = shallow(<SelectRepos {...props} />);
-    expect(component).toHaveLength(1);
+    expect(component.length).toBe(1);
   });
 
-  it('renders a RepoCheckbox for each repo on current page', () => {
-    const component = shallow(<SelectRepos {...props} />);
-    expect(component.find(RepoCheckbox)).toHaveLength(2);
-    expect(
-      component
-        .find(RepoCheckbox)
-        .at(0)
-        .props().name,
-    ).toEqual('test1');
-    expect(
-      component
-        .find(RepoCheckbox)
-        .at(1)
-        .props().name,
-    ).toEqual('test2');
-  });
-
-  it('calls requestWatchedRepos when mounted', () => {
-    const component = mount(<SelectRepos {...props} />, {
-      context: mockRouter.getContext(),
-      childContextTypes: mockRouter.getChildContextTypes(),
+  describe('when loading', () => {
+    it('renders a <LoadingMessage/>', () => {
+      const component = shallow(<SelectRepos {...props} loading />);
+      expect(component.find(LoadingMessage).length).toBe(1);
     });
-    expect(component.requestWatchedRepos).toHaveBeenCalled;
+  });
+
+  describe('when not loading', () => {
+    it('does not render a <LoadingMessage/>', () => {
+      const component = shallow(<SelectRepos {...props} loading={false} />);
+      expect(component.find(LoadingMessage).length).toBe(0);
+    });
+  });
+
+  describe('when watched repos data contains 5 repos & repos per page is 2', () => {
+    describe('repo pages rendering', () => {
+      let component;
+      beforeAll(() => {
+        component = mount(
+          <MockedProvider>
+            <SelectRepos {...props} />
+          </MockedProvider>,
+        );
+      });
+      describe('when active page is 1', () => {
+        it('renders first page of results', () => {
+          const repos = component.find(RepoCheckbox);
+          expect(repos.length).toBe(reposPerPage);
+          expect(repos.at(0).props().id).toBe('1');
+          expect(repos.at(1).props().id).toBe('2');
+        });
+      });
+
+      describe('when active page is 2', () => {
+        it('renders second page of results', () => {
+          component.find(SelectRepos).setState({ activePage: 2 });
+          const repos = component.find(RepoCheckbox);
+          expect(repos.length).toBe(reposPerPage);
+          expect(repos.at(0).props().id).toBe('3');
+          expect(repos.at(1).props().id).toBe('4');
+        });
+      });
+
+      describe('when active page is 3', () => {
+        it('renders third page of results', () => {
+          component.find(SelectRepos).setState({ activePage: 3 });
+          const repos = component.find(RepoCheckbox);
+          expect(repos.length).toBe(1);
+          expect(repos.at(0).props().id).toBe('5');
+        });
+      });
+    });
+
+    it('renders a <Pagination/> with correct props', () => {
+      const component = shallow(<SelectRepos {...props} />);
+      const pagination = component.find(Pagination);
+      expect(pagination.length).toBe(1);
+      const {
+        activePage,
+        itemsCountPerPage,
+        totalItemsCount,
+        pageRangeDisplayed,
+        onChange,
+      } = pagination.props();
+
+      expect(activePage).toBe(component.state().activePage);
+      expect(itemsCountPerPage).toBe(reposPerPage);
+      expect(totalItemsCount).toBe(props.data.viewer.watching.edges.length);
+      expect(pageRangeDisplayed).toBe(WATCHED_REPOS_PAGINATION_RANGE);
+      expect(onChange.toString()).toBe(
+        component.instance().handlePageChange.toString(),
+      );
+    });
+  });
+
+  describe('handlePageChange', () => {
+    it('sets the activePage to the provided page number', () => {
+      const component = shallow(<SelectRepos {...props} />);
+      expect(component.state().activePage).toBe(1);
+      component.instance().handlePageChange(2);
+      expect(component.state().activePage).toBe(2);
+    });
+  });
+
+  describe('setFilterValue', () => {
+    it('sets the filterValue based on the provided change event', () => {
+      const filterValue = 'smeg';
+      const component = shallow(<SelectRepos {...props} />);
+      expect(component.state().filterValue).toBe('');
+      component.instance().setFilterValue({
+        target: {
+          value: filterValue,
+        },
+      });
+      expect(component.state().filterValue).toBe(filterValue);
+    });
+
+    it('resets the activePage to 1', () => {
+      const filterValue = 'smeg';
+      const component = shallow(<SelectRepos {...props} />);
+      component.setState({ activePage: 2 });
+      component.instance().setFilterValue({
+        target: {
+          value: filterValue,
+        },
+      });
+      expect(component.state().activePage).toBe(1);
+    });
+  });
+
+  describe('filtering', () => {
+    describe('filter input field', () => {
+      it('has onChange set to setFilterValue', () => {
+        const component = shallow(<SelectRepos {...props} />);
+        const input = component.find('[data-test-id="filterInput"]');
+        expect(input.props().onChange).toBe(
+          component.instance().setFilterValue,
+        );
+      });
+
+      it('has a value controlled by the filter value', () => {
+        const filterValue = 'smeg';
+        const component = shallow(<SelectRepos {...props} />);
+        component.setState({ filterValue });
+        const field = component.find('[data-test-id="filterInput"]');
+        expect(field.props().value).toEqual(filterValue);
+      });
+    });
+
+    describe('when filter value is set', () => {
+      it('filters the displayed repos by name', () => {
+        const filterValue = watchedRepos.viewer.watching.edges[2].node.name;
+        const component = mount(
+          <MockedProvider>
+            <SelectRepos {...props} />
+          </MockedProvider>,
+        );
+        component.find(SelectRepos).setState({ filterValue });
+        const repos = component.find(RepoCheckbox);
+        expect(repos.length).toBe(1);
+        expect(repos.at(0).props().name).toContain(filterValue);
+      });
+    });
   });
 
   describe('when there are repos selected', () => {
     it('renders a clear repo selections button', () => {
+      const data = cloneDeep(watchedRepos);
+      data.viewer.watching.edges[0].node.isSelected = true;
+
       const component = mount(
-        <SelectRepos
-          {...props}
-          selectedRepos={['MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==']}
-        />,
-        {
-          context: mockRouter.getContext(),
-          childContextTypes: mockRouter.getChildContextTypes(),
-        },
+        <MockedProvider>
+          <SelectRepos {...props} data={data} loading={false} />
+        </MockedProvider>,
       );
       const button = component.find(
         '[data-test-id="clearAllSelectionsButton"]',
@@ -148,271 +185,41 @@ describe('SelectRepos', () => {
       expect(button.length).toBe(1);
     });
 
-    describe('clear repo selections', () => {
-      it('dispatches resetSelectedRepos on click', () => {
-        const resetSelectedRepos = jest.fn();
-        const component = mount(
-          <SelectRepos
-            {...props}
-            selectedRepos={['MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==']}
-            resetSelectedRepos={resetSelectedRepos}
-          />,
-          {
-            context: mockRouter.getContext(),
-            childContextTypes: mockRouter.getChildContextTypes(),
-          },
-        );
-        const button = component.find(
-          '[data-test-id="clearAllSelectionsButton"]',
-        );
-        expect(resetSelectedRepos).not.toHaveBeenCalled;
-        button.simulate('click');
-        expect(resetSelectedRepos).toHaveBeenCalled;
-      });
-    });
+    // describe('clear repo selections', () => {
+    //   it('dispatches resetSelectedRepos on click', () => {
+    //     const resetSelectedRepos = jest.fn();
+    //     const component = mount(
+    //       <SelectRepos
+    //         {...props}
+    //         selectedRepos={['MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==']}
+    //         resetSelectedRepos={resetSelectedRepos}
+    //       />,
+    //       {
+    //         context: mockRouter.getContext(),
+    //         childContextTypes: mockRouter.getChildContextTypes(),
+    //       },
+    //     );
+    //     const button = component.find(
+    //       '[data-test-id="clearAllSelectionsButton"]',
+    //     );
+    //     expect(resetSelectedRepos).not.toHaveBeenCalled;
+    //     button.simulate('click');
+    //     expect(resetSelectedRepos).toHaveBeenCalled;
+    //   });
+    // });
   });
 
   describe('when there are no repos selected', () => {
     it('does not render a clear repo selections button', () => {
-      const component = mount(<SelectRepos {...props} selectedRepos={[]} />, {
-        context: mockRouter.getContext(),
-        childContextTypes: mockRouter.getChildContextTypes(),
-      });
+      const component = mount(
+        <MockedProvider>
+          <SelectRepos {...props} loading={false} />
+        </MockedProvider>,
+      );
       const button = component.find(
         '[data-test-id="clearAllSelectionsButton"]',
       );
       expect(button.length).toBe(0);
-    });
-  });
-
-  describe('filtering', () => {
-    describe('filter input field', () => {
-      it('calls performFiltering on change', () => {
-        const testValue = 'omg';
-        const performFiltering = jest.fn();
-        const component = shallow(
-          <SelectRepos {...props} performFiltering={performFiltering} />,
-        );
-        component
-          .find('[data-test-id="filterInput"]')
-          .simulate('change', { target: { value: testValue } });
-        expect(performFiltering).toHaveBeenCalledWith(testValue);
-      });
-      it('has value === repoFilterValue', () => {
-        const testValue = 'omg';
-        const component = shallow(
-          <SelectRepos {...props} repoFilterValue={testValue} />,
-        );
-        const field = component.find('[data-test-id="filterInput"]');
-        expect(field.props().value).toEqual(testValue);
-      });
-      describe('when repoFilterValue is null', () => {
-        it("has value === ''", () => {
-          const component = shallow(<SelectRepos {...props} />);
-          const field = component.find('[data-test-id="filterInput"]');
-          expect(field.props().value).toEqual('');
-        });
-      });
-    });
-  });
-  describe('pagination', () => {
-    const baseProps = {
-      ...props,
-      paginatedRepos: {
-        ...props.paginatedRepos,
-        hasPreviousPage: true,
-        currentPage: 2,
-      },
-    };
-    it('renders the current page number and total pages', () => {
-      const component = shallow(<SelectRepos {...props} />);
-      const currentPage = component.find('[data-test-id="currentPage"]');
-      expect(currentPage.text()).toEqual('1 of 3');
-    });
-    describe('next page', () => {
-      describe('when there is a next page', () => {
-        it('renders a next page button', () => {
-          const component = shallow(<SelectRepos {...props} />);
-          const nextButton = component.find('[data-test-id="nextButton"]');
-          expect(nextButton.length).toBe(1);
-        });
-        it('calls changePage action on click', () => {
-          const changeReposPage = jest.fn();
-          const component = shallow(
-            <SelectRepos {...props} changeReposPage={changeReposPage} />,
-          );
-          component.find('[data-test-id="nextButton"]').simulate('click');
-          expect(changeReposPage).toHaveBeenCalledWith(2);
-        });
-        describe('go to last page button', () => {
-          it('renders a previous page button', () => {
-            const component = shallow(<SelectRepos {...baseProps} />);
-            const previousButton = component.find(
-              '[data-test-id="lastPageButton"]',
-            );
-            expect(previousButton.length).toBe(1);
-          });
-          it('calls changePage action on click', () => {
-            const changeReposPage = jest.fn();
-            const component = shallow(
-              <SelectRepos
-                {...baseProps}
-                paginatedRepos={{
-                  ...baseProps.paginatedRepos,
-                  currentPage: 1,
-                }}
-                changeReposPage={changeReposPage}
-              />,
-            );
-            component.find('[data-test-id="lastPageButton"]').simulate('click');
-            expect(changeReposPage).toHaveBeenCalledWith(3);
-          });
-        });
-      });
-      describe('when there is not a next page', () => {
-        it('does not render a next page button', () => {
-          const component = shallow(
-            <SelectRepos
-              {...props}
-              paginatedRepos={{ ...props.paginatedRepos, hasNextPage: false }}
-            />,
-          );
-          const nextButton = component.find('[data-test-id="nextButton"]');
-          expect(nextButton.length).toBe(0);
-        });
-      });
-    });
-    describe('previous page', () => {
-      describe('when there is a previous page', () => {
-        it('renders a previous page button', () => {
-          const component = shallow(<SelectRepos {...baseProps} />);
-          const previousButton = component.find(
-            '[data-test-id="previousButton"]',
-          );
-          expect(previousButton.length).toBe(1);
-        });
-        it('calls changePage action on click', () => {
-          const changeReposPage = jest.fn();
-          const component = shallow(
-            <SelectRepos {...baseProps} changeReposPage={changeReposPage} />,
-          );
-          component.find('[data-test-id="previousButton"]').simulate('click');
-          expect(changeReposPage).toHaveBeenCalledWith(1);
-        });
-        describe('go to first page button', () => {
-          it('renders a previous page button', () => {
-            const component = shallow(<SelectRepos {...baseProps} />);
-            const previousButton = component.find(
-              '[data-test-id="firstPageButton"]',
-            );
-            expect(previousButton.length).toBe(1);
-          });
-          it('calls changePage action on click', () => {
-            const changeReposPage = jest.fn();
-            const component = shallow(
-              <SelectRepos
-                {...baseProps}
-                paginatedRepos={{
-                  ...baseProps.paginatedRepos,
-                  currentPage: 3,
-                }}
-                changeReposPage={changeReposPage}
-              />,
-            );
-            component
-              .find('[data-test-id="firstPageButton"]')
-              .simulate('click');
-            expect(changeReposPage).toHaveBeenCalledWith(1);
-          });
-        });
-      });
-      describe('when there is not a previous page', () => {
-        it('does not render a previous page button', () => {
-          const component = shallow(
-            <SelectRepos
-              {...baseProps}
-              paginatedRepos={{
-                ...baseProps.paginatedRepos,
-                hasPreviousPage: false,
-              }}
-            />,
-          );
-          const previousButton = component.find(
-            '[data-test-id="previousButton"]',
-          );
-          expect(previousButton.length).toBe(0);
-        });
-      });
-    });
-    describe('when there are no results', () => {
-      const testProps = {
-        ...props,
-        paginatedRepos: {
-          ...props.paginatedRepos,
-          hasPreviousPage: false,
-          currentPage: null,
-          pages: {},
-        },
-      };
-      it('does not render current or total pages', () => {
-        const component = shallow(<SelectRepos {...testProps} />);
-        const currentPage = component.find('[data-test-id="currentPage"]');
-        expect(currentPage.length).toBe(0);
-      });
-    });
-
-    describe('when loading', () => {
-      const testProps = {
-        ...props,
-        loading: true,
-      };
-      it('does not render repos', () => {
-        const component = shallow(<SelectRepos {...testProps} />);
-        expect(component.find(RepoCheckbox).length).toBe(0);
-      });
-
-      it('renders loading icon', () => {
-        const component = shallow(<SelectRepos {...testProps} />);
-        expect(component.find(Loading).length).toBe(1);
-      });
-
-      it('does not render a link to home', () => {
-        const component = shallow(<SelectRepos {...testProps} />);
-        expect(component.find(Link).length).toBe(0);
-      });
-    });
-
-    describe('when loaded', () => {
-      it('does renders repos', () => {
-        const component = shallow(<SelectRepos {...props} />);
-        expect(component.find(RepoCheckbox).length).toBe(2);
-      });
-
-      it('does not render loading icon', () => {
-        const component = shallow(<SelectRepos {...props} />);
-        expect(component.find(Loading).length).toBe(0);
-      });
-
-      it('renders a link to home', () => {
-        const component = shallow(<SelectRepos {...props} />);
-        expect(component.find(Link).props().to).toBe('/app');
-      });
-    });
-
-    describe('when there is a github error', () => {
-      it('renders an error', () => {
-        const component = shallow(
-          <SelectRepos {...props} githubError="error" />,
-        );
-        expect(component.find(Error).length).toBe(1);
-      });
-    });
-
-    describe('when there is not a github error', () => {
-      it('does not render an error', () => {
-        const component = shallow(<SelectRepos {...props} />);
-        expect(component.find(Error).length).toBe(0);
-      });
     });
   });
 });

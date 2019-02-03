@@ -1,53 +1,32 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
+import LoadingMessage from '../../components/LoadingMessage';
 import { Home } from '.';
 import Repo from './components/Repo';
 
 describe('Home', () => {
   const baseProps = {
-    redirectPath: '/',
-    saveRedirect: () => {},
-    currentUser: {
-      login: 'person',
-      avatarUrl: 'avatar.com',
-      url: 'url.com',
-    },
-    githubToken: 'token',
-    requestPullRequests: () => {},
-    selectedRepos: ['1', '2', '3'],
-    repositories: [
+    data: [
       {
-        id: '1',
-        pullRequests: [],
-        name: 'testRepo',
+        id: 1,
+        name: 'repo1',
+        url: 'url',
         owner: {
-          login: 'test',
-          avatarUrl: 'test.com',
+          login: 'login',
+          avatarUrl: 'avatar',
         },
-        url: 'test.com',
       },
       {
-        id: '2',
-        pullRequests: [],
-        name: 'testRepo',
+        id: 2,
+        name: 'repo2',
+        url: 'url',
         owner: {
-          login: 'test',
-          avatarUrl: 'test.com',
+          login: 'login',
+          avatarUrl: 'avatar',
         },
-        url: 'test.com',
-      },
-      {
-        id: '3',
-        pullRequests: [],
-        name: 'testRepo',
-        owner: {
-          login: 'test',
-          avatarUrl: 'test.com',
-        },
-        url: 'test.com',
       },
     ],
-    toggleOpenRepo: () => {},
+    loading: false,
   };
 
   it('renders successfully', () => {
@@ -55,43 +34,44 @@ describe('Home', () => {
     expect(component.length).toBe(1);
   });
 
-  it('renders a repo for each repo in props', () => {
-    const component = mount(<Home {...baseProps} />);
-    expect(component.find(Repo).length).toBe(3);
+  it('renders a repo for each repo returned from query', async () => {
+    const component = shallow(<Home {...baseProps} />);
+    expect(component.find(Repo).length).toBe(2);
   });
 
-  describe('when there is a currentUser', () => {
-    it('dispatches requestPullRequests action', () => {
-      const requestPullRequests = jest.fn();
-      mount(<Home {...baseProps} requestPullRequests={requestPullRequests} />);
-      expect(requestPullRequests).toHaveBeenCalledWith(
-        baseProps.githubToken,
-        baseProps.selectedRepos,
-      );
-    });
-    xit('sets an interval on window to run requestPullRequests', () => {
-      global.setInterval = jest.fn();
-      mount(<Home {...baseProps} />);
-      const requestPullRequestsFn = `() => {
-        this.props.requestPullRequests(
-        this.props.githubToken,
-        this.props.selectedRepos);
-
-      }`;
-      expect(global.setInterval.mock.calls[0][0].toString()).toEqual(
-        requestPullRequestsFn,
-      );
-      expect(global.setInterval.mock.calls[0][1]).toEqual(60000);
+  describe('when loading repositories', () => {
+    it('renders a loading message', () => {
+      const component = shallow(<Home {...baseProps} loading />);
+      expect(component.find(LoadingMessage).length).toBe(1);
     });
   });
 
-  describe('when unmounts', () => {
-    it('clears interval on window', () => {
-      global.clearInterval = jest.fn();
-      global.cancelAnimationFrame = () => {};
-      const component = mount(<Home {...baseProps} />);
-      component.unmount();
-      expect(global.clearInterval).toHaveBeenCalled;
+  describe('when not loading repositories', () => {
+    it('does not render a loading message', () => {
+      const component = shallow(<Home {...baseProps} />);
+      expect(component.find(LoadingMessage).length).toBe(0);
+    });
+  });
+
+  describe('toggleOpenRepo()', () => {
+    describe('when repo is not already open', () => {
+      it('saves repo id as the currently open repo', () => {
+        const componentInstance = shallow(<Home {...baseProps} />).instance();
+        const repoId = 'test';
+        componentInstance.toggleOpenRepo(repoId);
+        expect(componentInstance.state.openRepoId).toBe(repoId);
+      });
+    });
+
+    describe('when repo is already open', () => {
+      it('saves repo id as the currently open repo', () => {
+        const componentInstance = shallow(<Home {...baseProps} />).instance();
+
+        const repoId = 'test';
+        componentInstance.setState({ openRepoId: repoId });
+        componentInstance.toggleOpenRepo(repoId);
+        expect(componentInstance.state.openRepoId).toBeNull();
+      });
     });
   });
 });

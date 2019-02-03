@@ -144,6 +144,7 @@ module.exports = {
           /\.gif$/,
           /\.jpe?g$/,
           /\.png$/,
+          /\.graphql$/,
         ],
         loader: require.resolve('file-loader'),
         options: {
@@ -249,6 +250,11 @@ module.exports = {
             },
           },
         ],
+      },
+      {
+        test: /\.(graphql|gql)$/,
+        exclude: /node_modules/,
+        loader: 'graphql-tag/loader',
       },
       // ** STOP ** Are you adding a new loader?
       // Remember to add the new extension(s) to the "file" loader exclusion list.

@@ -1,0 +1,18 @@
+@import "../../css/colors.css";
+
+.getStartedContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.success {
+  font-weight: bold;
+  color: var(--primary-medium);
+  font-size: 1.8rem;
+}
+
+.continue {
+  margin: 3rem auto;
+}

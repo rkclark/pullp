@@ -1,280 +1,223 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import Transition from 'react-transition-group/Transition';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import * as actions from './actions';
-import RepoCheckbox from './components/RepoCheckbox';
-import defaultTheme from './theme.css';
+import { last, get } from 'lodash';
+import { Query, Mutation } from 'react-apollo';
+import Transition from 'react-transition-group/Transition';
+import Pagination from 'react-js-pagination';
+import { GET_WATCHED_REPOS } from '../../apollo/queries';
+import {
+  TOGGLE_REPO_SELECTION,
+  CLEAR_SELECTED_REPOS,
+} from '../../apollo/mutations';
+import RepoCheckbox from '../../components/RepoCheckbox';
 import Button from '../../components/Button';
-import buttonTheme from './buttonTheme.css';
-import Loading from '../../components/Loading';
-import Error from '../../components/Error';
+import LoadingMessage from '../../components/LoadingMessage';
+import {
+  WATCHED_REPOS_PER_PAGE,
+  WATCHED_REPOS_PAGINATION_RANGE,
+} from '../../constants';
+import style from './style.css';
 
 const fadeInDuration = 300;
 
 const capitalise = string => string.charAt(0).toUpperCase() + string.slice(1);
 
-export class SelectRepos extends React.Component {
-  constructor(props) {
-    super(props);
-    this.props = props;
-    this.loadRepos = this.loadRepos.bind(this);
-    this.filterOnChange = this.filterOnChange.bind(this);
+export class SelectRepos extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      activePage: 1,
+      filterValue: '',
+    };
+
+    this.handlePageChange = this.handlePageChange.bind(this);
+    this.setFilterValue = this.setFilterValue.bind(this);
   }
 
-  componentDidMount() {
-    this.props.requestWatchedRepos(this.props.githubToken);
-  }
-
-  loadRepos() {
-    if (this.props.paginatedRepos.currentPage) {
-      const reposPage = this.props.paginatedRepos.pages[
-        this.props.paginatedRepos.currentPage
-      ];
-      return reposPage.map(repo => {
-        const checked = this.props.selectedRepos.includes(repo.id);
-        const onChange = () => {
-          this.props.toggleRepoSelection(repo.id);
-        };
-        return (
-          <RepoCheckbox
-            key={repo.id}
-            name={repo.name}
-            url={repo.url}
-            checked={checked}
-            onChange={onChange}
-            id={repo.id}
-            isFork={repo.isFork}
-            owner={repo.owner}
-            createdAt={repo.createdAt}
-          />
-        );
-      });
-    }
-
-    return null;
-  }
-
-  filterOnChange(event) {
+  setFilterValue(event) {
     const value = event.target.value;
-    this.props.performFiltering(value);
+    this.setState({ filterValue: value, activePage: 1 });
+  }
+
+  handlePageChange(pageNumber) {
+    this.setState({ activePage: pageNumber });
   }
 
   render() {
-    const repos = this.loadRepos();
-    const theme = this.props.theme;
-    const paginatedRepos = this.props.paginatedRepos;
-    return (
-      <div>
-        <h3 className={theme.title}>
-          Select the repos you want monitor with Pullp
-        </h3>
-        <div className={theme.filterContainer}>
-          <label htmlFor="filter" className={theme.filterLabel}>
-            Search
-          </label>
-          <input
-            name="filter"
-            className={theme.filterInput}
-            type="text"
-            value={this.props.repoFilterValue || ''}
-            data-test-id="filterInput"
-            onChange={this.filterOnChange}
-          />
+    const { activePage, filterValue } = this.state;
+    const { reposPerPage, loading, data } = this.props;
+
+    if (loading) {
+      return (
+        <div className={style.loadingContainer}>
+          <LoadingMessage message="Asking Github for your watched repos..." />
         </div>
-        <p className={theme.intro}>
-          Can&#8217;t find one of your repos here? Make sure you are watching it
-          on Github!
-        </p>
-        <div className={theme.selectionControls}>
-          <Transition
-            appear
-            timeout={fadeInDuration}
-            in={this.props.selectedRepos.length > 0}
-            unmountOnExit
+      );
+    }
+    const startPosition = (activePage - 1) * reposPerPage;
+    const endPosition = activePage * reposPerPage;
+
+    const repos = get(data, 'viewer.watching.edges');
+
+    let anyReposSelected = null;
+    let activePageOfRepos = null;
+    let filteredRepos = [];
+
+    if (Array.isArray(repos) && repos.length > 0) {
+      anyReposSelected = repos.some(({ node }) => node.isSelected);
+
+      filteredRepos = repos.filter(({ node }) =>
+        node.name.includes(filterValue),
+      );
+
+      activePageOfRepos = filteredRepos
+        .slice(startPosition, endPosition)
+        .map(({ node }) => (
+          <Mutation
+            mutation={TOGGLE_REPO_SELECTION}
+            variables={{ id: node.id }}
+            key={node.id}
           >
-            {state => {
-              const transitionState = capitalise(state);
+            {toggleRepoSelection => (
+              <RepoCheckbox
+                name={node.name}
+                url={node.url}
+                checked={node.isSelected || false}
+                onChange={toggleRepoSelection}
+                id={node.id}
+                isFork={node.isFork}
+                owner={node.owner}
+                createdAt={node.createdAt}
+              />
+            )}
+          </Mutation>
+        ));
+    }
 
-              const fadeTransitionClassNames = `${theme.fadeDefault} ${
-                theme[`fade${transitionState}`]
-              }`;
+    return (
+      <div className={style.selectReposContainer}>
+        <div>
+          <h3 className={style.title}>
+            Select the repos you want monitor with Pullp
+          </h3>
+          <div className={style.filterContainer}>
+            <label htmlFor="filter" className={style.filterLabel}>
+              Search
+            </label>
+            <input
+              name="filter"
+              className={style.filterInput}
+              type="text"
+              value={filterValue || ''}
+              data-test-id="filterInput"
+              onChange={this.setFilterValue}
+            />
+          </div>
+          <p className={style.intro}>
+            Can&#8217;t find one of your repos here? Make sure you are watching
+            it on Github!
+          </p>
+          <div className={style.selectionControls}>
+            <Transition
+              appear
+              timeout={fadeInDuration}
+              in={anyReposSelected}
+              unmountOnExit
+            >
+              {state => {
+                const transitionState = capitalise(state);
 
-              return (
-                <div className={fadeTransitionClassNames}>
-                  <Button
-                    data-test-id="clearAllSelectionsButton"
-                    onClick={() => {
-                      this.props.resetSelectedRepos();
-                    }}
-                  >
-                    Clear all selections
-                  </Button>
-                </div>
-              );
-            }}
-          </Transition>
+                const fadeTransitionClassNames = `${style.fadeDefault} ${
+                  style[`fade${transitionState}`]
+                }`;
+
+                return (
+                  <div className={fadeTransitionClassNames}>
+                    <Mutation mutation={CLEAR_SELECTED_REPOS}>
+                      {clearSelectedRepos => (
+                        <Button
+                          data-test-id="clearAllSelectionsButton"
+                          onClick={clearSelectedRepos}
+                        >
+                          Clear all selections
+                        </Button>
+                      )}
+                    </Mutation>
+                  </div>
+                );
+              }}
+            </Transition>
+          </div>
         </div>
-        {this.props.loading ? (
-          <div className={theme.loading}>
-            <Loading />
-          </div>
-        ) : (
-          <div>
-            {this.props.githubError ? (
-              <div className={theme.error}>
-                <Error
-                  message={
-                    'Failed to fetch your watched repos from Github! If you still see repos on this page they may not be up to date.'
-                  }
-                />
-              </div>
-            ) : null}
-            <div className={theme.reposContainer}>{repos}</div>
-            <div className={theme.paginationContainer}>
-              {paginatedRepos.hasPreviousPage ? (
-                <div
-                  className={`${theme.buttonContainer} ${theme.firstButton}`}
-                >
-                  <Button
-                    data-test-id="firstPageButton"
-                    onClick={() => {
-                      this.props.changeReposPage(1);
-                    }}
-                    theme={buttonTheme}
-                  >
-                    First
-                  </Button>
-                </div>
-              ) : null}
-
-              {paginatedRepos.hasPreviousPage ? (
-                <div
-                  className={`${theme.buttonContainer} ${theme.previousButton}`}
-                >
-                  <Button
-                    data-test-id="previousButton"
-                    onClick={() => {
-                      this.props.changeReposPage(
-                        paginatedRepos.currentPage - 1,
-                      );
-                    }}
-                    theme={buttonTheme}
-                  >
-                    Previous
-                  </Button>
-                </div>
-              ) : null}
-              {paginatedRepos.currentPage ? (
-                <span className={theme.currentPage} data-test-id="currentPage">
-                  {paginatedRepos.currentPage} of {paginatedRepos.totalPages}
-                </span>
-              ) : null}
-              {paginatedRepos.hasNextPage ? (
-                <div className={`${theme.buttonContainer} ${theme.nextButton}`}>
-                  <Button
-                    data-test-id="nextButton"
-                    onClick={() => {
-                      this.props.changeReposPage(
-                        paginatedRepos.currentPage + 1,
-                      );
-                    }}
-                    theme={buttonTheme}
-                  >
-                    Next
-                  </Button>
-                </div>
-              ) : null}
-              {paginatedRepos.hasNextPage ? (
-                <div className={`${theme.buttonContainer} ${theme.lastButton}`}>
-                  <Button
-                    data-test-id="lastPageButton"
-                    onClick={() => {
-                      this.props.changeReposPage(paginatedRepos.totalPages);
-                    }}
-                    theme={buttonTheme}
-                  >
-                    Last
-                  </Button>
-                </div>
-              ) : null}
-            </div>
-            <div className={theme.linkContainer}>
-              <p className={theme.intro}>Finished with your selections?</p>
-              <Link to="/app">
-                <Button className={theme.button}>Show me my dashboard</Button>
-              </Link>
-            </div>
-          </div>
-        )}
+        {activePageOfRepos}
+        <Pagination
+          activePage={activePage}
+          itemsCountPerPage={reposPerPage}
+          totalItemsCount={filteredRepos.length}
+          pageRangeDisplayed={WATCHED_REPOS_PAGINATION_RANGE}
+          onChange={this.handlePageChange}
+          innerClass={style.paginationContainer}
+          itemClass={style.paginationItem}
+          activeClass={style.activeItem}
+        />
       </div>
     );
   }
 }
 
 SelectRepos.propTypes = {
-  paginatedRepos: PropTypes.shape({
-    currentPage: PropTypes.number,
-    hasNextPage: PropTypes.bool,
-    hasPreviousPage: PropTypes.bool,
-    totalPages: PropTypes.number,
-    pages: PropTypes.shape(),
-  }),
-  githubError: PropTypes.string,
-  githubToken: PropTypes.string,
-  requestWatchedRepos: PropTypes.func.isRequired,
-  selectedRepos: PropTypes.arrayOf(PropTypes.string),
-  toggleRepoSelection: PropTypes.func.isRequired,
-  theme: PropTypes.shape(),
-  performFiltering: PropTypes.func.isRequired,
-  repoFilterValue: PropTypes.string,
-  changeReposPage: PropTypes.func.isRequired,
-  loading: PropTypes.bool,
-  resetSelectedRepos: PropTypes.func.isRequired,
+  data: PropTypes.shape({}),
+  loading: PropTypes.bool.isRequired,
+  reposPerPage: PropTypes.number.isRequired,
 };
 
 SelectRepos.defaultProps = {
-  paginatedRepos: {
-    currentPage: null,
-    hasNextPage: null,
-    hasPreviousPage: null,
-    totalPages: 0,
-    pages: {},
-  },
-  githubError: null,
-  githubToken: null,
-  selectedRepos: [],
-  theme: defaultTheme,
-  repoFilterValue: null,
-  loading: false,
+  data: null,
 };
 
-const mapStateToProps = state => ({
-  paginatedRepos: state.selectRepos.paginatedRepos,
-  githubError: state.selectRepos.githubError,
-  githubToken: state.setup.githubToken,
-  selectedRepos: state.selectRepos.selectedRepos,
-  repoFilterValue: state.selectRepos.repoFilterValue,
-  loading: state.selectRepos.loading,
-});
+export default function SelectReposContainer() {
+  return (
+    <Query query={GET_WATCHED_REPOS} fetchPolicy="network-only">
+      {({ data, loading, fetchMore }) => {
+        if (get(data, 'viewer.watching.pageInfo.hasNextPage')) {
+          fetchMore({
+            variables: {
+              cursor: last(data.viewer.watching.edges).cursor,
+            },
+            updateQuery: (previousResult, { fetchMoreResult }) => {
+              const newEdges = get(fetchMoreResult, 'viewer.watching.edges');
+              const prevEdges = get(previousResult, 'viewer.watching.edges');
+              const pageInfo = get(fetchMoreResult, 'viewer.watching.pageInfo');
 
-const mapDispatchToProps = dispatch => ({
-  requestWatchedRepos(token) {
-    dispatch(actions.requestWatchedRepos(token));
-  },
-  toggleRepoSelection(id) {
-    dispatch(actions.toggleRepoSelection(id));
-  },
-  performFiltering(value) {
-    dispatch(actions.performFiltering(value));
-  },
-  changeReposPage(page) {
-    dispatch(actions.changeReposPage(page));
-  },
-  resetSelectedRepos() {
-    dispatch(actions.resetSelectedRepos());
-  },
-});
+              const mergedResults = newEdges.length
+                ? {
+                    // Put the new watched repos at the end of the list and
+                    // update `pageInfo` so we have the new hasNextPage value
+                    ...previousResult,
+                    viewer: {
+                      ...get(previousResult, 'viewer'),
+                      watching: {
+                        ...get(previousResult, 'viewer.watching'),
+                        edges: [...prevEdges, ...newEdges],
+                        pageInfo,
+                      },
+                    },
+                  }
+                : previousResult;
+              return mergedResults;
+            },
+          });
+        }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelectRepos);
+        return (
+          <SelectRepos
+            data={data}
+            loading={loading}
+            reposPerPage={WATCHED_REPOS_PER_PAGE}
+          />
+        );
+      }}
+    </Query>
+  );
+}

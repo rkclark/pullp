@@ -51,7 +51,7 @@ Pullp is an Electron application built with React.
 
 After `npm install`, run `npm start` to start the webpack dev server. Once running, run `npm run electron-dev` to open the app.
 
-React and Redux dev tools will be available inside the Chrome dev tools.
+React and Apollo dev tools will be available inside the Chrome dev tools.
 
 
 ### :white_check_mark: Running the tests
@@ -107,6 +107,7 @@ Limitations:
 - `npm run pack`: Packages distributable for the current OS and leaves unpackaged files available for inspection for debugging
 - `npm run dist`: Builds the production files and then packages them into a distributable for the current OS
 - `npm run ship`: Builds the production files, packages them for the current OS, and then pushes them to a draft Github release on the Pullp repository. For this to work, you must have the relevant access rights on the Pullp repository. In addition, you must create a personal token on Github and add it as `GH_TOKEN=**YOURTOKEN**` in a new file `electron-builder.env` in the project root. See `electron-builder.example.env` for an example.
+- `npm run install-wsl`: Installs linux versions of all packages except for Electron which is installed as the Windows version. For use when developing using Windows Subsystem for Linux (WSL). This is currently the best workaround available.
 
 ### :shipit: CI/CD and Releasing
 

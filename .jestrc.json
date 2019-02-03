@@ -9,6 +9,7 @@
   "testEnvironment": "node",
   "testURL": "http://localhost",
   "transform": {
+    "\\.(gql|graphql)$": "jest-transform-graphql",
     "^.+\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest",
     "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
   },

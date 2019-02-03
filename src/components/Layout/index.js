@@ -1,93 +1,56 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import { Route, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { requestUserTeams } from '../../routes/Home/actions';
-import HomeContainer from '../../routes/Home';
-import Account from '../../routes/Account';
-import SelectRepos from '../../routes/SelectRepos'; //eslint-disable-line
-import Setup from '../../routes/Setup';
-import defaultTheme from './theme.css';
-import NavContainer from '../Nav';
+import { Query } from 'react-apollo';
 
-export class Layout extends React.Component {
-  constructor(props) {
-    super(props);
-    this.props = props;
-  }
+import { GET_GITHUB_TOKEN_FROM_CACHE } from '../../apollo/queries';
+import Error from '../Error';
+import SetupContainer from '../../routes/Setup';
+import style from './style.css';
+import MainRouterContainer from '../MainRouter';
 
-  componentDidUpdate() {
-    if (
-      !this.props.userTeamsRequestComplete &&
-      this.props.rehydrationComplete &&
-      this.props.currentUser
-    ) {
-      this.props.requestUserTeams(this.props.githubToken);
+export function Layout({ data, error, location }) {
+  const renderContent = () => {
+    if (error) {
+      return (
+        <Error message="Error starting up Pullp. If this continues then try opening the console and clearing local storage with 'window.localStorage.clear()'. You will then need to sign in again after closing and re-opening the app." />
+      );
     }
-  }
 
-  render() {
-    const theme = this.props.theme;
+    // If user is authed, render the main app router
+    if (get(data, 'githubAuth.token')) {
+      return <MainRouterContainer location={location} />;
+    }
 
+    // If user is not authed, run setup
     return (
-      <div className={theme.layout}>
-        {this.props.rehydrationComplete ? (
-          <div>
-            <NavContainer currentPath={this.props.location.pathname} />
-            <div className={this.props.theme.routeContainer}>
-              <Route exact path="/app" component={HomeContainer} />
-              <Route exact path="/app/account" component={Account} />
-              <Route exact path="/app/selectRepos" component={SelectRepos} />
-              <Route exact path="/app/setup" component={Setup} />
-            </div>
-          </div>
-        ) : null}
-        {window.location.pathname.includes('index.html') && (
-          <Redirect to="/app" />
+      <Fragment>
+        <Route exact path="/app/setup" component={SetupContainer} />
+        {get(location, 'pathname') !== '/app/setup' && (
+          <Redirect to="/app/setup" />
         )}
-        {this.props.rehydrationComplete &&
-          !this.props.currentUser &&
-          window.location.pathname !== '/app/setup' && (
-            <Redirect to="/app/setup" />
-          )}
-      </div>
+      </Fragment>
     );
-  }
+  };
+
+  return <div className={style.layout}>{renderContent()}</div>;
 }
 
 Layout.propTypes = {
-  theme: PropTypes.shape(),
-  currentUser: PropTypes.shape({
-    login: PropTypes.string,
-    avatarUrl: PropTypes.string,
-    url: PropTypes.string,
-  }),
-  githubToken: PropTypes.string,
-  rehydrationComplete: PropTypes.bool,
-  userTeamsRequestComplete: PropTypes.bool,
-  requestUserTeams: PropTypes.func.isRequired,
-  location: PropTypes.shape().isRequired,
+  data: PropTypes.shape({}).isRequired,
+  error: PropTypes.shape({}),
+  location: PropTypes.shape({}).isRequired,
 };
 
 Layout.defaultProps = {
-  theme: defaultTheme,
-  currentUser: null,
-  githubToken: null,
-  rehydrationComplete: false,
-  userTeamsRequestComplete: false,
+  error: null,
 };
 
-const mapStateToProps = state => ({
-  currentUser: state.home.currentUser,
-  githubToken: state.setup.githubToken,
-  rehydrationComplete: state.layout.rehydrationComplete,
-  userTeamsRequestComplete: state.layout.userTeamsRequestComplete,
-});
-
-const mapDispatchToProps = dispatch => ({
-  requestUserTeams(token) {
-    dispatch(requestUserTeams(token));
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Layout);
+export default function LayoutContainer(routerProps) {
+  return (
+    <Query query={GET_GITHUB_TOKEN_FROM_CACHE} fetchPolicy="cache-only">
+      {props => <Layout {...props} {...routerProps} />}
+    </Query>
+  );
+}

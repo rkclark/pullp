@@ -233,36 +233,6 @@ query {
         });
       });
 
-      describe('when result contains errors array containing MAX_NODE_LIMIT_EXCEEDED error', () => {
-        let testResponse;
-        let matcher;
-        const message = 'test error';
-        const fullMessage = `The amount of pull request data for your selected repositories exceeds Github's maximum limit. Try selecting fewer repositories and trying again. Here is the specific error from Github as guidance: ${message}`;
-        beforeEach(() => {
-          testResponse = {
-            data: null,
-            errors: [{ type: 'MAX_NODE_LIMIT_EXCEEDED', message }],
-          };
-          matcher = 'https://api.github.com/graphql';
-          fetchMock.mock(matcher, testResponse);
-        });
-
-        afterEach(() => {
-          fetchMock.restore();
-        });
-        it('returns received error', async () => {
-          const query = '{ query }';
-          const token = 'testToken';
-          let error = '';
-          try {
-            await get(query, token);
-          } catch (err) {
-            error = err;
-          }
-          expect(error).toBeInstanceOf(Error);
-          expect(error.message).toEqual(fullMessage);
-        });
-      });
       describe('when fetch returns non 200 response', () => {
         let matcher;
         beforeEach(() => {

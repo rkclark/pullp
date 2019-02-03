@@ -1,0 +1,138 @@
+@import "../../css/colors.css";
+@import "../../css/units.css";
+
+.checkboxContainer {
+  display: flex;
+  width: 90%;
+  margin: 1rem auto;
+  box-shadow: var(--boxshadow);
+}
+
+@media only screen and (min-width: 840px) {
+  .checkboxContainer {
+    width: 80rem;
+  }
+} 
+
+.label {
+  color: var(--medium-grey);
+  font-weight: normal;
+  font-size: var(--font-size-5);
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  flex-basis: 100%;
+  height: 7.5rem;
+  font-size: 1.4rem;
+  cursor: pointer;
+  background-color: white;
+  padding: 0 1rem;
+  transition: 0.3s ease-in-out all;
+  box-shadow: inset 0 -0.4rem 0 0 rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.labelActive {
+  background-color: var(--primary-dark);
+  color: white;
+  box-shadow: inset 0 -0.4rem 0 0 rgba(255, 255, 255, 0.3);
+}
+
+.label:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.labelActive:hover {
+  background-color: var(--primary-extra-dark);
+}
+
+.input {
+  width: 0;
+  height: 0;
+  opacity: 0;
+  position: absolute;
+}
+
+.link {
+  flex-basis: 6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s ease-in-out all;
+  background-color: var(--primary-medium);
+}
+
+.link:hover {
+  background-color: var(--secondary-medium);
+}
+
+.link path {
+  transition: 0.3s ease-in-out all;
+  fill: white;
+}
+
+.link:hover path {
+  fill: var(--secondary-dark);
+}
+
+.linkIcon {
+  width: 2rem;
+  height: 2rem;
+  vertical-align: middle;
+ }
+
+ .avatar {
+   display: inline-block;
+   height: 3rem;
+   width: 3rem;
+   border-radius: 0.3rem;
+   margin-right: 1rem;
+ }
+
+ .login {
+   flex: 0 0 15%;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   margin-right: 2rem;
+   font-size: 1.1rem;
+ }
+
+.nameContainer {
+  max-width: 50%;
+}
+
+ .name {
+  margin: 0;
+  padding-right: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 1.6rem;
+ }
+
+ .date {
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
+  font-size: 1rem;
+  margin-left: 1rem;
+  margin: 0;
+  position: absolute;
+  color: var(--light-grey);
+ }
+
+ .checkBox {
+   border-radius: 100%;
+   width: 2rem;
+   height: 2rem;
+   border: 0.2rem solid rgba(0, 0, 0, 0.4);
+   background-color: rgba(0, 0, 0, 0.08);
+   margin-left: auto;
+   margin-right: 2rem;
+   transition: 0.3s ease-in-out all;
+ }
+
+ .checkBoxActive {
+   background-color: var(--primary-medium);
+   border-color: rgba(255, 255, 255, 0.8);
+ }

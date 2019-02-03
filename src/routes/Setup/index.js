@@ -1,154 +1,76 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import SignInForm from './components/SignInForm';
-import style from './style.css';
-import { requestCurrentUser } from '../../routes/Home/actions';
-import { logout } from '../Account/actions';
-import Error from '../../components/Error';
-import Button from '../../components/Button';
-import Loading from '../../components/Loading';
+import { get } from 'lodash';
+import { Query } from 'react-apollo';
+import { GET_GITHUB_AUTH_STATE_FROM_CACHE } from '../../apollo/queries';
+import SignInForm from '../../components/SignInForm';
+import GetStartedContainer from '../../components/GetStarted';
 
-export class SetupContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.props = props;
-    this.state = {
-      autoRequestedCurrentUser: false,
-    };
-    this.requestCurrentUser = this.requestCurrentUser.bind(this);
-  }
+export function Setup({ data, client }) {
+  const authToken = get(data, 'githubAuth.token');
 
-  async componentWillReceiveProps(nextProps) {
-    if (
-      !nextProps.login &&
-      nextProps.githubToken &&
-      !nextProps.currentUserLoading &&
-      !this.state.autoRequestedCurrentUser
-    ) {
-      await this.props.requestCurrentUser(nextProps.githubToken);
-      this.setState({ autoRequestedCurrentUser: true });
-    }
-  }
+  const saveGithubToken = token => {
+    client.writeData({
+      data: {
+        githubAuth: {
+          token,
+          loadingToken: false,
+          __typename: 'GithubAuth',
+        },
+      },
+    });
+  };
 
-  requestCurrentUser() {
-    this.props.requestCurrentUser(this.props.githubToken);
-  }
+  const setLoadingToken = () => {
+    client.writeData({
+      data: {
+        githubAuth: {
+          loadingToken: true,
+          error: null,
+          __typename: 'GithubAuth',
+        },
+      },
+    });
+  };
 
-  render() {
-    const loader = message => (
-      <div>
-        <div className={style.loadingContainer}>
-          <Loading />
-        </div>
-        <p className={style.loadingMessage}>{message}</p>
-      </div>
-    );
+  const saveTokenError = error => {
+    client.writeData({
+      data: {
+        githubAuth: {
+          loadingToken: false,
+          error,
+          __typename: 'GithubAuth',
+        },
+      },
+    });
+  };
 
-    const currentUserError = this.props.githubCurrentUserError ? (
-      <div>
-        <Error message="Error requesting your user profile from Github." />
-        <Button
-          className={style.button}
-          onClick={this.requestCurrentUser}
-          data-test-id="try-again-button"
-        >
-          Try again
-        </Button>
-      </div>
-    ) : null;
-
-    const loginError = this.props.loginError ? (
-      <Error message="Github sign in failed." />
-    ) : null;
-
-    const githubTokenLoader = this.props.loadingGithubToken
-      ? loader('Authenticating with Github...')
-      : null;
-
-    const userProfileLoader = this.props.currentUserLoading
-      ? loader('Loading your Github profile...')
-      : null;
-
-    const proceedToSelect = this.props.login ? (
-      <div>
-        <p className={style.success}>
-          Successfully signed in as <strong>{this.props.login}</strong>!
-        </p>
-        <p className={style.continue}>
-          Now its time to select the Github repos that you would like to monitor
-          with Pullp.
-        </p>
-        <Link to="/app/selectRepos">
-          <Button className={style.button}>Let&#39;s get started</Button>
-        </Link>
-      </div>
-    ) : null;
-
-    return (
-      <div className={style.setupContainer}>
-        <div className={style.innerContainer}>
-          {loginError}
-          {currentUserError}
-          {githubTokenLoader}
-          {userProfileLoader}
-
-          {!this.props.loadingGithubToken ? (
-            <SignInForm
-              githubToken={this.props.githubToken}
-              dispatch={this.props.dispatch}
-              logout={this.props.logout}
-            />
-          ) : null}
-          {proceedToSelect}
-        </div>
-      </div>
-    );
-  }
+  return (
+    <Fragment>
+      {authToken ? (
+        <GetStartedContainer />
+      ) : (
+        <SignInForm
+          saveGithubToken={saveGithubToken}
+          setLoadingToken={setLoadingToken}
+          saveTokenError={saveTokenError}
+          loadingToken={get(data, 'githubAuth.loadingToken')}
+          error={get(data, 'githubAuth.error')}
+        />
+      )}
+    </Fragment>
+  );
 }
 
-SetupContainer.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  githubToken: PropTypes.string,
-  login: PropTypes.string,
-  requestCurrentUser: PropTypes.func.isRequired,
-  loginError: PropTypes.string,
-  logout: PropTypes.func,
-  githubCurrentUserError: PropTypes.string,
-  currentUserLoading: PropTypes.bool,
-  loadingGithubToken: PropTypes.bool,
+Setup.propTypes = {
+  data: PropTypes.shape({}).isRequired,
+  client: PropTypes.shape({}).isRequired,
 };
 
-SetupContainer.defaultProps = {
-  githubToken: null,
-  githubCurrentUserError: null,
-  login: null,
-  avatarUrl: null,
-  loginError: null,
-  logout: () => {},
-  currentUserLoading: false,
-  loadingGithubToken: false,
-};
-
-const mapStateToProps = state => ({
-  githubToken: state.setup.githubToken,
-  login: state.home.currentUser ? state.home.currentUser.login : null,
-  avatarUrl: state.home.currentUser ? state.home.currentUser.avatarUrl : null,
-  loginError: state.setup.loginError,
-  loadingGithubToken: state.setup.loadingGithubToken,
-  githubCurrentUserError: state.home.githubCurrentUserError,
-  currentUserLoading: state.home.currentUserLoading,
-});
-
-const mapDispatchToProps = dispatch => ({
-  requestCurrentUser(token) {
-    dispatch(requestCurrentUser(token));
-  },
-  logout() {
-    dispatch(logout());
-  },
-  dispatch,
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(SetupContainer);
+export default function SetupContainer() {
+  return (
+    <Query query={GET_GITHUB_AUTH_STATE_FROM_CACHE} fetchPolicy="cache-only">
+      {({ data, client }) => <Setup data={data} client={client} />}
+    </Query>
+  );
+}
