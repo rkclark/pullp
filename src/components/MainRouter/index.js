@@ -9,7 +9,7 @@ import { USER_INFO_AND_TEAMS_REFRESH_TIME } from '../../constants';
 import LoadingMessage from '../LoadingMessage';
 import AccountNewContainer from '../../routes/AccountNew';
 import SelectReposNewContainer from '../../routes/SelectReposNew';
-import SetupNewContainer from '../../routes/SetupNew';
+import SetupContainer from '../../routes/Setup';
 import HomeNewContainer from '../../routes/HomeNew';
 import Nav from '../Nav';
 import style from './style.css';
@@ -39,7 +39,7 @@ export function MainRouter({ data, location }) {
               path="/app/selectRepos"
               component={SelectReposNewContainer}
             />
-            <Route exact path="/app/setup" component={SetupNewContainer} />
+            <Route exact path="/app/setup" component={SetupContainer} />
           </Fragment>
         )}
       </div>

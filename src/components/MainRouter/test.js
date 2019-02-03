@@ -7,7 +7,7 @@ import Nav from '../Nav';
 import HomeNewContainer from '../../routes/HomeNew';
 import AccountNewContainer from '../../routes/AccountNew';
 import SelectReposNewContainer from '../../routes/SelectReposNew';
-import SetupNewContainer from '../../routes/SetupNew';
+import SetupContainer from '../../routes/Setup';
 import LoadingMessage from '../LoadingMessage';
 
 describe('<MainRouter/>', () => {
@@ -37,7 +37,7 @@ describe('<MainRouter/>', () => {
     { path: '/app', component: HomeNewContainer },
     { path: '/app/account', component: AccountNewContainer },
     { path: '/app/selectRepos', component: SelectReposNewContainer },
-    { path: '/app/setup', component: SetupNewContainer },
+    { path: '/app/setup', component: SetupContainer },
   ];
 
   routes.forEach(route => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { SetupNew } from './';
+import { Setup } from './';
 
 import SignInForm from '../../components/SignInForm';
 import GetStartedContainer from '../../components/GetStarted';
@@ -12,7 +12,7 @@ describe('Setup', () => {
   };
 
   it('renders successfully', () => {
-    const component = shallow(<SetupNew {...defaultProps} />);
+    const component = shallow(<Setup {...defaultProps} />);
     expect(component.length).toBe(1);
   });
 
@@ -30,7 +30,7 @@ describe('Setup', () => {
     };
 
     beforeAll(() => {
-      component = shallow(<SetupNew data={data} client={clientMock} />);
+      component = shallow(<Setup data={data} client={clientMock} />);
     });
 
     afterEach(() => {
@@ -117,7 +117,7 @@ describe('Setup', () => {
         error: null,
       },
     };
-    const component = shallow(<SetupNew {...defaultProps} data={data} />);
+    const component = shallow(<Setup {...defaultProps} data={data} />);
 
     it('renders a <GetStartedContainer/> component', () => {
       expect(component.find(GetStartedContainer).length).toBe(1);

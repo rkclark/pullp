@@ -6,7 +6,7 @@ import { GET_GITHUB_AUTH_STATE_FROM_CACHE } from '../../apollo/queries';
 import SignInForm from '../../components/SignInForm';
 import GetStartedContainer from '../../components/GetStarted';
 
-export function SetupNew({ data, client }) {
+export function Setup({ data, client }) {
   const authToken = get(data, 'githubAuth.token');
 
   const saveGithubToken = token => {
@@ -62,15 +62,15 @@ export function SetupNew({ data, client }) {
   );
 }
 
-SetupNew.propTypes = {
+Setup.propTypes = {
   data: PropTypes.shape({}).isRequired,
   client: PropTypes.shape({}).isRequired,
 };
 
-export default function SetupNewContainer() {
+export default function SetupContainer() {
   return (
     <Query query={GET_GITHUB_AUTH_STATE_FROM_CACHE} fetchPolicy="cache-only">
-      {({ data, client }) => <SetupNew data={data} client={client} />}
+      {({ data, client }) => <Setup data={data} client={client} />}
     </Query>
   );
 }

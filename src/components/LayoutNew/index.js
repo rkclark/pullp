@@ -6,7 +6,7 @@ import { Query } from 'react-apollo';
 
 import { GET_GITHUB_TOKEN_FROM_CACHE } from '../../apollo/queries';
 import Error from '../Error';
-import SetupNewContainer from '../../routes/SetupNew';
+import SetupContainer from '../../routes/Setup';
 import style from './style.css';
 import MainRouterContainer from '../MainRouter';
 
@@ -26,7 +26,7 @@ export function Layout({ data, error, location }) {
     // If user is not authed, run setup
     return (
       <Fragment>
-        <Route exact path="/app/setup" component={SetupNewContainer} />
+        <Route exact path="/app/setup" component={SetupContainer} />
         {get(location, 'pathname') !== '/app/setup' && (
           <Redirect to="/app/setup" />
         )}

@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { Route, Redirect } from 'react-router-dom';
 import Error from '../Error';
-import SetupNewContainer from '../../routes/SetupNew';
+import SetupContainer from '../../routes/Setup';
 import MainRouterContainer from '../MainRouter';
 
 import { Layout } from './';
@@ -32,7 +32,7 @@ describe('<Layout />', () => {
   });
 
   describe('when data does not contain a Github auth token', () => {
-    it('renders a <Route /> for "/app/setup" with SetupNewContainer component', () => {
+    it('renders a <Route /> for "/app/setup" with SetupContainer component', () => {
       const component = shallow(
         <Layout {...defaultProps} data={{ githubAuth: { token: null } }} />,
       );
@@ -40,7 +40,7 @@ describe('<Layout />', () => {
       const route = component.find(Route);
       expect(route.length).toBe(1);
       expect(route.props().path).toBe('/app/setup');
-      expect(route.props().component).toBe(SetupNewContainer);
+      expect(route.props().component).toBe(SetupContainer);
     });
 
     describe('when current pathnam eis not "/app/setup"', () => {
