@@ -4,7 +4,7 @@ import style from './style.css';
 import Button from '../Button';
 
 export default function LogoutModal({
-  logoutAction,
+  logout,
   logoutModalOpen,
   toggleLogoutModal,
 }) {
@@ -13,9 +13,9 @@ export default function LogoutModal({
       <div className={style.container}>
         <div className={style.modalContent}>
           <h2>Are you sure you want to sign out?</h2>
-          <p>This will clear all of your selected repos!</p>
+          <p>This will clear all of your settings!</p>
           <div className={style.yesButton}>
-            <Button onClick={logoutAction}>Yes</Button>
+            <Button onClick={logout}>Yes</Button>
           </div>
           <div className={style.noButton}>
             <Button onClick={toggleLogoutModal}>No</Button>
@@ -35,6 +35,6 @@ export default function LogoutModal({
 
 LogoutModal.propTypes = {
   logoutModalOpen: PropTypes.bool.isRequired,
-  logoutAction: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
   toggleLogoutModal: PropTypes.func.isRequired,
 };

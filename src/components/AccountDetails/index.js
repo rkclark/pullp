@@ -9,7 +9,7 @@ export default function AccountDetails({
   login,
   avatarUrl,
   toggleLogoutModal,
-  logoutAction,
+  logout,
   logoutModalOpen,
 }) {
   return (
@@ -23,7 +23,7 @@ export default function AccountDetails({
       </div>
       <LogoutModal
         toggleLogoutModal={toggleLogoutModal}
-        logoutAction={logoutAction}
+        logout={logout}
         logoutModalOpen={logoutModalOpen}
       />
     </div>
@@ -34,6 +34,6 @@ AccountDetails.propTypes = {
   login: PropTypes.string.isRequired,
   avatarUrl: PropTypes.string.isRequired,
   toggleLogoutModal: PropTypes.func.isRequired,
-  logoutAction: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
   logoutModalOpen: PropTypes.bool.isRequired,
 };

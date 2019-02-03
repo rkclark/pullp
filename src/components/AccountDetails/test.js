@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import AccountDetails from '.';
 import LogoutModal from '../LogoutModal';
-import Button from '../../../../components/Button';
+import Button from '../Button';
 
 describe('AccountDetails', () => {
   const props = {
@@ -10,7 +10,7 @@ describe('AccountDetails', () => {
     avatarUrl: 'test.com',
     toggleLogoutModal: () => {},
     logoutModalOpen: true,
-    logoutAction: () => {},
+    logout: () => {},
   };
 
   it('renders successsfully', () => {
@@ -39,7 +39,7 @@ describe('AccountDetails', () => {
       expect(component.find(Button).props().children).toBe('Sign out');
     });
     describe('when clicked', () => {
-      it('dispatches toggleLogoutModal action', () => {
+      it('toggles the logout modal', () => {
         const toggleLogoutModal = jest.fn();
         const component = shallow(
           <AccountDetails {...props} toggleLogoutModal={toggleLogoutModal} />,

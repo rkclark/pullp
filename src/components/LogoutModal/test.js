@@ -5,7 +5,7 @@ import LogoutModal from '.';
 describe('LogoutModal', () => {
   const props = {
     logoutModalOpen: true,
-    logoutAction: () => {},
+    logout: () => {},
     toggleLogoutModal: () => {},
   };
 
@@ -42,14 +42,12 @@ describe('LogoutModal', () => {
 
   describe('yes button', () => {
     it('calls logout action', () => {
-      const logoutAction = jest.fn();
-      const component = shallow(
-        <LogoutModal {...props} logoutAction={logoutAction} />,
-      );
-      expect(logoutAction).not.toHaveBeenCalled();
+      const logout = jest.fn();
+      const component = shallow(<LogoutModal {...props} logout={logout} />);
+      expect(logout).not.toHaveBeenCalled();
       const button = component.find('.yesButton Button');
       button.simulate('click');
-      expect(logoutAction).toHaveBeenCalled();
+      expect(logout).toHaveBeenCalled();
     });
   });
 

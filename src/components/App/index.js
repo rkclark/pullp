@@ -15,7 +15,7 @@ import { ApolloLink } from 'apollo-link';
 import { ApolloProvider } from 'react-apollo';
 import { setContext } from 'apollo-link-context';
 import { withClientState } from 'apollo-link-state';
-import { CachePersistor } from 'apollo-cache-persist';
+import { persistCache } from 'apollo-cache-persist';
 import { Provider } from 'react-redux';
 
 import introspectionQueryResultData from '../../apollo/githubFragmentTypes.json';
@@ -181,18 +181,12 @@ export default class App extends React.Component {
     });
 
     try {
-      const persistor = new CachePersistor({
+      // Restore apollo cache from localstorage before allowing app to render
+      await persistCache({
         cache: apolloCache,
         storage: window.localStorage,
         debug: true,
       });
-      // Restore apollo cache from localstorage before allowing app to render
-      // await persistCache({
-      //   cache: apolloCache,
-      //   storage: window.localStorage,
-      //   debug: true,
-      // });
-      await persistor.restore();
     } catch (error) {
       console.error('Error restoring Apollo cache', error);
     }

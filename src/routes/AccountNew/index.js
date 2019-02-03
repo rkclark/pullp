@@ -26,9 +26,7 @@ export class AccountNew extends React.Component {
     const { data, loading, error } = this.props;
 
     if (loading) {
-      return (
-        <LoadingMessage message="Asking Github for pull request data..." />
-      );
+      return <LoadingMessage message="Refreshing your Github user data..." />;
     }
 
     if (error) {
@@ -44,8 +42,17 @@ export class AccountNew extends React.Component {
           login={login}
           avatarUrl={avatarUrl}
           toggleLogoutModal={this.toggleLogoutModal}
-          logoutAction={() => {
+          logout={async () => {
+            const electron = window.electron;
+            // Delete cookies which have been placed there by Github's login page
+            await electron.remote.session.defaultSession.clearStorageData({
+              storages: 'cookies',
+            });
+
+            // Clear localStorage which removes the persisted Apollo cache
             window.localStorage.clear();
+
+            // Push user back to homepage to allow router to push them into setup screen
             window.location.pathname = '/';
           }}
           logoutModalOpen={this.state.logoutModalOpen}
