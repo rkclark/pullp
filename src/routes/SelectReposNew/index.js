@@ -96,7 +96,7 @@ export class SelectReposNew extends Component {
     }
 
     return (
-      <div>
+      <div className={style.selectReposContainer}>
         <div>
           <h3 className={style.title}>
             Select the repos you want monitor with Pullp
