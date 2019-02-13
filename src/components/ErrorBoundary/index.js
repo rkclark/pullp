@@ -5,16 +5,23 @@ import Error from '../Error';
 export default class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { hasError: false };
+    this.state = { hasError: false, message: null };
   }
 
-  componentDidCatch() {
-    this.setState({ hasError: true });
+  componentDidCatch(error, info) {
+    /* eslint-disable no-console */
+    console.error(error);
+    console.error(info);
+    /* eslint-enable no-console */
+
+    this.setState({ hasError: true, message: error.message });
   }
 
   render() {
-    if (this.state.hasError) {
-      return <Error />;
+    const { hasError, message } = this.state;
+
+    if (hasError) {
+      return <Error message={message || undefined} />;
     }
 
     return this.props.children;

@@ -13,7 +13,7 @@ describe('Error', () => {
     it('renders a default message', () => {
       const component = shallow(<Error {...props} />);
       expect(component.find('.message').text()).toEqual(
-        'Oh no! Pullp encountered an error :(',
+        'Oh no! Pullp encountered an error. Try refreshing the app with CMD+R or CTRL+R',
       );
     });
   });
