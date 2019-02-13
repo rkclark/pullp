@@ -16,11 +16,13 @@ import { ApolloProvider } from 'react-apollo';
 import { setContext } from 'apollo-link-context';
 import { withClientState } from 'apollo-link-state';
 import { persistCache } from 'apollo-cache-persist';
+import LoadingMessage from '../LoadingMessage';
 
 import introspectionQueryResultData from '../../apollo/githubFragmentTypes.json';
 import LayoutContainer from '../Layout';
 import ScrollToTop from '../ScrollToTop';
 import '../../css/index.css';
+import style from './style.css';
 
 export default class App extends React.Component {
   state = {
@@ -199,7 +201,11 @@ export default class App extends React.Component {
     const { client, loaded } = this.state;
 
     if (!loaded) {
-      return <div>Loading...</div>;
+      return (
+        <div className={style.loadingContainer}>
+          <LoadingMessage message="Starting up Pullp" />
+        </div>
+      );
     }
 
     return (
