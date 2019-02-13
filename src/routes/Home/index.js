@@ -92,7 +92,9 @@ export default function HomeContainer() {
           }
 
           if (error) {
-            throw new Error('Error loading watched repos');
+            throw new Error(
+              'Error loading watched repos. Try refreshing the app with CMD+R or CTRL+R',
+            );
           }
 
           // Get repo objects from cache that have been selected for monitoring by the user
@@ -120,7 +122,9 @@ export default function HomeContainer() {
                 }
 
                 if (userTeamsError) {
-                  throw new Error('Error loading user teams');
+                  throw new Error(
+                    'Error loading user teams. Try refreshing the app with CMD+R or CTRL+R',
+                  );
                 }
 
                 return (
@@ -140,7 +144,7 @@ export default function HomeContainer() {
                     }) => {
                       if (pullRequestsError) {
                         throw new Error(
-                          'Error loading repositories and pull requests',
+                          'Error loading repositories and pull requests. Try refreshing the app with CMD+R or CTRL+R',
                         );
                       }
 
