@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { graphql, compose } from 'react-apollo';
 import { get } from 'lodash';
@@ -32,14 +32,19 @@ export function MainRouter({ data, location }) {
           />
         ) : (
           <Fragment>
-            <Route exact path="/app" component={HomeContainer} />
-            <Route exact path="/app/account" component={AccountContainer} />
-            <Route
-              exact
-              path="/app/selectRepos"
-              component={SelectReposContainer}
-            />
-            <Route exact path="/app/setup" component={SetupContainer} />
+            <Switch>
+              <Route exact path="/app" component={HomeContainer} />
+              <Route exact path="/app/account" component={AccountContainer} />
+              <Route
+                exact
+                path="/app/selectRepos"
+                component={SelectReposContainer}
+              />
+              <Route exact path="/app/setup" component={SetupContainer} />
+
+              {/* If no paths match, fallback to homepage  */}
+              <Redirect to={'/app'} />
+            </Switch>
           </Fragment>
         )}
       </div>

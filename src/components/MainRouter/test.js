@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import { MainRouter } from '.';
 import Nav from '../Nav';
@@ -41,11 +41,18 @@ describe('<MainRouter/>', () => {
   ];
 
   routes.forEach(route => {
-    it(`renders a <Route /> for ${route.path}`, () => {
-      const routeWrapper = component.find({ path: route.path });
+    it(`renders a <Route /> for ${route.path} within a <Switch/>`, () => {
+      const switchWrapper = component.find(Switch);
+      const routeWrapper = switchWrapper.find({ path: route.path });
       expect(routeWrapper.type()).toBe(Route);
       expect(routeWrapper.props().component).toBe(route.component);
     });
+  });
+
+  it('renders a Redirect to /app as the fallback in the Switch ', () => {
+    const switchWrapper = component.find(Switch);
+    const redirect = switchWrapper.children().last();
+    expect(redirect.props().to).toBe('/app');
   });
 
   describe('when loading is true', () => {
