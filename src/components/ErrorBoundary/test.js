@@ -20,7 +20,47 @@ describe('<ErrorBoundary />', () => {
     expect(component.find(Error).length).toBe(0);
   });
 
-  describe('when a child component throws an error', () => {
+  describe('when a child component throws an error with a message', () => {
+    let component;
+
+    const ErrorChild = () => {
+      throw new Error('Test');
+    };
+
+    /* eslint-disable no-console */
+
+    // Mock out console.error to stop React logging the error from ErrorChild
+    const originalConsoleError = console.error;
+
+    beforeAll(() => {
+      console.error = () => {};
+    });
+
+    afterAll(() => {
+      console.error = originalConsoleError;
+    });
+
+    /* eslint-enable no-console */
+
+    beforeEach(() => {
+      component = mount(
+        <ErrorBoundary {...props}>
+          <ErrorChild />
+        </ErrorBoundary>,
+      );
+    });
+
+    it('renders an Error component with the right message', () => {
+      const errorWrapper = component.find(ErrorComponent);
+      expect(errorWrapper.props().message).toBe('Test');
+    });
+
+    it('does not render children', () => {
+      expect(component.contains(child)).toBe(false);
+    });
+  });
+
+  describe('when a child component throws an error without a message', () => {
     let component;
 
     const ErrorChild = () => {
@@ -50,12 +90,11 @@ describe('<ErrorBoundary />', () => {
       );
     });
 
-    it('renders an Error component', () => {
-      expect(component.find(ErrorComponent).length).toBe(1);
-    });
-
-    it('does not render children', () => {
-      expect(component.contains(child)).toBe(false);
+    it('renders an Error component with the default message', () => {
+      const errorWrapper = component.find(ErrorComponent);
+      expect(errorWrapper.props().message).toBe(
+        'Oh no! Pullp encountered an error. Try refreshing the app with CMD+R or CTRL+R',
+      );
     });
   });
 });

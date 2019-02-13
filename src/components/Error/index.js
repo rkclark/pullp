@@ -24,7 +24,8 @@ Error.propTypes = {
 };
 
 Error.defaultProps = {
-  message: 'Oh no! Pullp encountered an error :(',
+  message:
+    'Oh no! Pullp encountered an error. Try refreshing the app with CMD+R or CTRL+R',
   theme: defaultTheme,
   title: 'Error',
 };

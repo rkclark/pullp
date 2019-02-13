@@ -139,7 +139,9 @@ export default function HomeContainer() {
                       error: pullRequestsError,
                     }) => {
                       if (pullRequestsError) {
-                        throw new Error('Error loading user teams');
+                        throw new Error(
+                          'Error loading repositories and pull requests',
+                        );
                       }
 
                       let transformedRepoData = [];
