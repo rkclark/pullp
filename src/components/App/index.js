@@ -15,7 +15,7 @@ import { ApolloLink } from 'apollo-link';
 import { ApolloProvider } from 'react-apollo';
 import { setContext } from 'apollo-link-context';
 import { withClientState } from 'apollo-link-state';
-import { persistCache } from 'apollo-cache-persist';
+import { CachePersistor } from 'apollo-cache-persist';
 import LoadingMessage from '../LoadingMessage';
 
 import introspectionQueryResultData from '../../apollo/githubFragmentTypes.json';
@@ -23,6 +23,7 @@ import LayoutContainer from '../Layout';
 import ScrollToTop from '../ScrollToTop';
 import '../../css/index.css';
 import style from './style.css';
+import { SCHEMA_VERSION, SCHEMA_VERSION_KEY } from '../../constants';
 
 export default class App extends React.Component {
   state = {
@@ -180,14 +181,28 @@ export default class App extends React.Component {
     });
 
     try {
-      // Restore apollo cache from localstorage before allowing app to render
-      await persistCache({
+      const persistor = new CachePersistor({
         cache: apolloCache,
         storage: window.localStorage,
         debug: true,
       });
+
+      const currentVersion = await window.localStorage.getItem(
+        SCHEMA_VERSION_KEY,
+      );
+
+      if (currentVersion === SCHEMA_VERSION) {
+        // If the current version matches the latest version,
+        // we're good to go and can restore the cache.
+        await persistor.restore();
+      } else {
+        // Otherwise, we'll want to purge the outdated persisted cache
+        // and mark ourselves as having updated to the latest version.
+        await persistor.purge();
+        await window.localStorage.setItem(SCHEMA_VERSION_KEY, SCHEMA_VERSION);
+      }
     } catch (error) {
-      console.error('Error restoring Apollo cache', error);
+      console.error('Error setting up Apollo persistence', error);
     }
 
     // eslint-disable-next-line react/no-did-mount-set-state
