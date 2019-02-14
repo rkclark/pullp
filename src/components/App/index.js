@@ -191,7 +191,7 @@ export default class App extends React.Component {
         SCHEMA_VERSION_KEY,
       );
 
-      if (currentVersion === SCHEMA_VERSION) {
+      if (currentVersion.toString() === SCHEMA_VERSION.toString()) {
         // If the current version matches the latest version,
         // we're good to go and can restore the cache.
         await persistor.restore();
