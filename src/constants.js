@@ -13,4 +13,5 @@ export const WATCHED_REPOS_PAGINATION_RANGE = 5;
 
 export const SCHEMA_VERSION_KEY = 'apollo-schema-version';
 
-export const SCHEMA_VERSION = 1;
+// Must be a string
+export const SCHEMA_VERSION = '1';
