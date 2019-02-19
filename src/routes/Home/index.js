@@ -7,18 +7,20 @@ import ErrorBoundary from '../../components/ErrorBoundary';
 
 import LoadingMessage from '../../components/LoadingMessage';
 import Repo from './components/Repo';
-import theme from './theme.css';
+import style from './style.css';
 import {
   GET_WATCHED_REPOS,
   GET_PULL_REQUESTS,
   GET_USER_TEAMS,
 } from '../../apollo/queries';
-import { MAXIMUM_PRS } from '../../constants';
+import { MAXIMUM_PRS, GITHUB_POLLING_FREQUENCY_MS } from '../../constants';
 import transformRepos from './transformRepos';
 
 const loadingMessage = (
   <LoadingMessage message="Asking Github for pull request data..." />
 );
+
+const githubPollingFrequencySecs = GITHUB_POLLING_FREQUENCY_MS / 1000;
 
 export class Home extends React.Component {
   constructor(props) {
@@ -48,22 +50,36 @@ export class Home extends React.Component {
   }
 
   render() {
-    if (this.props.loading) {
-      return <div className={theme.loadingContainer}>{loadingMessage}</div>;
+    const { loading, data, error } = this.props;
+    const { openRepoId } = this.state;
+
+    if (loading) {
+      return <div className={style.loadingContainer}>{loadingMessage}</div>;
     }
 
     return (
-      <div className={theme.reposContainer}>
-        <FlipMove typeName={null} duration={500} appearAnimation={'fade'}>
-          {this.props.data.map(repo => (
-            <Repo
-              key={repo.id}
-              data={repo}
-              openRepoId={this.state.openRepoId}
-              toggleOpenRepo={this.toggleOpenRepo}
-            />
-          ))}
-        </FlipMove>
+      <div className={style.homeContainer}>
+        {error && (
+          <div className={style.updateWarning}>
+            <span className={style.warningIcon}>!</span>
+            <span>
+              Failed to sync with Github - trying again in{' '}
+              {githubPollingFrequencySecs} seconds
+            </span>
+          </div>
+        )}
+        <div className={style.reposContainer}>
+          <FlipMove typeName={null} duration={500} appearAnimation={'fade'}>
+            {data.map(repo => (
+              <Repo
+                key={repo.id}
+                data={repo}
+                openRepoId={openRepoId}
+                toggleOpenRepo={this.toggleOpenRepo}
+              />
+            ))}
+          </FlipMove>
+        </div>
       </div>
     );
   }
@@ -72,10 +88,12 @@ export class Home extends React.Component {
 Home.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   loading: PropTypes.bool,
+  error: PropTypes.shape({}),
 };
 
 Home.defaultProps = {
   loading: false,
+  error: null,
 };
 
 export default function HomeContainer() {
@@ -93,7 +111,7 @@ export default function HomeContainer() {
 
           if (error) {
             throw new Error(
-              'Error loading watched repos. Try refreshing the app with CMD+R or CTRL+R',
+              'Error loading your watched repos from Github. Try refreshing the app with CMD+R or CTRL+R',
             );
           }
 
@@ -123,7 +141,7 @@ export default function HomeContainer() {
 
                 if (userTeamsError) {
                   throw new Error(
-                    'Error loading user teams. Try refreshing the app with CMD+R or CTRL+R',
+                    'Error loading your user data from Github. Try refreshing the app with CMD+R or CTRL+R',
                   );
                 }
 
@@ -134,19 +152,19 @@ export default function HomeContainer() {
                       ids: selectedRepoIds,
                       maximumPrs: MAXIMUM_PRS,
                     }}
-                    fetchPolicy="network-only"
-                    pollInterval={60000}
+                    fetchPolicy="cache-and-network"
+                    pollInterval={GITHUB_POLLING_FREQUENCY_MS}
                   >
                     {({
                       data: pullRequestData,
                       loading: pullRequestsLoading,
                       error: pullRequestsError,
                     }) => {
-                      if (pullRequestsError) {
-                        throw new Error(
-                          'Error loading repositories and pull requests. Try refreshing the app with CMD+R or CTRL+R',
-                        );
-                      }
+                      // if (pullRequestsError) {
+                      //   throw new Error(
+                      //     'Error loading repositories and pull requests from Github. Try refreshing the app with CMD+R or CTRL+R',
+                      //   );
+                      // }
 
                       let transformedRepoData = [];
 
@@ -174,6 +192,7 @@ export default function HomeContainer() {
                         <Home
                           data={transformedRepoData}
                           loading={pullRequestsLoading}
+                          error={pullRequestsError}
                         />
                       );
                     }}

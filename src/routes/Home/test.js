@@ -27,6 +27,7 @@ describe('Home', () => {
       },
     ],
     loading: false,
+    error: null,
   };
 
   it('renders successfully', () => {
@@ -50,6 +51,22 @@ describe('Home', () => {
     it('does not render a loading message', () => {
       const component = shallow(<Home {...baseProps} />);
       expect(component.find(LoadingMessage).length).toBe(0);
+    });
+  });
+
+  describe('when there is an error', () => {
+    it('shows a warning message', () => {
+      const component = shallow(
+        <Home {...baseProps} error={{ message: 'err' }} />,
+      );
+      expect(component.find('.updateWarning').length).toBe(1);
+    });
+  });
+
+  describe('when there is not an error', () => {
+    it('does not show a warning message', () => {
+      const component = shallow(<Home {...baseProps} />);
+      expect(component.find('.updateWarning').length).toBe(0);
     });
   });
 
