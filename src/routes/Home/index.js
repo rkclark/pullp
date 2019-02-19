@@ -2,9 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 import { get } from 'lodash';
+import { Link } from 'react-router-dom';
 import FlipMove from 'react-flip-move';
-import ErrorBoundary from '../../components/ErrorBoundary';
 
+import ErrorBoundary from '../../components/ErrorBoundary';
+import Button from '../../components/Button';
 import LoadingMessage from '../../components/LoadingMessage';
 import Repo from './components/Repo';
 import style from './style.css';
@@ -68,18 +70,30 @@ export class Home extends React.Component {
             </span>
           </div>
         )}
-        <div className={style.reposContainer}>
-          <FlipMove typeName={null} duration={500} appearAnimation={'fade'}>
-            {data.map(repo => (
-              <Repo
-                key={repo.id}
-                data={repo}
-                openRepoId={openRepoId}
-                toggleOpenRepo={this.toggleOpenRepo}
-              />
-            ))}
-          </FlipMove>
-        </div>
+        {data.length === 0 ? (
+          <div className={style.noReposMessage}>
+            <p>
+              No repositories to display! Please select which of your watched
+              repositories you want to monitor here.
+            </p>
+            <Link to="/app/selectRepos">
+              <Button className={style.button}>Select your repositories</Button>
+            </Link>
+          </div>
+        ) : (
+          <div className={style.reposContainer}>
+            <FlipMove typeName={null} duration={500} appearAnimation={'fade'}>
+              {data.map(repo => (
+                <Repo
+                  key={repo.id}
+                  data={repo}
+                  openRepoId={openRepoId}
+                  toggleOpenRepo={this.toggleOpenRepo}
+                />
+              ))}
+            </FlipMove>
+          </div>
+        )}
       </div>
     );
   }
