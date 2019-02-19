@@ -27,6 +27,11 @@
   justify-content: center;
 }
 
+.noReposMessage {
+  text-align: center;
+  padding: 5%;
+}
+
 .updateWarning {
   position: absolute;
   top: 0.5rem;

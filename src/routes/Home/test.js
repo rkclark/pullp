@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { shallow } from 'enzyme';
 import LoadingMessage from '../../components/LoadingMessage';
 import { Home } from '.';
@@ -67,6 +68,28 @@ describe('Home', () => {
     it('does not show a warning message', () => {
       const component = shallow(<Home {...baseProps} />);
       expect(component.find('.updateWarning').length).toBe(0);
+    });
+  });
+
+  describe('when the user has not selected any repos to monitor', () => {
+    const component = shallow(<Home {...baseProps} data={[]} />);
+    it('shows an informational message', () => {
+      expect(component.find('.noReposMessage').length).toBe(1);
+    });
+
+    it('renders a link to /app/selectRepos', () => {
+      expect(component.find(Link).props().to).toBe('/app/selectRepos');
+    });
+  });
+
+  describe('when the user has selected any repos to monitor', () => {
+    const component = shallow(<Home {...baseProps} />);
+    it('does not show an informational message', () => {
+      expect(component.find('.noReposMessage').length).toBe(0);
+    });
+
+    it('does not render a link to /app/selectRepos', () => {
+      expect(component.find(Link).length).toBe(0);
     });
   });
 
