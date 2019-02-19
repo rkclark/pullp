@@ -99,11 +99,7 @@ Home.defaultProps = {
 export default function HomeContainer() {
   return (
     <ErrorBoundary>
-      <Query
-        query={GET_WATCHED_REPOS}
-        fetchPolicy="cache-first"
-        notifyOnNetworkStatusChange
-      >
+      <Query query={GET_WATCHED_REPOS} fetchPolicy="cache-first">
         {({ data: watchedReposData, loading, error }) => {
           if (loading) {
             return loadingMessage;
@@ -154,21 +150,23 @@ export default function HomeContainer() {
                     }}
                     fetchPolicy="cache-and-network"
                     pollInterval={GITHUB_POLLING_FREQUENCY_MS}
+                    notifyOnNetworkStatusChange
                   >
                     {({
                       data: pullRequestData,
-                      loading: pullRequestsLoading,
                       error: pullRequestsError,
+                      networkStatus,
                     }) => {
-                      // if (pullRequestsError) {
-                      //   throw new Error(
-                      //     'Error loading repositories and pull requests from Github. Try refreshing the app with CMD+R or CTRL+R',
-                      //   );
-                      // }
+                      /* 
+                        Network status 1 means Apollo is loading this query for the first time.
+                        This way we ignore subsequent loading for when we poll Github as we
+                        already have data to display.
+                      */
+                      const pullRequestsLoading = networkStatus === 1;
 
                       let transformedRepoData = [];
 
-                      if (pullRequestData.nodes && !loading) {
+                      if (pullRequestData.nodes && !pullRequestsLoading) {
                         // Add pull request data to the existing selected repo objects
                         const mergedRepos = selectedRepos.map(({ node }) => {
                           const repoWithPullRequests = pullRequestData.nodes.find(
