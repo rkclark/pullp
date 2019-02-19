@@ -11,6 +11,8 @@ export const WATCHED_REPOS_PER_PAGE = 12;
 
 export const WATCHED_REPOS_PAGINATION_RANGE = 5;
 
+export const GITHUB_POLLING_FREQUENCY_MS = 60000;
+
 export const SCHEMA_VERSION_KEY = 'apollo-schema-version';
 
 // Must be a string
