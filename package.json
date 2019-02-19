@@ -133,7 +133,7 @@
     "directories": {
       "buildResources": "public"
     },
-    "copyright": "Copyright © 2018 Rick Clark",
+    "copyright": "Copyright © 2019 Rick Clark",
     "dmg": {
       "contents": [
         {
@@ -150,8 +150,16 @@
     },
     "linux": {
       "target": [
-        "AppImage"
-      ]
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64",
+            "armv7l",
+            "arm64"
+          ]
+        }
+      ],
+      "category": "Utility"
     },
     "win": {
       "target": "NSIS"
