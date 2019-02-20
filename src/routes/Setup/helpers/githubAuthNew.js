@@ -1,7 +1,5 @@
 const gatekeeperUrl = process.env.REACT_APP_OAUTH_GATEKEEPER_URL;
 
-/* eslint-disable no-console */
-
 export default function githubAuth(
   saveGithubToken,
   setLoadingToken,
@@ -10,7 +8,8 @@ export default function githubAuth(
   const electron = window.electron;
 
   const remote = electron.remote;
-  const { BrowserWindow, BrowserView } = remote;
+  const BrowserWindow = remote.BrowserWindow;
+  const dialog = remote.dialog;
   const authWindow = new BrowserWindow({
     width: 800,
     height: 800,
@@ -21,22 +20,11 @@ export default function githubAuth(
     },
   });
 
-  const view = new BrowserView({
-    webPreferences: {
-      nodeIntegration: false,
-    },
-  });
-
-  authWindow.setBrowserView(view);
-  view.setBounds({ x: 50, y: 50, width: 500, height: 500 });
-
   const scopes = ['read:org', 'repo'];
   const clientId = process.env.REACT_APP_GITHUB_CLIENT_ID;
   const githubUrl = process.env.REACT_APP_GITHUB_AUTH_URL;
   const authUrl = `${githubUrl}?client_id=${clientId}&scope=${scopes}`;
-
-  // For security, we need to load Github login page in a BrowserView
-  view.webContents.loadURL(authUrl);
+  authWindow.loadURL(authUrl);
 
   async function handleCallback(url) {
     const rawCode = /code=([^&]*)/.exec(url) || null;
@@ -44,7 +32,6 @@ export default function githubAuth(
     const error = /\?error=(.+)$/.exec(url);
     // If there is a code, proceed to get token from github
     if (code) {
-      view.destroy();
       authWindow.destroy();
 
       setLoadingToken();
@@ -76,36 +63,37 @@ export default function githubAuth(
 
     if (error) {
       // Close the browser if code found or error
-      view.destroy();
       authWindow.destroy();
     }
   }
 
   // If "Done" button is pressed, hide "Loading"
   authWindow.on('close', () => {
-    view.destroy();
     authWindow.destroy();
   });
 
-  view.webContents.on(
+  authWindow.webContents.on(
     'did-fail-load',
     (event, errorCode, errorDescription, validatedURL) => {
       if (validatedURL.includes('github.com')) {
-        console.error(
-          'Error loading url in Github sign in window',
-          event,
-          errorCode,
-          errorDescription,
+        authWindow.destroy();
+
+        dialog.showErrorBox(
+          'Invalid Hostname',
+          `Could not load https://github.com/.`,
         );
       }
     },
   );
 
-  view.webContents.on('will-navigate', (event, url) => {
+  authWindow.webContents.on('will-navigate', (event, url) => {
     handleCallback(url);
   });
 
-  view.webContents.on('did-get-redirect-request', (event, oldUrl, newUrl) => {
-    handleCallback(newUrl);
-  });
+  authWindow.webContents.on(
+    'did-get-redirect-request',
+    (event, oldUrl, newUrl) => {
+      handleCallback(newUrl);
+    },
+  );
 }

@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import githubAuth from '../../routes/Setup/helpers/githubAuth';
+import githubAuth from '../../routes/Setup/helpers/githubAuthNew';
 
 import style from './style.css';
 
