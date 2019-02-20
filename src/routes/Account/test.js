@@ -81,6 +81,8 @@ describe('Account', () => {
         },
       };
 
+      // Have to delete and re-create window.localStorage to avoid errors
+      delete window.localStorage;
       clearLocalStorageMock = jest.fn();
 
       window.localStorage = {

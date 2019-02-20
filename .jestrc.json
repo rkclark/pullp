@@ -1,5 +1,5 @@
 {
-  "setupTestFrameworkScriptFile": "<rootDir>/scripts/setupTests.js",
+  "setupFilesAfterEnv": ["<rootDir>/scripts/setupTests.js"],
   "collectCoverageFrom": ["src/**/*.{js,jsx}"],
   "setupFiles": ["<rootDir>/config/polyfills.js"],
   "testMatch": [
