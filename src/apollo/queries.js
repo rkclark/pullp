@@ -36,6 +36,7 @@ export const GET_USER_TEAMS = gql(`query UserTeams($login: String!)  {
     organizations(last:100) {
       edges {
         node {
+          id
           teams(last:100, userLogins: [$login]) {
             edges {
               node {
@@ -91,6 +92,7 @@ export const GET_PULL_REQUESTS = gql(`query getPullRequests($ids: [ID!]!, $maxim
         totalCount
         edges {
           node {
+            id
             createdAt
             url
             number
@@ -100,9 +102,14 @@ export const GET_PULL_REQUESTS = gql(`query getPullRequests($ids: [ID!]!, $maxim
               login
               url
             }
+            pullpPullRequest @client {
+              currentUserReviewRequested
+              reviewedByCurrentUser
+            }
             reviewRequests(last: 100) {
               edges {
                 node {
+                  id
                   requestedReviewer {
                     ... on User {
                       login
@@ -120,6 +127,7 @@ export const GET_PULL_REQUESTS = gql(`query getPullRequests($ids: [ID!]!, $maxim
             reviews(last: 100) {
               edges {
                 node {
+                  id
                   author {
                     login
                     avatarUrl
