@@ -28,7 +28,7 @@ export default function githubAuth(
   });
 
   authWindow.setBrowserView(view);
-  view.setBounds({ x: 0, y: 0, width: 800, height: 800 });
+  view.setBounds({ x: 50, y: 50, width: 500, height: 500 });
 
   const scopes = ['read:org', 'repo'];
   const clientId = process.env.REACT_APP_GITHUB_CLIENT_ID;
