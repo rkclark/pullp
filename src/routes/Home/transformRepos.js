@@ -36,6 +36,6 @@ export default function transformRepos(reposData, userTeamsData) {
       ['desc', 'asc'],
     );
   }
-
+  console.log('repos', repos);
   return repos;
 }

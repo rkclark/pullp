@@ -96,7 +96,16 @@ const hasBeenReviewedByUser = ({ normalizedReviews, currentUser }) =>
 
 export default function transformPullRequests(pullRequests, userTeamsData) {
   return normalizeGraphqlEdges(pullRequests).map(
-    ({ createdAt, reviews, reviewRequests, author, title, url, number }) => {
+    ({
+      createdAt,
+      reviews,
+      reviewRequests,
+      author,
+      title,
+      url,
+      number,
+      pullpPullRequest,
+    }) => {
       const createdAtDate = new Date(createdAt);
       const normalizedReviews = normalizeGraphqlEdges(reviews);
       const normalizedReviewRequests = normalizeGraphqlEdges(reviewRequests);
@@ -135,8 +144,7 @@ export default function transformPullRequests(pullRequests, userTeamsData) {
         reviews: normalizedReviews,
         reviewRequests: normalizedReviewRequests,
         reviewsByAuthor,
-        currentUserReviewRequested,
-        reviewedByCurrentUser,
+        ...pullpPullRequest,
       };
     },
   );
