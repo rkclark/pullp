@@ -144,6 +144,7 @@ describe('Apollo resolvers', () => {
         cache: {
           readQuery: readQueryMock,
         },
+        getCacheKey: () => {},
       });
     });
 
@@ -217,6 +218,7 @@ describe('Apollo resolvers', () => {
               cache: {
                 readQuery: readQueryMock,
               },
+              getCacheKey: () => {},
             },
           );
 
@@ -256,6 +258,7 @@ describe('Apollo resolvers', () => {
               cache: {
                 readQuery: readQueryMock,
               },
+              getCacheKey: () => {},
             },
           );
 
@@ -307,6 +310,7 @@ describe('Apollo resolvers', () => {
                 cache: {
                   readQuery: readQueryMock,
                 },
+                getCacheKey: () => {},
               },
             );
             expect(testResult.currentUserReviewRequested).toBe(true);
@@ -357,6 +361,7 @@ describe('Apollo resolvers', () => {
                   cache: {
                     readQuery: readQueryMock,
                   },
+                  getCacheKey: () => {},
                 },
               );
 
@@ -410,6 +415,7 @@ describe('Apollo resolvers', () => {
                 cache: {
                   readQuery: readQueryMock,
                 },
+                getCacheKey: () => {},
               },
             );
 
@@ -450,6 +456,7 @@ describe('Apollo resolvers', () => {
                   cache: {
                     readQuery: readQueryMock,
                   },
+                  getCacheKey: () => {},
                 },
               );
 
@@ -494,6 +501,7 @@ describe('Apollo resolvers', () => {
                 cache: {
                   readQuery: readQueryMock,
                 },
+                getCacheKey: () => {},
               },
             );
 
@@ -532,6 +540,7 @@ describe('Apollo resolvers', () => {
                   cache: {
                     readQuery: readQueryMock,
                   },
+                  getCacheKey: () => {},
                 },
               );
 

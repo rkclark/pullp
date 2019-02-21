@@ -2,6 +2,7 @@ import { get } from 'lodash';
 import gql from 'graphql-tag';
 import { GET_CURRENT_USER, GET_USER_TEAMS } from './queries';
 import normalizeGraphqlEdges from '../utils/normalizeGraphqlEdges';
+import processNotifications from './processNotifications';
 
 const dateOptions = {
   weekday: 'long',
@@ -33,7 +34,7 @@ const isUserReviewRequested = ({
 
     // Secondarily check whether PR has review requested from any team that the user is part of
 
-    // Teams areidentified by ids rather than logins
+    // Teams are identified by ids rather than logins
     const requestedReviewerId = get(reviewRequest, 'requestedReviewer.id');
 
     // Flatten all user teams into one array
@@ -184,56 +185,9 @@ export default {
       // Repo is not selected in the cache, so set isSelected to false
       return false;
     },
-    notifications: (_, variables, { cache, getCacheKey }) => {
-      // Look for existing repo with this id in the cache
-      const id = getCacheKey({
-        __typename: 'Repository',
-        id: _.id,
-      });
-
-      let existingNotifications;
-
-      if (!id) {
-        // This repo isn't in the cache, so there are no existing notifications
-        existingNotifications = [];
-      } else {
-        const fragment = gql(`
-          fragment notifications on Repository {
-            notifications
-            pullRequests {
-                edges {
-                    node {
-                        reviewRequests {
-                            edges {
-                                node {
-                                    requestedReviewer {
-                                        ... on User {
-                                          login
-                                          avatarUrl
-                                        }
-                                        ... on Team {
-                                          name
-                                          id
-                                          avatarUrl
-                                        }
-                                      }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-          }`);
-
-        existingNotifications = cache.readFragment({ fragment, id });
-
-        console.log('existing data', existingNotifications);
-      }
-      return [];
-    },
   },
   PullRequest: {
-    pullpPullRequest: (pullRequest, variables, { cache }) => {
+    pullpPullRequest: (pullRequest, variables, { cache, getCacheKey }) => {
       const createdAtDate = new Date(pullRequest.createdAt);
       const reviewsByAuthor = aggregateReviewsByAuthor(pullRequest.reviews);
 
@@ -268,12 +222,48 @@ export default {
         currentUserReviewRequested = false;
       }
 
+      // Look for existing pull request with this id in the cache
+      const id = getCacheKey({
+        __typename: 'PullRequest',
+        id: pullRequest.id,
+      });
+
+      let existingNotifications;
+
+      if (!id) {
+        // This repo isn't in the cache, so there are no existing notifications
+        existingNotifications = [];
+      } else {
+        const fragment = gql(`
+          fragment PullpPullRequest on PullRequest {
+            pullpPullRequest {
+                notifications
+            }
+          }`);
+
+        existingNotifications =
+          get(
+            cache.readFragment({ fragment, id }),
+            'pullpPullRequest.notifications',
+          ) || [];
+
+        console.log('existing', existingNotifications);
+      }
+
+      const notifications = processNotifications({
+        existingNotifications,
+        currentUserReviewRequested,
+        pullRequest,
+      });
+
+      console.log('notifications', notifications);
       return {
         currentUserReviewRequested,
         reviewedByCurrentUser,
         reviewsByAuthor,
         date: createdAtDate.toLocaleDateString('en-GB', dateOptions),
         time: createdAtDate.toLocaleTimeString('en-US', timeOptions),
+        notifications,
         __typename: 'PullpPullRequest',
       };
     },
