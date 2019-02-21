@@ -108,6 +108,7 @@ export const GET_PULL_REQUESTS = gql(`query getPullRequests($ids: [ID!]!, $maxim
               date
               time
               reviewsByAuthor
+              notifications
             }
             reviewRequests(last: 100) {
               edges {
