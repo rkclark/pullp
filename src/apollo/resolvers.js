@@ -222,6 +222,15 @@ export default {
         currentUserReviewRequested = false;
       }
 
+      const pullpPullRequest = {
+        currentUserReviewRequested,
+        reviewedByCurrentUser,
+        reviewsByAuthor,
+        date: createdAtDate.toLocaleDateString('en-GB', dateOptions),
+        time: createdAtDate.toLocaleTimeString('en-US', timeOptions),
+        __typename: 'PullpPullRequest',
+      };
+
       // Look for existing pull request with this id in the cache
       const id = getCacheKey({
         __typename: 'PullRequest',
@@ -246,25 +255,19 @@ export default {
             cache.readFragment({ fragment, id }),
             'pullpPullRequest.notifications',
           ) || [];
-
-        console.log('existing', existingNotifications);
       }
 
       const notifications = processNotifications({
         existingNotifications,
-        currentUserReviewRequested,
-        pullRequest,
+        extendedPullRequest: {
+          ...pullRequest,
+          pullpPullRequest,
+        },
       });
 
-      console.log('notifications', notifications);
       return {
-        currentUserReviewRequested,
-        reviewedByCurrentUser,
-        reviewsByAuthor,
-        date: createdAtDate.toLocaleDateString('en-GB', dateOptions),
-        time: createdAtDate.toLocaleTimeString('en-US', timeOptions),
+        ...pullpPullRequest,
         notifications,
-        __typename: 'PullpPullRequest',
       };
     },
   },
