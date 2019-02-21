@@ -1,5 +1,8 @@
 import resolvers from './resolvers';
 import { GET_CURRENT_USER, GET_USER_TEAMS } from './queries';
+import processNotifications from './processNotifications';
+
+jest.mock('./processNotifications');
 
 describe('Apollo resolvers', () => {
   describe('PullRequest.pullpPullRequest', () => {
@@ -124,8 +127,18 @@ describe('Apollo resolvers', () => {
     };
 
     const readQueryMock = jest.fn();
+    const getCacheKeyMock = jest.fn();
+    const readFragmentMock = jest.fn();
 
     let result;
+
+    const apolloClient = {
+      cache: {
+        readQuery: readQueryMock,
+        readFragment: readFragmentMock,
+      },
+      getCacheKey: getCacheKeyMock,
+    };
 
     beforeAll(() => {
       window.Notification = class Notification {};
@@ -144,16 +157,17 @@ describe('Apollo resolvers', () => {
         return null;
       });
 
-      result = resolvers.PullRequest.pullpPullRequest(basePR, undefined, {
-        cache: {
-          readQuery: readQueryMock,
-        },
-        getCacheKey: () => {},
-      });
+      result = resolvers.PullRequest.pullpPullRequest(
+        basePR,
+        undefined,
+        apolloClient,
+      );
     });
 
     afterEach(() => {
       readQueryMock.mockReset();
+      getCacheKeyMock.mockReset();
+      readFragmentMock.mockReset();
     });
 
     it('sets date field', () => {
@@ -218,12 +232,7 @@ describe('Apollo resolvers', () => {
           const testResult = resolvers.PullRequest.pullpPullRequest(
             basePR,
             undefined,
-            {
-              cache: {
-                readQuery: readQueryMock,
-              },
-              getCacheKey: () => {},
-            },
+            apolloClient,
           );
 
           expect(testResult.currentUserReviewRequested).toBe(true);
@@ -258,12 +267,7 @@ describe('Apollo resolvers', () => {
           const testResult = resolvers.PullRequest.pullpPullRequest(
             basePR,
             undefined,
-            {
-              cache: {
-                readQuery: readQueryMock,
-              },
-              getCacheKey: () => {},
-            },
+            apolloClient,
           );
 
           expect(testResult.currentUserReviewRequested).toBe(false);
@@ -310,12 +314,7 @@ describe('Apollo resolvers', () => {
             const testResult = resolvers.PullRequest.pullpPullRequest(
               { ...basePR, reviewRequests },
               undefined,
-              {
-                cache: {
-                  readQuery: readQueryMock,
-                },
-                getCacheKey: () => {},
-              },
+              apolloClient,
             );
             expect(testResult.currentUserReviewRequested).toBe(true);
           });
@@ -361,12 +360,7 @@ describe('Apollo resolvers', () => {
               const testResult = resolvers.PullRequest.pullpPullRequest(
                 { ...basePR, reviewRequests },
                 undefined,
-                {
-                  cache: {
-                    readQuery: readQueryMock,
-                  },
-                  getCacheKey: () => {},
-                },
+                apolloClient,
               );
 
               expect(testResult.currentUserReviewRequested).toBe(false);
@@ -415,12 +409,7 @@ describe('Apollo resolvers', () => {
             const testResult = resolvers.PullRequest.pullpPullRequest(
               { ...basePR, reviewRequests },
               undefined,
-              {
-                cache: {
-                  readQuery: readQueryMock,
-                },
-                getCacheKey: () => {},
-              },
+              apolloClient,
             );
 
             expect(testResult.currentUserReviewRequested).toBe(false);
@@ -456,12 +445,7 @@ describe('Apollo resolvers', () => {
               const testResult = resolvers.PullRequest.pullpPullRequest(
                 basePR,
                 undefined,
-                {
-                  cache: {
-                    readQuery: readQueryMock,
-                  },
-                  getCacheKey: () => {},
-                },
+                apolloClient,
               );
 
               expect(testResult.currentUserReviewRequested).toBe(false);
@@ -552,6 +536,105 @@ describe('Apollo resolvers', () => {
             });
           });
         });
+      });
+    });
+
+    describe('notifications', () => {
+      describe('when the pull request has existing notifications', () => {
+        it('retrieves them and sends them for processing along with the extended pull request', () => {
+          const existingNotifications = [{ type: 'aNotification' }];
+          getCacheKeyMock.mockReturnValue('1');
+          readFragmentMock.mockReturnValue({
+            pullpPullRequest: {
+              notifications: existingNotifications,
+            },
+          });
+
+          resolvers.PullRequest.pullpPullRequest(
+            basePR,
+            undefined,
+            apolloClient,
+          );
+
+          expect(processNotifications).toHaveBeenCalledWith({
+            existingNotifications,
+            extendedPullRequest: {
+              ...basePR,
+              pullpPullRequest: {
+                __typename: 'PullpPullRequest',
+                currentUserReviewRequested: false,
+                date: 'Friday, Jan 4, 2019',
+                reviewedByCurrentUser: true,
+                reviewsByAuthor: [
+                  {
+                    avatarUrl: 'https://avatars3.githubusercontent.com/dev',
+                    login: 'dev',
+                    states: ['DISMISSED', 'APPROVED'],
+                  },
+                  {
+                    avatarUrl: 'https://avatars3.githubusercontent.com/dev2',
+                    login: 'dev2',
+                    states: ['CHANGES_REQUESTED', 'CHANGES_REQUESTED'],
+                  },
+                ],
+                time: '8:11 AM',
+              },
+            },
+          });
+        });
+      });
+
+      describe('when the pull request does not have existing notifications', () => {
+        it('sends an empty array for processing along with the extended pull request', () => {
+          getCacheKeyMock.mockReturnValue(null);
+
+          resolvers.PullRequest.pullpPullRequest(
+            basePR,
+            undefined,
+            apolloClient,
+          );
+
+          expect(processNotifications).toHaveBeenCalledWith({
+            existingNotifications: [],
+            extendedPullRequest: {
+              ...basePR,
+              pullpPullRequest: {
+                __typename: 'PullpPullRequest',
+                currentUserReviewRequested: false,
+                date: 'Friday, Jan 4, 2019',
+                reviewedByCurrentUser: true,
+                reviewsByAuthor: [
+                  {
+                    avatarUrl: 'https://avatars3.githubusercontent.com/dev',
+                    login: 'dev',
+                    states: ['DISMISSED', 'APPROVED'],
+                  },
+                  {
+                    avatarUrl: 'https://avatars3.githubusercontent.com/dev2',
+                    login: 'dev2',
+                    states: ['CHANGES_REQUESTED', 'CHANGES_REQUESTED'],
+                  },
+                ],
+                time: '8:11 AM',
+              },
+            },
+          });
+        });
+      });
+
+      it('sets notifications using the processed notifications', () => {
+        getCacheKeyMock.mockReturnValue('1');
+
+        const expectedNotifications = [{}, {}, {}];
+        processNotifications.mockReturnValue(expectedNotifications);
+
+        const testResult = resolvers.PullRequest.pullpPullRequest(
+          basePR,
+          undefined,
+          apolloClient,
+        );
+
+        expect(testResult.notifications).toEqual(expectedNotifications);
       });
     });
   });
