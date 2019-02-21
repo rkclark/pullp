@@ -10,11 +10,7 @@ import Button from '../../components/Button';
 import LoadingMessage from '../../components/LoadingMessage';
 import Repo from './components/Repo';
 import style from './style.css';
-import {
-  GET_WATCHED_REPOS,
-  GET_PULL_REQUESTS,
-  GET_USER_TEAMS,
-} from '../../apollo/queries';
+import { GET_WATCHED_REPOS, GET_PULL_REQUESTS } from '../../apollo/queries';
 import { MAXIMUM_PRS, GITHUB_POLLING_FREQUENCY_MS } from '../../constants';
 import transformRepos from './transformRepos';
 
@@ -136,79 +132,52 @@ export default function HomeContainer() {
 
           return (
             <Query
-              query={GET_USER_TEAMS}
-              variables={{ login: watchedReposData.viewer.login }}
-              fetchPolicy="cache-first"
+              query={GET_PULL_REQUESTS}
+              variables={{
+                ids: selectedRepoIds,
+                maximumPrs: MAXIMUM_PRS,
+              }}
+              fetchPolicy="cache-and-network"
+              pollInterval={GITHUB_POLLING_FREQUENCY_MS}
+              notifyOnNetworkStatusChange
             >
               {({
-                data: userTeamsData,
-                loading: userTeamsLoading,
-                error: userTeamsError,
+                data: pullRequestData,
+                error: pullRequestsError,
+                networkStatus,
               }) => {
-                if (userTeamsLoading) {
-                  return loadingMessage;
-                }
+                /* 
+                Network status 1 means Apollo is loading this query for the first time.
+                This way we ignore subsequent loading for when we poll Github as we
+                already have data to display.
+              */
+                const pullRequestsLoading = networkStatus === 1;
 
-                if (userTeamsError) {
-                  throw new Error(
-                    'Error loading your user data from Github. Try refreshing the app with CMD+R or CTRL+R',
-                  );
+                let transformedRepoData = [];
+
+                if (pullRequestData.nodes && !pullRequestsLoading) {
+                  // Add pull request data to the existing selected repo objects
+                  const mergedRepos = selectedRepos.map(({ node }) => {
+                    const repoWithPullRequests = pullRequestData.nodes.find(
+                      repo => repo.id === node.id,
+                    );
+
+                    const mergedRepo = {
+                      ...node,
+                      pullRequests: repoWithPullRequests.pullRequests,
+                    };
+                    return mergedRepo;
+                  });
+
+                  transformedRepoData = transformRepos(mergedRepos);
                 }
 
                 return (
-                  <Query
-                    query={GET_PULL_REQUESTS}
-                    variables={{
-                      ids: selectedRepoIds,
-                      maximumPrs: MAXIMUM_PRS,
-                    }}
-                    fetchPolicy="cache-and-network"
-                    pollInterval={GITHUB_POLLING_FREQUENCY_MS}
-                    notifyOnNetworkStatusChange
-                  >
-                    {({
-                      data: pullRequestData,
-                      error: pullRequestsError,
-                      networkStatus,
-                    }) => {
-                      /* 
-                        Network status 1 means Apollo is loading this query for the first time.
-                        This way we ignore subsequent loading for when we poll Github as we
-                        already have data to display.
-                      */
-                      const pullRequestsLoading = networkStatus === 1;
-
-                      let transformedRepoData = [];
-
-                      if (pullRequestData.nodes && !pullRequestsLoading) {
-                        // Add pull request data to the existing selected repo objects
-                        const mergedRepos = selectedRepos.map(({ node }) => {
-                          const repoWithPullRequests = pullRequestData.nodes.find(
-                            repo => repo.id === node.id,
-                          );
-
-                          const mergedRepo = {
-                            ...node,
-                            pullRequests: repoWithPullRequests.pullRequests,
-                          };
-                          return mergedRepo;
-                        });
-
-                        transformedRepoData = transformRepos(
-                          mergedRepos,
-                          userTeamsData,
-                        );
-                      }
-
-                      return (
-                        <Home
-                          data={transformedRepoData}
-                          loading={pullRequestsLoading}
-                          error={pullRequestsError}
-                        />
-                      );
-                    }}
-                  </Query>
+                  <Home
+                    data={transformedRepoData}
+                    loading={pullRequestsLoading}
+                    error={pullRequestsError}
+                  />
                 );
               }}
             </Query>

@@ -3,20 +3,28 @@ import transformPullRequests from './transformPullRequests';
 
 const testRepoPRs = [
   {
-    currentUserReviewRequested: false,
-    reviewedByCurrentUser: true,
+    pullpPullRequest: {
+      currentUserReviewRequested: false,
+      reviewedByCurrentUser: true,
+    },
   },
   {
-    currentUserReviewRequested: true,
-    reviewedByCurrentUser: false,
+    pullpPullRequest: {
+      currentUserReviewRequested: true,
+      reviewedByCurrentUser: false,
+    },
   },
   {
-    currentUserReviewRequested: true,
-    reviewedByCurrentUser: false,
+    pullpPullRequest: {
+      currentUserReviewRequested: true,
+      reviewedByCurrentUser: false,
+    },
   },
   {
-    currentUserReviewRequested: false,
-    reviewedByCurrentUser: false,
+    pullpPullRequest: {
+      currentUserReviewRequested: false,
+      reviewedByCurrentUser: false,
+    },
   },
 ];
 

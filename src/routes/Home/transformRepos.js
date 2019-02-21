@@ -1,21 +1,18 @@
-import { orderBy } from 'lodash';
+import { orderBy, get } from 'lodash';
 import transformPullRequests from './transformPullRequests';
 
-export default function transformRepos(reposData, userTeamsData) {
+export default function transformRepos(reposData) {
   let repos = reposData.map(node => {
-    const transformedPRs = transformPullRequests(
-      node.pullRequests,
-      userTeamsData,
-    );
+    const transformedPRs = transformPullRequests(node.pullRequests);
 
     let currentUserReviewRequests = 0;
     let currentUserReviews = 0;
 
-    transformedPRs.forEach(pr => {
-      if (pr.currentUserReviewRequested) {
+    transformedPRs.forEach(pullRequest => {
+      if (get(pullRequest, 'pullpPullRequest.currentUserReviewRequested')) {
         currentUserReviewRequests += 1;
       }
-      if (pr.reviewedByCurrentUser) {
+      if (get(pullRequest, 'pullpPullRequest.reviewedByCurrentUser')) {
         currentUserReviews += 1;
       }
     });
@@ -36,6 +33,6 @@ export default function transformRepos(reposData, userTeamsData) {
       ['desc', 'asc'],
     );
   }
-  console.log('repos', repos);
+
   return repos;
 }
