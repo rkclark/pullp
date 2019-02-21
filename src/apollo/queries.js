@@ -105,6 +105,9 @@ export const GET_PULL_REQUESTS = gql(`query getPullRequests($ids: [ID!]!, $maxim
             pullpPullRequest @client {
               currentUserReviewRequested
               reviewedByCurrentUser
+              date
+              time
+              reviewsByAuthor
             }
             reviewRequests(last: 100) {
               edges {

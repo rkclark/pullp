@@ -6,15 +6,17 @@ import defaultTheme from './theme.css';
 /* eslint-disable react/no-array-index-key */
 export default function PullRequest({
   theme,
-  date,
-  time,
   url,
   number,
   title,
   author,
-  reviewedByCurrentUser,
-  currentUserReviewRequested,
-  reviewsByAuthor,
+  pullpPullRequest: {
+    date,
+    time,
+    currentUserReviewRequested,
+    reviewedByCurrentUser,
+    reviewsByAuthor,
+  },
   reviewRequests,
 }) {
   const reviewRequestStatus = () => {
@@ -215,8 +217,6 @@ export default function PullRequest({
 
 PullRequest.propTypes = {
   theme: PropTypes.shape(),
-  date: PropTypes.string,
-  time: PropTypes.string,
   url: PropTypes.string.isRequired,
   number: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
@@ -225,10 +225,14 @@ PullRequest.propTypes = {
     login: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
   }).isRequired,
-  currentUserReviewRequested: PropTypes.bool.isRequired,
-  reviewedByCurrentUser: PropTypes.bool.isRequired,
-  reviewsByAuthor: PropTypes.arrayOf(PropTypes.shape()),
   reviewRequests: PropTypes.arrayOf(PropTypes.shape()),
+  pullpPullRequest: PropTypes.shape({
+    date: PropTypes.string,
+    time: PropTypes.string,
+    currentUserReviewRequested: PropTypes.bool.isRequired,
+    reviewedByCurrentUser: PropTypes.bool.isRequired,
+    reviewsByAuthor: PropTypes.arrayOf(PropTypes.shape()),
+  }),
 };
 
 PullRequest.defaultProps = {
@@ -238,8 +242,9 @@ PullRequest.defaultProps = {
   comments: [],
   reviewRequests: [],
   reviews: [],
-  aggregatedReviews: {},
-  date: null,
-  time: null,
-  reviewsByAuthor: [],
+  pullpPullRequest: {
+    date: null,
+    time: null,
+    reviewsByAuthor: [],
+  },
 };

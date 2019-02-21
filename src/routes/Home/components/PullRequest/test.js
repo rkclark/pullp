@@ -4,14 +4,11 @@ import PullRequest from './';
 
 describe('PullRequest', () => {
   const props = {
-    date: '01/01/2017',
-    time: '18:00:00',
     closed: false,
     mergedAt: null,
     url: 'prUrl',
     number: 94,
     title: 'a nice pr',
-    assignees: [],
     author: {
       avatarUrl: 'avatarurl',
       login: 'name',
@@ -48,8 +45,13 @@ describe('PullRequest', () => {
         state: 'APPROVED',
       },
     ],
-    currentUserReviewRequested: false,
-    reviewedByCurrentUser: true,
+    pullpPullRequest: {
+      currentUserReviewRequested: false,
+      reviewedByCurrentUser: true,
+      date: '01/01/2017',
+      time: '18:00:00',
+      reviewsByAuthor: [],
+    },
   };
 
   it('renders successfully', () => {
