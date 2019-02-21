@@ -16,9 +16,17 @@ export default ({
 
   if (!reviewAlreadyRequested) {
     if (currentUserReviewRequested) {
+      const message = `${login} requested your review`;
+
+      /* eslint-disable no-new */
+      new Notification('Review Requested', {
+        body: message,
+      });
+      /* eslint-enable no-new */
+
       notifications.push({
         type: notificationTypes.REVIEW_REQUESTED,
-        message: `${login} requested your review`,
+        message,
       });
     }
   }

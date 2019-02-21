@@ -127,6 +127,10 @@ describe('Apollo resolvers', () => {
 
     let result;
 
+    beforeAll(() => {
+      window.Notification = class Notification {};
+    });
+
     beforeEach(() => {
       readQueryMock.mockImplementation(({ query }) => {
         if (query === GET_USER_TEAMS) {
