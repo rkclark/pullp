@@ -1,35 +1,24 @@
-import { notificationTypes } from '../constants';
+import reviewRequested from './notificationRules/reviewRequested';
+
+const triggerNotification = ({ title, message }) => {
+  /* eslint-disable no-new */
+  new Notification(title, {
+    body: message,
+  });
+  /* eslint-enable no-new */
+};
 
 export default ({
   existingNotifications,
-  currentUserReviewRequested,
-  pullRequest,
+  extendedPullRequest: pullRequest,
 }) => {
-  const notifications = [];
-  const {
-    author: { login },
-  } = pullRequest;
+  const newNotifications = [
+    ...reviewRequested({ existingNotifications, pullRequest }),
+  ];
 
-  const reviewAlreadyRequested = existingNotifications.some(
-    ({ type }) => type === notificationTypes.REVIEW_REQUESTED,
-  );
+  newNotifications.forEach(notification => {
+    triggerNotification(notification);
+  });
 
-  if (!reviewAlreadyRequested) {
-    if (currentUserReviewRequested) {
-      const message = `${login} requested your review`;
-
-      /* eslint-disable no-new */
-      new Notification('Review Requested', {
-        body: message,
-      });
-      /* eslint-enable no-new */
-
-      notifications.push({
-        type: notificationTypes.REVIEW_REQUESTED,
-        message,
-      });
-    }
-  }
-
-  return [...existingNotifications, ...notifications];
+  return [...existingNotifications, ...newNotifications];
 };
