@@ -1,6 +1,6 @@
 import { get } from 'lodash';
 
-const getPullRequestListId = repository => {
+const getPullRequestConnectionId = repository => {
   const pullRequestsEntry = Object.entries(repository).find(({ 0: key }) =>
     key.startsWith('pullRequests'),
   );
@@ -15,56 +15,55 @@ const cleanCacheOnInterval = ({ cache }) => {
 
     const pullRequestsToKeep = [];
 
-    const pullRequestLists = [];
+    const pullRequestConnections = [];
 
     Object.entries(cacheData).forEach(({ 0: key, 1: value }) => {
-      if (key.startsWith('Repository:')) {
-        const pullRequestsListId = getPullRequestListId(value);
+      if (key.startsWith('Repository:') && value.isSelected) {
+        const pullRequestConnectionId = getPullRequestConnectionId(value);
 
-        if (pullRequestsListId) {
-          pullRequestLists.push(pullRequestsListId);
+        if (pullRequestConnectionId) {
+          pullRequestConnections.push(pullRequestConnectionId);
         }
       }
     });
 
-    pullRequestLists.forEach(pullRequestList => {
-      console.log('pull rueqest list', pullRequestList);
-      const pullRequestEdges = cacheData[pullRequestList].edges;
+    pullRequestConnections.forEach(connection => {
+      const pullRequestEdges = cacheData[connection].edges;
       pullRequestEdges.forEach(edge => {
         const pullRequestId = get(cacheData[edge.id], 'node.id');
         pullRequestsToKeep.push(pullRequestId);
       });
     });
 
-    console.log('PRS TO KEEP', pullRequestsToKeep);
-
     let deletedPRCount = 0;
 
     Object.keys(cacheData).forEach(cacheKey => {
+      let deleteCacheEntry = false;
+
       if (
         cacheKey.startsWith('PullRequest:') &&
         !pullRequestsToKeep.includes(cacheKey)
       ) {
+        deleteCacheEntry = true;
+      }
+
+      if (
+        cacheKey.startsWith('$PullRequest:') &&
+        !pullRequestsToKeep.find(pullRequestId =>
+          cacheKey.includes(pullRequestId),
+        )
+      ) {
+        deleteCacheEntry = true;
+      }
+
+      if (deleteCacheEntry) {
         delete cacheData[cacheKey];
         deletedPRCount += 1;
       }
     });
 
     console.log('Cleaning cache...');
-    console.log(`Deleted ${deletedPRCount} pull requests`);
-    // iterate through repos
-
-    // get repo url
-
-    // get id of pull request list
-
-    // access pull request list, get list of edges ids
-
-    // aggregate all active pull requests into a list
-
-    // iterate through all pull requests, remove those not in the list
-
-    // TODO : Can we remove pull request object from de-selected repos?
+    console.log(`Deleted ${deletedPRCount} pull request cache entries`);
   }, 10000);
 };
 
