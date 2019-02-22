@@ -113,7 +113,6 @@ export const GET_PULL_REQUESTS = gql(`query getPullRequests($ids: [ID!]!, $maxim
             reviewRequests(last: 100) {
               edges {
                 node {
-                  id
                   requestedReviewer {
                     ... on User {
                       login
@@ -131,7 +130,6 @@ export const GET_PULL_REQUESTS = gql(`query getPullRequests($ids: [ID!]!, $maxim
             reviews(last: 100) {
               edges {
                 node {
-                  id
                   author {
                     login
                     avatarUrl

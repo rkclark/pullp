@@ -188,6 +188,7 @@ export default {
   },
   PullRequest: {
     pullpPullRequest: (pullRequest, variables, { cache, getCacheKey }) => {
+      console.log(cache);
       const createdAtDate = new Date(pullRequest.createdAt);
       const reviewsByAuthor = aggregateReviewsByAuthor(pullRequest.reviews);
 
