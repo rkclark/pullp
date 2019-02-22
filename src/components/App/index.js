@@ -24,6 +24,7 @@ import ScrollToTop from '../ScrollToTop';
 import '../../css/index.css';
 import style from './style.css';
 import { SCHEMA_VERSION, SCHEMA_VERSION_KEY } from '../../constants';
+import cleanCacheOnInterval from '../../apollo/cacheCleaner';
 
 export default class App extends React.Component {
   state = {
@@ -117,6 +118,8 @@ export default class App extends React.Component {
     } catch (error) {
       console.error('Error setting up Apollo persistence', error);
     }
+
+    cleanCacheOnInterval(client);
 
     // eslint-disable-next-line react/no-did-mount-set-state
     this.setState({
