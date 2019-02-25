@@ -45,14 +45,12 @@ const cleanCacheOnInterval = ({ cache }) => {
       ...pullRequestEdgesToKeep,
     ];
 
-    Object.keys(cacheData).forEach(cacheKey => {
-      let deleteCacheEntry = false;
-
+    const keyShouldBeDeleted = cacheKey => {
       if (
         cacheKey.startsWith('PullRequest:') &&
         !pullRequestsToKeep.includes(cacheKey)
       ) {
-        deleteCacheEntry = true;
+        return true;
       }
 
       if (
@@ -61,17 +59,21 @@ const cleanCacheOnInterval = ({ cache }) => {
           cacheKey.includes(pullRequestId),
         )
       ) {
-        deleteCacheEntry = true;
+        return true;
       }
 
       if (
         cacheKey.startsWith('$Repository:') &&
         !repoSubEntitiesToKeep.includes(cacheKey)
       ) {
-        deleteCacheEntry = true;
+        return true;
       }
 
-      if (deleteCacheEntry) {
+      return false;
+    };
+
+    Object.keys(cacheData).forEach(cacheKey => {
+      if (keyShouldBeDeleted(cacheKey)) {
         delete cacheData[cacheKey];
         deletedPRCount += 1;
       }
