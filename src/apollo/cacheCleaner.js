@@ -15,27 +15,35 @@ const cleanCacheOnInterval = ({ cache }) => {
 
     const pullRequestsToKeep = [];
 
-    const pullRequestConnections = [];
+    const pullRequestEdgesToKeep = [];
+
+    const pullRequestConnectionsToKeep = [];
 
     Object.entries(cacheData).forEach(({ 0: key, 1: value }) => {
       if (key.startsWith('Repository:') && value.isSelected) {
         const pullRequestConnectionId = getPullRequestConnectionId(value);
 
         if (pullRequestConnectionId) {
-          pullRequestConnections.push(pullRequestConnectionId);
+          pullRequestConnectionsToKeep.push(pullRequestConnectionId);
         }
       }
     });
 
-    pullRequestConnections.forEach(connection => {
+    pullRequestConnectionsToKeep.forEach(connection => {
       const pullRequestEdges = cacheData[connection].edges;
       pullRequestEdges.forEach(edge => {
+        pullRequestEdgesToKeep.push(edge.id);
         const pullRequestId = get(cacheData[edge.id], 'node.id');
         pullRequestsToKeep.push(pullRequestId);
       });
     });
 
     let deletedPRCount = 0;
+
+    const repoSubEntitiesToKeep = [
+      ...pullRequestConnectionsToKeep,
+      ...pullRequestEdgesToKeep,
+    ];
 
     Object.keys(cacheData).forEach(cacheKey => {
       let deleteCacheEntry = false;
@@ -52,6 +60,13 @@ const cleanCacheOnInterval = ({ cache }) => {
         !pullRequestsToKeep.find(pullRequestId =>
           cacheKey.includes(pullRequestId),
         )
+      ) {
+        deleteCacheEntry = true;
+      }
+
+      if (
+        cacheKey.startsWith('$Repository:') &&
+        !repoSubEntitiesToKeep.includes(cacheKey)
       ) {
         deleteCacheEntry = true;
       }
