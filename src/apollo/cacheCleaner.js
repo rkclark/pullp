@@ -1,11 +1,19 @@
 import { get } from 'lodash';
 
+const oneWeekInMs = 604800000;
+
 const getPullRequestConnectionId = repository => {
   const pullRequestsEntry = Object.entries(repository).find(({ 0: key }) =>
     key.startsWith('pullRequests'),
   );
   return get(pullRequestsEntry, '[1].id') || null;
 };
+
+const isTimestampWithinLastWeek = (timestamp, today) =>
+  today - new Date(timestamp) > oneWeekInMs;
+
+const doesUserHaveWatchedRepos = user =>
+  Object.keys(user).find(key => key.startsWith('watching'));
 
 const cleanCacheOnInterval = ({ cache }) => {
   window.setInterval(() => {
@@ -38,14 +46,17 @@ const cleanCacheOnInterval = ({ cache }) => {
       });
     });
 
-    let deletedPRCount = 0;
+    let deletedCacheEntryCount = 0;
 
     const repoSubEntitiesToKeep = [
       ...pullRequestConnectionsToKeep,
       ...pullRequestEdgesToKeep,
     ];
 
-    const keyShouldBeDeleted = cacheKey => {
+    const today = new Date();
+    console.log(today);
+
+    const doesKeyRequireDeletion = cacheKey => {
       if (
         cacheKey.startsWith('PullRequest:') &&
         !pullRequestsToKeep.includes(cacheKey)
@@ -69,18 +80,27 @@ const cleanCacheOnInterval = ({ cache }) => {
         return true;
       }
 
+      if (
+        cacheKey.startsWith('User:') &&
+        cacheData[cacheKey].timestamp &&
+        isTimestampWithinLastWeek(cacheData[cacheKey].timestamp, today) &&
+        !doesUserHaveWatchedRepos(cacheData[cacheKey])
+      ) {
+        return true;
+      }
+
       return false;
     };
 
     Object.keys(cacheData).forEach(cacheKey => {
-      if (keyShouldBeDeleted(cacheKey)) {
+      if (doesKeyRequireDeletion(cacheKey)) {
         delete cacheData[cacheKey];
-        deletedPRCount += 1;
+        deletedCacheEntryCount += 1;
       }
     });
 
     console.log('Cleaning cache...');
-    console.log(`Deleted ${deletedPRCount} pull request cache entries`);
+    console.log(`Deleted ${deletedCacheEntryCount} cache entries`);
   }, 10000);
 };
 

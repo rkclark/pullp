@@ -1,12 +1,9 @@
+import MockDate from 'mockdate';
 import cleanCacheOnInterval from './cacheCleaner';
 
 describe('cleanCacheOnInterval()', () => {
   const setIntervalMock = jest.fn();
   let cleanCacheFn;
-
-  const client = {
-    cache: {},
-  };
 
   beforeAll(() => {
     delete window.setInterval;
@@ -17,7 +14,15 @@ describe('cleanCacheOnInterval()', () => {
     setIntervalMock.mockClear();
   });
 
+  afterAll(() => {
+    MockDate.reset();
+  });
+
   it('sets a function to run on an interval', () => {
+    const client = {
+      cache: {},
+    };
+
     cleanCacheOnInterval(client);
     cleanCacheFn = setIntervalMock.mock.calls[0][0];
     expect(typeof cleanCacheFn).toBe('function');
@@ -221,6 +226,95 @@ describe('cleanCacheOnInterval()', () => {
             '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1.reviewRequests({"last":100}).edges.0': {},
             '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1.reviewRequests({"last":100}).edges.0.node': {},
             '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1.reviews({"last":100})': {},
+          },
+        },
+      };
+
+      const cache = { ...initialCache };
+
+      cleanCacheOnInterval({
+        cache,
+      });
+
+      cleanCacheFn = setIntervalMock.mock.calls[0][0];
+
+      cleanCacheFn();
+
+      expect(cache).toEqual(expectedCache);
+    });
+
+    fit('deletes User entries with a timestamp over a week old', () => {
+      MockDate.set('1/10/2020');
+
+      const initialCache = {
+        data: {
+          data: {
+            'User:MDQ6VXNlcjE3Mjc5MTMw': {
+              login: 'user1',
+              avatarUrl: 'https://avatars1.githubusercontent.com/u/12345?v=4',
+              id: 'MDQ6VXNlcjE3Mjc5MTMw',
+              __typename: 'User',
+              // Less than 1 week ago
+              timestamp: '2020-01-08T00:00:00.000Z',
+            },
+            'User:MDQ6VXNlcjE4Mjk0OTk2': {
+              login: 'user2',
+              avatarUrl: 'https://avatars1.githubusercontent.com/u/12345?v=4',
+              id: 'MDQ6VXNlcjE4Mjk0OTk2',
+              __typename: 'User',
+              // 8 days ago
+              timestamp: '2020-01-02T00:00:00.000Z',
+            },
+
+            'User:MDQ6VXNlcjMyMjYzMDY5': {
+              // Has no timestamp, will not be deleted
+              login: 'user3',
+              avatarUrl: 'https://avatars1.githubusercontent.com/u/12345?v=4',
+              id: 'MDQ6VXNlcjMyMjYzMDY5',
+              __typename: 'User',
+            },
+            'User:MDQ6VXNlcjEyODk0MDM5': {
+              login: 'user4',
+              avatarUrl: 'https://avatars1.githubusercontent.com/u/12345?v=4',
+              id: 'MDQ6VXNlcjEyODk0MDM5',
+              __typename: 'User',
+              // 8 days ago
+              timestamp: '2020-01-02T00:00:00.000Z',
+              // has watching key - this means this User is the user of Pullp - will not be deleted
+              'watching({"affiliations":["OWNER","COLLABORATOR","ORGANIZATION_MEMBER"],"first":100})': {},
+            },
+          },
+        },
+      };
+
+      const expectedCache = {
+        data: {
+          data: {
+            'User:MDQ6VXNlcjE3Mjc5MTMw': {
+              login: 'user1',
+              avatarUrl: 'https://avatars1.githubusercontent.com/u/12345?v=4',
+              id: 'MDQ6VXNlcjE3Mjc5MTMw',
+              __typename: 'User',
+              // Less than 1 week ago
+              timestamp: '2020-01-08T00:00:00.000Z',
+            },
+            'User:MDQ6VXNlcjMyMjYzMDY5': {
+              // Has no timestamp, will not be deleted
+              login: 'user3',
+              avatarUrl: 'https://avatars1.githubusercontent.com/u/12345?v=4',
+              id: 'MDQ6VXNlcjMyMjYzMDY5',
+              __typename: 'User',
+            },
+            'User:MDQ6VXNlcjEyODk0MDM5': {
+              login: 'user4',
+              avatarUrl: 'https://avatars1.githubusercontent.com/u/12345?v=4',
+              id: 'MDQ6VXNlcjEyODk0MDM5',
+              __typename: 'User',
+              // 8 days ago
+              timestamp: '2020-01-02T00:00:00.000Z',
+              // has watching key - this means this User is the user of Pullp - will not be deleted
+              'watching({"affiliations":["OWNER","COLLABORATOR","ORGANIZATION_MEMBER"],"first":100})': {},
+            },
           },
         },
       };
