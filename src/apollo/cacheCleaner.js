@@ -54,7 +54,6 @@ const cleanCacheOnInterval = ({ cache }) => {
     ];
 
     const today = new Date();
-    console.log(today);
 
     const doesKeyRequireDeletion = cacheKey => {
       if (
