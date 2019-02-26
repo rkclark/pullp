@@ -70,6 +70,7 @@ export const GET_WATCHED_REPOS = gql(`query WatchedRepos($cursor: String) {
             login
             avatarUrl
             id
+            timestamp @client
           }
           isFork
           createdAt
