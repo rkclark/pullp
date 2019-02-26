@@ -271,4 +271,16 @@ export default {
       };
     },
   },
+  User: {
+    timestamp: () => {
+      const today = new Date();
+      return today.toISOString();
+    },
+  },
+  Organization: {
+    timestamp: () => {
+      const today = new Date();
+      return today.toISOString();
+    },
+  },
 };
