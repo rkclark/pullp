@@ -160,6 +160,7 @@ export class SelectRepos extends Component {
           innerClass={style.paginationContainer}
           itemClass={style.paginationItem}
           activeClass={style.activeItem}
+          disabledClass={style.disabledItem}
         />
       </div>
     );
