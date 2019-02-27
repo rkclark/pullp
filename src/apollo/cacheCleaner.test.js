@@ -1,9 +1,9 @@
 import MockDate from 'mockdate';
 import cleanCacheOnInterval from './cacheCleaner';
+import { CACHE_CLEANING_INTERVAL_MS } from '../constants';
 
 describe('cleanCacheOnInterval()', () => {
   const setIntervalMock = jest.fn();
-  let cleanCacheFn;
 
   beforeAll(() => {
     delete window.setInterval;
@@ -24,8 +24,9 @@ describe('cleanCacheOnInterval()', () => {
     };
 
     cleanCacheOnInterval(client);
-    cleanCacheFn = setIntervalMock.mock.calls[0][0];
+    const { 0: cleanCacheFn, 1: interval } = setIntervalMock.mock.calls[0];
     expect(typeof cleanCacheFn).toBe('function');
+    expect(interval).toBe(CACHE_CLEANING_INTERVAL_MS);
   });
 
   describe('interval function', () => {
@@ -236,7 +237,7 @@ describe('cleanCacheOnInterval()', () => {
         cache,
       });
 
-      cleanCacheFn = setIntervalMock.mock.calls[0][0];
+      const cleanCacheFn = setIntervalMock.mock.calls[0][0];
 
       cleanCacheFn();
 
@@ -325,7 +326,7 @@ describe('cleanCacheOnInterval()', () => {
         cache,
       });
 
-      cleanCacheFn = setIntervalMock.mock.calls[0][0];
+      const cleanCacheFn = setIntervalMock.mock.calls[0][0];
 
       cleanCacheFn();
 

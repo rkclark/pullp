@@ -1,5 +1,7 @@
 import { get } from 'lodash';
 
+import { CACHE_CLEANING_INTERVAL_MS } from '../constants';
+
 const oneWeekInMs = 604800000;
 
 const getPullRequestConnectionId = repository => {
@@ -17,8 +19,6 @@ const doesUserHaveWatchedRepos = user =>
 
 const cleanCacheOnInterval = ({ cache }) => {
   window.setInterval(() => {
-    console.log(cache);
-
     const cacheData = cache.data.data;
 
     const pullRequestsToKeep = [];
@@ -38,7 +38,7 @@ const cleanCacheOnInterval = ({ cache }) => {
     });
 
     pullRequestConnectionsToKeep.forEach(connection => {
-      const pullRequestEdges = cacheData[connection].edges;
+      const pullRequestEdges = get(cacheData[connection], 'edges') || [];
       pullRequestEdges.forEach(edge => {
         pullRequestEdgesToKeep.push(edge.id);
         const pullRequestId = get(cacheData[edge.id], 'node.id');
@@ -98,9 +98,11 @@ const cleanCacheOnInterval = ({ cache }) => {
       }
     });
 
+    /* eslint-disable no-console */
     console.log('Cleaning cache...');
     console.log(`Deleted ${deletedCacheEntryCount} cache entries`);
-  }, 10000);
+    /* eslint-enable no-console */
+  }, CACHE_CLEANING_INTERVAL_MS);
 };
 
 export default cleanCacheOnInterval;
