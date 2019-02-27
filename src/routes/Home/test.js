@@ -29,6 +29,7 @@ describe('Home', () => {
     ],
     loading: false,
     error: null,
+    numberOfSelectedRepos: 2,
   };
 
   it('renders successfully', () => {
@@ -72,7 +73,9 @@ describe('Home', () => {
   });
 
   describe('when the user has not selected any repos to monitor', () => {
-    const component = shallow(<Home {...baseProps} data={[]} />);
+    const component = shallow(
+      <Home {...baseProps} numberOfSelectedRepos={0} />,
+    );
     it('shows an informational message', () => {
       expect(component.find('.noReposMessage').length).toBe(1);
     });
@@ -82,7 +85,7 @@ describe('Home', () => {
     });
   });
 
-  describe('when the user has selected any repos to monitor', () => {
+  describe('when the user has selected repos to monitor', () => {
     const component = shallow(<Home {...baseProps} />);
     it('does not show an informational message', () => {
       expect(component.find('.noReposMessage').length).toBe(0);

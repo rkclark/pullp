@@ -96,6 +96,7 @@ export default class App extends React.Component {
         cache: apolloCache,
         storage: window.localStorage,
         debug: true,
+        maxSize: 2097152, // 2mb
       });
 
       const currentVersion = await window.localStorage.getItem(

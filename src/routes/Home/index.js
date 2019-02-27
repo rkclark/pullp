@@ -48,7 +48,7 @@ export class Home extends React.Component {
   }
 
   render() {
-    const { loading, data, error } = this.props;
+    const { loading, data, error, numberOfSelectedRepos } = this.props;
     const { openRepoId } = this.state;
 
     if (loading) {
@@ -66,7 +66,7 @@ export class Home extends React.Component {
             </span>
           </div>
         )}
-        {data.length === 0 ? (
+        {numberOfSelectedRepos === 0 ? (
           <div className={style.noReposMessage}>
             <p>
               No repositories to display! Please select which of your watched
@@ -99,11 +99,13 @@ Home.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   loading: PropTypes.bool,
   error: PropTypes.shape({}),
+  numberOfSelectedRepos: PropTypes.number,
 };
 
 Home.defaultProps = {
   loading: false,
   error: null,
+  numberOfSelectedRepos: 0,
 };
 
 export default function HomeContainer() {
@@ -177,6 +179,7 @@ export default function HomeContainer() {
                     data={transformedRepoData}
                     loading={pullRequestsLoading}
                     error={pullRequestsError}
+                    numberOfSelectedRepos={selectedRepoIds.length}
                   />
                 );
               }}
