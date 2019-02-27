@@ -15,7 +15,7 @@
 }
 
 .paginationContainer {
-  max-width: 90%;
+  width: 90%;
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -63,8 +63,20 @@
   font-family: 'Roboto', sans-serif;
 }
 
+.paginationItem a:hover {
+  text-decoration: none;
+}
+
 .activeItem {
   background-color: var(--primary-dark);
+}
+
+.disabledItem, .disabledItem:hover {
+  background-color: var(--medium-grey);
+}
+
+.disabledItem, .disabledItem:hover, .disabledItem a {
+  cursor: default;
 }
 
 .title {
