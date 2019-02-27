@@ -22,4 +22,4 @@ export const notificationTypes = {
   REVIEW_REQUESTED: 'REVIEW_REQUESTED',
 };
 
-export const CACHE_CLEANING_INTERVAL_MS = 60000;
+export const CACHE_CLEANING_INTERVAL_MS = 300000; // 5 mins
