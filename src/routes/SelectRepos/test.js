@@ -166,6 +166,24 @@ describe('<SelectRepos />', () => {
         expect(repos.length).toBe(1);
         expect(repos.at(0).props().name).toContain(filterValue);
       });
+
+      it('filters the displayed repos by name regardless of case', () => {
+        const filterValue = watchedRepos.viewer.watching.edges[2].node.name.toUpperCase();
+        const component = mount(
+          <MockedProvider>
+            <SelectRepos {...props} />
+          </MockedProvider>,
+        );
+        component.find(SelectRepos).setState({ filterValue });
+        const repos = component.find(RepoCheckbox);
+        expect(repos.length).toBe(1);
+        expect(
+          repos
+            .at(0)
+            .props()
+            .name.toUpperCase(),
+        ).toContain(filterValue);
+      });
     });
   });
 
@@ -184,29 +202,6 @@ describe('<SelectRepos />', () => {
       );
       expect(button.length).toBe(1);
     });
-
-    // describe('clear repo selections', () => {
-    //   it('dispatches resetSelectedRepos on click', () => {
-    //     const resetSelectedRepos = jest.fn();
-    //     const component = mount(
-    //       <SelectRepos
-    //         {...props}
-    //         selectedRepos={['MDEwOlJlcG9zaXRvcnk3MDk0NTE5Ng==']}
-    //         resetSelectedRepos={resetSelectedRepos}
-    //       />,
-    //       {
-    //         context: mockRouter.getContext(),
-    //         childContextTypes: mockRouter.getChildContextTypes(),
-    //       },
-    //     );
-    //     const button = component.find(
-    //       '[data-test-id="clearAllSelectionsButton"]',
-    //     );
-    //     expect(resetSelectedRepos).not.toHaveBeenCalled;
-    //     button.simulate('click');
-    //     expect(resetSelectedRepos).toHaveBeenCalled;
-    //   });
-    // });
   });
 
   describe('when there are no repos selected', () => {

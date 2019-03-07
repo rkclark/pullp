@@ -68,7 +68,7 @@ export class SelectRepos extends Component {
       anyReposSelected = repos.some(({ node }) => node.isSelected);
 
       filteredRepos = repos.filter(({ node }) =>
-        node.name.includes(filterValue),
+        node.name.toLowerCase().includes(filterValue.toLowerCase()),
       );
 
       activePageOfRepos = filteredRepos
