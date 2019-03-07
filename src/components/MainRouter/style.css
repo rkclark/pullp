@@ -7,13 +7,14 @@
   flex-direction: column;
   justify-content: center;
   position: relative;
+  padding-top: 6.5rem;
 }
 
 .navContainer {
-  margin-bottom: auto;
-  position: sticky;
+  position: fixed;
   top: 0;
   z-index: var(--z-nav);
+  width: 100%;
 }
 
 .routeContainer {
