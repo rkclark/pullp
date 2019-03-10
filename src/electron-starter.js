@@ -29,6 +29,7 @@ function createMainWindow() {
       preload: path.join(__dirname, '/preload.js'),
     },
     titleBarStyle: 'hidden',
+    icon: path.join(__dirname, '/images/icon-512x512.png'),
   });
 
   // and load the index.html of the app.
