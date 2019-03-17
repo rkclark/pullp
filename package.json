@@ -34,14 +34,6 @@
     "start": "run-p -r react:start electron:start:dev",
     "install-wsl": "npm install && npm uninstall electron && export npm_config_platform=win32 && npm install electron && unset npm_config_platform"
   },
-  "oldscripts": {
-    "start": "BROWSER=none node scripts/start.js",
-    "electron": "NODE_ENV=production electron .",
-    "electron-dev": "ELECTRON_START_URL=http://localhost:3333/app electron .",
-    "pack": "npm run react-build && build --dir",
-    "dist": "npm run react-build && build",
-    "ship": "npm run react-build && build --publish always"
-  },
   "dependencies": {
     "apollo-cache-inmemory": "^1.2.5",
     "apollo-cache-persist": "^0.1.1",
