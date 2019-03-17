@@ -21,7 +21,7 @@ cache:
 script: ./ci-build.sh
 
 before_cache:
-  - rm -rf $HOME/.cache/electron-builder
+  - rm -rf $HOME/.cache/electron-builder/wine
 
 before_install:
   - chmod +x ci-build.sh
