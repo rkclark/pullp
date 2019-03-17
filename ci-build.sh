@@ -15,7 +15,7 @@ if [[ "${TRAVIS_BRANCH}" =~ $regexp ]]; then
         -v ~/.cache/electron:/root/.cache/electron \
         -v ~/.cache/electron-builder:/root/.cache/electron-builder \
         electronuserland/builder:wine \
-        /bin/bash -c "npm install && npm run ship --linux --win"
+        /bin/bash -c "npm install && npm run ship -- --linux --win"
     else
         echo "-----> build for mac"
         npm run ship
