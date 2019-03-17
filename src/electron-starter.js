@@ -3,13 +3,13 @@ const isDev = require('electron-is-dev');
 const path = require('path');
 const url = require('url');
 const electron = require('electron');
+
 const menuTemplate = require('./electronHelpers/menuTemplate');
 const runAutoUpdater = require('./electronHelpers/autoUpdater');
-const setupProtocols = require('./electronHelpers/setupProtocols');
 
 const { app, shell, Menu } = electron;
 
-require('electron-debug')({ enabled: true });
+require('electron-debug')({ enabled: isDev });
 
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
@@ -33,13 +33,13 @@ function createMainWindow() {
   });
 
   // and load the index.html of the app.
-  const startUrl =
-    process.env.ELECTRON_START_URL ||
-    url.format({
-      pathname: path.join(__dirname, '../build/index.html'),
-      protocol: 'file:',
-      slashes: true,
-    });
+  const startUrl = isDev
+    ? process.env.ELECTRON_START_URL || 'http://localhost:3333/app'
+    : url.format({
+        pathname: path.join(__dirname, '../build/index.html'),
+        protocol: 'file:',
+        slashes: true,
+      });
   mainWindow.loadURL(startUrl);
 
   // Emitted when the window is closed.
@@ -85,7 +85,6 @@ app.on('ready', () => {
   const menu = Menu.buildFromTemplate(menuTemplate);
   Menu.setApplicationMenu(menu);
 
-  setupProtocols(electron);
   createMainWindow();
   runAutoUpdater(mainWindow);
 });
