@@ -26,10 +26,10 @@ function createMainWindow() {
     center: true,
     webPreferences: {
       nodeIntegration: false,
-      preload: path.join(__dirname, '/preload.js'),
+      preload: path.join(__dirname, '/electronHelpers/preload.js'),
     },
     titleBarStyle: 'hidden',
-    icon: path.join(__dirname, '/images/icon-512x512.png'),
+    icon: path.join(__dirname, '/icons/512x512.png'),
   });
 
   // and load the index.html of the app.
