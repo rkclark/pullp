@@ -16,7 +16,7 @@
     "stub:start": "cross-env BROWSER=none REACT_APP_GITHUB_API_URL=http://localhost:3334/graphql REACT_APP_OAUTH_GATEKEEPER_URL=http://localhost:3334/authenticate REACT_APP_GITHUB_AUTH_URL=http://localhost:3334/oauth/authorize node scripts/start.js",
     "stub": "run-p stub:*",
     "test": "node scripts/test.js  --config .jestrc.json --env=jsdom",
-    "test:no-watcher": "CI=true npm run test",
+    "test:no-watcher": "cross-env CI=true npm run test",
     "style": "eslint '**/*.js'",
     "style-fix": "eslint --fix '**/*.js'",
     "validate": "npm run test && npm run style",
