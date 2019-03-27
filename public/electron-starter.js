@@ -9,7 +9,11 @@ const runAutoUpdater = require('./electronHelpers/autoUpdater');
 
 const { app, shell, Menu } = electron;
 
-require('electron-debug')({ enabled: true });
+require('electron-debug')({
+  enabled: true,
+  showDevTools: false,
+  devToolsMode: 'right',
+});
 
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
