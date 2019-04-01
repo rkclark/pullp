@@ -105,6 +105,10 @@ export default function githubAuth(
     handleCallback(url);
   });
 
+  view.webContents.on('will-redirect', (event, url) => {
+    handleCallback(url);
+  });
+
   view.webContents.on('did-get-redirect-request', (event, oldUrl, newUrl) => {
     handleCallback(newUrl);
   });
