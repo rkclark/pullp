@@ -31,7 +31,7 @@
     "pack": "npm run electron:pack -- --dir",
     "dist": "npm run electron:pack",
     "ship": "npm run electron:pack -- --publish always",
-    "start": "run-p -r react:start electron:start:dev",
+    "start": "run-p -r electron:start:dev react:start",
     "install-wsl": "npm install && npm uninstall electron && export npm_config_platform=win32 && npm install electron && unset npm_config_platform"
   },
   "dependencies": {
