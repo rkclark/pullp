@@ -6,6 +6,7 @@ const electron = require('electron');
 
 const menuTemplate = require('./electronHelpers/menuTemplate');
 const runAutoUpdater = require('./electronHelpers/autoUpdater');
+const setupProtocols = require('./electronHelpers/setupProtocols');
 
 const { app, shell, Menu } = electron;
 
@@ -89,6 +90,7 @@ app.on('ready', () => {
   const menu = Menu.buildFromTemplate(menuTemplate);
   Menu.setApplicationMenu(menu);
 
+  setupProtocols(electron);
   createMainWindow();
   runAutoUpdater(mainWindow);
 });
