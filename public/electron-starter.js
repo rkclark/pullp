@@ -3,12 +3,14 @@ const isDev = require('electron-is-dev');
 const path = require('path');
 const url = require('url');
 const electron = require('electron');
+const os = require('os');
 
 const menuTemplate = require('./electronHelpers/menuTemplate');
 const runAutoUpdater = require('./electronHelpers/autoUpdater');
 const setupProtocols = require('./electronHelpers/setupProtocols');
 
 const { app, shell, Menu } = electron;
+const currentPlatform = os.platform();
 
 require('electron-debug')({
   enabled: true,
@@ -90,7 +92,9 @@ app.on('ready', () => {
   const menu = Menu.buildFromTemplate(menuTemplate);
   Menu.setApplicationMenu(menu);
 
-  setupProtocols(electron);
+  if (currentPlatform !== 'win32') {
+    setupProtocols(electron);
+  }
   createMainWindow();
   runAutoUpdater(mainWindow);
 });
