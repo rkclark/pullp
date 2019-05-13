@@ -20,6 +20,7 @@ export const SCHEMA_VERSION = '1';
 
 export const notificationTypes = {
   REVIEW_REQUESTED: 'REVIEW_REQUESTED',
+  REVIEW_ON_YOUR_PR: 'REVIEW_ON_YOUR_PR',
 };
 
 export const CACHE_CLEANING_INTERVAL_MS = 300000; // 5 mins
