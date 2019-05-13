@@ -1,6 +1,6 @@
 # Pullp <img src="https://travis-ci.com/rkclark/pullp.svg?branch=master" alt="pullp ci badge" align="right" />
 
-Pullp is a tool to help you manage pull requests and reviews on your Github repositories, available for Mac and Linux.
+Pullp is a tool to help you manage pull requests and reviews on your Github repositories, available for Mac, Linux and Windows.
 
 An interactive dashboard shows all the open pull requests for your chosen repositories and highlights where your review has been requested. This information syncs with Github every minute!
 
