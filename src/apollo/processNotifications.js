@@ -1,4 +1,5 @@
 import reviewRequested from './notificationRules/reviewRequested';
+import reviewOnYourPR from './notificationRules/reviewOnYourPR';
 
 const { shell } = window.electron;
 
@@ -18,9 +19,11 @@ const triggerNotification = ({ notification: { title, message }, url }) => {
 export default ({
   existingNotifications,
   extendedPullRequest: pullRequest,
+  currentUser,
 }) => {
   const newNotifications = [
     ...reviewRequested({ existingNotifications, pullRequest }),
+    ...reviewOnYourPR({ existingNotifications, pullRequest, currentUser }),
   ];
 
   newNotifications.forEach(notification => {

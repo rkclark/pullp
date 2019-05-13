@@ -263,6 +263,7 @@ export default {
           ...pullRequest,
           pullpPullRequest,
         },
+        currentUser: userLogin,
       });
 
       return {

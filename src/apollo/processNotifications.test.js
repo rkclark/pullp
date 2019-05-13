@@ -1,8 +1,10 @@
 import processNotifications from './processNotifications';
 import { notificationTypes } from '../constants';
 import reviewRequested from './notificationRules/reviewRequested';
+import reviewOnYourPR from './notificationRules/reviewOnYourPR';
 
 jest.mock('./notificationRules/reviewRequested');
+jest.mock('./notificationRules/reviewOnYourPR');
 
 describe('processNotifications', () => {
   const notificationMock = jest.fn(() => ({}));
@@ -11,46 +13,92 @@ describe('processNotifications', () => {
     window.Notification = notificationMock;
   });
 
+  beforeEach(() => {
+    reviewRequested.mockReturnValue([]);
+    reviewOnYourPR.mockReturnValue([]);
+  });
+
   afterEach(() => {
     reviewRequested.mockReset();
+    reviewOnYourPR.mockReset();
     notificationMock.mockClear();
   });
 
-  describe('when the review requested rule returns a new notification', () => {
-    it('triggers the notification', () => {
-      const message = 'someone requested your review';
-      const title = 'Review Requested';
+  describe('rule processing', () => {
+    const existingNotifications = [{ type: 'NOTIFICATION_TYPE' }];
+    const extendedPullRequest = { id: '12345' };
+    const currentUser = 'dev';
 
-      reviewRequested.mockReturnValue([
-        {
-          type: notificationTypes.REVIEW_REQUESTED,
-          message,
-          title,
+    const rules = [
+      {
+        name: 'reviewRequested',
+        fn: reviewRequested,
+        requiredArgs: {
+          existingNotifications,
+          pullRequest: extendedPullRequest,
         },
-      ]);
+      },
+      {
+        name: 'reviewOnYourPR',
+        fn: reviewOnYourPR,
+        requiredArgs: {
+          existingNotifications,
+          pullRequest: extendedPullRequest,
+          currentUser,
+        },
+      },
+    ];
 
-      processNotifications({
-        existingNotifications: [],
-        extendedPullRequest: {},
+    rules.forEach(({ name, fn, requiredArgs }) => {
+      it('calls the rule with the required arguments', () => {
+        processNotifications({
+          existingNotifications,
+          extendedPullRequest,
+          currentUser,
+        });
+
+        expect(fn).toHaveBeenCalledWith(requiredArgs);
       });
 
-      expect(window.Notification).toHaveBeenCalledTimes(1);
-      expect(window.Notification).toHaveBeenCalledWith(title, {
-        body: message,
+      describe(`when the ${name} rule returns a new notification`, () => {
+        it('triggers the notification', () => {
+          const message = 'message';
+          const title = 'title';
+          const sourceNodeId = '1234';
+
+          fn.mockReturnValue([
+            {
+              type: name,
+              message,
+              title,
+              sourceNodeId,
+            },
+          ]);
+
+          processNotifications({
+            existingNotifications: [],
+            extendedPullRequest: {},
+          });
+
+          expect(window.Notification).toHaveBeenCalledTimes(1);
+          expect(window.Notification).toHaveBeenCalledWith(title, {
+            body: message,
+          });
+        });
       });
-    });
-  });
 
-  describe('when the review requested rule does not return a new notification', () => {
-    it('does not trigger a notification', () => {
-      reviewRequested.mockReturnValue([]);
+      describe(`when the ${name} rule does not return a new notification`, () => {
+        it('does not trigger a notification', () => {
+          fn.mockReturnValue([]);
 
-      processNotifications({
-        existingNotifications: [],
-        extendedPullRequest: {},
+          processNotifications({
+            existingNotifications: [],
+            extendedPullRequest: {},
+          });
+
+          expect(window.Notification).not.toHaveBeenCalled();
+        });
       });
-
-      expect(window.Notification).not.toHaveBeenCalled();
     });
   });
 

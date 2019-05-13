@@ -541,7 +541,7 @@ describe('Apollo resolvers', () => {
 
     describe('notifications', () => {
       describe('when the pull request has existing notifications', () => {
-        it('retrieves them and sends them for processing along with the extended pull request', () => {
+        it('retrieves them and sends them for processing along with the extended pull request and current user', () => {
           const existingNotifications = [{ type: 'aNotification' }];
           getCacheKeyMock.mockReturnValue('1');
           readFragmentMock.mockReturnValue({
@@ -580,6 +580,7 @@ describe('Apollo resolvers', () => {
                 time: '8:11 AM',
               },
             },
+            currentUser: currentUserData.viewer.login,
           });
         });
       });
@@ -596,6 +597,7 @@ describe('Apollo resolvers', () => {
 
           expect(processNotifications).toHaveBeenCalledWith({
             existingNotifications: [],
+            currentUser: currentUserData.viewer.login,
             extendedPullRequest: {
               ...basePR,
               pullpPullRequest: {
