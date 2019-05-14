@@ -3,18 +3,32 @@ import { notificationTypes } from '../../constants';
 
 const { REVIEW_REQUESTED } = notificationTypes;
 
+const userReviewRequestId = '12345';
+
 const reviewRequestedNotification = {
   type: REVIEW_REQUESTED,
   title: 'Review Requested',
   message: '',
+  sourceNodeId: '123',
 };
 
+const currentUser = 'dev';
+
 describe('reviewRequested', () => {
-  describe(`when there is an existing ${REVIEW_REQUESTED} notification`, () => {
+  describe(`when there is an existing ${REVIEW_REQUESTED} notification with the same review request id`, () => {
     it('does not add a new one', () => {
       const notifications = reviewRequested({
-        existingNotifications: [reviewRequestedNotification],
-        pullRequest: {},
+        existingNotifications: [
+          { ...reviewRequestedNotification, sourceNodeId: userReviewRequestId },
+        ],
+        pullRequest: {
+          author: {
+            login: currentUser,
+          },
+          pullpPullRequest: {
+            userReviewRequestId,
+          },
+        },
       });
 
       expect(notifications.length).toBe(0);
@@ -32,7 +46,7 @@ describe('reviewRequested', () => {
               login,
             },
             pullpPullRequest: {
-              currentUserReviewRequested: true,
+              userReviewRequestId,
             },
           },
         });
@@ -43,6 +57,7 @@ describe('reviewRequested', () => {
         expect(notification.type).toBe(REVIEW_REQUESTED);
         expect(notification.title).toBe(reviewRequestedNotification.title);
         expect(notification.message).toBe(`${login} requested your review`);
+        expect(notification.sourceNodeId).toBe(userReviewRequestId);
       });
     });
 
@@ -52,7 +67,7 @@ describe('reviewRequested', () => {
           existingNotifications: [],
           pullRequest: {
             pullpPullRequest: {
-              currentUserReviewRequested: false,
+              userReviewRequestId: null,
             },
           },
         });

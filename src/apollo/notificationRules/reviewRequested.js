@@ -3,16 +3,23 @@ import { notificationTypes } from '../../constants';
 
 export default ({ existingNotifications, pullRequest }) => {
   const login = get(pullRequest, 'author.login');
-  const currentUserReviewRequested = get(
+  const userReviewRequestId = get(
     pullRequest,
-    'pullpPullRequest.currentUserReviewRequested',
+    'pullpPullRequest.userReviewRequestId',
   );
 
-  const reviewAlreadyRequested = existingNotifications.some(
-    ({ type }) => type === notificationTypes.REVIEW_REQUESTED,
-  );
+  if (!userReviewRequestId) {
+    return [];
+  }
 
-  if (!reviewAlreadyRequested && currentUserReviewRequested) {
+  const hasReviewRequestAlreadyBeenNotified = requestId =>
+    existingNotifications.find(
+      notification =>
+        notification.type === notificationTypes.REVIEW_REQUESTED &&
+        notification.sourceNodeId === requestId,
+    );
+
+  if (!hasReviewRequestAlreadyBeenNotified(userReviewRequestId)) {
     const message = `${login} requested your review`;
     const title = 'Review Requested';
 
@@ -21,6 +28,7 @@ export default ({ existingNotifications, pullRequest }) => {
         type: notificationTypes.REVIEW_REQUESTED,
         title,
         message,
+        sourceNodeId: userReviewRequestId,
       },
     ];
   }
