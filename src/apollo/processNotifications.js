@@ -30,5 +30,7 @@ export default ({
     triggerNotification({ notification, url: pullRequest.url });
   });
 
+  console.log('new notifications', newNotifications);
+
   return [...existingNotifications, ...newNotifications];
 };

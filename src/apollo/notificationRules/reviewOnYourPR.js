@@ -17,19 +17,18 @@ export default ({ existingNotifications, pullRequest, currentUser }) => {
         notification.sourceNodeId === review.id,
     );
 
-  pullRequest.reviews.forEach(review => {
-    if (!hasReviewAlreadyBeenNotified(review)) {
-      const message = `${get(
-        review,
-        'author.login',
-      )} reviewed your pull request`;
+  const reviews = get(pullRequest, 'reviews.edges') || [];
+
+  reviews.forEach(({ node }) => {
+    if (!hasReviewAlreadyBeenNotified(node)) {
+      const message = `${get(node, 'author.login')} reviewed your pull request`;
       const title = 'Review On Your PR';
 
       newNotifications.push({
         type: notificationTypes.REVIEW_ON_YOUR_PR,
         title,
         message,
-        sourceNodeId: review.id,
+        sourceNodeId: node.id,
       });
     }
   });

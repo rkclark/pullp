@@ -23,4 +23,4 @@ export const notificationTypes = {
   REVIEW_ON_YOUR_PR: 'REVIEW_ON_YOUR_PR',
 };
 
-export const CACHE_CLEANING_INTERVAL_MS = 300000; // 5 mins
+export const CACHE_CLEANING_INTERVAL_MS = 30000; // 5 mins

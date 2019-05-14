@@ -17,8 +17,65 @@ const isTimestampWithinLastWeek = (timestamp, today) =>
 const doesUserHaveWatchedRepos = user =>
   Object.keys(user).find(key => key.startsWith('watching'));
 
+const findReviewRequestEntriesToKeep = ({
+  value,
+  cacheData,
+  reviewRequestsToKeep,
+  reviewRequestReviewersToKeep,
+}) => {
+  const reviewRequestsConnectionId = value.id;
+
+  const reviewRequestsConnection = cacheData[reviewRequestsConnectionId] || {};
+
+  const reviewRequestEdges = reviewRequestsConnection.edges || [];
+
+  reviewRequestEdges.forEach(({ id }) => {
+    const reviewRequestConnectionId = id;
+
+    const reviewRequestConnection = cacheData[reviewRequestConnectionId] || {};
+
+    const reviewRequestId = reviewRequestConnection.id;
+
+    const reviewRequest = cacheData[reviewRequestId];
+
+    const reviewRequestReviewerId = get(reviewRequest, 'requestedReviewer.id');
+
+    reviewRequestsToKeep.push(reviewRequestId);
+    reviewRequestReviewersToKeep.push(reviewRequestReviewerId);
+  });
+};
+
+const findReviewEntriesToKeep = ({
+  value,
+  cacheData,
+  reviewsToKeep,
+  reviewAuthorsToKeep,
+}) => {
+  const reviewsConnectionId = value.id;
+
+  const reviewsConnection = cacheData[reviewsConnectionId] || {};
+
+  const reviewsEdges = reviewsConnection.edges || [];
+
+  reviewsEdges.forEach(({ id }) => {
+    const reviewConnectionId = id;
+
+    const reviewConnection = cacheData[reviewConnectionId] || {};
+
+    const reviewId = reviewConnection.id;
+
+    const review = cacheData[reviewId];
+
+    const reviewAuthorId = get(review, 'author.id');
+
+    reviewsToKeep.push(reviewId);
+    reviewAuthorsToKeep.push(reviewAuthorId);
+  });
+};
+
 const cleanCacheOnInterval = ({ cache }) => {
   window.setInterval(() => {
+    console.log('CACHE IS', cache);
     const cacheData = cache.data.data;
 
     const pullRequestsToKeep = [];
@@ -26,6 +83,14 @@ const cleanCacheOnInterval = ({ cache }) => {
     const pullRequestEdgesToKeep = [];
 
     const pullRequestConnectionsToKeep = [];
+
+    const reviewRequestsToKeep = [];
+
+    const reviewRequestReviewersToKeep = [];
+
+    const reviewsToKeep = [];
+
+    const reviewAuthorsToKeep = [];
 
     Object.entries(cacheData).forEach(({ 0: key, 1: value }) => {
       if (key.startsWith('Repository:') && value.isSelected) {
@@ -43,6 +108,30 @@ const cleanCacheOnInterval = ({ cache }) => {
         pullRequestEdgesToKeep.push(edge.id);
         const pullRequestId = get(cacheData[edge.id], 'node.id');
         pullRequestsToKeep.push(pullRequestId);
+
+        const pullRequest = cacheData[pullRequestId] || {};
+
+        Object.entries(pullRequest).forEach(({ 0: key, 1: value }) => {
+          // Find and keep all review request cache entries for this PR
+          if (key.startsWith('reviewRequests')) {
+            findReviewRequestEntriesToKeep({
+              value,
+              cacheData,
+              reviewRequestsToKeep,
+              reviewRequestReviewersToKeep,
+            });
+          }
+
+          // Find and keep all review cache entries for this PR
+          if (key.startsWith('reviews')) {
+            findReviewEntriesToKeep({
+              value,
+              cacheData,
+              reviewsToKeep,
+              reviewAuthorsToKeep,
+            });
+          }
+        });
       });
     });
 
@@ -67,6 +156,42 @@ const cleanCacheOnInterval = ({ cache }) => {
         cacheKey.startsWith('$PullRequest:') &&
         !pullRequestsToKeep.find(pullRequestId =>
           cacheKey.includes(pullRequestId),
+        )
+      ) {
+        return true;
+      }
+
+      if (
+        cacheKey.startsWith('ReviewRequest:') &&
+        !reviewRequestsToKeep.find(reviewRequestId =>
+          cacheKey.includes(reviewRequestId),
+        )
+      ) {
+        return true;
+      }
+
+      if (
+        cacheKey.startsWith('$ReviewRequest:') &&
+        cacheKey.endsWith('.requestedReviewer') &&
+        !reviewRequestReviewersToKeep.find(reviewRequestReviewerId =>
+          cacheKey.includes(reviewRequestReviewerId),
+        )
+      ) {
+        return true;
+      }
+
+      if (
+        cacheKey.startsWith('PullRequestReview:') &&
+        !reviewsToKeep.find(reviewId => cacheKey.includes(reviewId))
+      ) {
+        return true;
+      }
+
+      if (
+        cacheKey.startsWith('$PullRequestReview:') &&
+        cacheKey.endsWith('.author') &&
+        !reviewAuthorsToKeep.find(reviewAuthorId =>
+          cacheKey.includes(reviewAuthorId),
         )
       ) {
         return true;

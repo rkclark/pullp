@@ -148,9 +148,54 @@ describe('cleanCacheOnInterval()', () => {
             '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjQ0ODg1NzM0.author': {},
             '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjQ0ODg1NzM0.pullpPullRequest': {},
             '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjQ0ODg1NzM0.reviewRequests({"last":100})': {},
-            '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjQ0ODg1NzM0.reviewRequests({"last":100}).edges.0': {},
-            '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjQ0ODg1NzM0.reviewRequests({"last":100}).edges.0.node': {},
+            '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjQ0ODg1NzM0.reviewRequests({"last":100}).edges.0': {
+              node: {
+                id: 'ReviewRequest:MDEzOlJldmlld1JlcXVlc3Q5ODYzODEwMA==',
+              },
+            },
+            'ReviewRequest:MDEzOlJldmlld1JlcXVlc3Q5ODYzODEwMA==': {
+              id: 'MDEzOlJldmlld1JlcXVlc3Q5ODYzODEwMA==',
+              requestedReviewer: {
+                type: 'id',
+                generated: true,
+                id:
+                  '$ReviewRequest:MDEzOlJldmlld1JlcXVlc3Q5ODYzODEwMA==.requestedReviewer',
+                typename: 'User',
+              },
+              __typename: 'ReviewRequest',
+            },
+            '$ReviewRequest:MDEzOlJldmlld1JlcXVlc3Q5ODYzODEwMA==.requestedReviewer': {
+              login: 'pullptest',
+              avatarUrl:
+                'https://avatars2.githubusercontent.com/u/38618582?v=4',
+              __typename: 'User',
+            },
             '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjQ0ODg1NzM0.reviews({"last":100})': {},
+            '$PullRequest:MDExOlB1bGxSZXF1ZXN0MTQ1NzA5ODM1.reviews({"last":100}).edges.0': {
+              node: {
+                id:
+                  'PullRequestReview:MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MjM2NzI1MTMy',
+              },
+            },
+            'PullRequestReview:MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MjM2NzI1MTMy': {
+              id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MjM2NzI1MTMy',
+              author: {
+                type: 'id',
+                generated: true,
+                id:
+                  '$PullRequestReview:MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MjM2NzI1MTMy.author',
+                typename: 'User',
+              },
+              createdAt: '2019-05-13T14:47:10Z',
+              state: 'APPROVED',
+              __typename: 'PullRequestReview',
+            },
+            '$PullRequestReview:MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MjM2NzI1MTMy.author': {
+              login: 'pullptest',
+              avatarUrl:
+                'https://avatars2.githubusercontent.com/u/38618582?v=4',
+              __typename: 'User',
+            },
           },
         },
       };
@@ -244,7 +289,7 @@ describe('cleanCacheOnInterval()', () => {
       expect(cache).toEqual(expectedCache);
     });
 
-    fit('deletes User entries with a timestamp over a week old', () => {
+    it('deletes User entries with a timestamp over a week old', () => {
       MockDate.set('1/10/2020');
 
       const initialCache = {
