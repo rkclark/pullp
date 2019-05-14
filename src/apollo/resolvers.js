@@ -216,12 +216,6 @@ export default {
         currentUser: userLogin,
       });
 
-      // Once a user has reviewed the PR, do not ask for their review again
-      // (May want to extend this logic in future for re-reviews)
-      if (currentUserReviewRequested && reviewedByCurrentUser) {
-        currentUserReviewRequested = false;
-      }
-
       const pullpPullRequest = {
         currentUserReviewRequested,
         reviewedByCurrentUser,
