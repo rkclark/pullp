@@ -23,14 +23,18 @@ describe('reviewOnYourPR', () => {
           author: {
             login: currentUser,
           },
-          reviews: [
-            {
-              id: '123',
-              author: {
-                login: reviewer,
+          reviews: {
+            edges: [
+              {
+                node: {
+                  id: '123',
+                  author: {
+                    login: reviewer,
+                  },
+                },
               },
-            },
-          ],
+            ],
+          },
         },
       });
 
@@ -48,14 +52,18 @@ describe('reviewOnYourPR', () => {
             author: {
               login: currentUser,
             },
-            reviews: [
-              {
-                id: '123',
-                author: {
-                  login: reviewer,
+            reviews: {
+              edges: [
+                {
+                  node: {
+                    id: '123',
+                    author: {
+                      login: reviewer,
+                    },
+                  },
                 },
-              },
-            ],
+              ],
+            },
             pullpPullRequest: {
               currentUserReviewRequested: true,
             },
@@ -82,14 +90,18 @@ describe('reviewOnYourPR', () => {
             author: {
               login: 'someoneElse',
             },
-            reviews: [
-              {
-                id: '123',
-                author: {
-                  login: reviewer,
+            reviews: {
+              edges: [
+                {
+                  node: {
+                    id: '123',
+                    author: {
+                      login: reviewer,
+                    },
+                  },
                 },
-              },
-            ],
+              ],
+            },
             pullpPullRequest: {
               currentUserReviewRequested: false,
             },
