@@ -415,43 +415,6 @@ describe('Apollo resolvers', () => {
             expect(testResult.currentUserReviewRequested).toBe(false);
           });
         });
-
-        describe("when current user's review is requested", () => {
-          describe('when the current user has already reviewed the PR', () => {
-            it('sets currentUserReviewRequested to false', () => {
-              readQueryMock.mockImplementation(({ query }) => {
-                if (query === GET_USER_TEAMS) {
-                  return {
-                    ...userTeamsData,
-                    viewer: {
-                      ...userTeamsData.viewer,
-                      login: 'dev', // Is requested, and has a review in the reviews array
-                    },
-                  };
-                }
-
-                if (query === GET_CURRENT_USER) {
-                  return {
-                    viewer: {
-                      ...currentUserData.viewer,
-                      login: 'dev',
-                    },
-                  };
-                }
-
-                return null;
-              });
-
-              const testResult = resolvers.PullRequest.pullpPullRequest(
-                basePR,
-                undefined,
-                apolloClient,
-              );
-
-              expect(testResult.currentUserReviewRequested).toBe(false);
-            });
-          });
-        });
       });
     });
 
@@ -562,7 +525,7 @@ describe('Apollo resolvers', () => {
               ...basePR,
               pullpPullRequest: {
                 __typename: 'PullpPullRequest',
-                currentUserReviewRequested: false,
+                currentUserReviewRequested: true,
                 date: 'Friday, Jan 4, 2019',
                 reviewedByCurrentUser: true,
                 reviewsByAuthor: [
@@ -602,7 +565,7 @@ describe('Apollo resolvers', () => {
               ...basePR,
               pullpPullRequest: {
                 __typename: 'PullpPullRequest',
-                currentUserReviewRequested: false,
+                currentUserReviewRequested: true,
                 date: 'Friday, Jan 4, 2019',
                 reviewedByCurrentUser: true,
                 reviewsByAuthor: [
