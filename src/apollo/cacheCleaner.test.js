@@ -30,7 +30,7 @@ describe('cleanCacheOnInterval()', () => {
   });
 
   describe('interval function', () => {
-    it('deletes all orphaned pull request cache entries', () => {
+    fit('deletes all orphaned pull request cache entries', () => {
       const initialCache = {
         data: {
           data: {
@@ -98,10 +98,68 @@ describe('cleanCacheOnInterval()', () => {
             },
             '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1.author': {},
             '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1.pullpPullRequest': {},
-            '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1.reviewRequests({"last":100})': {},
-            '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1.reviewRequests({"last":100}).edges.0': {},
-            '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1.reviewRequests({"last":100}).edges.0.node': {},
-            '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1.reviews({"last":100})': {},
+            '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1.reviewRequests({"last":100})': {
+              edges: [
+                {
+                  id:
+                    '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1.reviewRequests({"last":100}).edges.0',
+                },
+              ],
+            },
+            '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1.reviewRequests({"last":100}).edges.0': {
+              node: {
+                id: 'ReviewRequest:MDEzOlJldmlld1JlcXVlc3Q5ODYabcde==',
+              },
+            },
+            'ReviewRequest:MDEzOlJldmlld1JlcXVlc3Q5ODYabcde==': {
+              id: 'MDEzOlJldmlld1JlcXVlc3Q5ODYabcde==',
+              requestedReviewer: {
+                type: 'id',
+                generated: true,
+                id:
+                  '$ReviewRequest:MDEzOlJldmlld1JlcXVlc3Q5ODYabcde==.requestedReviewer',
+                typename: 'User',
+              },
+              __typename: 'ReviewRequest',
+            },
+            '$ReviewRequest:MDEzOlJldmlld1JlcXVlc3Q5ODYabcde==.requestedReviewer': {
+              login: 'pullptest',
+              avatarUrl:
+                'https://avatars2.githubusercontent.com/u/38618582?v=4',
+              __typename: 'User',
+            },
+            '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1.reviews({"last":100})': {
+              edges: [
+                {
+                  id:
+                    '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1.reviews({"last":100}).edges.0',
+                },
+              ],
+            },
+            '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1.reviews({"last":100}).edges.0': {
+              node: {
+                id: 'PullRequestReview:MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Mjabcdedf',
+              },
+            },
+            'PullRequestReview:MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Mjabcdedf': {
+              id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Mjabcdedf',
+              author: {
+                type: 'id',
+                generated: true,
+                id:
+                  '$PullRequestReview:MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Mjabcdedf.author',
+                typename: 'User',
+              },
+              createdAt: '2019-05-13T14:47:10Z',
+              state: 'APPROVED',
+              __typename: 'PullRequestReview',
+            },
+            '$PullRequestReview:MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Mjabcdedf.author': {
+              login: 'pullptest',
+              avatarUrl:
+                'https://avatars2.githubusercontent.com/u/38618582?v=4',
+              __typename: 'User',
+            },
             // PR entries for Repo 2
             '$Repository:MDEwOlJlcG9zaXRvcnkyOTA1NDE0NA==.pullRequests({"last":50,"orderBy":{"direction":"DESC","field":"CREATED_AT"},"states":["OPEN"]})': {
               edges: [
@@ -147,7 +205,14 @@ describe('cleanCacheOnInterval()', () => {
             },
             '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjQ0ODg1NzM0.author': {},
             '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjQ0ODg1NzM0.pullpPullRequest': {},
-            '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjQ0ODg1NzM0.reviewRequests({"last":100})': {},
+            '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjQ0ODg1NzM0.reviewRequests({"last":100})': {
+              edges: [
+                {
+                  id:
+                    '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjQ0ODg1NzM0.reviewRequests({"last":100}).edges.0',
+                },
+              ],
+            },
             '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjQ0ODg1NzM0.reviewRequests({"last":100}).edges.0': {
               node: {
                 id: 'ReviewRequest:MDEzOlJldmlld1JlcXVlc3Q5ODYzODEwMA==',
@@ -170,8 +235,15 @@ describe('cleanCacheOnInterval()', () => {
                 'https://avatars2.githubusercontent.com/u/38618582?v=4',
               __typename: 'User',
             },
-            '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjQ0ODg1NzM0.reviews({"last":100})': {},
-            '$PullRequest:MDExOlB1bGxSZXF1ZXN0MTQ1NzA5ODM1.reviews({"last":100}).edges.0': {
+            '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjQ0ODg1NzM0.reviews({"last":100})': {
+              edges: [
+                {
+                  id:
+                    '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjQ0ODg1NzM0.reviews({"last":100}).edges.0',
+                },
+              ],
+            },
+            '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjQ0ODg1NzM0.reviews({"last":100}).edges.0': {
               node: {
                 id:
                   'PullRequestReview:MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MjM2NzI1MTMy',
@@ -268,10 +340,68 @@ describe('cleanCacheOnInterval()', () => {
             },
             '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1.author': {},
             '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1.pullpPullRequest': {},
-            '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1.reviewRequests({"last":100})': {},
-            '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1.reviewRequests({"last":100}).edges.0': {},
-            '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1.reviewRequests({"last":100}).edges.0.node': {},
-            '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1.reviews({"last":100})': {},
+            '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1.reviewRequests({"last":100})': {
+              edges: [
+                {
+                  id:
+                    '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1.reviewRequests({"last":100}).edges.0',
+                },
+              ],
+            },
+            '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1.reviewRequests({"last":100}).edges.0': {
+              node: {
+                id: 'ReviewRequest:MDEzOlJldmlld1JlcXVlc3Q5ODYabcde==',
+              },
+            },
+            'ReviewRequest:MDEzOlJldmlld1JlcXVlc3Q5ODYabcde==': {
+              id: 'MDEzOlJldmlld1JlcXVlc3Q5ODYabcde==',
+              requestedReviewer: {
+                type: 'id',
+                generated: true,
+                id:
+                  '$ReviewRequest:MDEzOlJldmlld1JlcXVlc3Q5ODYabcde==.requestedReviewer',
+                typename: 'User',
+              },
+              __typename: 'ReviewRequest',
+            },
+            '$ReviewRequest:MDEzOlJldmlld1JlcXVlc3Q5ODYabcde==.requestedReviewer': {
+              login: 'pullptest',
+              avatarUrl:
+                'https://avatars2.githubusercontent.com/u/38618582?v=4',
+              __typename: 'User',
+            },
+            '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1.reviews({"last":100})': {
+              edges: [
+                {
+                  id:
+                    '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1.reviews({"last":100}).edges.0',
+                },
+              ],
+            },
+            '$PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1.reviews({"last":100}).edges.0': {
+              node: {
+                id: 'PullRequestReview:MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Mjabcdedf',
+              },
+            },
+            'PullRequestReview:MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Mjabcdedf': {
+              id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Mjabcdedf',
+              author: {
+                type: 'id',
+                generated: true,
+                id:
+                  '$PullRequestReview:MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Mjabcdedf.author',
+                typename: 'User',
+              },
+              createdAt: '2019-05-13T14:47:10Z',
+              state: 'APPROVED',
+              __typename: 'PullRequestReview',
+            },
+            '$PullRequestReview:MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Mjabcdedf.author': {
+              login: 'pullptest',
+              avatarUrl:
+                'https://avatars2.githubusercontent.com/u/38618582?v=4',
+              __typename: 'User',
+            },
           },
         },
       };

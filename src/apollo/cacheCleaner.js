@@ -34,7 +34,7 @@ const findReviewRequestEntriesToKeep = ({
 
     const reviewRequestConnection = cacheData[reviewRequestConnectionId] || {};
 
-    const reviewRequestId = reviewRequestConnection.id;
+    const reviewRequestId = get(reviewRequestConnection, 'node.id');
 
     const reviewRequest = cacheData[reviewRequestId];
 
@@ -62,7 +62,7 @@ const findReviewEntriesToKeep = ({
 
     const reviewConnection = cacheData[reviewConnectionId] || {};
 
-    const reviewId = reviewConnection.id;
+    const reviewId = get(reviewConnection, 'node.id');
 
     const review = cacheData[reviewId];
 
