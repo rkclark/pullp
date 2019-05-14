@@ -20,46 +20,55 @@ const isUserReviewRequested = ({
   currentUser,
   reviewRequests,
   userTeamsData,
-}) =>
-  reviewRequests.edges.some(({ node: reviewRequest }) => {
-    const requestedReviewerLogin = get(
-      reviewRequest,
-      'requestedReviewer.login',
-    );
+}) => {
+  const userReviewRequest = reviewRequests.edges.find(
+    ({ node: reviewRequest }) => {
+      const requestedReviewerLogin = get(
+        reviewRequest,
+        'requestedReviewer.login',
+      );
 
-    // First check whether PR has user's individual review requested
-    if (requestedReviewerLogin && requestedReviewerLogin === currentUser) {
-      return true;
-    }
+      // First check whether PR has user's individual review requested
+      if (requestedReviewerLogin && requestedReviewerLogin === currentUser) {
+        return true;
+      }
 
-    // Secondarily check whether PR has review requested from any team that the user is part of
+      // Secondarily check whether PR has review requested from any team that the user is part of
 
-    // Teams are identified by ids rather than logins
-    const requestedReviewerId = get(reviewRequest, 'requestedReviewer.id');
+      // Teams are identified by ids rather than logins
+      const requestedReviewerId = get(reviewRequest, 'requestedReviewer.id');
 
-    // Flatten all user teams into one array
-    const userOrgs = normalizeGraphqlEdges(
-      get(userTeamsData, 'viewer.organizations'),
-    );
-    const userTeams = userOrgs.reduce(
-      (teamsArray, organization) => [...teamsArray, ...organization.teams],
-      [],
-    );
+      // Flatten all user teams into one array
+      const userOrgs = normalizeGraphqlEdges(
+        get(userTeamsData, 'viewer.organizations'),
+      );
+      const userTeams = userOrgs.reduce(
+        (teamsArray, organization) => [...teamsArray, ...organization.teams],
+        [],
+      );
 
-    // Check whether requested reviewer is one of the user's teams
-    if (
-      requestedReviewerId &&
-      userTeams.some(team => {
-        if (team.id === requestedReviewerId) {
-          return true;
-        }
-        return false;
-      })
-    ) {
-      return true;
-    }
-    return false;
-  });
+      // Check whether requested reviewer is one of the user's teams
+      if (
+        requestedReviewerId &&
+        userTeams.some(team => {
+          if (team.id === requestedReviewerId) {
+            return true;
+          }
+          return false;
+        })
+      ) {
+        return true;
+      }
+      return false;
+    },
+  );
+
+  if (userReviewRequest) {
+    return { value: true, reviewRequestId: get(userReviewRequest, 'node.id') };
+  }
+
+  return { value: false, reviewRequestId: null };
+};
 
 const hasBeenReviewedByUser = ({ reviews, currentUser }) =>
   reviews.edges.some(({ node: review }) => {
@@ -202,13 +211,17 @@ export default {
       });
 
       let currentUserReviewRequested = false;
+      let userReviewRequestId;
 
       if (userLogin !== get(pullRequest, 'author.login')) {
-        currentUserReviewRequested = isUserReviewRequested({
+        const { value, reviewRequestId } = isUserReviewRequested({
           currentUser: userLogin,
           reviewRequests: pullRequest.reviewRequests,
           userTeamsData: userTeams,
         });
+
+        currentUserReviewRequested = value;
+        userReviewRequestId = reviewRequestId;
       }
 
       const reviewedByCurrentUser = hasBeenReviewedByUser({
@@ -220,6 +233,7 @@ export default {
         currentUserReviewRequested,
         reviewedByCurrentUser,
         reviewsByAuthor,
+        userReviewRequestId,
         date: createdAtDate.toLocaleDateString('en-GB', dateOptions),
         time: createdAtDate.toLocaleTimeString('en-US', timeOptions),
         __typename: 'PullpPullRequest',

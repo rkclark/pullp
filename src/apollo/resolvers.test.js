@@ -32,6 +32,7 @@ describe('Apollo resolvers', () => {
         edges: [
           {
             node: {
+              id: 'review1',
               author: {
                 login: 'dev',
                 avatarUrl: 'https://avatars3.githubusercontent.com/dev',
@@ -42,6 +43,7 @@ describe('Apollo resolvers', () => {
           },
           {
             node: {
+              id: 'review2',
               author: {
                 login: 'dev2',
                 avatarUrl: 'https://avatars3.githubusercontent.com/dev2',
@@ -52,6 +54,7 @@ describe('Apollo resolvers', () => {
           },
           {
             node: {
+              id: 'review3',
               author: {
                 login: 'dev2',
                 avatarUrl: 'https://avatars3.githubusercontent.com/dev2',
@@ -62,6 +65,7 @@ describe('Apollo resolvers', () => {
           },
           {
             node: {
+              id: 'review4',
               author: {
                 login: 'dev',
                 avatarUrl: 'https://avatars3.githubusercontent.com/dev',
@@ -76,6 +80,7 @@ describe('Apollo resolvers', () => {
         edges: [
           {
             node: {
+              id: 'reviewRequest1',
               requestedReviewer: {
                 login: 'dev',
                 avatarUrl: 'https://avatars0.githubusercontent.com/',
@@ -84,6 +89,7 @@ describe('Apollo resolvers', () => {
           },
           {
             node: {
+              id: 'reviewRequest2',
               requestedReviewer: {
                 login: 'dev2',
                 avatarUrl: 'https://avatars0.githubusercontent.com/',
@@ -92,6 +98,7 @@ describe('Apollo resolvers', () => {
           },
           {
             node: {
+              id: 'reviewRequest3',
               requestedReviewer: {
                 login: 'dev4',
                 avatarUrl: 'https://avatars0.githubusercontent.com/',
@@ -130,8 +137,6 @@ describe('Apollo resolvers', () => {
     const getCacheKeyMock = jest.fn();
     const readFragmentMock = jest.fn();
 
-    let result;
-
     const apolloClient = {
       cache: {
         readQuery: readQueryMock,
@@ -156,12 +161,6 @@ describe('Apollo resolvers', () => {
 
         return null;
       });
-
-      result = resolvers.PullRequest.pullpPullRequest(
-        basePR,
-        undefined,
-        apolloClient,
-      );
     });
 
     afterEach(() => {
@@ -170,42 +169,54 @@ describe('Apollo resolvers', () => {
       readFragmentMock.mockReset();
     });
 
-    it('sets date field', () => {
-      const expectedDate = new Date(basePR.createdAt).toLocaleDateString(
-        'en-GB',
-        dateOptions,
-      );
-      expect(result.date).toBe(expectedDate);
-    });
+    describe('basic fields', () => {
+      let result;
 
-    it('sets time field', () => {
-      const expectedTime = new Date(basePR.createdAt).toLocaleTimeString(
-        'en-US',
-        timeOptions,
-      );
-      expect(result.time).toBe(expectedTime);
-    });
+      beforeEach(() => {
+        result = resolvers.PullRequest.pullpPullRequest(
+          basePR,
+          undefined,
+          apolloClient,
+        );
+      });
 
-    it('aggregates reviews by author', () => {
-      const expectedReviewsByAuthor = [
-        {
-          login: 'dev',
-          avatarUrl: 'https://avatars3.githubusercontent.com/dev',
-          states: ['DISMISSED', 'APPROVED'],
-        },
-        {
-          login: 'dev2',
-          avatarUrl: 'https://avatars3.githubusercontent.com/dev2',
-          states: ['CHANGES_REQUESTED', 'CHANGES_REQUESTED'],
-        },
-      ];
+      it('sets date field', () => {
+        const expectedDate = new Date(basePR.createdAt).toLocaleDateString(
+          'en-GB',
+          dateOptions,
+        );
+        expect(result.date).toBe(expectedDate);
+      });
 
-      expect(result.reviewsByAuthor).toEqual(expectedReviewsByAuthor);
+      it('sets time field', () => {
+        const expectedTime = new Date(basePR.createdAt).toLocaleTimeString(
+          'en-US',
+          timeOptions,
+        );
+        expect(result.time).toBe(expectedTime);
+      });
+
+      it('aggregates reviews by author', () => {
+        const expectedReviewsByAuthor = [
+          {
+            login: 'dev',
+            avatarUrl: 'https://avatars3.githubusercontent.com/dev',
+            states: ['DISMISSED', 'APPROVED'],
+          },
+          {
+            login: 'dev2',
+            avatarUrl: 'https://avatars3.githubusercontent.com/dev2',
+            states: ['CHANGES_REQUESTED', 'CHANGES_REQUESTED'],
+          },
+        ];
+
+        expect(result.reviewsByAuthor).toEqual(expectedReviewsByAuthor);
+      });
     });
 
     describe('currentUserReviewRequested flag', () => {
       describe("when current user's review has been requested via their personal login", () => {
-        it('sets currentUserReviewRequested to true', () => {
+        beforeEach(() => {
           readQueryMock.mockImplementation(({ query }) => {
             if (query === GET_USER_TEAMS) {
               return {
@@ -228,7 +239,9 @@ describe('Apollo resolvers', () => {
 
             return null;
           });
+        });
 
+        it('sets currentUserReviewRequested to true', () => {
           const testResult = resolvers.PullRequest.pullpPullRequest(
             basePR,
             undefined,
@@ -236,6 +249,18 @@ describe('Apollo resolvers', () => {
           );
 
           expect(testResult.currentUserReviewRequested).toBe(true);
+        });
+
+        it('sets userReviewRequestId to the id of the review request', () => {
+          const testResult = resolvers.PullRequest.pullpPullRequest(
+            basePR,
+            undefined,
+            apolloClient,
+          );
+
+          expect(testResult.userReviewRequestId).toBe(
+            basePR.reviewRequests.edges[2].node.id,
+          );
         });
       });
 
@@ -274,49 +299,67 @@ describe('Apollo resolvers', () => {
         });
 
         describe('when review has been requested from a team the user is part of', () => {
-          it('sets currentUserReviewRequested to true', () => {
-            const reviewRequests = {
-              edges: [
-                {
-                  node: {
-                    requestedReviewer: {
-                      id: 'team1',
-                      avatarUrl: 'https://avatars0.githubusercontent.com/',
+          describe('when the current user is not the pull request author', () => {
+            let reviewRequests;
+            beforeEach(() => {
+              reviewRequests = {
+                edges: [
+                  {
+                    node: {
+                      id: 'reviewRequest1',
+                      requestedReviewer: {
+                        id: 'team1',
+                        avatarUrl: 'https://avatars0.githubusercontent.com/',
+                      },
                     },
                   },
-                },
-              ],
-            };
+                ],
+              };
 
-            readQueryMock.mockImplementation(({ query }) => {
-              if (query === GET_USER_TEAMS) {
-                return {
-                  ...userTeamsData,
-                  viewer: {
-                    ...userTeamsData.viewer,
-                    login: 'team1Member', // Is part of team with id "team1"
-                  },
-                };
-              }
+              readQueryMock.mockImplementation(({ query }) => {
+                if (query === GET_USER_TEAMS) {
+                  return {
+                    ...userTeamsData,
+                    viewer: {
+                      ...userTeamsData.viewer,
+                      login: 'team1Member', // Is part of team with id "team1"
+                    },
+                  };
+                }
 
-              if (query === GET_CURRENT_USER) {
-                return {
-                  viewer: {
-                    ...currentUserData.viewer,
-                    login: 'team1Member',
-                  },
-                };
-              }
+                if (query === GET_CURRENT_USER) {
+                  return {
+                    viewer: {
+                      ...currentUserData.viewer,
+                      login: 'team1Member',
+                    },
+                  };
+                }
 
-              return null;
+                return null;
+              });
             });
 
-            const testResult = resolvers.PullRequest.pullpPullRequest(
-              { ...basePR, reviewRequests },
-              undefined,
-              apolloClient,
-            );
-            expect(testResult.currentUserReviewRequested).toBe(true);
+            it('sets currentUserReviewRequested to true', () => {
+              const testResult = resolvers.PullRequest.pullpPullRequest(
+                { ...basePR, reviewRequests },
+                undefined,
+                apolloClient,
+              );
+              expect(testResult.currentUserReviewRequested).toBe(true);
+            });
+
+            it('sets userReviewRequestId to the id of the review request', () => {
+              const testResult = resolvers.PullRequest.pullpPullRequest(
+                { ...basePR, reviewRequests },
+                undefined,
+                apolloClient,
+              );
+
+              expect(testResult.userReviewRequestId).toBe(
+                basePR.reviewRequests.edges[0].node.id,
+              );
+            });
           });
 
           describe('when the current user is the pull request author', () => {
@@ -528,6 +571,7 @@ describe('Apollo resolvers', () => {
                 currentUserReviewRequested: true,
                 date: 'Friday, Jan 4, 2019',
                 reviewedByCurrentUser: true,
+                userReviewRequestId: 'reviewRequest1',
                 reviewsByAuthor: [
                   {
                     avatarUrl: 'https://avatars3.githubusercontent.com/dev',
@@ -568,6 +612,7 @@ describe('Apollo resolvers', () => {
                 currentUserReviewRequested: true,
                 date: 'Friday, Jan 4, 2019',
                 reviewedByCurrentUser: true,
+                userReviewRequestId: 'reviewRequest1',
                 reviewsByAuthor: [
                   {
                     avatarUrl: 'https://avatars3.githubusercontent.com/dev',
