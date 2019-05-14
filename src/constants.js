@@ -21,7 +21,20 @@ export const SCHEMA_VERSION = '1';
 export const notificationTypes = {
   REVIEW_REQUESTED: 'REVIEW_REQUESTED',
   REVIEW_ON_YOUR_PR: 'REVIEW_ON_YOUR_PR',
-  NEW_PR: 'NEW_PR',
+  PR_STATE_CHANGE: 'PR_STATE_CHANGE',
+};
+
+export const stateChangeNotificationSubTypes = {
+  OPENED: 'OPENED',
+  RE_OPENED: 'RE_OPENED',
+  CLOSED: 'CLOSED',
+  MERGED: 'MERGED',
+};
+
+export const pullRequestStates = {
+  OPEN: 'OPEN',
+  CLOSED: 'CLOSED',
+  MERGED: 'MERGED',
 };
 
 export const CACHE_CLEANING_INTERVAL_MS = 30000; // 5 mins

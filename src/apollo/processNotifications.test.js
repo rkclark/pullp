@@ -2,11 +2,11 @@ import processNotifications from './processNotifications';
 import { notificationTypes } from '../constants';
 import reviewRequested from './notificationRules/reviewRequested';
 import reviewOnYourPR from './notificationRules/reviewOnYourPR';
-import newPR from './notificationRules/newPR';
+import pullRequestStateChange from './notificationRules/pullRequestStateChange';
 
 jest.mock('./notificationRules/reviewRequested');
 jest.mock('./notificationRules/reviewOnYourPR');
-jest.mock('./notificationRules/newPR');
+jest.mock('./notificationRules/pullRequestStateChange');
 
 describe('processNotifications', () => {
   const notificationMock = jest.fn(() => ({}));
@@ -18,13 +18,13 @@ describe('processNotifications', () => {
   beforeEach(() => {
     reviewRequested.mockReturnValue([]);
     reviewOnYourPR.mockReturnValue([]);
-    newPR.mockReturnValue([]);
+    pullRequestStateChange.mockReturnValue([]);
   });
 
   afterEach(() => {
     reviewRequested.mockReset();
     reviewOnYourPR.mockReset();
-    newPR.mockReset();
+    pullRequestStateChange.mockReset();
     notificationMock.mockClear();
   });
 
@@ -52,8 +52,8 @@ describe('processNotifications', () => {
         },
       },
       {
-        name: 'newPR',
-        fn: newPR,
+        name: 'pullRequestStateChange',
+        fn: pullRequestStateChange,
         requiredArgs: {
           existingNotifications,
           pullRequest: extendedPullRequest,
