@@ -1,18 +1,25 @@
 import { get } from 'lodash';
-import { notificationTypes } from '../../constants';
+import {
+  notificationTypes,
+  pullRequestStates,
+  stateChangeNotificationSubTypes,
+} from '../../constants';
 
 export default ({ existingNotifications, pullRequest, currentUser }) => {
   const newNotifications = [];
 
   const prAuthor = get(pullRequest, 'author.login');
 
-  if (prAuthor === currentUser) {
+  if (
+    prAuthor === currentUser ||
+    pullRequest.state !== pullRequestStates.OPEN
+  ) {
     return newNotifications;
   }
 
   const hasPROpeningAlreadyBeenNotified = () =>
     existingNotifications.find(
-      notification => notification.type === notificationTypes.NEW_PR,
+      notification => notification.type === notificationTypes.PR_STATE_CHANGE,
     );
 
   if (!hasPROpeningAlreadyBeenNotified()) {
@@ -22,7 +29,8 @@ export default ({ existingNotifications, pullRequest, currentUser }) => {
     const title = 'New Pull Request';
 
     newNotifications.push({
-      type: notificationTypes.NEW_PR,
+      type: notificationTypes.PR_STATE_CHANGE,
+      subType: stateChangeNotificationSubTypes.OPENED,
       title,
       message,
       sourceNodeId: pullRequest.id,

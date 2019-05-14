@@ -87,7 +87,7 @@ export const GET_PULL_REQUESTS = gql(`query getPullRequests($ids: [ID!]!, $maxim
     ... on Repository {
       pullRequests(
         last: $maximumPrs
-        states: [OPEN]
+        states: [OPEN, CLOSED, MERGED]
         orderBy: { field: CREATED_AT, direction: DESC }
       ) {
         totalCount
@@ -98,6 +98,7 @@ export const GET_PULL_REQUESTS = gql(`query getPullRequests($ids: [ID!]!, $maxim
             url
             number
             title
+            state
             author {
               avatarUrl
               login
