@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { Settings } from '.';
 import AccountDetails from '../../components/AccountDetails';
+import NotificationSettings from '../../components/NotificationSettings';
 import LoadingMessage from '../../components/LoadingMessage';
 import Error from '../../components/Error';
 
@@ -11,6 +12,16 @@ describe('Settings', () => {
       viewer: {
         login: 'test',
         avatarUrl: 'url',
+      },
+    },
+    settingsData: {
+      userSettings: {
+        notifications: {
+          REVIEW_REQUESTED: {
+            trigger: true,
+            showOnTimeline: true,
+          },
+        },
       },
     },
     error: null,
@@ -59,8 +70,16 @@ describe('Settings', () => {
     });
   });
 
-  it('renders AccountDetails with correct props', () => {
+  it('renders AccountDetails', () => {
     expect(component.find(AccountDetails).length).toBe(1);
+  });
+
+  it('renders NotificationSettings', () => {
+    const notificationSettings = component.find(NotificationSettings);
+    expect(notificationSettings.length).toBe(1);
+    expect(notificationSettings.props().notifications).toEqual(
+      defaultProps.settingsData.userSettings.notifications,
+    );
   });
 
   describe('logout function', () => {

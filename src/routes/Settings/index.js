@@ -3,12 +3,15 @@ import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 import { get } from 'lodash';
 import AccountDetails from '../../components/AccountDetails';
+import NotificationSettings from '../../components/NotificationSettings';
 import LoadingMessage from '../../components/LoadingMessage';
 import Error from '../../components/Error';
 import {
   GET_CURRENT_USER,
   GET_USER_SETTINGS_FROM_CACHE,
 } from '../../apollo/queries';
+
+import style from './style.css';
 
 export class Settings extends React.Component {
   constructor(props) {
@@ -28,8 +31,6 @@ export class Settings extends React.Component {
   render() {
     const { userData, settingsData, loading, error } = this.props;
 
-    console.log(settingsData);
-
     if (loading) {
       return <LoadingMessage message="Refreshing your Github user data..." />;
     }
@@ -42,7 +43,8 @@ export class Settings extends React.Component {
     const avatarUrl = get(userData, 'viewer.avatarUrl');
 
     return (
-      <div>
+      <div className={style.settingsContainer}>
+        <h2 className={style.heading}>Account</h2>
         <AccountDetails
           login={login}
           avatarUrl={avatarUrl}
@@ -61,6 +63,10 @@ export class Settings extends React.Component {
             window.location.pathname = '/app';
           }}
           logoutModalOpen={this.state.logoutModalOpen}
+        />
+        <h2 className={style.heading}>Notifications</h2>
+        <NotificationSettings
+          notifications={get(settingsData, 'userSettings.notifications')}
         />
       </div>
     );

@@ -1,0 +1,5 @@
+@import "../../css/colors.css";
+
+.checkmark path {
+  fill: var(--medium-grey);
+}

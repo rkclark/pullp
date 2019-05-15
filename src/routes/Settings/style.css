@@ -1,0 +1,11 @@
+.settingsContainer {
+  padding: 2% 5%;
+  max-width: 90rem;
+  margin: 0 auto;
+}
+
+.heading {
+  font-size: 2.4rem;
+  font-weight: normal;
+  margin: 2rem 0;
+}

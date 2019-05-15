@@ -1,0 +1,45 @@
+@import "../../css/colors.css";
+
+.container {
+  padding-left: 3rem;
+  width: 100%;
+}
+
+.notificationRow {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.notificationName {
+  color: var(--medium-grey);
+  font-weight: normal;
+  font-size: 1.5rem;
+  margin-right: auto;
+}
+
+.columnNames {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.notificationType {
+  color: var(--medium-grey);
+  text-transform: uppercase;
+  font-weight: normal;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.3rem;
+}
+
+.notificationCheckbox, .notificationType {
+  margin-right: 4rem;
+  width: 10rem;
+  text-align: center;
+}
+
+.notificationCheckbox {
+  display: flex;
+  justify-content: center;
+}
