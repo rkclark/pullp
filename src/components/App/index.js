@@ -23,8 +23,20 @@ import LayoutContainer from '../Layout';
 import ScrollToTop from '../ScrollToTop';
 import '../../css/index.css';
 import style from './style.css';
-import { SCHEMA_VERSION, SCHEMA_VERSION_KEY } from '../../constants';
+import {
+  SCHEMA_VERSION,
+  SCHEMA_VERSION_KEY,
+  notificationTypes,
+} from '../../constants';
 import cleanCacheOnInterval from '../../apollo/cacheCleaner';
+
+const {
+  REVIEW_REQUESTED,
+  REVIEW_ON_YOUR_PR,
+  PR_STATE_CHANGE,
+  NEW_COMMENTS,
+  NEW_COMMENTS_ON_YOUR_PR,
+} = notificationTypes;
 
 export default class App extends React.Component {
   state = {
@@ -50,6 +62,37 @@ export default class App extends React.Component {
           token: null,
           loadingToken: false,
           error: null,
+        },
+        userSettings: {
+          __typename: 'UserSettings',
+          notifications: {
+            __typename: 'NotificationSettings',
+            [REVIEW_REQUESTED]: {
+              __typename: 'NotificationSetting',
+              trigger: true,
+              showOnTimeline: true,
+            },
+            [REVIEW_ON_YOUR_PR]: {
+              __typename: 'NotificationSetting',
+              trigger: true,
+              showOnTimeline: true,
+            },
+            [PR_STATE_CHANGE]: {
+              __typename: 'NotificationSetting',
+              trigger: true,
+              showOnTimeline: true,
+            },
+            [NEW_COMMENTS]: {
+              __typename: 'NotificationSetting',
+              trigger: false,
+              showOnTimeline: true,
+            },
+            [NEW_COMMENTS_ON_YOUR_PR]: {
+              __typename: 'NotificationSetting',
+              trigger: true,
+              showOnTimeline: true,
+            },
+          },
         },
       },
     });

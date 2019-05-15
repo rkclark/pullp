@@ -18,6 +18,35 @@ export const GET_GITHUB_TOKEN_FROM_CACHE = gql`
   }
 `;
 
+export const GET_USER_SETTINGS_FROM_CACHE = gql`
+  query UserSettings {
+    userSettings @client {
+      notifications {
+        REVIEW_REQUESTED {
+          trigger
+          showOnTimeline
+        }
+        REVIEW_ON_YOUR_PR {
+          trigger
+          showOnTimeline
+        }
+        PR_STATE_CHANGE {
+          trigger
+          showOnTimeline
+        }
+        NEW_COMMENTS {
+          trigger
+          showOnTimeline
+        }
+        NEW_COMMENTS_ON_YOUR_PR {
+          trigger
+          showOnTimeline
+        }
+      }
+    }
+  }
+`;
+
 export const GET_CURRENT_USER = gql(`
 query CurrentUser {
 	viewer {

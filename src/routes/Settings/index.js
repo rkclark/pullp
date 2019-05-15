@@ -5,7 +5,10 @@ import { get } from 'lodash';
 import AccountDetails from '../../components/AccountDetails';
 import LoadingMessage from '../../components/LoadingMessage';
 import Error from '../../components/Error';
-import { GET_CURRENT_USER } from '../../apollo/queries';
+import {
+  GET_CURRENT_USER,
+  GET_USER_SETTINGS_FROM_CACHE,
+} from '../../apollo/queries';
 
 export class Settings extends React.Component {
   constructor(props) {
@@ -23,7 +26,9 @@ export class Settings extends React.Component {
   }
 
   render() {
-    const { data, loading, error } = this.props;
+    const { userData, settingsData, loading, error } = this.props;
+
+    console.log(settingsData);
 
     if (loading) {
       return <LoadingMessage message="Refreshing your Github user data..." />;
@@ -33,8 +38,8 @@ export class Settings extends React.Component {
       return <Error message={'Unable to load your user data'} />;
     }
 
-    const login = get(data, 'viewer.login');
-    const avatarUrl = get(data, 'viewer.avatarUrl');
+    const login = get(userData, 'viewer.login');
+    const avatarUrl = get(userData, 'viewer.avatarUrl');
 
     return (
       <div>
@@ -63,21 +68,40 @@ export class Settings extends React.Component {
 }
 
 Settings.propTypes = {
-  data: PropTypes.shape({}),
+  userData: PropTypes.shape({}),
+  settingsData: PropTypes.shape({}),
   loading: PropTypes.bool.isRequired,
   error: PropTypes.shape({}),
 };
 
 Settings.defaultProps = {
-  data: {},
+  userData: {},
+  settingsData: {},
   error: null,
 };
 
 export default function SettingsContainer() {
   return (
     <Query query={GET_CURRENT_USER} fetchPolicy="cache-first">
-      {({ data, loading, error }) => (
-        <Settings data={data} loading={loading} error={error} />
+      {({ data: userData, loading: userLoading, error: userError }) => (
+        <Query query={GET_USER_SETTINGS_FROM_CACHE} fetchPolicy="cache-only">
+          {({
+            data: settingsData,
+            loading: settingsLoading,
+            error: settingsError,
+          }) => {
+            console.log('settings error', settingsError);
+            console.log('settingsData', settingsData);
+            return (
+              <Settings
+                userData={userData}
+                settingsData={settingsData}
+                loading={settingsLoading || userLoading}
+                error={settingsError || userError}
+              />
+            );
+          }}
+        </Query>
       )}
     </Query>
   );

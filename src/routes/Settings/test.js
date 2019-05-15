@@ -7,7 +7,7 @@ import Error from '../../components/Error';
 
 describe('Settings', () => {
   const defaultProps = {
-    data: {
+    userData: {
       viewer: {
         login: 'test',
         avatarUrl: 'url',
