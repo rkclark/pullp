@@ -14,13 +14,11 @@ export default function AccountDetails({
 }) {
   return (
     <div className={style.container}>
-      <h2 className={style.title}>
-        Signed in as <strong>{login}</strong>
-      </h2>
       <img src={avatarUrl} alt="avatar" className={style.avatar} />
-      <div className={style.signout}>
-        <Button onClick={toggleLogoutModal}>Sign out</Button>
-      </div>
+      <h2 className={style.description}>
+        SIGNED IN AS: <strong>{login}</strong>
+      </h2>
+      <Button onClick={toggleLogoutModal}>Sign out</Button>
       <LogoutModal
         toggleLogoutModal={toggleLogoutModal}
         logout={logout}
