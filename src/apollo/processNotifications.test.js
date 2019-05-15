@@ -1,5 +1,5 @@
 import processNotifications from './processNotifications';
-import { notificationTypes } from '../constants';
+import { notificationTypes, pullRequestStates } from '../constants';
 import reviewRequested from './notificationRules/reviewRequested';
 import reviewOnYourPR from './notificationRules/reviewOnYourPR';
 import pullRequestStateChange from './notificationRules/pullRequestStateChange';
@@ -28,40 +28,40 @@ describe('processNotifications', () => {
     notificationMock.mockClear();
   });
 
+  const existingNotifications = [{ type: 'NOTIFICATION_TYPE' }];
+  const extendedPullRequest = { id: '12345' };
+  const currentUser = 'dev';
+
+  const rules = [
+    {
+      name: 'reviewRequested',
+      fn: reviewRequested,
+      requiredArgs: {
+        existingNotifications,
+        pullRequest: extendedPullRequest,
+      },
+    },
+    {
+      name: 'reviewOnYourPR',
+      fn: reviewOnYourPR,
+      requiredArgs: {
+        existingNotifications,
+        pullRequest: extendedPullRequest,
+        currentUser,
+      },
+    },
+    {
+      name: 'pullRequestStateChange',
+      fn: pullRequestStateChange,
+      requiredArgs: {
+        existingNotifications,
+        pullRequest: extendedPullRequest,
+        currentUser,
+      },
+    },
+  ];
+
   describe('rule processing', () => {
-    const existingNotifications = [{ type: 'NOTIFICATION_TYPE' }];
-    const extendedPullRequest = { id: '12345' };
-    const currentUser = 'dev';
-
-    const rules = [
-      {
-        name: 'reviewRequested',
-        fn: reviewRequested,
-        requiredArgs: {
-          existingNotifications,
-          pullRequest: extendedPullRequest,
-        },
-      },
-      {
-        name: 'reviewOnYourPR',
-        fn: reviewOnYourPR,
-        requiredArgs: {
-          existingNotifications,
-          pullRequest: extendedPullRequest,
-          currentUser,
-        },
-      },
-      {
-        name: 'pullRequestStateChange',
-        fn: pullRequestStateChange,
-        requiredArgs: {
-          existingNotifications,
-          pullRequest: extendedPullRequest,
-          currentUser,
-        },
-      },
-    ];
-
     rules.forEach(({ name, fn, requiredArgs }) => {
       it('calls the rule with the required arguments', () => {
         processNotifications({
@@ -139,5 +139,68 @@ describe('processNotifications', () => {
       anotherNotification,
       reviewRequestedNotification,
     ]);
+  });
+
+  describe('when the PR has no existing notifications', () => {
+    describe(`when the PR is in a ${pullRequestStates.CLOSED} state`, () => {
+      let notifications;
+
+      beforeEach(() => {
+        notifications = processNotifications({
+          existingNotifications: [],
+          extendedPullRequest: {
+            state: pullRequestStates.CLOSED,
+          },
+        });
+      });
+
+      it('does not process/trigger any notifications', () => {
+        rules.forEach(({ fn }) => {
+          expect(fn).not.toHaveBeenCalled();
+        });
+      });
+
+      it('returns an empty array', () => {
+        expect(notifications).toEqual([]);
+      });
+    });
+
+    describe(`when the PR is in a ${pullRequestStates.MERGED} state`, () => {
+      let notifications;
+
+      beforeEach(() => {
+        notifications = processNotifications({
+          existingNotifications: [],
+          extendedPullRequest: {
+            state: pullRequestStates.MERGED,
+          },
+        });
+      });
+
+      it('does not process/trigger any notifications', () => {
+        rules.forEach(({ fn }) => {
+          expect(fn).not.toHaveBeenCalled();
+        });
+      });
+
+      it('returns an empty array', () => {
+        expect(notifications).toEqual([]);
+      });
+    });
+
+    describe(`when the PR is in a ${pullRequestStates.OPEN} state`, () => {
+      it('processes notifications', () => {
+        processNotifications({
+          existingNotifications: [],
+          extendedPullRequest: {
+            state: pullRequestStates.OPEN,
+          },
+        });
+
+        rules.forEach(({ fn }) => {
+          expect(fn).toHaveBeenCalled();
+        });
+      });
+    });
   });
 });

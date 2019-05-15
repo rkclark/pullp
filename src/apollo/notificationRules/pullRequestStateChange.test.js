@@ -51,50 +51,70 @@ const pullRequestMergedNotification = {
 describe('pullRequestStateChange', () => {
   describe(`PR ${OPENED} notifications`, () => {
     describe('when there is no existing state change notification', () => {
-      it(`adds a new ${PR_STATE_CHANGE} notification with subType ${OPENED}`, () => {
-        const notifications = pullRequestStateChange({
-          currentUser,
-          existingNotifications: [],
-          pullRequest: {
-            id: pullRequestId,
-            state: pullRequestStates.OPEN,
-            title: pullRequestTitle,
-            author: {
-              login: pullRequestAuthor,
+      describe(`when the PR state is ${pullRequestStates.OPEN}`, () => {
+        it(`adds a new ${PR_STATE_CHANGE} notification with subType ${OPENED}`, () => {
+          const notifications = pullRequestStateChange({
+            currentUser,
+            existingNotifications: [],
+            pullRequest: {
+              id: pullRequestId,
+              state: pullRequestStates.OPEN,
+              title: pullRequestTitle,
+              author: {
+                login: pullRequestAuthor,
+              },
             },
-          },
+          });
+          expect(notifications.length).toBe(1);
+          const {
+            type,
+            title,
+            message,
+            sourceNodeId,
+            subType,
+          } = notifications[0];
+          expect(type).toBe(pullRequestOpenedNotification.type);
+          expect(title).toBe(pullRequestOpenedNotification.title);
+          expect(message).toBe(pullRequestOpenedNotification.message);
+          expect(subType).toBe(pullRequestOpenedNotification.subType);
+          expect(sourceNodeId).toBe(pullRequestOpenedNotification.sourceNodeId);
         });
-        expect(notifications.length).toBe(1);
-        const {
-          type,
-          title,
-          message,
-          sourceNodeId,
-          subType,
-        } = notifications[0];
-        expect(type).toBe(pullRequestOpenedNotification.type);
-        expect(title).toBe(pullRequestOpenedNotification.title);
-        expect(message).toBe(pullRequestOpenedNotification.message);
-        expect(subType).toBe(pullRequestOpenedNotification.subType);
-        expect(sourceNodeId).toBe(pullRequestOpenedNotification.sourceNodeId);
-      });
-    });
 
-    describe('when there is an existing state change notification', () => {
-      it(`does not add a new ${PR_STATE_CHANGE} notification`, () => {
-        const notifications = pullRequestStateChange({
-          currentUser,
-          existingNotifications: [pullRequestOpenedNotification],
-          pullRequest: {
-            id: pullRequestId,
-            state: pullRequestStates.OPEN,
-            title: pullRequestTitle,
-            author: {
-              login: pullRequestAuthor,
-            },
-          },
+        describe('when there is an existing state change notification', () => {
+          it(`does not add a new ${PR_STATE_CHANGE} notification`, () => {
+            const notifications = pullRequestStateChange({
+              currentUser,
+              existingNotifications: [pullRequestOpenedNotification],
+              pullRequest: {
+                id: pullRequestId,
+                state: pullRequestStates.OPEN,
+                title: pullRequestTitle,
+                author: {
+                  login: pullRequestAuthor,
+                },
+              },
+            });
+            expect(notifications.length).toBe(0);
+          });
         });
-        expect(notifications.length).toBe(0);
+      });
+
+      describe(`when the PR state is not ${pullRequestStates.OPEN}`, () => {
+        it(`does not add a new ${PR_STATE_CHANGE} notification`, () => {
+          const notifications = pullRequestStateChange({
+            currentUser,
+            existingNotifications: [],
+            pullRequest: {
+              id: pullRequestId,
+              state: pullRequestStates.CLOSED,
+              title: pullRequestTitle,
+              author: {
+                login: pullRequestAuthor,
+              },
+            },
+          });
+          expect(notifications.length).toBe(0);
+        });
       });
     });
   });

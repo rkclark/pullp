@@ -9,6 +9,8 @@ export default ({ existingNotifications, pullRequest, currentUser }) => {
   const prAuthor = get(pullRequest, 'author.login');
   const isUserPRAuthor = currentUser === prAuthor;
 
+  const pullRequestState = pullRequest.state;
+
   const mostRecentState = existingNotifications.reduce(
     (state, notification) => {
       if (notification.type === notificationTypes.PR_STATE_CHANGE) {
@@ -20,22 +22,44 @@ export default ({ existingNotifications, pullRequest, currentUser }) => {
     null,
   );
 
+  const baseNotification = {
+    type: notificationTypes.PR_STATE_CHANGE,
+    sourceNodeId: pullRequest.id,
+  };
+
+  /*
+    No existing state change notification means this is a newly retrieved
+    pull request.
+
+    This can mean either a new PR opened on a selected repository, or that a
+    new repository has been selected and it has existing PRs (that may be open, 
+    closed or merged).
+  */
   if (!mostRecentState) {
-    const message = `${prAuthor} opened "${pullRequest.title}"`;
-    const title = 'New Pull Request';
+    /*
+      If the PR is open then it is ok to notify the user.
+    */
+    if (pullRequestState === pullRequestStates.OPEN) {
+      const message = `${prAuthor} opened "${pullRequest.title}"`;
+      const title = 'New Pull Request';
 
-    return [
-      {
-        type: notificationTypes.PR_STATE_CHANGE,
-        subType: stateChangeNotificationSubTypes.OPENED,
-        title,
-        message,
-        sourceNodeId: pullRequest.id,
-      },
-    ];
+      return [
+        {
+          ...baseNotification,
+          subType: stateChangeNotificationSubTypes.OPENED,
+          title,
+          message,
+        },
+      ];
+    }
+
+    /*
+      If the PR is not open then don't notify the user. This is to avoid
+      spamming notifications for every single closed and merged pull request
+      when the user selects a new repository.
+    */
+    return [];
   }
-
-  const pullRequestState = pullRequest.state;
 
   if (pullRequestState === pullRequestStates.CLOSED) {
     if (mostRecentState !== stateChangeNotificationSubTypes.CLOSED) {
@@ -44,11 +68,10 @@ export default ({ existingNotifications, pullRequest, currentUser }) => {
 
       return [
         {
-          type: notificationTypes.PR_STATE_CHANGE,
+          ...baseNotification,
           subType: stateChangeNotificationSubTypes.CLOSED,
           title,
           message,
-          sourceNodeId: pullRequest.id,
         },
       ];
     }
@@ -61,11 +84,10 @@ export default ({ existingNotifications, pullRequest, currentUser }) => {
 
       return [
         {
-          type: notificationTypes.PR_STATE_CHANGE,
+          ...baseNotification,
           subType: stateChangeNotificationSubTypes.MERGED,
           title,
           message,
-          sourceNodeId: pullRequest.id,
         },
       ];
     }
@@ -78,11 +100,10 @@ export default ({ existingNotifications, pullRequest, currentUser }) => {
 
       return [
         {
-          type: notificationTypes.PR_STATE_CHANGE,
+          ...baseNotification,
           subType: stateChangeNotificationSubTypes.RE_OPENED,
           title,
           message,
-          sourceNodeId: pullRequest.id,
         },
       ];
     }
