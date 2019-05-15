@@ -17,6 +17,7 @@
   font-weight: normal;
   font-size: 1.5rem;
   margin-right: auto;
+  flex-shrink: 1;
 }
 
 .columnNames {
@@ -42,4 +43,5 @@
 .notificationCheckbox {
   display: flex;
   justify-content: center;
+  flex-shrink: 0;
 }
