@@ -9,10 +9,10 @@ import style from './style.css';
 
 const settingsNames = {
   REVIEW_REQUESTED: 'Your review requested',
-  REVIEW_ON_YOUR_PR: 'Reviews on your PR',
-  PR_STATE_CHANGE: 'PRs opened/closed/merged',
-  NEW_COMMENTS: 'New comments on PRs belonging to other people',
-  NEW_COMMENTS_ON_YOUR_PR: 'New comments PRs belonging to you',
+  REVIEW_ON_YOUR_PR: 'New reviews on your pull requests',
+  PR_STATE_CHANGE: 'Pull requests opened/closed/merged',
+  NEW_COMMENTS: 'New comments on pull requests belonging to other people',
+  NEW_COMMENTS_ON_YOUR_PR: 'New comments on pull requests belonging to you',
 };
 
 export default function NotificationSettings({ notifications }) {
