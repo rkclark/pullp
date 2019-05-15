@@ -352,7 +352,25 @@ describe('pullRequestStateChange', () => {
               },
             },
           });
-          expect(notifications.length).toBe(1);
+          expect(notifications.length).toBe(0);
+        });
+      });
+
+      describe(`when the most recent state change is ${OPENED}`, () => {
+        it(`does not add a new ${PR_STATE_CHANGE} notification`, () => {
+          const notifications = pullRequestStateChange({
+            ...baseArgs,
+            existingNotifications: [pullRequestOpenedNotification],
+            pullRequest: {
+              id: pullRequestId,
+              state: pullRequestStates.OPEN,
+              title: pullRequestTitle,
+              author: {
+                login: pullRequestAuthor,
+              },
+            },
+          });
+          expect(notifications.length).toBe(0);
         });
       });
     });

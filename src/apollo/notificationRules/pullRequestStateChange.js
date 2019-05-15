@@ -27,6 +27,11 @@ export default ({
     null,
   );
 
+  if (pullRequest.title === 'Branch 2') {
+    console.log('Existing notifications', existingNotifications);
+    console.log('mostRecentState is', mostRecentState);
+  }
+
   const type = notificationTypes.PR_STATE_CHANGE;
 
   const baseNotification = {
@@ -102,7 +107,10 @@ export default ({
   }
 
   if (pullRequestState === pullRequestStates.OPEN) {
-    if (mostRecentState !== stateChangeNotificationSubTypes.OPENED) {
+    if (
+      mostRecentState !== stateChangeNotificationSubTypes.OPENED &&
+      mostRecentState !== stateChangeNotificationSubTypes.RE_OPENED
+    ) {
       const message = `${prAuthor} re-opened "${pullRequest.title}"`;
       const title = 'Pull Request Re-opened';
 
