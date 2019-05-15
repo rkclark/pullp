@@ -12,12 +12,25 @@ const reviewRequestedNotification = {
   sourceNodeId: '123',
 };
 
+const userSettings = {
+  notifications: {
+    REVIEW_REQUESTED: {
+      trigger: true,
+    },
+  },
+};
+
 const currentUser = 'dev';
+
+const baseArgs = {
+  userSettings,
+};
 
 describe('reviewRequested', () => {
   describe(`when there is an existing ${REVIEW_REQUESTED} notification with the same review request id`, () => {
     it('does not add a new one', () => {
       const notifications = reviewRequested({
+        ...baseArgs,
         existingNotifications: [
           { ...reviewRequestedNotification, sourceNodeId: userReviewRequestId },
         ],
@@ -40,6 +53,7 @@ describe('reviewRequested', () => {
       it('adds a new notification with the correct message', () => {
         const login = 'user';
         const notifications = reviewRequested({
+          ...baseArgs,
           existingNotifications: [],
           pullRequest: {
             author: {
@@ -64,6 +78,7 @@ describe('reviewRequested', () => {
     describe("when the user's review is not requested", () => {
       it('does not add a new notification', () => {
         const notifications = reviewRequested({
+          ...baseArgs,
           existingNotifications: [],
           pullRequest: {
             pullpPullRequest: {
@@ -73,6 +88,59 @@ describe('reviewRequested', () => {
         });
         expect(notifications.length).toBe(0);
       });
+    });
+  });
+
+  describe(`when the user setting to trigger ${REVIEW_REQUESTED} is true`, () => {
+    it('adds "trigger: true" to the notification', () => {
+      const login = 'user';
+      const notifications = reviewRequested({
+        ...baseArgs,
+        existingNotifications: [],
+        pullRequest: {
+          author: {
+            login,
+          },
+          pullpPullRequest: {
+            userReviewRequestId,
+          },
+        },
+      });
+
+      expect(notifications.length).toBe(1);
+      const { trigger } = notifications[0];
+
+      expect(trigger).toBe(true);
+    });
+  });
+
+  describe(`when the user setting to trigger ${REVIEW_REQUESTED} is false`, () => {
+    it('adds "trigger: false" to the notification', () => {
+      const login = 'user';
+      const notifications = reviewRequested({
+        ...baseArgs,
+        userSettings: {
+          notifications: {
+            REVIEW_REQUESTED: {
+              trigger: false,
+            },
+          },
+        },
+        existingNotifications: [],
+        pullRequest: {
+          author: {
+            login,
+          },
+          pullpPullRequest: {
+            userReviewRequestId,
+          },
+        },
+      });
+
+      expect(notifications.length).toBe(1);
+      const { trigger } = notifications[0];
+
+      expect(trigger).toBe(false);
     });
   });
 });

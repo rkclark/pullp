@@ -10,14 +10,27 @@ const reviewOnYourPRNotification = {
   sourceNodeId: '123',
 };
 
+const userSettings = {
+  notifications: {
+    REVIEW_ON_YOUR_PR: {
+      trigger: true,
+    },
+  },
+};
+
 const currentUser = 'dev';
 const reviewer = 'dev2';
+
+const baseArgs = {
+  currentUser,
+  userSettings,
+};
 
 describe('reviewOnYourPR', () => {
   describe(`when there is an existing ${REVIEW_ON_YOUR_PR} notification with the same review id`, () => {
     it('does not add a new one', () => {
       const notifications = reviewOnYourPR({
-        currentUser,
+        ...baseArgs,
         existingNotifications: [reviewOnYourPRNotification],
         pullRequest: {
           author: {
@@ -46,7 +59,7 @@ describe('reviewOnYourPR', () => {
     describe('when the user is the PR author', () => {
       it('adds a new notification with the correct message', () => {
         const notifications = reviewOnYourPR({
-          currentUser,
+          ...baseArgs,
           existingNotifications: [],
           pullRequest: {
             author: {
@@ -84,7 +97,7 @@ describe('reviewOnYourPR', () => {
     describe('when the user is not the PR author', () => {
       it('does not add a new notification', () => {
         const notifications = reviewOnYourPR({
-          currentUser,
+          ...baseArgs,
           existingNotifications: [],
           pullRequest: {
             author: {
@@ -109,6 +122,81 @@ describe('reviewOnYourPR', () => {
         });
         expect(notifications.length).toBe(0);
       });
+    });
+  });
+
+  describe(`when the user setting to trigger ${REVIEW_ON_YOUR_PR} is true`, () => {
+    it('adds "trigger: true" to the notification', () => {
+      const notifications = reviewOnYourPR({
+        ...baseArgs,
+        existingNotifications: [],
+        pullRequest: {
+          author: {
+            login: currentUser,
+          },
+          reviews: {
+            edges: [
+              {
+                node: {
+                  id: '123',
+                  author: {
+                    login: reviewer,
+                  },
+                },
+              },
+            ],
+          },
+          pullpPullRequest: {
+            currentUserReviewRequested: true,
+          },
+        },
+      });
+
+      expect(notifications.length).toBe(1);
+      const { trigger } = notifications[0];
+
+      expect(trigger).toBe(true);
+    });
+  });
+
+  describe(`when the user setting to trigger ${REVIEW_ON_YOUR_PR} is false`, () => {
+    it('adds "trigger: false" to the notification', () => {
+      const notifications = reviewOnYourPR({
+        ...baseArgs,
+        userSettings: {
+          notifications: {
+            REVIEW_ON_YOUR_PR: {
+              trigger: false,
+            },
+          },
+        },
+        existingNotifications: [],
+        pullRequest: {
+          author: {
+            login: currentUser,
+          },
+          reviews: {
+            edges: [
+              {
+                node: {
+                  id: '123',
+                  author: {
+                    login: reviewer,
+                  },
+                },
+              },
+            ],
+          },
+          pullpPullRequest: {
+            currentUserReviewRequested: true,
+          },
+        },
+      });
+
+      expect(notifications.length).toBe(1);
+      const { trigger } = notifications[0];
+
+      expect(trigger).toBe(false);
     });
   });
 });

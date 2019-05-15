@@ -1,7 +1,12 @@
 import { get } from 'lodash';
 import { notificationTypes } from '../../constants';
 
-export default ({ existingNotifications, pullRequest, currentUser }) => {
+export default ({
+  existingNotifications,
+  pullRequest,
+  currentUser,
+  userSettings,
+}) => {
   const newNotifications = [];
 
   const prAuthor = get(pullRequest, 'author.login');
@@ -23,12 +28,14 @@ export default ({ existingNotifications, pullRequest, currentUser }) => {
     if (!hasReviewAlreadyBeenNotified(node)) {
       const message = `${get(node, 'author.login')} reviewed your pull request`;
       const title = 'Review On Your PR';
+      const type = notificationTypes.REVIEW_ON_YOUR_PR;
 
       newNotifications.push({
-        type: notificationTypes.REVIEW_ON_YOUR_PR,
+        type,
         title,
         message,
         sourceNodeId: node.id,
+        trigger: get(userSettings, `notifications[${type}].trigger`) || false,
       });
     }
   });
