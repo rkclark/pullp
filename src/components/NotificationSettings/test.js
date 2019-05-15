@@ -53,7 +53,6 @@ describe('NotificationSettings', () => {
           .find(CheckBox)
           .filterWhere(node => node.props().name === `${key}_TRIGGER`);
         expect(checkbox.length).toBe(1);
-        expect(checkbox.type()).toBe(CheckBox);
       });
 
       it(`renders a "showOnTimeline" checkbox for ${key}`, () => {
@@ -61,7 +60,6 @@ describe('NotificationSettings', () => {
           .find(CheckBox)
           .filterWhere(node => node.props().name === `${key}_SHOW_ON_TIMELINE`);
         expect(checkbox.length).toBe(1);
-        expect(checkbox.type()).toBe(CheckBox);
       });
     });
 
