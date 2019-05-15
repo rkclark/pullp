@@ -165,6 +165,30 @@ export default {
 
       return null;
     },
+    toggleNotificationSetting: (_, variables, { cache, getCacheKey }) => {
+      const id = getCacheKey({
+        __typename: 'NotificationSetting',
+        id: variables.id,
+      });
+
+      const field = variables.field;
+
+      const fragment = gql(`
+      fragment notificationSettingFor${field} on NotificationSetting {
+        ${field}
+      }`);
+
+      const notificationSetting = cache.readFragment({ fragment, id });
+
+      const data = {
+        ...notificationSetting,
+        [field]: !notificationSetting[field],
+      };
+
+      cache.writeData({ id, data });
+
+      return null;
+    },
   },
   Repository: {
     isSelected: (_, variables, { cache, getCacheKey }) => {

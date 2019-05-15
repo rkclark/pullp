@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Mutation } from 'react-apollo';
 import CheckBox from '../CheckBox';
+
+import { TOGGLE_NOTIFICATION_SETTING } from '../../apollo/mutations';
 
 import style from './style.css';
 
@@ -32,20 +35,34 @@ export default function NotificationSettings({ notifications }) {
             <div key={key} className={style.notificationRow}>
               <h3 className={style.notificationName}>{name}</h3>
               <div className={style.notificationCheckbox}>
-                <CheckBox
-                  checked={trigger}
-                  name={triggerCheckBoxId}
-                  onChange={() => {}}
-                  displayName={''}
-                />
+                <Mutation
+                  mutation={TOGGLE_NOTIFICATION_SETTING}
+                  variables={{ id: value.id, field: 'trigger' }}
+                >
+                  {toggleNotificationSetting => (
+                    <CheckBox
+                      checked={trigger}
+                      name={triggerCheckBoxId}
+                      onChange={toggleNotificationSetting}
+                      displayName={''}
+                    />
+                  )}
+                </Mutation>
               </div>
               <div className={style.notificationCheckbox}>
-                <CheckBox
-                  checked={showOnTimeline}
-                  name={showOnTimelineCheckboxId}
-                  onChange={() => {}}
-                  displayName={''}
-                />
+                <Mutation
+                  mutation={TOGGLE_NOTIFICATION_SETTING}
+                  variables={{ id: value.id, field: 'showOnTimeline' }}
+                >
+                  {toggleNotificationSetting => (
+                    <CheckBox
+                      checked={showOnTimeline}
+                      name={showOnTimelineCheckboxId}
+                      onChange={toggleNotificationSetting}
+                      displayName={''}
+                    />
+                  )}
+                </Mutation>
               </div>
             </div>
           );
