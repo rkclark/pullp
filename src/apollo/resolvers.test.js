@@ -1,5 +1,9 @@
 import resolvers from './resolvers';
-import { GET_CURRENT_USER, GET_USER_TEAMS } from './queries';
+import {
+  GET_CURRENT_USER,
+  GET_USER_TEAMS,
+  GET_USER_SETTINGS_FROM_CACHE,
+} from './queries';
 import processNotifications from './processNotifications';
 
 jest.mock('./processNotifications');
@@ -145,6 +149,12 @@ describe('Apollo resolvers', () => {
       getCacheKey: getCacheKeyMock,
     };
 
+    const userSettingsData = {
+      userSettings: {
+        notifications: {},
+      },
+    };
+
     beforeAll(() => {
       window.Notification = class Notification {};
     });
@@ -157,6 +167,10 @@ describe('Apollo resolvers', () => {
 
         if (query === GET_CURRENT_USER) {
           return currentUserData;
+        }
+
+        if (query === GET_USER_SETTINGS_FROM_CACHE) {
+          return userSettingsData;
         }
 
         return null;
@@ -237,6 +251,10 @@ describe('Apollo resolvers', () => {
               };
             }
 
+            if (query === GET_USER_SETTINGS_FROM_CACHE) {
+              return userSettingsData;
+            }
+
             return null;
           });
         });
@@ -284,6 +302,10 @@ describe('Apollo resolvers', () => {
                   login: 'someoneElse',
                 },
               };
+            }
+
+            if (query === GET_USER_SETTINGS_FROM_CACHE) {
+              return userSettingsData;
             }
 
             return null;
@@ -334,6 +356,10 @@ describe('Apollo resolvers', () => {
                       login: 'team1Member',
                     },
                   };
+                }
+
+                if (query === GET_USER_SETTINGS_FROM_CACHE) {
+                  return userSettingsData;
                 }
 
                 return null;
@@ -397,6 +423,10 @@ describe('Apollo resolvers', () => {
                   };
                 }
 
+                if (query === GET_USER_SETTINGS_FROM_CACHE) {
+                  return userSettingsData;
+                }
+
                 return null;
               });
 
@@ -446,6 +476,10 @@ describe('Apollo resolvers', () => {
                 };
               }
 
+              if (query === GET_USER_SETTINGS_FROM_CACHE) {
+                return userSettingsData;
+              }
+
               return null;
             });
 
@@ -483,6 +517,10 @@ describe('Apollo resolvers', () => {
                     login: 'dev',
                   },
                 };
+              }
+
+              if (query === GET_USER_SETTINGS_FROM_CACHE) {
+                return userSettingsData;
               }
 
               return null;
@@ -524,6 +562,10 @@ describe('Apollo resolvers', () => {
                   };
                 }
 
+                if (query === GET_USER_SETTINGS_FROM_CACHE) {
+                  return userSettingsData;
+                }
+
                 return null;
               });
 
@@ -547,7 +589,7 @@ describe('Apollo resolvers', () => {
 
     describe('notifications', () => {
       describe('when the pull request has existing notifications', () => {
-        it('retrieves them and sends them for processing along with the extended pull request and current user', () => {
+        it('retrieves them and sends them for processing along with the extended pull request, current user and user settings', () => {
           const existingNotifications = [{ type: 'aNotification' }];
           getCacheKeyMock.mockReturnValue('1');
           readFragmentMock.mockReturnValue({
@@ -564,6 +606,7 @@ describe('Apollo resolvers', () => {
 
           expect(processNotifications).toHaveBeenCalledWith({
             existingNotifications,
+            userSettings: userSettingsData.userSettings,
             extendedPullRequest: {
               ...basePR,
               pullpPullRequest: {
@@ -605,6 +648,7 @@ describe('Apollo resolvers', () => {
           expect(processNotifications).toHaveBeenCalledWith({
             existingNotifications: [],
             currentUser: currentUserData.viewer.login,
+            userSettings: userSettingsData.userSettings,
             extendedPullRequest: {
               ...basePR,
               pullpPullRequest: {

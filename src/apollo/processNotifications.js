@@ -25,6 +25,7 @@ export default ({
   existingNotifications,
   extendedPullRequest: pullRequest,
   currentUser,
+  userSettings,
 }) => {
   /* 
     If a closed/merged pull request has no existing notifications
@@ -39,9 +40,10 @@ export default ({
     closedStates.includes(pullRequest.state) &&
     existingNotifications.length === 0
   ) {
-    console.log(`Avoiding notifications for ${pullRequest.title}`);
     return [];
   }
+
+  console.log('User settings', userSettings);
 
   const newNotifications = [
     ...newComments({

@@ -1,7 +1,12 @@
 import { get } from 'lodash';
 import { notificationTypes } from '../../constants';
 
-export default ({ existingNotifications, pullRequest, currentUser }) => {
+export default ({
+  existingNotifications,
+  pullRequest,
+  currentUser,
+  userSettings,
+}) => {
   const login = get(pullRequest, 'author.login');
   const latestCount = get(pullRequest, 'comments.totalCount') || 0;
   const pullRequestId = pullRequest.id;
@@ -31,34 +36,38 @@ export default ({ existingNotifications, pullRequest, currentUser }) => {
       increment > 1 ? 's' : ''
     } on "${pullRequestTitle}"`;
 
+    const baseNotification = {
+      message,
+      sourceNodeId: pullRequestId,
+      comments: {
+        count: latestCount,
+        increment,
+      },
+    };
+
     if (login === currentUser) {
       const title = 'New Comments On Your PR';
+      const type = notificationTypes.NEW_COMMENTS_ON_YOUR_PR;
 
       return [
         {
-          type: notificationTypes.NEW_COMMENTS_ON_YOUR_PR,
+          ...baseNotification,
+          type,
           title,
-          message,
-          comments: {
-            count: latestCount,
-            increment,
-          },
-          sourceNodeId: pullRequestId,
+          trigger: get(userSettings, `notifications[${type}].trigger`) || false,
         },
       ];
     }
 
     const title = 'New Comments On PR';
+    const type = notificationTypes.NEW_COMMENTS;
+
     return [
       {
-        type: notificationTypes.NEW_COMMENTS,
+        ...baseNotification,
+        type,
         title,
-        message,
-        comments: {
-          count: latestCount,
-          increment,
-        },
-        sourceNodeId: pullRequestId,
+        trigger: get(userSettings, `notifications[${type}].trigger`) || false,
       },
     ];
   }
