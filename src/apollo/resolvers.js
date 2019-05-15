@@ -1,6 +1,10 @@
 import { get } from 'lodash';
 import gql from 'graphql-tag';
-import { GET_CURRENT_USER, GET_USER_TEAMS } from './queries';
+import {
+  GET_CURRENT_USER,
+  GET_USER_TEAMS,
+  GET_USER_SETTINGS_FROM_CACHE,
+} from './queries';
 import normalizeGraphqlEdges from '../utils/normalizeGraphqlEdges';
 import processNotifications from './processNotifications';
 
@@ -234,6 +238,10 @@ export default {
         },
       });
 
+      const userSettings = cache.readQuery({
+        query: GET_USER_SETTINGS_FROM_CACHE,
+      }).userSettings;
+
       let currentUserReviewRequested = false;
       let userReviewRequestId;
 
@@ -296,6 +304,7 @@ export default {
           pullpPullRequest,
         },
         currentUser: userLogin,
+        userSettings,
       });
 
       return {

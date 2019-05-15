@@ -8,7 +8,23 @@ const pullRequestId = '12345';
 const currentUser = 'dev';
 const pullRequestTitle = 'Update Readme';
 
+const userSettings = {
+  notifications: {
+    NEW_COMMENTS: {
+      trigger: true,
+    },
+    NEW_COMMENTS_ON_YOUR_PR: {
+      trigger: true,
+    },
+  },
+};
+
 describe('newComments', () => {
+  const baseArgs = {
+    currentUser,
+    userSettings,
+  };
+
   describe('when user is the PR author', () => {
     const newCommentsOnYourPRNotification = {
       type: NEW_COMMENTS_ON_YOUR_PR,
@@ -19,14 +35,15 @@ describe('newComments', () => {
         increment: 5,
       },
       sourceNodeId: pullRequestId,
+      trigger: true,
     };
 
     describe(`when there is an existing ${NEW_COMMENTS_ON_YOUR_PR} notification`, () => {
       describe('when the comment count has not increased', () => {
         it('does not add a new notification', () => {
           const notifications = newComments({
+            ...baseArgs,
             existingNotifications: [newCommentsOnYourPRNotification],
-            currentUser,
             pullRequest: {
               id: pullRequestId,
               title: pullRequestTitle,
@@ -46,8 +63,8 @@ describe('newComments', () => {
       describe('when the comment count has increased', () => {
         it(`adds a new ${NEW_COMMENTS_ON_YOUR_PR} notification with the comment count and increment`, () => {
           const notifications = newComments({
+            ...baseArgs,
             existingNotifications: [newCommentsOnYourPRNotification],
-            currentUser,
             pullRequest: {
               id: pullRequestId,
               title: pullRequestTitle,
@@ -85,8 +102,8 @@ describe('newComments', () => {
       describe('when the increment is 1', () => {
         it(`does not pluralise "comment" in the message`, () => {
           const notifications = newComments({
+            ...baseArgs,
             existingNotifications: [newCommentsOnYourPRNotification],
-            currentUser,
             pullRequest: {
               id: pullRequestId,
               title: pullRequestTitle,
@@ -110,8 +127,8 @@ describe('newComments', () => {
       describe('when the comment count has not increased', () => {
         it('does not add a new notification', () => {
           const notifications = newComments({
+            ...baseArgs,
             existingNotifications: [],
-            currentUser,
             pullRequest: {
               id: pullRequestId,
               title: pullRequestTitle,
@@ -131,8 +148,8 @@ describe('newComments', () => {
       describe('when the comment count has increased', () => {
         it(`adds a new ${NEW_COMMENTS_ON_YOUR_PR} notification with the comment count and increment`, () => {
           const notifications = newComments({
+            ...baseArgs,
             existingNotifications: [],
-            currentUser,
             pullRequest: {
               id: pullRequestId,
               title: pullRequestTitle,
@@ -167,6 +184,59 @@ describe('newComments', () => {
         });
       });
     });
+
+    describe(`when the user setting to trigger ${NEW_COMMENTS_ON_YOUR_PR} is true`, () => {
+      it('adds "trigger: true" to the notification', () => {
+        const notifications = newComments({
+          ...baseArgs,
+          existingNotifications: [],
+          pullRequest: {
+            id: pullRequestId,
+            title: pullRequestTitle,
+            comments: {
+              totalCount: 7,
+            },
+            author: {
+              login: currentUser,
+            },
+          },
+        });
+
+        expect(notifications.length).toBe(1);
+        const { trigger } = notifications[0];
+
+        expect(trigger).toBe(true);
+      });
+    });
+
+    describe(`when the user setting to trigger ${NEW_COMMENTS_ON_YOUR_PR} is false`, () => {
+      it('adds "trigger: false" to the notification', () => {
+        const notifications = newComments({
+          ...baseArgs,
+          existingNotifications: [],
+          userSettings: {
+            NEW_COMMENTS_ON_YOUR_PR: {
+              trigger: false,
+            },
+          },
+          pullRequest: {
+            id: pullRequestId,
+            title: pullRequestTitle,
+            comments: {
+              totalCount: 7,
+            },
+            author: {
+              login: currentUser,
+            },
+          },
+        });
+
+        expect(notifications.length).toBe(1);
+        const { trigger } = notifications[0];
+
+        expect(trigger).toBe(false);
+      });
+    });
   });
 
   describe('when user is not PR author', () => {
@@ -185,8 +255,8 @@ describe('newComments', () => {
       describe('when the comment count has not increased', () => {
         it('does not add a new notification', () => {
           const notifications = newComments({
+            ...baseArgs,
             existingNotifications: [newCommentsOnPRNotification],
-            currentUser,
             pullRequest: {
               id: pullRequestId,
               title: pullRequestTitle,
@@ -206,8 +276,8 @@ describe('newComments', () => {
       describe('when the comment count has increased', () => {
         it(`adds a new ${NEW_COMMENTS} notification with the comment count and increment`, () => {
           const notifications = newComments({
+            ...baseArgs,
             existingNotifications: [newCommentsOnPRNotification],
-            currentUser,
             pullRequest: {
               id: pullRequestId,
               title: pullRequestTitle,
@@ -242,8 +312,8 @@ describe('newComments', () => {
         describe('when the increment is 1', () => {
           it(`does not pluralise "comment" in the message`, () => {
             const notifications = newComments({
+              ...baseArgs,
               existingNotifications: [newCommentsOnPRNotification],
-              currentUser,
               pullRequest: {
                 id: pullRequestId,
                 title: pullRequestTitle,
@@ -268,8 +338,8 @@ describe('newComments', () => {
       describe('when the comment count has not increased', () => {
         it('does not add a new notification', () => {
           const notifications = newComments({
+            ...baseArgs,
             existingNotifications: [],
-            currentUser,
             pullRequest: {
               id: pullRequestId,
               title: pullRequestTitle,
@@ -289,8 +359,8 @@ describe('newComments', () => {
       describe('when the comment count has increased', () => {
         it(`adds a new ${NEW_COMMENTS} notification with the comment count and increment`, () => {
           const notifications = newComments({
+            ...baseArgs,
             existingNotifications: [],
-            currentUser,
             pullRequest: {
               id: pullRequestId,
               title: pullRequestTitle,
@@ -321,6 +391,59 @@ describe('newComments', () => {
           });
           expect(sourceNodeId).toBe(newCommentsOnPRNotification.sourceNodeId);
         });
+      });
+    });
+
+    describe(`when the user setting to trigger ${NEW_COMMENTS} is true`, () => {
+      it('adds "trigger: true" to the notification', () => {
+        const notifications = newComments({
+          ...baseArgs,
+          existingNotifications: [],
+          pullRequest: {
+            id: pullRequestId,
+            title: pullRequestTitle,
+            comments: {
+              totalCount: 7,
+            },
+            author: {
+              login: 'someoneElse',
+            },
+          },
+        });
+
+        expect(notifications.length).toBe(1);
+        const { trigger } = notifications[0];
+
+        expect(trigger).toBe(true);
+      });
+    });
+
+    describe(`when the user setting to trigger ${NEW_COMMENTS} is false`, () => {
+      it('adds "trigger: false" to the notification', () => {
+        const notifications = newComments({
+          ...baseArgs,
+          existingNotifications: [],
+          userSettings: {
+            NEW_COMMENTS: {
+              trigger: false,
+            },
+          },
+          pullRequest: {
+            id: pullRequestId,
+            title: pullRequestTitle,
+            comments: {
+              totalCount: 7,
+            },
+            author: {
+              login: 'someoneElse',
+            },
+          },
+        });
+
+        expect(notifications.length).toBe(1);
+        const { trigger } = notifications[0];
+
+        expect(trigger).toBe(false);
       });
     });
   });
