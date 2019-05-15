@@ -27,11 +27,6 @@ export default ({
     null,
   );
 
-  if (pullRequest.title === 'Branch 2') {
-    console.log('Existing notifications', existingNotifications);
-    console.log('mostRecentState is', mostRecentState);
-  }
-
   const type = notificationTypes.PR_STATE_CHANGE;
 
   const baseNotification = {
