@@ -25,22 +25,27 @@ export const GET_USER_SETTINGS_FROM_CACHE = gql`
         REVIEW_REQUESTED {
           trigger
           showOnTimeline
+          id
         }
         REVIEW_ON_YOUR_PR {
           trigger
           showOnTimeline
+          id
         }
         PR_STATE_CHANGE {
           trigger
           showOnTimeline
+          id
         }
         NEW_COMMENTS {
           trigger
           showOnTimeline
+          id
         }
         NEW_COMMENTS_ON_YOUR_PR {
           trigger
           showOnTimeline
+          id
         }
       }
     }
