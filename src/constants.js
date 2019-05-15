@@ -22,6 +22,8 @@ export const notificationTypes = {
   REVIEW_REQUESTED: 'REVIEW_REQUESTED',
   REVIEW_ON_YOUR_PR: 'REVIEW_ON_YOUR_PR',
   PR_STATE_CHANGE: 'PR_STATE_CHANGE',
+  NEW_COMMENTS: 'NEW_COMMENTS',
+  NEW_COMMENTS_ON_YOUR_PR: 'NEW_COMMENTS_ON_YOUR_PR',
 };
 
 export const stateChangeNotificationSubTypes = {
