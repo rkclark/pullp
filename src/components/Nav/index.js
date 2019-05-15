@@ -37,12 +37,12 @@ export default function Nav({ currentPath, currentUser }) {
         </div>
         <div className={styles.linkContainer}>
           <Link
-            to="/app/account"
+            to="/app/settings"
             className={`${styles.link} ${
-              currentPath === '/app/account' ? styles.activeLink : null
+              currentPath === '/app/settings' ? styles.activeLink : null
             }`}
           >
-            Account
+            Settings
           </Link>
         </div>
       </div>

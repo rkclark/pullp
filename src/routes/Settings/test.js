@@ -1,11 +1,11 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Account } from '.';
+import { Settings } from '.';
 import AccountDetails from '../../components/AccountDetails';
 import LoadingMessage from '../../components/LoadingMessage';
 import Error from '../../components/Error';
 
-describe('Account', () => {
+describe('Settings', () => {
   const defaultProps = {
     data: {
       viewer: {
@@ -20,7 +20,7 @@ describe('Account', () => {
   let component;
 
   beforeAll(() => {
-    component = shallow(<Account {...defaultProps} />);
+    component = shallow(<Settings {...defaultProps} />);
   });
 
   it('renders successsfully', () => {
@@ -30,7 +30,7 @@ describe('Account', () => {
   describe('when loading', () => {
     it('renders a LoadingMessage', () => {
       const originalComponent = component;
-      component = shallow(<Account {...defaultProps} loading />);
+      component = shallow(<Settings {...defaultProps} loading />);
       expect(component.find(LoadingMessage).length).toBe(1);
       component = originalComponent;
     });
@@ -46,7 +46,7 @@ describe('Account', () => {
     it('renders an Error', () => {
       const originalComponent = component;
       component = shallow(
-        <Account {...defaultProps} error={{ message: 'borked' }} />,
+        <Settings {...defaultProps} error={{ message: 'borked' }} />,
       );
       expect(component.find(Error).length).toBe(1);
       component = originalComponent;
