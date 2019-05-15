@@ -8,7 +8,14 @@ const { shell } = window.electron;
 
 const closedStates = [pullRequestStates.CLOSED, pullRequestStates.MERGED];
 
-const triggerNotification = ({ notification: { title, message }, url }) => {
+const triggerNotification = ({
+  notification: { title, message, trigger },
+  url,
+}) => {
+  if (!trigger) {
+    return;
+  }
+
   /* eslint-disable no-new */
   const notification = new Notification(title, {
     body: message,

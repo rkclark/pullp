@@ -87,28 +87,51 @@ describe('processNotifications', () => {
       });
 
       describe(`when the ${name} rule returns a new notification`, () => {
-        it('triggers the notification', () => {
-          const message = 'message';
-          const title = 'title';
-          const sourceNodeId = '1234';
+        const message = 'message';
+        const title = 'title';
+        const sourceNodeId = '1234';
+        describe('when trigger is set to true on the notification', () => {
+          it('triggers the notification', () => {
+            fn.mockReturnValue([
+              {
+                type: name,
+                message,
+                title,
+                sourceNodeId,
+                trigger: true,
+              },
+            ]);
 
-          fn.mockReturnValue([
-            {
-              type: name,
-              message,
-              title,
-              sourceNodeId,
-            },
-          ]);
+            processNotifications({
+              existingNotifications: [],
+              extendedPullRequest: {},
+            });
 
-          processNotifications({
-            existingNotifications: [],
-            extendedPullRequest: {},
+            expect(window.Notification).toHaveBeenCalledTimes(1);
+            expect(window.Notification).toHaveBeenCalledWith(title, {
+              body: message,
+            });
           });
+        });
 
-          expect(window.Notification).toHaveBeenCalledTimes(1);
-          expect(window.Notification).toHaveBeenCalledWith(title, {
-            body: message,
+        describe('when trigger is set to false on the notification', () => {
+          it('does not trigger the notification', () => {
+            fn.mockReturnValue([
+              {
+                type: name,
+                message,
+                title,
+                sourceNodeId,
+                trigger: false,
+              },
+            ]);
+
+            processNotifications({
+              existingNotifications: [],
+              extendedPullRequest: {},
+            });
+
+            expect(window.Notification).not.toHaveBeenCalled();
           });
         });
       });
