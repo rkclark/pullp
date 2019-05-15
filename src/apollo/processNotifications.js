@@ -1,8 +1,11 @@
 import reviewRequested from './notificationRules/reviewRequested';
 import reviewOnYourPR from './notificationRules/reviewOnYourPR';
 import pullRequestStateChange from './notificationRules/pullRequestStateChange';
+import { pullRequestStates } from '../constants';
 
 const { shell } = window.electron;
+
+const closedStates = [pullRequestStates.CLOSED, pullRequestStates.MERGED];
 
 const triggerNotification = ({ notification: { title, message }, url }) => {
   /* eslint-disable no-new */
@@ -22,6 +25,23 @@ export default ({
   extendedPullRequest: pullRequest,
   currentUser,
 }) => {
+  /* 
+    If a closed/merged pull request has no existing notifications
+    then it must have been newly retrieved from Github. Most likely, this is
+    due to the user selecting a new repository that has existing closed/merged
+    pull requests.
+
+    We do not want to process or trigger notifications for these historical pull
+    requests, so we return an empty array.
+  */
+  if (
+    closedStates.includes(pullRequest.state) &&
+    existingNotifications.length === 0
+  ) {
+    console.log(`Avoiding notifications for ${pullRequest.title}`);
+    return [];
+  }
+
   const newNotifications = [
     ...reviewRequested({ existingNotifications, pullRequest }),
     ...reviewOnYourPR({ existingNotifications, pullRequest, currentUser }),
@@ -36,7 +56,12 @@ export default ({
     triggerNotification({ notification, url: pullRequest.url });
   });
 
-  console.log('new notifications', newNotifications);
+  console.log(
+    `${newNotifications.length} notifications for #${pullRequest.number} / ${
+      pullRequest.title
+    }`,
+    newNotifications,
+  );
 
   return [...existingNotifications, ...newNotifications];
 };
