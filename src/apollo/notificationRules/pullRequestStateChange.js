@@ -5,7 +5,12 @@ import {
   stateChangeNotificationSubTypes,
 } from '../../constants';
 
-export default ({ existingNotifications, pullRequest, currentUser }) => {
+export default ({
+  existingNotifications,
+  pullRequest,
+  currentUser,
+  userSettings,
+}) => {
   const prAuthor = get(pullRequest, 'author.login');
   const isUserPRAuthor = currentUser === prAuthor;
 
@@ -22,9 +27,12 @@ export default ({ existingNotifications, pullRequest, currentUser }) => {
     null,
   );
 
+  const type = notificationTypes.PR_STATE_CHANGE;
+
   const baseNotification = {
-    type: notificationTypes.PR_STATE_CHANGE,
+    type,
     sourceNodeId: pullRequest.id,
+    trigger: get(userSettings, `notifications[${type}].trigger`) || false,
   };
 
   /*
