@@ -35,6 +35,9 @@ describe('processNotifications', () => {
   const existingNotifications = [{ type: 'NOTIFICATION_TYPE' }];
   const extendedPullRequest = { id: '12345' };
   const currentUser = 'dev';
+  const userSettings = {
+    notifications: {},
+  };
 
   const rules = [
     {
@@ -43,6 +46,7 @@ describe('processNotifications', () => {
       requiredArgs: {
         existingNotifications,
         pullRequest: extendedPullRequest,
+        userSettings,
       },
     },
     {
@@ -52,6 +56,7 @@ describe('processNotifications', () => {
         existingNotifications,
         pullRequest: extendedPullRequest,
         currentUser,
+        userSettings,
       },
     },
     {
@@ -61,6 +66,7 @@ describe('processNotifications', () => {
         existingNotifications,
         pullRequest: extendedPullRequest,
         currentUser,
+        userSettings,
       },
     },
     {
@@ -70,6 +76,7 @@ describe('processNotifications', () => {
         existingNotifications,
         pullRequest: extendedPullRequest,
         currentUser,
+        userSettings,
       },
     },
   ];
@@ -81,6 +88,7 @@ describe('processNotifications', () => {
           existingNotifications,
           extendedPullRequest,
           currentUser,
+          userSettings,
         });
 
         expect(fn).toHaveBeenCalledWith(requiredArgs);

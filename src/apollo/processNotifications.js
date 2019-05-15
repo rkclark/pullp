@@ -50,19 +50,24 @@ export default ({
     return [];
   }
 
-  console.log('User settings', userSettings);
+  const baseArgs = {
+    existingNotifications,
+    pullRequest,
+    userSettings,
+  };
 
   const newNotifications = [
     ...newComments({
-      existingNotifications,
-      pullRequest,
+      ...baseArgs,
       currentUser,
     }),
-    ...reviewRequested({ existingNotifications, pullRequest }),
-    ...reviewOnYourPR({ existingNotifications, pullRequest, currentUser }),
+    ...reviewRequested(baseArgs),
+    ...reviewOnYourPR({
+      ...baseArgs,
+      currentUser,
+    }),
     ...pullRequestStateChange({
-      existingNotifications,
-      pullRequest,
+      ...baseArgs,
       currentUser,
     }),
   ];
