@@ -1,6 +1,7 @@
 import reviewRequested from './notificationRules/reviewRequested';
 import reviewOnYourPR from './notificationRules/reviewOnYourPR';
 import pullRequestStateChange from './notificationRules/pullRequestStateChange';
+import newComments from './notificationRules/newComments';
 import { pullRequestStates } from '../constants';
 
 const { shell } = window.electron;
@@ -43,6 +44,11 @@ export default ({
   }
 
   const newNotifications = [
+    ...newComments({
+      existingNotifications,
+      pullRequest,
+      currentUser,
+    }),
     ...reviewRequested({ existingNotifications, pullRequest }),
     ...reviewOnYourPR({ existingNotifications, pullRequest, currentUser }),
     ...pullRequestStateChange({
