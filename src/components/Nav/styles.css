@@ -10,7 +10,7 @@
   align-items: center;
   padding: 0 var(--spacing-3);
   z-index: var(--z-nav);
-  height: 6.5rem;
+  height: 5.5rem;
 }
 
 .draggable {
@@ -25,39 +25,14 @@
 
 .links {
   display: inline-flex;
-  flex-basis: 33.3%;
+  flex-basis: 100%;
   justify-content: center;
+  margin-left: 4rem;
 }
 
-.titleContainer, .currentUser {
-  flex-basis: 33.3%;
-}
-
-.titleContainer {
-  display: flex;
-  align-items: center;
-}
-
-.pullpIcon {
-  display: inline-block;
-  margin: 0.5rem var(--spacing-2) 0.5rem 0;
-  height: 2.5rem;
-  width: 2.5rem;
-}
-
-.sync {
-  text-transform: uppercase;
-  font-weight: normal;
-  font-size: 1rem;
-  color: transparent;
-  position: absolute;
-  top: 1.05rem;
-  left: 6rem;
-  transition: 0.3s ease-in-out all;
-}
-
-.syncActive {
-  color: var(--light-grey);
+.currentUser {
+  flex-basis: 0%;
+  flex-shrink: 1;
 }
 
 .linkContainer {
@@ -87,13 +62,4 @@
 
 .activeLink {
   border-bottom: 0.2rem solid var(--secondary-medium);
-}
-
-.refresh {
-  background-color: transparent;
-  border: none;
-  padding: 0;
-  align-self: stretch;
-  width: 5.5rem;
-  position: relative;
 }

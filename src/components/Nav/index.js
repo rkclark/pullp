@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import pullpIcon from '../../images/pullpIcon.png';
 
 import CurrentUser from '../CurrentUser';
 
@@ -11,9 +10,6 @@ export default function Nav({ currentPath, currentUser }) {
   return (
     <div className={styles.header}>
       <div className={styles.draggable} />
-      <div className={styles.titleContainer}>
-        <img className={styles.pullpIcon} src={pullpIcon} alt="Pullp Icon" />
-      </div>
       <div className={styles.links}>
         <div className={styles.linkContainer}>
           <Link
