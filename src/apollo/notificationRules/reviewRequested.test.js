@@ -10,6 +10,7 @@ const reviewRequestedNotification = {
   title: 'Review Requested',
   message: '',
   sourceNodeId: '123',
+  dismissed: false,
 };
 
 const userSettings = {
@@ -72,6 +73,7 @@ describe('reviewRequested', () => {
         expect(notification.title).toBe(reviewRequestedNotification.title);
         expect(notification.message).toBe(`${login} requested your review`);
         expect(notification.sourceNodeId).toBe(userReviewRequestId);
+        expect(notification.dismissed).toBe(false);
       });
     });
 

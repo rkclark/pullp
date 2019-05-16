@@ -23,6 +23,7 @@ const pullRequestOpenedNotification = {
   message: `${pullRequestAuthor} opened "${pullRequestTitle}"`,
   sourceNodeId: pullRequestId,
   trigger: true,
+  dismissed: false,
 };
 
 const pullRequestReOpenedNotification = {
@@ -32,6 +33,7 @@ const pullRequestReOpenedNotification = {
   message: `${pullRequestAuthor} re-opened "${pullRequestTitle}"`,
   sourceNodeId: pullRequestId,
   trigger: true,
+  dismissed: false,
 };
 
 const pullRequestClosedNotification = {
@@ -41,6 +43,7 @@ const pullRequestClosedNotification = {
   message: `"${pullRequestTitle}"`,
   sourceNodeId: pullRequestId,
   trigger: true,
+  dismissed: false,
 };
 
 const pullRequestMergedNotification = {
@@ -50,6 +53,7 @@ const pullRequestMergedNotification = {
   message: `"${pullRequestTitle}"`,
   sourceNodeId: pullRequestId,
   trigger: true,
+  dismissed: false,
 };
 
 const userSettings = {
@@ -89,10 +93,12 @@ describe('pullRequestStateChange', () => {
             message,
             sourceNodeId,
             subType,
+            dismissed,
           } = notifications[0];
           expect(type).toBe(pullRequestOpenedNotification.type);
           expect(title).toBe(pullRequestOpenedNotification.title);
           expect(message).toBe(pullRequestOpenedNotification.message);
+          expect(dismissed).toBe(false);
           expect(subType).toBe(pullRequestOpenedNotification.subType);
           expect(sourceNodeId).toBe(pullRequestOpenedNotification.sourceNodeId);
         });
@@ -159,10 +165,12 @@ describe('pullRequestStateChange', () => {
             message,
             sourceNodeId,
             subType,
+            dismissed,
           } = notifications[0];
           expect(type).toBe(pullRequestClosedNotification.type);
           expect(title).toBe(pullRequestClosedNotification.title);
           expect(message).toBe(pullRequestClosedNotification.message);
+          expect(dismissed).toBe(false);
           expect(sourceNodeId).toBe(pullRequestClosedNotification.sourceNodeId);
           expect(subType).toBe(pullRequestClosedNotification.subType);
         });
@@ -188,10 +196,12 @@ describe('pullRequestStateChange', () => {
               message,
               sourceNodeId,
               subType,
+              dismissed,
             } = notifications[0];
             expect(type).toBe(pullRequestClosedNotification.type);
             expect(title).toBe(`Your ${pullRequestClosedNotification.title}`);
             expect(message).toBe(pullRequestClosedNotification.message);
+            expect(dismissed).toBe(false);
             expect(sourceNodeId).toBe(
               pullRequestClosedNotification.sourceNodeId,
             );
@@ -243,10 +253,12 @@ describe('pullRequestStateChange', () => {
             message,
             sourceNodeId,
             subType,
+            dismissed,
           } = notifications[0];
           expect(type).toBe(pullRequestMergedNotification.type);
           expect(title).toBe(pullRequestMergedNotification.title);
           expect(message).toBe(pullRequestMergedNotification.message);
+          expect(dismissed).toBe(false);
           expect(sourceNodeId).toBe(pullRequestMergedNotification.sourceNodeId);
           expect(subType).toBe(pullRequestMergedNotification.subType);
         });
@@ -272,10 +284,12 @@ describe('pullRequestStateChange', () => {
               message,
               sourceNodeId,
               subType,
+              dismissed,
             } = notifications[0];
             expect(type).toBe(pullRequestMergedNotification.type);
             expect(title).toBe(`Your ${pullRequestMergedNotification.title}`);
             expect(message).toBe(pullRequestMergedNotification.message);
+            expect(dismissed).toBe(false);
             expect(sourceNodeId).toBe(
               pullRequestMergedNotification.sourceNodeId,
             );
@@ -327,10 +341,12 @@ describe('pullRequestStateChange', () => {
             message,
             sourceNodeId,
             subType,
+            dismissed,
           } = notifications[0];
           expect(type).toBe(pullRequestReOpenedNotification.type);
           expect(title).toBe(pullRequestReOpenedNotification.title);
           expect(message).toBe(pullRequestReOpenedNotification.message);
+          expect(dismissed).toBe(false);
           expect(sourceNodeId).toBe(
             pullRequestReOpenedNotification.sourceNodeId,
           );

@@ -238,29 +238,6 @@
   background-color: var(--primary-dark);
 }
 
-/* .zeroCount .countContainer {
-  align-self: center;
-}
-
-.zeroCount .link {
-  background-color: var(--primary-dark);
-}
-
-
-.zeroCount .indicatorsContainer {
-  opacity: 0.5;
-}
-
-.zeroCount .ownerAvatar, .zeroCount .name {
-  opacity: 0.7;
-}
-
-
-.zeroCount .prCountLabel {
-  color: var(--white);
-  font-size: 1rem;
-} */
-
 .zeroCountContainer {
   display: flex;
   flex-direction: column;

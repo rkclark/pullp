@@ -36,6 +36,7 @@ export default ({
         message,
         sourceNodeId: node.id,
         trigger: get(userSettings, `notifications[${type}].trigger`) || false,
+        dismissed: false,
       });
     }
   });
