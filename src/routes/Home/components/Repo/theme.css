@@ -3,8 +3,8 @@
 
 .repoContainer {
   background-color: white;
-  overflow: hidden;
   box-shadow: var(--boxshadow), inset 0 -0.4rem 0 0 var(--primary-medium);
+  position: relative;
 }
 
 .indicatorsContainer {
@@ -41,6 +41,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: hidden;
 }
 
 .name {
@@ -250,4 +251,22 @@
   font-weight: normal;
   font-size: 1.4rem;
   text-transform: uppercase;
+}
+
+.notificationCount {
+  position: absolute;
+  top: -1rem;
+  right: -1rem;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 100%;
+  background-color: var(--tertiary-dark);
+  text-align: center;
+  font-weight: bold;
+  line-height: 3.9rem;
+  font-size: 1.8rem;
+}
+
+.zeroCount .notificationCount {
+  display: none;
 }

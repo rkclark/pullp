@@ -22,6 +22,11 @@ export default class Repo extends React.Component {
     const numberOfPrs = data.pullRequests.length;
     const totalPrs = data.totalPullRequests;
     const countClass = numberOfPrs === 0 ? 'zeroCount' : null;
+    const newNotificationCount = data.newNotificationCount;
+
+    if (data.name.includes('test-repo')) {
+      console.log('data is', data);
+    }
 
     const open = data.id === openRepoId;
     const onClick = () => {
@@ -76,6 +81,7 @@ export default class Repo extends React.Component {
 
     return (
       <div className={`${theme.repoContainer} ${theme[countClass]}`}>
+        <span className={theme.notificationCount}>{newNotificationCount}</span>
         <div className={`${theme.repo}`}>
           <a href={data.url} className={theme.link}>
             <img
