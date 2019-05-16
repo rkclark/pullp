@@ -84,6 +84,7 @@ describe('newComments', () => {
             message,
             comments,
             sourceNodeId,
+            dismissed,
           } = notifications[0];
 
           expect(type).toBe(newCommentsOnYourPRNotification.type);
@@ -96,6 +97,7 @@ describe('newComments', () => {
           expect(sourceNodeId).toBe(
             newCommentsOnYourPRNotification.sourceNodeId,
           );
+          expect(dismissed).toBe(false);
         });
       });
 
@@ -169,6 +171,7 @@ describe('newComments', () => {
             message,
             comments,
             sourceNodeId,
+            dismissed,
           } = notifications[0];
 
           expect(type).toBe(newCommentsOnYourPRNotification.type);
@@ -181,6 +184,7 @@ describe('newComments', () => {
           expect(sourceNodeId).toBe(
             newCommentsOnYourPRNotification.sourceNodeId,
           );
+          expect(dismissed).toBe(false);
         });
       });
     });
@@ -297,6 +301,7 @@ describe('newComments', () => {
             message,
             comments,
             sourceNodeId,
+            dismissed,
           } = notifications[0];
 
           expect(type).toBe(newCommentsOnPRNotification.type);
@@ -307,6 +312,7 @@ describe('newComments', () => {
             increment: 2,
           });
           expect(sourceNodeId).toBe(newCommentsOnPRNotification.sourceNodeId);
+          expect(dismissed).toBe(false);
         });
 
         describe('when the increment is 1', () => {
@@ -380,6 +386,7 @@ describe('newComments', () => {
             message,
             comments,
             sourceNodeId,
+            dismissed,
           } = notifications[0];
 
           expect(type).toBe(newCommentsOnPRNotification.type);
@@ -390,6 +397,7 @@ describe('newComments', () => {
             increment: 7,
           });
           expect(sourceNodeId).toBe(newCommentsOnPRNotification.sourceNodeId);
+          expect(dismissed).toBe(false);
         });
       });
     });

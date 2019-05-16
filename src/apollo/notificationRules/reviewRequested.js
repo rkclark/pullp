@@ -31,6 +31,7 @@ export default ({ existingNotifications, pullRequest, userSettings }) => {
         message,
         sourceNodeId: userReviewRequestId,
         trigger: get(userSettings, `notifications[${type}].trigger`) || false,
+        dismissed: false,
       },
     ];
   }

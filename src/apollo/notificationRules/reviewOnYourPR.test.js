@@ -8,6 +8,7 @@ const reviewOnYourPRNotification = {
   title: 'Review On Your PR',
   message: '',
   sourceNodeId: '123',
+  dismissed: false,
 };
 
 const userSettings = {
@@ -87,6 +88,7 @@ describe('reviewOnYourPR', () => {
         const { 0: notification } = notifications;
 
         expect(notification.type).toBe(REVIEW_ON_YOUR_PR);
+        expect(notification.dismissed).toBe(false);
         expect(notification.title).toBe(reviewOnYourPRNotification.title);
         expect(notification.message).toBe(
           `${reviewer} reviewed your pull request`,

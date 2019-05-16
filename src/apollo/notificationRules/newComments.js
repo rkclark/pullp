@@ -43,6 +43,7 @@ export default ({
         count: latestCount,
         increment,
       },
+      dismissed: false,
     };
 
     if (login === currentUser) {

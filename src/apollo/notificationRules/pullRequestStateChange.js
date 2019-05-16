@@ -33,6 +33,7 @@ export default ({
     type,
     sourceNodeId: pullRequest.id,
     trigger: get(userSettings, `notifications[${type}].trigger`) || false,
+    dismissed: false,
   };
 
   /*
