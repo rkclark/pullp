@@ -21,6 +21,9 @@ import {
   GITHUB_POLLING_FREQUENCY_MS,
   homePageViews,
 } from '../../constants';
+
+import fullViewIcon from '../../images/fullView.svg';
+import minimalViewIcon from '../../images/minimalView.svg';
 import transformRepos from './transformRepos';
 
 const loadingMessage = (
@@ -97,7 +100,7 @@ export class Home extends React.Component {
           </div>
         ) : (
           <Fragment>
-            <div className={style.viewSelector}>
+            <div className={style.viewSelectors}>
               <Mutation
                 mutation={SET_HOME_PAGE_VIEW}
                 variables={{
@@ -107,10 +110,16 @@ export class Home extends React.Component {
               >
                 {setHomePageView => (
                   <button
-                    className={style.fullViewButton}
+                    className={`${style.fullViewButton} ${
+                      style.viewSelectorButton
+                    } ${currentView === FULL_VIEW ? style.selectedButton : ''}`}
                     onClick={setHomePageView}
                   >
-                    full view
+                    <img
+                      src={fullViewIcon}
+                      className={style.viewSelectIcon}
+                      alt="Select full view"
+                    />
                   </button>
                 )}
               </Mutation>
@@ -123,10 +132,18 @@ export class Home extends React.Component {
               >
                 {setHomePageView => (
                   <button
-                    className={style.fullViewButton}
+                    className={`${style.minimalViewButton} ${
+                      style.viewSelectorButton
+                    } ${
+                      currentView === MINIMAL_VIEW ? style.selectedButton : ''
+                    }`}
                     onClick={setHomePageView}
                   >
-                    minimal view
+                    <img
+                      src={minimalViewIcon}
+                      className={style.viewSelectIcon}
+                      alt="Select full view"
+                    />
                   </button>
                 )}
               </Mutation>
