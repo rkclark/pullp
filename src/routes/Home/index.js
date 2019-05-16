@@ -256,19 +256,15 @@ export default function HomeContainer() {
                     query={GET_USER_VIEW_SETTINGS_FROM_CACHE}
                     fetchPolicy="cache-only"
                   >
-                    {({ data: settingsData }) => {
-                      console.log('got settings data', settingsData);
-
-                      return (
-                        <Home
-                          data={transformedRepoData}
-                          settings={settingsData}
-                          loading={pullRequestsLoading}
-                          error={pullRequestsError}
-                          numberOfSelectedRepos={selectedRepoIds.length}
-                        />
-                      );
-                    }}
+                    {({ data: settingsData }) => (
+                      <Home
+                        data={transformedRepoData}
+                        settings={settingsData}
+                        loading={pullRequestsLoading}
+                        error={pullRequestsError}
+                        numberOfSelectedRepos={selectedRepoIds.length}
+                      />
+                    )}
                   </Query>
                 );
               }}
