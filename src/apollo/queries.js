@@ -128,10 +128,26 @@ export const GET_PULL_REQUESTS = gql(`query getPullRequests($ids: [ID!]!, $maxim
   nodes(ids: $ids) {
     id
     ... on Repository {
+      closedPullRequests: pullRequests(
+        last: 5
+        states: [CLOSED, MERGED]
+        orderBy: { field: UPDATED_AT, direction: ASC }
+      ) {
+        edges {
+          node {
+            id
+            title
+            state
+            author {
+              login
+            }
+          }
+        }
+      }
       pullRequests(
         last: $maximumPrs
-        states: [OPEN, CLOSED, MERGED]
-        orderBy: { field: CREATED_AT, direction: DESC }
+        states: [OPEN]
+        orderBy: { field: CREATED_AT, direction: ASC }
       ) {
         totalCount
         edges {
