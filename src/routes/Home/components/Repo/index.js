@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import CircularProgressbar from 'react-circular-progressbar';
 
@@ -75,8 +75,8 @@ export default class Repo extends React.Component {
       ) : null;
 
     return (
-      <div className={`${theme.repoContainer}`}>
-        <div className={`${theme.repo} ${theme[countClass]}`}>
+      <div className={`${theme.repoContainer} ${theme[countClass]}`}>
+        <div className={`${theme.repo}`}>
           <a href={data.url} className={theme.link}>
             <img
               className={theme.ownerAvatar}
@@ -91,54 +91,60 @@ export default class Repo extends React.Component {
             role="button"
             tabIndex="0"
           >
-            <div className={`${theme.countContainer}`}>
-              <CircularCounter count={data.pullRequests.length} />
-              <span className={theme.prCountLabel}>OPEN</span>
-              <div className={theme.authorsContainer}>
-                {prRows}
-                {extraCount}
-              </div>
-            </div>
             {numberOfPrs > 0 ? (
-              <div className={theme.reviewsContainer}>
-                <div className={theme.reviewCoverageContainer}>
-                  <CircularProgressbar
-                    percentage={reviewCompletionPercentage}
-                    className={theme.progressCircle}
-                    strokeWidth={20}
-                    initialAnimation
-                  />
-                  <span className={theme.reviewCoverage}>{`${
-                    data.currentUserReviews
-                  }/${numberOfPrs}`}</span>
-                </div>
-                <span className={theme.prCountLabel}>Reviewed by you</span>
-                <div
-                  className={`${theme.reviewRequestsContainer} ${
-                    data.currentUserReviewRequests === 0
-                      ? theme.noRequests
-                      : null
-                  }`}
-                >
-                  <div className={theme.requestsCircle}>
-                    <span
-                      className={`${theme.requestsCount} ${theme.countLabel}`}
-                    >
-                      {data.currentUserReviewRequests}
-                    </span>
+              <Fragment>
+                <div className={`${theme.countContainer}`}>
+                  <CircularCounter count={data.pullRequests.length} />
+                  <span className={theme.prCountLabel}>OPEN</span>
+                  <div className={theme.authorsContainer}>
+                    {prRows}
+                    {extraCount}
                   </div>
-                  {data.currentUserReviewRequests > 0 ? (
-                    <svg className={theme.spinCircle}>
-                      <circle cx="50%" cy="50%" r="45px" />
-                    </svg>
-                  ) : null}
                 </div>
-                <span className={theme.prCountLabel}>
-                  Request{data.currentUserReviewRequests === 1 ? '' : 's'} for
-                  your review
-                </span>
+                <div className={theme.reviewsContainer}>
+                  <div className={theme.reviewCoverageContainer}>
+                    <CircularProgressbar
+                      percentage={reviewCompletionPercentage}
+                      className={theme.progressCircle}
+                      strokeWidth={20}
+                      initialAnimation
+                    />
+                    <span className={theme.reviewCoverage}>{`${
+                      data.currentUserReviews
+                    }/${numberOfPrs}`}</span>
+                  </div>
+                  <span className={theme.prCountLabel}>Reviewed by you</span>
+                  <div
+                    className={`${theme.reviewRequestsContainer} ${
+                      data.currentUserReviewRequests === 0
+                        ? theme.noRequests
+                        : null
+                    }`}
+                  >
+                    <div className={theme.requestsCircle}>
+                      <span
+                        className={`${theme.requestsCount} ${theme.countLabel}`}
+                      >
+                        {data.currentUserReviewRequests}
+                      </span>
+                    </div>
+                    {data.currentUserReviewRequests > 0 ? (
+                      <svg className={theme.spinCircle}>
+                        <circle cx="50%" cy="50%" r="45px" />
+                      </svg>
+                    ) : null}
+                  </div>
+                  <span className={theme.prCountLabel}>
+                    Request{data.currentUserReviewRequests === 1 ? '' : 's'} for
+                    your review
+                  </span>
+                </div>
+              </Fragment>
+            ) : (
+              <div className={theme.zeroCountContainer}>
+                <p>None open</p>
               </div>
-            ) : null}
+            )}
           </div>
           {maxPrWarning}
         </div>
