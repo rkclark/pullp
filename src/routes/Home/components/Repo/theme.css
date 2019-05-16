@@ -234,11 +234,11 @@
   }
 }
 
-.zeroCount {
-  background-color: var(--secondary-dark);
+.repoContainer.zeroCount {
+  background-color: var(--primary-dark);
 }
 
-.zeroCount .countContainer {
+/* .zeroCount .countContainer {
   align-self: center;
 }
 
@@ -258,4 +258,19 @@
 
 .zeroCount .prCountLabel {
   color: var(--white);
+  font-size: 1rem;
+} */
+
+.zeroCountContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.zeroCountContainer p {
+  color: var(--light-grey);
+  font-family: 'Roboto', sans-serif;
+  font-weight: normal;
+  font-size: 1.4rem;
+  text-transform: uppercase;
 }
