@@ -76,12 +76,5 @@ export default ({
     triggerNotification({ notification, url: pullRequest.url });
   });
 
-  console.log(
-    `${newNotifications.length} notifications for #${pullRequest.number} / ${
-      pullRequest.title
-    }`,
-    newNotifications,
-  );
-
   return [...existingNotifications, ...newNotifications];
 };
