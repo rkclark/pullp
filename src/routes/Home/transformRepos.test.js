@@ -6,12 +6,14 @@ const testRepoPRs = [
     pullpPullRequest: {
       currentUserReviewRequested: false,
       reviewedByCurrentUser: true,
+      newNotificationCount: 3,
     },
   },
   {
     pullpPullRequest: {
       currentUserReviewRequested: true,
       reviewedByCurrentUser: false,
+      newNotificationCount: 2,
     },
   },
   {
@@ -86,5 +88,9 @@ describe('transformRepos()', () => {
 
   it('totals the number of pull requests', () => {
     expect(result[1].totalPullRequests).toBe(4);
+  });
+
+  it('totals the new notification counts', () => {
+    expect(result[1].newNotificationCount).toBe(5);
   });
 });

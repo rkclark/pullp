@@ -7,6 +7,7 @@ export default function transformRepos(reposData) {
 
     let currentUserReviewRequests = 0;
     let currentUserReviews = 0;
+    let newNotificationCount = 0;
 
     transformedPRs.forEach(pullRequest => {
       if (get(pullRequest, 'pullpPullRequest.currentUserReviewRequested')) {
@@ -15,6 +16,11 @@ export default function transformRepos(reposData) {
       if (get(pullRequest, 'pullpPullRequest.reviewedByCurrentUser')) {
         currentUserReviews += 1;
       }
+
+      const prNewNotificationCount =
+        get(pullRequest, 'pullpPullRequest.newNotificationCount') || 0;
+
+      newNotificationCount += prNewNotificationCount;
     });
 
     return {
@@ -23,6 +29,7 @@ export default function transformRepos(reposData) {
       currentUserReviewRequests,
       currentUserReviews,
       totalPullRequests: node.pullRequests.totalCount,
+      newNotificationCount,
     };
   });
 

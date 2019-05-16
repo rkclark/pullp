@@ -16,6 +16,32 @@ const basePR = {
     reviewsByAuthor: [],
     date: 'date',
     time: 'time',
+    notifications: [
+      {
+        dismissed: false,
+        trigger: false,
+      },
+      {
+        dismissed: true,
+        trigger: false,
+      },
+      {
+        dismissed: true,
+        trigger: true,
+      },
+      {
+        dismissed: false,
+        trigger: true,
+      },
+      {
+        dismissed: false,
+        trigger: true,
+      },
+      {
+        dismissed: false,
+        trigger: true,
+      },
+    ],
     __typename: 'PullpPullRequest',
   },
   reviews: {
@@ -105,7 +131,10 @@ describe('transformPullRequests()', () => {
       expect(result.title).toEqual(basePR.title);
       expect(result.url).toEqual(basePR.url);
       expect(result.number).toEqual(basePR.number);
-      expect(result.pullpPullRequest).toEqual(basePR.pullpPullRequest);
+      expect(result.pullpPullRequest).toEqual({
+        ...basePR.pullpPullRequest,
+        newNotificationCount: 3,
+      });
     });
 
     it('normalizes the reviews array', () => {
@@ -127,6 +156,10 @@ describe('transformPullRequests()', () => {
       ];
 
       expect(result.reviewRequests).toEqual(expectedReviewRequests);
+    });
+
+    it('sets the count of new notifications', () => {
+      expect(result.pullpPullRequest.newNotificationCount).toBe(3);
     });
   });
 });
