@@ -141,6 +141,9 @@ export const GET_PULL_REQUESTS = gql(`query getPullRequests($ids: [ID!]!, $maxim
             author {
               login
             }
+            pullpPullRequest @client {
+              notifications
+            }
           }
         }
       }
