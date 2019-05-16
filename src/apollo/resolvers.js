@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import {
   GET_CURRENT_USER,
   GET_USER_TEAMS,
-  GET_USER_SETTINGS_FROM_CACHE,
+  GET_USER_NOTIFICATION_SETTINGS_FROM_CACHE,
 } from './queries';
 import normalizeGraphqlEdges from '../utils/normalizeGraphqlEdges';
 import processNotifications from './processNotifications';
@@ -193,6 +193,28 @@ export default {
 
       return null;
     },
+    setHomePageView: (_, variables, { cache, getCacheKey }) => {
+      const id = getCacheKey({
+        __typename: 'UserSettings',
+        id: variables.id,
+      });
+
+      const fragment = gql(`
+      fragment currentViewSetting on UserSettings {
+        currentView
+      }`);
+
+      const currentViewSetting = cache.readFragment({ fragment, id });
+
+      const data = {
+        ...currentViewSetting,
+        currentView: variables.selectedView,
+      };
+
+      cache.writeData({ id, data });
+
+      return null;
+    },
   },
   Repository: {
     isSelected: (_, variables, { cache, getCacheKey }) => {
@@ -239,7 +261,7 @@ export default {
       });
 
       const userSettings = cache.readQuery({
-        query: GET_USER_SETTINGS_FROM_CACHE,
+        query: GET_USER_NOTIFICATION_SETTINGS_FROM_CACHE,
       }).userSettings;
 
       let currentUserReviewRequested = false;

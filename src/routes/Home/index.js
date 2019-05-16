@@ -1,17 +1,26 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 import { get } from 'lodash';
 import { Link } from 'react-router-dom';
-import FlipMove from 'react-flip-move';
 
-import ErrorBoundary from '../../components/ErrorBoundary';
 import Button from '../../components/Button';
 import LoadingMessage from '../../components/LoadingMessage';
-import Repo from './components/Repo';
+import ErrorBoundary from '../../components/ErrorBoundary';
+import FullView from './components/FullView';
+import MinimalView from './components/MinimalView';
 import style from './style.css';
-import { GET_WATCHED_REPOS, GET_PULL_REQUESTS } from '../../apollo/queries';
-import { MAXIMUM_PRS, GITHUB_POLLING_FREQUENCY_MS } from '../../constants';
+import {
+  GET_WATCHED_REPOS,
+  GET_PULL_REQUESTS,
+  GET_USER_VIEW_SETTINGS_FROM_CACHE,
+} from '../../apollo/queries';
+import { SET_HOME_PAGE_VIEW } from '../../apollo/mutations';
+import {
+  MAXIMUM_PRS,
+  GITHUB_POLLING_FREQUENCY_MS,
+  homePageViews,
+} from '../../constants';
 import transformRepos from './transformRepos';
 
 const loadingMessage = (
@@ -19,6 +28,8 @@ const loadingMessage = (
 );
 
 const githubPollingFrequencySecs = GITHUB_POLLING_FREQUENCY_MS / 1000;
+
+const { FULL_VIEW, MINIMAL_VIEW } = homePageViews;
 
 export class Home extends React.Component {
   constructor(props) {
@@ -48,8 +59,16 @@ export class Home extends React.Component {
   }
 
   render() {
-    const { loading, data, error, numberOfSelectedRepos } = this.props;
+    const {
+      loading,
+      data,
+      error,
+      numberOfSelectedRepos,
+      settings: { userSettings },
+    } = this.props;
     const { openRepoId } = this.state;
+
+    const { currentView, id: userSettingsId } = userSettings;
 
     if (loading) {
       return <div className={style.loadingContainer}>{loadingMessage}</div>;
@@ -77,18 +96,58 @@ export class Home extends React.Component {
             </Link>
           </div>
         ) : (
-          <div className={style.reposContainer}>
-            <FlipMove typeName={null} duration={500} appearAnimation={'fade'}>
-              {data.map(repo => (
-                <Repo
-                  key={repo.id}
-                  data={repo}
-                  openRepoId={openRepoId}
+          <Fragment>
+            <div className={style.viewSelector}>
+              <Mutation
+                mutation={SET_HOME_PAGE_VIEW}
+                variables={{
+                  id: userSettingsId,
+                  selectedView: FULL_VIEW,
+                }}
+              >
+                {setHomePageView => (
+                  <button
+                    className={style.fullViewButton}
+                    onClick={setHomePageView}
+                  >
+                    full view
+                  </button>
+                )}
+              </Mutation>
+              <Mutation
+                mutation={SET_HOME_PAGE_VIEW}
+                variables={{
+                  id: userSettingsId,
+                  selectedView: MINIMAL_VIEW,
+                }}
+              >
+                {setHomePageView => (
+                  <button
+                    className={style.fullViewButton}
+                    onClick={setHomePageView}
+                  >
+                    minimal view
+                  </button>
+                )}
+              </Mutation>
+            </div>
+            <div>
+              {currentView === 'FULL_VIEW' && (
+                <FullView
+                  data={data}
                   toggleOpenRepo={this.toggleOpenRepo}
+                  openRepoId={openRepoId}
                 />
-              ))}
-            </FlipMove>
-          </div>
+              )}
+              {currentView === 'MINIMAL_VIEW' && (
+                <MinimalView
+                  data={data}
+                  toggleOpenRepo={this.toggleOpenRepo}
+                  openRepoId={openRepoId}
+                />
+              )}
+            </div>
+          </Fragment>
         )}
       </div>
     );
@@ -97,6 +156,7 @@ export class Home extends React.Component {
 
 Home.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  settings: PropTypes.shape({}).isRequired,
   loading: PropTypes.bool,
   error: PropTypes.shape({}),
   numberOfSelectedRepos: PropTypes.number,
@@ -149,10 +209,10 @@ export default function HomeContainer() {
                 networkStatus,
               }) => {
                 /* 
-                Network status 1 means Apollo is loading this query for the first time.
-                This way we ignore subsequent loading for when we poll Github as we
-                already have data to display.
-              */
+                  Network status 1 means Apollo is loading this query for the first time.
+                  This way we ignore subsequent loading for when we poll Github as we
+                  already have data to display.
+                */
                 const pullRequestsLoading = networkStatus === 1;
 
                 let transformedRepoData = [];
@@ -175,12 +235,24 @@ export default function HomeContainer() {
                 }
 
                 return (
-                  <Home
-                    data={transformedRepoData}
-                    loading={pullRequestsLoading}
-                    error={pullRequestsError}
-                    numberOfSelectedRepos={selectedRepoIds.length}
-                  />
+                  <Query
+                    query={GET_USER_VIEW_SETTINGS_FROM_CACHE}
+                    fetchPolicy="cache-only"
+                  >
+                    {({ data: settingsData }) => {
+                      console.log('got settings data', settingsData);
+
+                      return (
+                        <Home
+                          data={transformedRepoData}
+                          settings={settingsData}
+                          loading={pullRequestsLoading}
+                          error={pullRequestsError}
+                          numberOfSelectedRepos={selectedRepoIds.length}
+                        />
+                      );
+                    }}
+                  </Query>
                 );
               }}
             </Query>

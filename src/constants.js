@@ -39,4 +39,9 @@ export const pullRequestStates = {
   MERGED: 'MERGED',
 };
 
+export const homePageViews = {
+  FULL_VIEW: 'FULL_VIEW',
+  MINIMAL_VIEW: 'MINIMAL_VIEW',
+};
+
 export const CACHE_CLEANING_INTERVAL_MS = 30000; // 5 mins

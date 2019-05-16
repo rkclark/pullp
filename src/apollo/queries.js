@@ -18,7 +18,7 @@ export const GET_GITHUB_TOKEN_FROM_CACHE = gql`
   }
 `;
 
-export const GET_USER_SETTINGS_FROM_CACHE = gql`
+export const GET_USER_NOTIFICATION_SETTINGS_FROM_CACHE = gql`
   query UserSettings {
     userSettings @client {
       notifications {
@@ -48,6 +48,15 @@ export const GET_USER_SETTINGS_FROM_CACHE = gql`
           id
         }
       }
+    }
+  }
+`;
+
+export const GET_USER_VIEW_SETTINGS_FROM_CACHE = gql`
+  query UserSettings {
+    userSettings @client {
+      id
+      currentView
     }
   }
 `;

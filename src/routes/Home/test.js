@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 import { shallow } from 'enzyme';
 import LoadingMessage from '../../components/LoadingMessage';
 import { Home } from '.';
-import Repo from './components/Repo';
+import FullView from './components/FullView';
+import MinimalView from './components/MinimalView';
+import { homePageViews } from '../../constants';
 
 describe('Home', () => {
   const baseProps = {
@@ -30,6 +32,12 @@ describe('Home', () => {
     loading: false,
     error: null,
     numberOfSelectedRepos: 2,
+    settings: {
+      userSettings: {
+        id: 'UserSettings',
+        currentView: homePageViews.FULL_VIEW,
+      },
+    },
   };
 
   it('renders successfully', () => {
@@ -37,9 +45,58 @@ describe('Home', () => {
     expect(component.length).toBe(1);
   });
 
-  it('renders a repo for each repo returned from query', async () => {
-    const component = shallow(<Home {...baseProps} />);
-    expect(component.find(Repo).length).toBe(2);
+  describe('view display', () => {
+    describe('when full view is selected', () => {
+      let component;
+
+      beforeAll(() => {
+        component = shallow(
+          <Home
+            {...baseProps}
+            settings={{
+              userSettings: {
+                id: 'UserSettings',
+                currentView: homePageViews.FULL_VIEW,
+              },
+            }}
+          />,
+        );
+      });
+
+      it('renders the full view', () => {
+        expect(component.find(FullView).length).toBe(1);
+      });
+
+      it('does not render the minimal view', () => {
+        expect(component.find(MinimalView).length).toBe(0);
+      });
+    });
+
+    describe('when minimal view is selected', () => {
+      let component;
+
+      beforeAll(() => {
+        component = shallow(
+          <Home
+            {...baseProps}
+            settings={{
+              userSettings: {
+                id: 'UserSettings',
+                currentView: homePageViews.MINIMAL_VIEW,
+              },
+            }}
+          />,
+        );
+      });
+
+      it('renders the minimal view', () => {
+        expect(component.find(MinimalView).length).toBe(1);
+      });
+
+      it('does not render the full view', () => {
+        expect(component.find(FullView).length).toBe(0);
+      });
+    });
   });
 
   describe('when loading repositories', () => {
