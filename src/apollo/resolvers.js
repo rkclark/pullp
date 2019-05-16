@@ -248,7 +248,6 @@ export default {
   PullRequest: {
     pullpPullRequest: (pullRequest, variables, { cache, getCacheKey }) => {
       const createdAtDate = new Date(pullRequest.createdAt);
-      const reviewsByAuthor = aggregateReviewsByAuthor(pullRequest.reviews);
 
       const currentUser = cache.readQuery({ query: GET_CURRENT_USER });
       const userLogin = get(currentUser, 'viewer.login');
@@ -265,23 +264,33 @@ export default {
       }).userSettings;
 
       let currentUserReviewRequested = false;
+      let reviewedByCurrentUser = false;
       let userReviewRequestId;
+      let reviewsByAuthor = [];
 
-      if (userLogin !== get(pullRequest, 'author.login')) {
-        const { value, reviewRequestId } = isUserReviewRequested({
+      // Closed/Merged PRs will not have reviews and review requests
+      if (pullRequest.reviews && pullRequest.reviewRequests) {
+        reviewsByAuthor = aggregateReviewsByAuthor(pullRequest.reviews);
+
+        if (
+          userLogin !== get(pullRequest, 'author.login') &&
+          pullRequest.reviewRequests
+        ) {
+          const { value, reviewRequestId } = isUserReviewRequested({
+            currentUser: userLogin,
+            reviewRequests: pullRequest.reviewRequests,
+            userTeamsData: userTeams,
+          });
+
+          currentUserReviewRequested = value;
+          userReviewRequestId = reviewRequestId;
+        }
+
+        reviewedByCurrentUser = hasBeenReviewedByUser({
+          reviews: pullRequest.reviews,
           currentUser: userLogin,
-          reviewRequests: pullRequest.reviewRequests,
-          userTeamsData: userTeams,
         });
-
-        currentUserReviewRequested = value;
-        userReviewRequestId = reviewRequestId;
       }
-
-      const reviewedByCurrentUser = hasBeenReviewedByUser({
-        reviews: pullRequest.reviews,
-        currentUser: userLogin,
-      });
 
       const pullpPullRequest = {
         currentUserReviewRequested,
