@@ -4,11 +4,14 @@ import { CACHE_CLEANING_INTERVAL_MS } from '../constants';
 
 const oneWeekInMs = 604800000;
 
-const getPullRequestConnectionId = repository => {
-  const pullRequestsEntry = Object.entries(repository).find(({ 0: key }) =>
+const getPullRequestConnectionIds = repository => {
+  const pullRequestsEntries = Object.entries(repository).filter(({ 0: key }) =>
     key.startsWith('pullRequests'),
   );
-  return get(pullRequestsEntry, '[1].id') || null;
+
+  return pullRequestsEntries.map(
+    pullRequestsEntry => get(pullRequestsEntry, '[1].id') || null,
+  );
 };
 
 const isTimestampWithinLastWeek = (timestamp, today) =>
@@ -82,7 +85,7 @@ const cleanCacheOnInterval = ({ cache }) => {
 
     const pullRequestEdgesToKeep = [];
 
-    const pullRequestConnectionsToKeep = [];
+    let pullRequestConnectionsToKeep = [];
 
     const reviewRequestsToKeep = [];
 
@@ -94,10 +97,13 @@ const cleanCacheOnInterval = ({ cache }) => {
 
     Object.entries(cacheData).forEach(({ 0: key, 1: value }) => {
       if (key.startsWith('Repository:') && value.isSelected) {
-        const pullRequestConnectionId = getPullRequestConnectionId(value);
+        const pullRequestConnectionIds = getPullRequestConnectionIds(value);
 
-        if (pullRequestConnectionId) {
-          pullRequestConnectionsToKeep.push(pullRequestConnectionId);
+        if (pullRequestConnectionIds.length > 0) {
+          pullRequestConnectionsToKeep = [
+            ...pullRequestConnectionsToKeep,
+            ...pullRequestConnectionIds,
+          ];
         }
       }
     });
@@ -218,6 +224,7 @@ const cleanCacheOnInterval = ({ cache }) => {
 
     Object.keys(cacheData).forEach(cacheKey => {
       if (doesKeyRequireDeletion(cacheKey)) {
+        console.log('Deleting cache key', cacheKey);
         delete cacheData[cacheKey];
         deletedCacheEntryCount += 1;
       }

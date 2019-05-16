@@ -39,9 +39,14 @@ describe('cleanCacheOnInterval()', () => {
               name: 'repository-1',
               isSelected: true,
               __typename: 'Repository',
-              'pullRequests({"last":50,"orderBy":{"direction":"DESC","field":"CREATED_AT"},"states":["OPEN"]})': {
+              'pullRequests({"last":50,"orderBy":{"direction":"ASC","field":"CREATED_AT"},"states":["OPEN"]})': {
                 id:
-                  '$Repository:MDEwOlJlcG9zaXRvcnkyNTMwNzMwMw==.pullRequests({"last":50,"orderBy":{"direction":"DESC","field":"CREATED_AT"},"states":["OPEN"]})',
+                  '$Repository:MDEwOlJlcG9zaXRvcnkyNTMwNzMwMw==.pullRequests({"last":50,"orderBy":{"direction":"ASC","field":"CREATED_AT"},"states":["OPEN"]})',
+                typename: 'PullRequestConnection',
+              },
+              'pullRequests({"last":5,"orderBy":{"direction":"ASC","field":"UPDATED_AT"},"states":["CLOSED","MERGED"]})': {
+                id:
+                  '$Repository:MDEwOlJlcG9zaXRvcnkyNTMwNzMwMw==.pullRequests({"last":5,"orderBy":{"direction":"ASC","field":"UPDATED_AT"},"states":["CLOSED","MERGED"]})',
                 typename: 'PullRequestConnection',
               },
             },
@@ -54,19 +59,38 @@ describe('cleanCacheOnInterval()', () => {
               __typename: 'Repository',
             },
             // PR entries for Repo 1
-            '$Repository:MDEwOlJlcG9zaXRvcnkyNTMwNzMwMw==.pullRequests({"last":50,"orderBy":{"direction":"DESC","field":"CREATED_AT"},"states":["OPEN"]})': {
+            '$Repository:MDEwOlJlcG9zaXRvcnkyNTMwNzMwMw==.pullRequests({"last":50,"orderBy":{"direction":"ASC","field":"CREATED_AT"},"states":["OPEN"]})': {
               edges: [
                 {
                   type: 'id',
                   generated: true,
                   id:
-                    '$Repository:MDEwOlJlcG9zaXRvcnkyNTMwNzMwMw==.pullRequests({"last":50,"orderBy":{"direction":"DESC","field":"CREATED_AT"},"states":["OPEN"]}).edges.0',
+                    '$Repository:MDEwOlJlcG9zaXRvcnkyNTMwNzMwMw==.pullRequests({"last":50,"orderBy":{"direction":"ASC","field":"CREATED_AT"},"states":["OPEN"]}).edges.0',
                   typename: 'PullRequestEdge',
                 },
               ],
               __typename: 'PullRequestConnection',
             },
-            '$Repository:MDEwOlJlcG9zaXRvcnkyNTMwNzMwMw==.pullRequests({"last":50,"orderBy":{"direction":"DESC","field":"CREATED_AT"},"states":["OPEN"]}).edges.0': {
+            '$Repository:MDEwOlJlcG9zaXRvcnkyNTMwNzMwMw==.pullRequests({"last":50,"orderBy":{"direction":"ASC","field":"CREATED_AT"},"states":["OPEN"]}).edges.0': {
+              node: {
+                id: 'PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1',
+                typename: 'PullRequest',
+              },
+              __typename: 'PullRequestEdge',
+            },
+            '$Repository:MDEwOlJlcG9zaXRvcnkyNTMwNzMwMw==.pullRequests({"last":5,"orderBy":{"direction":"ASC","field":"UPDATED_AT"},"states":["CLOSED","MERGED"]})': {
+              edges: [
+                {
+                  type: 'id',
+                  generated: true,
+                  id:
+                    '$Repository:MDEwOlJlcG9zaXRvcnkyNTMwNzMwMw==.pullRequests({"last":5,"orderBy":{"direction":"ASC","field":"UPDATED_AT"},"states":["CLOSED","MERGED"]}).edges.0',
+                  typename: 'PullRequestEdge',
+                },
+              ],
+              __typename: 'PullRequestConnection',
+            },
+            '$Repository:MDEwOlJlcG9zaXRvcnkyNTMwNzMwMw==.pullRequests({"last":5,"orderBy":{"direction":"ASC","field":"UPDATED_AT"},"states":["CLOSED","MERGED"]}).edges.0': {
               node: {
                 id: 'PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1',
                 typename: 'PullRequest',
@@ -161,19 +185,38 @@ describe('cleanCacheOnInterval()', () => {
               __typename: 'User',
             },
             // PR entries for Repo 2
-            '$Repository:MDEwOlJlcG9zaXRvcnkyOTA1NDE0NA==.pullRequests({"last":50,"orderBy":{"direction":"DESC","field":"CREATED_AT"},"states":["OPEN"]})': {
+            '$Repository:MDEwOlJlcG9zaXRvcnkyOTA1NDE0NA==.pullRequests({"last":50,"orderBy":{"direction":"ASC","field":"CREATED_AT"},"states":["OPEN"]})': {
               edges: [
                 {
                   type: 'id',
                   generated: true,
                   id:
-                    '$Repository:MDEwOlJlcG9zaXRvcnkyOTA1NDE0NA==.pullRequests({"last":50,"orderBy":{"direction":"DESC","field":"CREATED_AT"},"states":["OPEN"]}).edges.0',
+                    '$Repository:MDEwOlJlcG9zaXRvcnkyOTA1NDE0NA==.pullRequests({"last":50,"orderBy":{"direction":"ASC","field":"CREATED_AT"},"states":["OPEN"]}).edges.0',
                   typename: 'PullRequestEdge',
                 },
               ],
               __typename: 'PullRequestConnection',
             },
-            '$Repository:MDEwOlJlcG9zaXRvcnkyOTA1NDE0NA==.pullRequests({"last":50,"orderBy":{"direction":"DESC","field":"CREATED_AT"},"states":["OPEN"]}).edges.0': {
+            '$Repository:MDEwOlJlcG9zaXRvcnkyOTA1NDE0NA==.pullRequests({"last":50,"orderBy":{"direction":"ASC","field":"CREATED_AT"},"states":["OPEN"]}).edges.0': {
+              node: {
+                id: 'PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1',
+                typename: 'PullRequest',
+              },
+              __typename: 'PullRequestEdge',
+            },
+            '$Repository:MDEwOlJlcG9zaXRvcnkyOTA1NDE0NA==.pullRequests({"last":5,"orderBy":{"direction":"ASC","field":"UPDATED_AT"},"states":["CLOSED","MERGED"]})': {
+              edges: [
+                {
+                  type: 'id',
+                  generated: true,
+                  id:
+                    '$Repository:MDEwOlJlcG9zaXRvcnkyOTA1NDE0NA==.pullRequests({"last":5,"orderBy":{"direction":"ASC","field":"UPDATED_AT"},"states":["CLOSED","MERGED"]}).edges.0',
+                  typename: 'PullRequestEdge',
+                },
+              ],
+              __typename: 'PullRequestConnection',
+            },
+            '$Repository:MDEwOlJlcG9zaXRvcnkyOTA1NDE0NA==.pullRequests({"last":5,"orderBy":{"direction":"ASC","field":"UPDATED_AT"},"states":["CLOSED","MERGED"]}).edges.0': {
               node: {
                 id: 'PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1',
                 typename: 'PullRequest',
@@ -281,9 +324,14 @@ describe('cleanCacheOnInterval()', () => {
               name: 'repository-1',
               isSelected: true,
               __typename: 'Repository',
-              'pullRequests({"last":50,"orderBy":{"direction":"DESC","field":"CREATED_AT"},"states":["OPEN"]})': {
+              'pullRequests({"last":50,"orderBy":{"direction":"ASC","field":"CREATED_AT"},"states":["OPEN"]})': {
                 id:
-                  '$Repository:MDEwOlJlcG9zaXRvcnkyNTMwNzMwMw==.pullRequests({"last":50,"orderBy":{"direction":"DESC","field":"CREATED_AT"},"states":["OPEN"]})',
+                  '$Repository:MDEwOlJlcG9zaXRvcnkyNTMwNzMwMw==.pullRequests({"last":50,"orderBy":{"direction":"ASC","field":"CREATED_AT"},"states":["OPEN"]})',
+                typename: 'PullRequestConnection',
+              },
+              'pullRequests({"last":5,"orderBy":{"direction":"ASC","field":"UPDATED_AT"},"states":["CLOSED","MERGED"]})': {
+                id:
+                  '$Repository:MDEwOlJlcG9zaXRvcnkyNTMwNzMwMw==.pullRequests({"last":5,"orderBy":{"direction":"ASC","field":"UPDATED_AT"},"states":["CLOSED","MERGED"]})',
                 typename: 'PullRequestConnection',
               },
             },
@@ -296,19 +344,38 @@ describe('cleanCacheOnInterval()', () => {
               __typename: 'Repository',
             },
             // PR entries for Repo 1
-            '$Repository:MDEwOlJlcG9zaXRvcnkyNTMwNzMwMw==.pullRequests({"last":50,"orderBy":{"direction":"DESC","field":"CREATED_AT"},"states":["OPEN"]})': {
+            '$Repository:MDEwOlJlcG9zaXRvcnkyNTMwNzMwMw==.pullRequests({"last":50,"orderBy":{"direction":"ASC","field":"CREATED_AT"},"states":["OPEN"]})': {
               edges: [
                 {
                   type: 'id',
                   generated: true,
                   id:
-                    '$Repository:MDEwOlJlcG9zaXRvcnkyNTMwNzMwMw==.pullRequests({"last":50,"orderBy":{"direction":"DESC","field":"CREATED_AT"},"states":["OPEN"]}).edges.0',
+                    '$Repository:MDEwOlJlcG9zaXRvcnkyNTMwNzMwMw==.pullRequests({"last":50,"orderBy":{"direction":"ASC","field":"CREATED_AT"},"states":["OPEN"]}).edges.0',
                   typename: 'PullRequestEdge',
                 },
               ],
               __typename: 'PullRequestConnection',
             },
-            '$Repository:MDEwOlJlcG9zaXRvcnkyNTMwNzMwMw==.pullRequests({"last":50,"orderBy":{"direction":"DESC","field":"CREATED_AT"},"states":["OPEN"]}).edges.0': {
+            '$Repository:MDEwOlJlcG9zaXRvcnkyNTMwNzMwMw==.pullRequests({"last":50,"orderBy":{"direction":"ASC","field":"CREATED_AT"},"states":["OPEN"]}).edges.0': {
+              node: {
+                id: 'PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1',
+                typename: 'PullRequest',
+              },
+              __typename: 'PullRequestEdge',
+            },
+            '$Repository:MDEwOlJlcG9zaXRvcnkyNTMwNzMwMw==.pullRequests({"last":5,"orderBy":{"direction":"ASC","field":"UPDATED_AT"},"states":["CLOSED","MERGED"]})': {
+              edges: [
+                {
+                  type: 'id',
+                  generated: true,
+                  id:
+                    '$Repository:MDEwOlJlcG9zaXRvcnkyNTMwNzMwMw==.pullRequests({"last":5,"orderBy":{"direction":"ASC","field":"UPDATED_AT"},"states":["CLOSED","MERGED"]}).edges.0',
+                  typename: 'PullRequestEdge',
+                },
+              ],
+              __typename: 'PullRequestConnection',
+            },
+            '$Repository:MDEwOlJlcG9zaXRvcnkyNTMwNzMwMw==.pullRequests({"last":5,"orderBy":{"direction":"ASC","field":"UPDATED_AT"},"states":["CLOSED","MERGED"]}).edges.0': {
               node: {
                 id: 'PullRequest:MDExOlB1bGxSZXF1ZXN0MjU1MDgwMjU1',
                 typename: 'PullRequest',
