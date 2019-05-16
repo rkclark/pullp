@@ -2,7 +2,7 @@ import resolvers from './resolvers';
 import {
   GET_CURRENT_USER,
   GET_USER_TEAMS,
-  GET_USER_SETTINGS_FROM_CACHE,
+  GET_USER_NOTIFICATION_SETTINGS_FROM_CACHE,
 } from './queries';
 import processNotifications from './processNotifications';
 
@@ -169,7 +169,7 @@ describe('Apollo resolvers', () => {
           return currentUserData;
         }
 
-        if (query === GET_USER_SETTINGS_FROM_CACHE) {
+        if (query === GET_USER_NOTIFICATION_SETTINGS_FROM_CACHE) {
           return userSettingsData;
         }
 
@@ -251,7 +251,7 @@ describe('Apollo resolvers', () => {
               };
             }
 
-            if (query === GET_USER_SETTINGS_FROM_CACHE) {
+            if (query === GET_USER_NOTIFICATION_SETTINGS_FROM_CACHE) {
               return userSettingsData;
             }
 
@@ -304,7 +304,7 @@ describe('Apollo resolvers', () => {
               };
             }
 
-            if (query === GET_USER_SETTINGS_FROM_CACHE) {
+            if (query === GET_USER_NOTIFICATION_SETTINGS_FROM_CACHE) {
               return userSettingsData;
             }
 
@@ -358,7 +358,7 @@ describe('Apollo resolvers', () => {
                   };
                 }
 
-                if (query === GET_USER_SETTINGS_FROM_CACHE) {
+                if (query === GET_USER_NOTIFICATION_SETTINGS_FROM_CACHE) {
                   return userSettingsData;
                 }
 
@@ -423,7 +423,7 @@ describe('Apollo resolvers', () => {
                   };
                 }
 
-                if (query === GET_USER_SETTINGS_FROM_CACHE) {
+                if (query === GET_USER_NOTIFICATION_SETTINGS_FROM_CACHE) {
                   return userSettingsData;
                 }
 
@@ -476,7 +476,7 @@ describe('Apollo resolvers', () => {
                 };
               }
 
-              if (query === GET_USER_SETTINGS_FROM_CACHE) {
+              if (query === GET_USER_NOTIFICATION_SETTINGS_FROM_CACHE) {
                 return userSettingsData;
               }
 
@@ -519,7 +519,7 @@ describe('Apollo resolvers', () => {
                 };
               }
 
-              if (query === GET_USER_SETTINGS_FROM_CACHE) {
+              if (query === GET_USER_NOTIFICATION_SETTINGS_FROM_CACHE) {
                 return userSettingsData;
               }
 
@@ -562,7 +562,7 @@ describe('Apollo resolvers', () => {
                   };
                 }
 
-                if (query === GET_USER_SETTINGS_FROM_CACHE) {
+                if (query === GET_USER_NOTIFICATION_SETTINGS_FROM_CACHE) {
                   return userSettingsData;
                 }
 

@@ -8,7 +8,7 @@ import LoadingMessage from '../../components/LoadingMessage';
 import Error from '../../components/Error';
 import {
   GET_CURRENT_USER,
-  GET_USER_SETTINGS_FROM_CACHE,
+  GET_USER_NOTIFICATION_SETTINGS_FROM_CACHE,
 } from '../../apollo/queries';
 
 import style from './style.css';
@@ -90,7 +90,10 @@ export default function SettingsContainer() {
   return (
     <Query query={GET_CURRENT_USER} fetchPolicy="cache-first">
       {({ data: userData, loading: userLoading, error: userError }) => (
-        <Query query={GET_USER_SETTINGS_FROM_CACHE} fetchPolicy="cache-only">
+        <Query
+          query={GET_USER_NOTIFICATION_SETTINGS_FROM_CACHE}
+          fetchPolicy="cache-only"
+        >
           {({
             data: settingsData,
             loading: settingsLoading,

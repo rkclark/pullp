@@ -14,3 +14,8 @@ export const TOGGLE_NOTIFICATION_SETTING = gql(`
 mutation ToggleRepoSelection($id: String!, $field: String!) {
   toggleNotificationSetting(id: $id, field: $field) @client
 }`);
+
+export const SET_HOME_PAGE_VIEW = gql(`
+mutation SetHomePageView($id: String!, $selectedView: String!) {
+  setHomePageView(id: $id, selectedView: $selectedView) @client
+}`);

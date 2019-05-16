@@ -27,6 +27,7 @@ import {
   SCHEMA_VERSION,
   SCHEMA_VERSION_KEY,
   notificationTypes,
+  homePageViews,
 } from '../../constants';
 import cleanCacheOnInterval from '../../apollo/cacheCleaner';
 
@@ -65,6 +66,7 @@ export default class App extends React.Component {
         },
         userSettings: {
           __typename: 'UserSettings',
+          id: 'UserSettings',
           notifications: {
             __typename: 'NotificationSettings',
             [REVIEW_REQUESTED]: {
@@ -98,6 +100,7 @@ export default class App extends React.Component {
               id: NEW_COMMENTS_ON_YOUR_PR,
             },
           },
+          currentView: homePageViews.FULL_VIEW,
         },
       },
     });

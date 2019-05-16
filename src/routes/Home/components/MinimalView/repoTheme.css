@@ -1,0 +1,7 @@
+@import "../Repo/theme.css";
+
+.repoContainer {
+  background-color: var(--primary-medium);
+  overflow: hidden;
+  box-shadow: var(--boxshadow), inset 0 -0.4rem 0 0 var(--primary-medium);
+}
