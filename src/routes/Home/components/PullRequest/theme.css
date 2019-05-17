@@ -2,7 +2,6 @@
 @import "../../../../css/units.css";
 
 .pullRequest {
-  margin: 0 auto 2rem auto; 
   background-color: var(--primary-dark);
   box-shadow: var(--boxshadow);
   border: 0.5rem solid var(--primary-extra-dark);
@@ -11,6 +10,10 @@
   transition: 0.3s ease-in-out all;
   position: relative;
   border-radius: 0.15rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .header {
@@ -29,6 +32,7 @@
   line-height: 1;
   display: flex;
   align-items: flex-end;
+  margin-top: auto;
 }
 
 .title {
@@ -52,8 +56,6 @@
   box-shadow: none;
 }
 
-
-
 .bodyWrapper {
   display: flex;
   padding: 1.5rem;
@@ -67,21 +69,6 @@
   align-items: center;
   justify-content: center;
 }
-
-/* .leftColumn {
-  flex: 0 1 20%;
-}
-
-.middleColumn  {
-  flex: 0 1 auto;
-}
-
-.rightColumn  {
-  flex: 0 1 50%;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-} */
 
 .infoSpan {
   font-weight: normal;
@@ -106,8 +93,11 @@
 }
 
 .reviewStatusIndicator {
-  width: 8rem;
-  height: 8rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  position: absolute;
+  top: -1.5rem;
+  right: 2.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -115,26 +105,31 @@
 }
 
 .reviewed {
-  background-color: var(--primary-medium);
+  background-color: var(--white);
 }
 
 .reviewRequested {
   background-color: var(--secondary-medium);
-  position: relative;
 }
 
 .noRequest {
-  background-color: var(--primary-dark);
+  background-color: var(--medium-grey);
 }
 
 .reviewStatusIcon {
-  width: 4rem;
-  height: 4rem;
+  width: 2rem;
+  height: 2rem;
+}
+
+.noRequest .reviewStatusIcon {
+  width: 1.6rem;
+  height: 1.6rem;
 }
 
 .reviewStatusSpan {
-  font-size: 5rem;
-  color: var(--white);
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--primary-extra-dark);
   font-family: 'Roboto', sans-serif;
 }
 
@@ -172,44 +167,6 @@
   margin-left: 0.5rem;
   text-transform: uppercase;
   margin-bottom: 0.5rem;
-}
-
-.statusSpan {
-  font-weight: normal;
-  font-size: 1.4rem;
-  font-family: 'Roboto', sans-serif;
-  text-transform: uppercase;
-  margin: 1.5rem auto;
-}
-
-.reviewStatusWrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.spinCircle {
-  position: absolute;
-  left: -0.5rem;
-  top: -0.5rem;
-  width: 9rem;
-  height: 9rem;
-  animation: spin 30s linear infinite;
-  overflow: visible;
-}
-
-.spinCircle circle {
-  stroke-width: 3;
-  stroke-dasharray: 15, 5;
-  fill: none;
-  stroke: var(--secondary-dark);
-  opacity: 0.3;
-}
-
-@keyframes spin { 
-  100% { 
-    transform: rotate(360deg);
-  }
 }
 
 .reviewsContainer {

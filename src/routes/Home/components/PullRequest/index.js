@@ -23,39 +23,28 @@ export default function PullRequest({
   const reviewRequestStatus = () => {
     if (reviewedByCurrentUser) {
       return (
-        <div className={theme.reviewStatusWrapper}>
-          <div className={`${theme.reviewStatusIndicator} ${theme.reviewed}`}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 406.83 406.83"
-              width="512"
-              height="512"
-              className={theme.reviewStatusIcon}
-            >
-              <path
-                fill="#FFFFFF"
-                d="M385.62 62.5l-239.4 239.4-125-125L0 198.1l146.22 146.23L406.84 83.72z"
-              />
-            </svg>
-          </div>
-          <span className={theme.statusSpan}>You have reviewed</span>
+        <div className={`${theme.reviewStatusIndicator} ${theme.reviewed}`}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 406.83 406.83"
+            width="512"
+            height="512"
+            className={theme.reviewStatusIcon}
+          >
+            <path
+              fill="#0f0d1d"
+              d="M385.62 62.5l-239.4 239.4-125-125L0 198.1l146.22 146.23L406.84 83.72z"
+            />
+          </svg>
         </div>
       );
     }
     if (currentUserReviewRequested) {
       return (
-        <div className={theme.reviewStatusWrapper}>
-          <div
-            className={`${theme.reviewStatusIndicator} ${
-              theme.reviewRequested
-            }`}
-          >
-            <svg className={theme.spinCircle}>
-              <circle cx="50%" cy="50%" r="45px" />
-            </svg>
-            <span className={theme.reviewStatusSpan}>!</span>
-          </div>
-          <span className={theme.statusSpan}>Your review requested</span>
+        <div
+          className={`${theme.reviewStatusIndicator} ${theme.reviewRequested}`}
+        >
+          <span className={theme.reviewStatusSpan}>!</span>
         </div>
       );
     }
@@ -74,7 +63,6 @@ export default function PullRequest({
             />
           </svg>
         </div>
-        <span className={theme.statusSpan}>Your review not requested</span>
       </div>
     );
   };
