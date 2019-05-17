@@ -16,6 +16,7 @@ export default function PullRequest({
     currentUserReviewRequested,
     reviewedByCurrentUser,
     reviewsByAuthor,
+    newNotificationCount,
   },
   reviewRequests,
 }) {
@@ -146,8 +147,8 @@ export default function PullRequest({
   return (
     <a href={url} className={theme.link}>
       <div className={`${theme.pullRequest}`}>
-        <div className={theme.header}>
-          <h4 className={theme.title}>{title}</h4>
+        <span className={theme.notificationCount}>{newNotificationCount}</span>
+        <div className={theme.linkIconContainer}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 512 512"
@@ -163,6 +164,9 @@ export default function PullRequest({
             />
           </svg>
         </div>
+        <div className={theme.header}>
+          <h4 className={theme.title}>{title}</h4>
+        </div>
         <div className={theme.bodyWrapper}>
           <div className={theme.leftColumn}>
             <img
@@ -171,11 +175,6 @@ export default function PullRequest({
               alt="pull request author"
             />
             <span className={theme.authorLogin}>{author.login}</span>
-            <span className={theme.infoSpan}>#{number}</span>
-            <span className={theme.infoSpan}>
-              {distanceInWordsToNow(date)} ago
-            </span>
-            <span className={theme.infoSpan}>{time}</span>
           </div>
           <div className={theme.middleColumn}>
             {reviewRequestStatus()}
@@ -209,6 +208,13 @@ export default function PullRequest({
               ) : null}
             </div>
           </div>
+        </div>
+        <div className={theme.footer}>
+          <span className={theme.infoSpan}>#{number}</span>
+          <span className={theme.infoSpan}>
+            {distanceInWordsToNow(date)} ago
+          </span>
+          <span className={theme.infoSpan}>{time}</span>
         </div>
       </div>
     </a>
