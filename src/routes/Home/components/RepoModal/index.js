@@ -44,7 +44,7 @@ export default class RepoModal extends Component {
 
     return (
       <div className={theme.repoModalContainer}>
-        {closeIcon}
+        <div className={theme.closeIconContainer}>{closeIcon}</div>
         <div className={theme.repoContainer}>
           <div className={theme.repoName}>
             <a href={data.url} className={theme.link}>
