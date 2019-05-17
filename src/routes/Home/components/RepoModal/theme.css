@@ -8,22 +8,25 @@
   z-index: var(--z-overlay);
   padding: 1.5rem;
   overflow-y: scroll;
+  position: relative;
 }
 
 .repoContainer {
-  position: relative;
   z-index: var(--z-modal);
   color: var(--white);
+  display: flex;
+  align-items: stretch;
 }
 
 .prsContainer {
   margin: 3rem 7rem 3rem 5rem;
+  flex-basis: 100%;
 }
 
 .repoName {
   position: absolute;
-  top: 30rem;
-  right: -33rem;
+  top: 31rem;
+  right: -31rem;
   transform: rotate(90deg);
   display: flex;
   justify-content: space-between;
