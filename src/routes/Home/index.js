@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import { Query, Mutation } from 'react-apollo';
 import { get } from 'lodash';
 import { Link } from 'react-router-dom';
+import Transition from 'react-transition-group/Transition';
 
 import Button from '../../components/Button';
 import LoadingMessage from '../../components/LoadingMessage';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import FullView from './components/FullView';
 import MinimalView from './components/MinimalView';
+import RepoModal from './components/RepoModal';
 import style from './style.css';
 import {
   GET_WATCHED_REPOS,
@@ -30,9 +32,13 @@ const loadingMessage = (
   <LoadingMessage message="Asking Github for pull request data..." />
 );
 
+const slideDuration = 300;
+
 const githubPollingFrequencySecs = GITHUB_POLLING_FREQUENCY_MS / 1000;
 
 const { FULL_VIEW, MINIMAL_VIEW } = homePageViews;
+
+const capitalise = string => string.charAt(0).toUpperCase() + string.slice(1);
 
 export class Home extends React.Component {
   constructor(props) {
@@ -40,6 +46,7 @@ export class Home extends React.Component {
     this.props = props;
     this.state = {
       openRepoId: null,
+      openRepoData: {},
     };
 
     this.toggleOpenRepo = this.toggleOpenRepo.bind(this);
@@ -56,8 +63,21 @@ export class Home extends React.Component {
       });
     }
 
+    if (id) {
+      return this.setState({
+        openRepoId: id,
+        openRepoData: this.props.data.find(repo => repo.id === id),
+      });
+    }
+
     return this.setState({
-      openRepoId: id,
+      openRepoId: null,
+    });
+  }
+
+  updateOpenRepoData(data) {
+    this.setState({
+      openRepoData: data,
     });
   }
 
@@ -69,7 +89,7 @@ export class Home extends React.Component {
       numberOfSelectedRepos,
       settings: { userSettings },
     } = this.props;
-    const { openRepoId } = this.state;
+    const { openRepoId, openRepoData } = this.state;
 
     const { currentView, id: userSettingsId } = userSettings;
 
@@ -100,70 +120,97 @@ export class Home extends React.Component {
           </div>
         ) : (
           <Fragment>
-            <div className={style.viewSelectors}>
-              <Mutation
-                mutation={SET_HOME_PAGE_VIEW}
-                variables={{
-                  id: userSettingsId,
-                  selectedView: FULL_VIEW,
-                }}
-              >
-                {setHomePageView => (
-                  <button
-                    className={`${style.fullViewButton} ${
-                      style.viewSelectorButton
-                    } ${currentView === FULL_VIEW ? style.selectedButton : ''}`}
-                    onClick={setHomePageView}
-                  >
-                    <img
-                      src={fullViewIcon}
-                      className={style.viewSelectIcon}
-                      alt="Select full view"
-                    />
-                  </button>
-                )}
-              </Mutation>
-              <Mutation
-                mutation={SET_HOME_PAGE_VIEW}
-                variables={{
-                  id: userSettingsId,
-                  selectedView: MINIMAL_VIEW,
-                }}
-              >
-                {setHomePageView => (
-                  <button
-                    className={`${style.minimalViewButton} ${
-                      style.viewSelectorButton
-                    } ${
-                      currentView === MINIMAL_VIEW ? style.selectedButton : ''
-                    }`}
-                    onClick={setHomePageView}
-                  >
-                    <img
-                      src={minimalViewIcon}
-                      className={style.viewSelectIcon}
-                      alt="Select full view"
-                    />
-                  </button>
-                )}
-              </Mutation>
-            </div>
             <div>
-              {currentView === 'FULL_VIEW' && (
-                <FullView
-                  data={data}
-                  toggleOpenRepo={this.toggleOpenRepo}
-                  openRepoId={openRepoId}
-                />
-              )}
-              {currentView === 'MINIMAL_VIEW' && (
-                <MinimalView
-                  data={data}
-                  toggleOpenRepo={this.toggleOpenRepo}
-                  openRepoId={openRepoId}
-                />
-              )}
+              <div className={style.viewSelectors}>
+                <Mutation
+                  mutation={SET_HOME_PAGE_VIEW}
+                  variables={{
+                    id: userSettingsId,
+                    selectedView: FULL_VIEW,
+                  }}
+                >
+                  {setHomePageView => (
+                    <button
+                      className={`${style.fullViewButton} ${
+                        style.viewSelectorButton
+                      } ${
+                        currentView === FULL_VIEW ? style.selectedButton : ''
+                      }`}
+                      onClick={setHomePageView}
+                    >
+                      <img
+                        src={fullViewIcon}
+                        className={style.viewSelectIcon}
+                        alt="Select full view"
+                      />
+                    </button>
+                  )}
+                </Mutation>
+                <Mutation
+                  mutation={SET_HOME_PAGE_VIEW}
+                  variables={{
+                    id: userSettingsId,
+                    selectedView: MINIMAL_VIEW,
+                  }}
+                >
+                  {setHomePageView => (
+                    <button
+                      className={`${style.minimalViewButton} ${
+                        style.viewSelectorButton
+                      } ${
+                        currentView === MINIMAL_VIEW ? style.selectedButton : ''
+                      }`}
+                      onClick={setHomePageView}
+                    >
+                      <img
+                        src={minimalViewIcon}
+                        className={style.viewSelectIcon}
+                        alt="Select full view"
+                      />
+                    </button>
+                  )}
+                </Mutation>
+              </div>
+              <div>
+                {currentView === 'FULL_VIEW' && (
+                  <FullView
+                    data={data}
+                    toggleOpenRepo={this.toggleOpenRepo}
+                    openRepoId={openRepoId}
+                  />
+                )}
+                {currentView === 'MINIMAL_VIEW' && (
+                  <MinimalView
+                    data={data}
+                    toggleOpenRepo={this.toggleOpenRepo}
+                    openRepoId={openRepoId}
+                  />
+                )}
+              </div>
             </div>
+            <Transition
+              appear
+              timeout={slideDuration}
+              in={!!openRepoId}
+              unmountOnExit
+            >
+              {state => {
+                const transitionState = capitalise(state);
+
+                const slideTransitionClassnames = `${style.slideDefault} ${
+                  style[`slide${transitionState}`]
+                }`;
+
+                return (
+                  <div className={slideTransitionClassnames}>
+                    <RepoModal
+                      data={openRepoData}
+                      toggleOpenRepo={this.toggleOpenRepo}
+                    />
+                  </div>
+                );
+              }}
+            </Transition>
           </Fragment>
         )}
       </div>

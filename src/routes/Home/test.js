@@ -11,7 +11,7 @@ describe('Home', () => {
   const baseProps = {
     data: [
       {
-        id: 1,
+        id: '1',
         name: 'repo1',
         url: 'url',
         owner: {
@@ -20,7 +20,7 @@ describe('Home', () => {
         },
       },
       {
-        id: 2,
+        id: '2',
         name: 'repo2',
         url: 'url',
         owner: {
@@ -157,7 +157,7 @@ describe('Home', () => {
     describe('when repo is not already open', () => {
       it('saves repo id as the currently open repo', () => {
         const componentInstance = shallow(<Home {...baseProps} />).instance();
-        const repoId = 'test';
+        const repoId = '1';
         componentInstance.toggleOpenRepo(repoId);
         expect(componentInstance.state.openRepoId).toBe(repoId);
       });
@@ -167,7 +167,7 @@ describe('Home', () => {
       it('saves repo id as the currently open repo', () => {
         const componentInstance = shallow(<Home {...baseProps} />).instance();
 
-        const repoId = 'test';
+        const repoId = '1';
         componentInstance.setState({ openRepoId: repoId });
         componentInstance.toggleOpenRepo(repoId);
         expect(componentInstance.state.openRepoId).toBeNull();
