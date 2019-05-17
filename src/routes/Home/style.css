@@ -104,6 +104,34 @@
   margin: 10%;
 }
 
+.slideDefault {
+  transition: transform 300ms ease-out, opacity 300ms ease-in-out;
+  position: absolute;
+  height: 100%;
+  width:100%;
+  opacity: 0.4;
+}
+
+.slideEntering {
+  opacity: 0.4;
+  transform: translateX(-100%);
+}
+
+.slideEntered {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.slideExiting {
+  opacity: 0.4;
+  transform: translateX(-100%);
+}
+
+.slideExited {
+  opacity: 0.4;
+  transform: translateX(-100%);
+}
+
 @media (min-width: 1400px) {
   .reposContainer {
     max-width: 80%;

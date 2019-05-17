@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import CircularProgressbar from 'react-circular-progressbar';
 
 import defaultTheme from './theme.css';
-import RepoModal from '../RepoModal';
+// import RepoModal from '../RepoModal';
 import CircularCounter from '../../../../components/CircularCounter';
 import { REPO_SUMMARY_MAX_PRS, MAXIMUM_PRS } from '../../../../constants';
 import userIcon from '../../../../images/anon-user.svg';
@@ -18,7 +18,7 @@ export default class Repo extends React.Component {
   }
 
   render() {
-    const { theme, data, toggleOpenRepo, openRepoId } = this.props;
+    const { theme, data, toggleOpenRepo } = this.props;
     const numberOfPrs = data.pullRequests.length;
     const totalPrs = data.totalPullRequests;
     const countClass = numberOfPrs === 0 ? 'zeroCount' : null;
@@ -28,14 +28,9 @@ export default class Repo extends React.Component {
       console.log('data is', data);
     }
 
-    const open = data.id === openRepoId;
     const onClick = () => {
       toggleOpenRepo(data.id);
     };
-
-    const openRepo = open ? (
-      <div>{<RepoModal data={data} toggleOpenRepo={toggleOpenRepo} />}</div>
-    ) : null;
 
     const prSubset = data.pullRequests.slice(0, REPO_SUMMARY_MAX_PRS);
 
@@ -154,7 +149,6 @@ export default class Repo extends React.Component {
           </div>
           {maxPrWarning}
         </div>
-        {openRepo}
       </div>
     );
   }
@@ -171,7 +165,6 @@ Repo.propTypes = {
     }).isRequired,
     pullRequests: PropTypes.arrayOf(PropTypes.shape()),
   }).isRequired,
-  openRepoId: PropTypes.string,
   toggleOpenRepo: PropTypes.func.isRequired,
 };
 
