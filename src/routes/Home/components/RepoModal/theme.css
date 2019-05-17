@@ -1,60 +1,54 @@
 @import "../../../../css/colors.css";
 @import "../../../../css/units.css";
 
-.repoContainer {
-  z-index: var(--z-modal);
-  position: fixed;
-  top: 10%;
-  left: 10%;
-  width: 80%;
-  background-color: var(--primary-light);
-  color: var(--white);
-  margin-bottom: 5rem;
-  max-height: 85vh;
+.repoModalContainer {
+  background-color: var(--primary-medium);
+  width: 100%;
+  height: 100%;
+  z-index: var(--z-overlay);
+  padding: 1.5rem;
   overflow-y: scroll;
 }
 
+.repoContainer {
+  position: relative;
+  z-index: var(--z-modal);
+  color: var(--white);
+}
+
 .prsContainer {
-  padding: 3rem 2rem;
+  margin: 3rem 7rem 3rem 5rem;
 }
 
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to right, var(--primary-extra-dark) 0rem, var(--primary-extra-dark) 1rem, var(--overlay) 1rem);
-  z-index: var(--z-overlay);
-}
-
-.repoHeader {
+.repoName {
+  position: absolute;
+  top: 30rem;
+  right: -33rem;
+  transform: rotate(90deg);
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  padding: 1.5rem 2rem;
-  background-color: var(--secondary-dark);
+  align-items: center;
+  width: 70rem;
+  height: 7rem;
 }
 
 .name {
   font-weight: normal;
-  font-size: 2.3rem;
+  font-size: 3.3rem;
   font-family: 'Roboto', sans-serif;
   color: var(--white);
-}
-
-.ownerAvatar {
-  width: 3rem;
-  height: 3rem;
-  border-radius: 0.3rem;
-  box-shadow: var(--boxshadow);
-  margin-right: 1.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  padding-left: 2rem;
 }
 
 .link {
   transition: 0.3s ease-in-out all;
   display: flex;
   align-items: center;
+  max-width: 100%;
 }
 
 .link:hover{
@@ -62,20 +56,30 @@
 }
 
 .closeButton {
+  position: absolute;
+  top: calc(50% - 2.5rem);
+  left: 1rem;
   background-color: transparent;
-  line-height: 0;
-  padding: 1rem;
-  border-radius: 0.3rem;
-  transition: 0.5s ease-in-out all;
+  border-radius: 100%;
+  transition: left 0.3s ease-in-out, background-color 0.3s ease-out;
   border: none;
+  height: 5rem;
+  width: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  padding-right: 0.3rem;
 }
 
 .closeButton path {
-  transition: 0.5s ease-in-out all;
+  transition: 0.3s ease-in-out all;
+  fill: var(--white);
 }
 
 .closeButton:hover {
   background-color: var(--secondary-medium);
+  left: 0.5rem;
 }
 
 .closeButton:hover path {
@@ -83,8 +87,8 @@
 }
 
 .closeIcon {
-  width: 2rem;
-  height: 2rem;
+  width: 3rem;
+  height: 3rem;
 }
 
 .noPrs {

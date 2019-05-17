@@ -130,17 +130,6 @@ describe('RepoModal', () => {
     expect(component.find(PullRequest).length).toBe(2);
   });
 
-  describe('when overlay clicked', () => {
-    it('dispatches toggleOpenRepo with null', () => {
-      const toggleOpenRepo = jest.fn();
-      const component = shallow(
-        <RepoModal {...props} toggleOpenRepo={toggleOpenRepo} />,
-      );
-      component.find('[data-test-id="overlay"]').simulate('click');
-      expect(toggleOpenRepo).toHaveBeenCalledWith(null);
-    });
-  });
-
   describe('when close button clicked', () => {
     it('dispatches toggleOpenRepo with null', () => {
       const toggleOpenRepo = jest.fn();
