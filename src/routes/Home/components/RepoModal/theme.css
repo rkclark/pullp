@@ -21,6 +21,10 @@
 .prsContainer {
   margin: 3rem 7rem 3rem 5rem;
   flex-basis: 100%;
+  display: grid;
+  grid-gap: 2.2rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-auto-rows: minmax(70px, auto);
 }
 
 .repoName {
