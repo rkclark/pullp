@@ -58,7 +58,7 @@
 
 .bodyWrapper {
   display: flex;
-  padding: 1.5rem;
+  padding: 1.2rem 1.2rem 0;
   flex-wrap: wrap;
   justify-content: space-between;
 }
@@ -174,20 +174,15 @@
   align-self: flex-start;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .review {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  background-color: var(--white);
-  box-shadow: var(--boxshadow);
-  padding: 0 1.5rem;
-  border-radius: 0.3rem;
   margin-bottom: 1.3rem;
   margin-right: 1rem;
-  border: 0.1rem solid rgba(0, 0, 0, 0.05);
+  background-color: var(--primary-extra-dark);
+  padding: 0.2rem 0.5rem 0;
+  border-radius: 0.3rem;
 }
 
 .reviewsTitle {
@@ -199,40 +194,74 @@
   align-self: flex-start;
 }
 
+.reviewTopRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.reviewBottomRow {
+  display: flex;
+  flex-direction: column;
+}
+
 .reviewAuthorAvatar {
-  width: 3rem;
-  height: 3rem;
-  border-radius: 100%;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.3rem;
   box-shadow: var(--boxshadow);
+  margin-right: 1rem;
 }
 
 .reviewAuthorLogin {
-  font-size: 1.4rem;
+  font-size: 0.9rem;
   font-family: 'Roboto', sans-serif;
-  margin: 0.7rem 1rem;
-}
-
-.reviewState {
-  padding: 0.5rem 1.3rem;
-  font-size: 1.4rem;
-  font-family: 'Roboto', sans-serif;
-  border-radius: 0.5rem;
-  margin: 0.7rem 1rem 0.7rem 0;
-  border: 0.1rem solid transparent;
-  white-space: nowrap;
 }
 
 .review .reviewState:last-child {
   margin-right: 0;
 }
 
+.reviewIconContainer {
+  min-width: 2rem;
+  height: 2rem;
+  border-radius: 0.3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 0.5rem;
+  padding: 0.3rem;
+}
+
+.reviewIconContainer span {
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-left: 0.2rem;
+}
+
+
+.reviewIconContainer:last-child {
+  margin-right: 0;
+}
+
+.reviewIconContainer svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
 .statusApproved {
   background-color: var(--secondary-medium);
+  color: var(--primary-extra-dark);
 }
 
 .statusChangesRequested {
-  background-color: var(--tertiary-dark);
+  background-color: var(--error-red);
   color: var(--white);
+}
+
+.statusChangesRequested svg, .statusDismissed svg {
+  width: 1.2rem;
+  height: 1.2rem;
 }
 
 .statusCommented {
@@ -240,13 +269,17 @@
   color: var(--white);
 }
 
+.statusCommented path {
+  fill: var(--white);
+}
+
 .statusPending {
   background-color: var(--white);
-  border-color: var(--primary-dark);
+  color: var(--primary-extra-dark);
 }
 
 .statusDismissed {
-  background-color: var(--secondary-dark);
+  background-color: var(--medium-grey);
   color: var(--white);
 }
 
@@ -310,21 +343,3 @@
 .linkIcon path {
   fill: var(--primary-dark);
 }
-
-/* 
-@media (max-width: 1100px) {
-  .leftColumn, .middleColumn {
-    flex-basis: 50%;
-  }
-
-  .rightColumn {
-    flex-basis: 100%;
-    margin-top: 2rem;
-  }
-}
-
-@media (min-width: 1600px) {
-  .requestedReviewersContainer {
-    max-width: 30rem;
-  }
-} */
