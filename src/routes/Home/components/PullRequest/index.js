@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 import defaultTheme from './theme.css';
 
+import TickIcon from '../../../../components/TickIcon';
+import CrossIcon from '../../../../components/CrossIcon';
+import EllipsisIcon from '../../../../components/EllipsisIcon';
+import CommentIcon from '../../../../components/CommentIcon';
+
 /* eslint-disable react/no-array-index-key */
 export default function PullRequest({
   theme,
@@ -21,24 +26,6 @@ export default function PullRequest({
   reviewRequests,
 }) {
   const reviewRequestStatus = () => {
-    if (reviewedByCurrentUser) {
-      return (
-        <div className={`${theme.reviewStatusIndicator} ${theme.reviewed}`}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 406.83 406.83"
-            width="512"
-            height="512"
-            className={theme.reviewStatusIcon}
-          >
-            <path
-              fill="#0f0d1d"
-              d="M385.62 62.5l-239.4 239.4-125-125L0 198.1l146.22 146.23L406.84 83.72z"
-            />
-          </svg>
-        </div>
-      );
-    }
     if (currentUserReviewRequested) {
       return (
         <div
@@ -48,68 +35,139 @@ export default function PullRequest({
         </div>
       );
     }
+    if (reviewedByCurrentUser) {
+      return (
+        <div className={`${theme.reviewStatusIndicator} ${theme.reviewed}`}>
+          <TickIcon theme={{ svg: theme.reviewStatusIcon }} />
+        </div>
+      );
+    }
 
     return (
       <div className={theme.reviewStatusWrapper}>
         <div className={`${theme.reviewStatusIndicator} ${theme.noRequest}`}>
-          <svg
-            className={theme.reviewStatusIcon}
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 31.11 31.11"
-          >
-            <path
-              fill="#FFF"
-              d="M31.1 1.4L29.7 0 15.56 14.14 1.4 0 0 1.4l14.14 14.16L0 29.7l1.4 1.4 14.16-14.13L29.7 31.1l1.4-1.4-14.13-14.14"
-            />
-          </svg>
+          <CrossIcon theme={{ svg: theme.reviewStatusIcon }} />
         </div>
       </div>
     );
   };
 
-  const generateStateClass = state => {
-    let reviewStatusClassName = '';
+  const getReviewIcon = ({ state, count, key }) => {
+    let icon = '';
+    const countText = count > 1 ? <span>x{count}</span> : '';
     switch (state) {
       case 'APPROVED':
-        reviewStatusClassName = 'statusApproved';
+        icon = (
+          <div
+            key={key}
+            className={`${theme.reviewIconContainer} ${theme.statusApproved}`}
+          >
+            <TickIcon />
+            {countText}
+          </div>
+        );
         break;
       case 'CHANGES_REQUESTED':
-        reviewStatusClassName = 'statusChangesRequested';
+        icon = (
+          <div
+            key={key}
+            className={`${theme.reviewIconContainer} ${
+              theme.statusChangesRequested
+            }`}
+          >
+            <CrossIcon />
+            {countText}
+          </div>
+        );
         break;
       case 'COMMENTED':
-        reviewStatusClassName = 'statusCommented';
+        icon = (
+          <div
+            key={key}
+            className={`${theme.reviewIconContainer} ${theme.statusCommented}`}
+          >
+            <CommentIcon />
+            {countText}
+          </div>
+        );
         break;
       case 'PENDING':
-        reviewStatusClassName = 'statusPending';
+        icon = (
+          <div
+            key={key}
+            className={`${theme.reviewIconContainer} ${theme.statusPending}`}
+          >
+            <EllipsisIcon />
+            {countText}
+          </div>
+        );
         break;
       case 'DISMISSED':
-        reviewStatusClassName = 'statusDismissed';
+        icon = (
+          <div
+            key={key}
+            className={`${theme.reviewIconContainer} ${theme.statusDismissed}`}
+          >
+            <CrossIcon />
+            {countText}
+          </div>
+        );
         break;
       default:
-        reviewStatusClassName = '';
+        icon = '';
     }
-    return reviewStatusClassName;
+    return icon;
+  };
+
+  const getReviewIcons = ({ states, login }) => {
+    const consolidatedReviewStates = [];
+
+    states.reduce((previous, state, index) => {
+      if (previous.state === state) {
+        const consolidatedState = {
+          ...previous,
+          count: previous.count + 1,
+        };
+
+        if (index === states.length - 1) {
+          consolidatedReviewStates.push(consolidatedState);
+        }
+        return consolidatedState;
+      }
+
+      consolidatedReviewStates.push(previous);
+
+      if (index === states.length - 1) {
+        consolidatedReviewStates.push({ state, count: 1 });
+      }
+
+      return { state, count: 1 };
+    }, {});
+
+    const reviewIcons = consolidatedReviewStates.map(
+      ({ state, count }, index) =>
+        getReviewIcon({ state, count, key: `${login}_state_${index}` }),
+    );
+
+    return reviewIcons;
   };
 
   const prReviews = reviewsByAuthor.map(review => (
     <div className={theme.review} key={`${review.login}`}>
-      <img
-        className={theme.reviewAuthorAvatar}
-        src={review.avatarUrl}
-        alt="review author"
-      />
-      <span className={theme.reviewAuthorLogin}>{review.login}</span>
-      {review.states.map((state, index) => {
-        const stateClass = generateStateClass(state);
-        return (
-          <div
-            className={`${theme.reviewState} ${theme[stateClass]}`}
-            key={`${review.login}_state_${index}`}
-          >
-            {state.replace(/_/g, ' ')}
-          </div>
-        );
-      })}
+      <div className={theme.reviewTopRow}>
+        <img
+          className={theme.reviewAuthorAvatar}
+          src={review.avatarUrl}
+          alt="review author"
+        />
+        {getReviewIcons(review)}
+        {/* {review.states.map((state, index) =>
+          getReviewIcon({ state, key: `${review.login}_state_${index}` }),
+        )} */}
+      </div>
+      <div className={theme.reviewBottomRow}>
+        <span className={theme.reviewAuthorLogin}>{review.login}</span>
+      </div>
     </div>
   ));
 
@@ -181,16 +239,7 @@ export default function PullRequest({
               {prReviews}
               {reviewsByAuthor.length === 0 ? (
                 <div className={theme.noReviewsMessage}>
-                  <svg
-                    className={theme.noReviewsIcon}
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 31.11 31.11"
-                  >
-                    <path
-                      fill="#FFF"
-                      d="M31.1 1.4L29.7 0 15.56 14.14 1.4 0 0 1.4l14.14 14.16L0 29.7l1.4 1.4 14.16-14.13L29.7 31.1l1.4-1.4-14.13-14.14"
-                    />
-                  </svg>
+                  <CrossIcon theme={{ svg: theme.noReviewsIcon }} />
                   <span>No reviews submitted</span>
                 </div>
               ) : null}
