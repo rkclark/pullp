@@ -7,6 +7,7 @@ import TickIcon from '../../../../components/TickIcon';
 import CrossIcon from '../../../../components/CrossIcon';
 import EllipsisIcon from '../../../../components/EllipsisIcon';
 import CommentIcon from '../../../../components/CommentIcon';
+import LeftArrowIcon from '../../../../components/LeftArrowIcon';
 
 /* eslint-disable react/no-array-index-key */
 export default function PullRequest({
@@ -24,6 +25,11 @@ export default function PullRequest({
     newNotificationCount,
   },
   reviewRequests,
+  headRefName,
+  baseRefName,
+  additions,
+  deletions,
+  comments,
 }) {
   const reviewRequestStatus = () => {
     if (currentUserReviewRequested) {
@@ -161,9 +167,6 @@ export default function PullRequest({
           alt="review author"
         />
         {getReviewIcons(review)}
-        {/* {review.states.map((state, index) =>
-          getReviewIcon({ state, key: `${review.login}_state_${index}` }),
-        )} */}
       </div>
       <div className={theme.reviewBottomRow}>
         <span className={theme.reviewAuthorLogin}>{review.login}</span>
@@ -171,29 +174,13 @@ export default function PullRequest({
     </div>
   ));
 
-  const requestedReviewers = reviewRequests.map(reviewRequest => {
-    const name = reviewRequest.requestedReviewer.login
-      ? reviewRequest.requestedReviewer.login
-      : reviewRequest.requestedReviewer.name;
-    return (
-      <div
-        className={theme.requestedReviewer}
-        key={`${name}_${reviewRequest.requestedReviewer.avatarUrl}`}
-      >
-        <img
-          src={reviewRequest.requestedReviewer.avatarUrl}
-          alt={`${name} avatar`}
-          className={theme.requestedReviewerAvatar}
-        />
-        <span className={theme.requestedReviewerName}>{name}</span>
-      </div>
-    );
-  });
+  const numberOfReviewRequests = reviewRequests.length;
 
   return (
     <a href={url} className={theme.link}>
       <div className={`${theme.pullRequest}`}>
         <span className={theme.notificationCount}>{newNotificationCount}</span>
+        {reviewRequestStatus()}
         <div className={theme.linkIconContainer}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -223,14 +210,18 @@ export default function PullRequest({
             <span className={theme.authorLogin}>{author.login}</span>
           </div>
           <div className={theme.middleColumn}>
-            {reviewRequestStatus()}
-            {reviewRequests.length > 0 ? (
-              <h3 className={theme.requestedReviewsTitle}>
-                Requested Reviewers
-              </h3>
-            ) : null}
-            <div className={theme.requestedReviewersContainer}>
-              {requestedReviewers}
+            <div className={theme.branchInfo}>
+              <span>{baseRefName}</span>
+              <LeftArrowIcon />
+              <span>{headRefName}</span>
+            </div>
+            <div className={theme.comments}>
+              {comments.totalCount}
+              <CommentIcon />
+            </div>
+            <div className={theme.reviewRequests}>
+              {numberOfReviewRequests} review request{numberOfReviewRequests !==
+                1 && 's'}
             </div>
           </div>
           <div className={theme.rightColumn}>
@@ -252,6 +243,10 @@ export default function PullRequest({
             {distanceInWordsToNow(date)} ago
           </span>
           <span className={theme.infoSpan}>{time}</span>
+          <div className={theme.lineChangesInfo}>
+            <span className={theme.additions}>+ {additions}</span>
+            <span className={theme.deletions}>- {deletions}</span>
+          </div>
         </div>
       </div>
     </a>
@@ -260,6 +255,7 @@ export default function PullRequest({
 
 PullRequest.propTypes = {
   theme: PropTypes.shape(),
+  comments: PropTypes.shape(),
   url: PropTypes.string.isRequired,
   number: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
@@ -276,13 +272,17 @@ PullRequest.propTypes = {
     reviewedByCurrentUser: PropTypes.bool.isRequired,
     reviewsByAuthor: PropTypes.arrayOf(PropTypes.shape()),
   }),
+  baseRefName: PropTypes.string,
+  headRefName: PropTypes.string,
+  additions: PropTypes.number,
+  deletions: PropTypes.number,
 };
 
 PullRequest.defaultProps = {
   theme: defaultTheme,
   mergedAt: null,
+  comments: {},
   assignees: [],
-  comments: [],
   reviewRequests: [],
   reviews: [],
   pullpPullRequest: {
@@ -290,4 +290,8 @@ PullRequest.defaultProps = {
     time: null,
     reviewsByAuthor: [],
   },
+  baseRefName: '',
+  headRefName: '',
+  additions: 0,
+  deletions: 0,
 };

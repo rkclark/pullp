@@ -89,7 +89,7 @@
 .authorLogin {
   font-size: 1.2rem;
   font-family: 'Roboto', sans-serif;
-  margin: 1rem auto;
+  margin: 0.5rem auto;
 }
 
 .reviewStatusIndicator {
@@ -343,4 +343,82 @@
 
 .linkIcon path {
   fill: var(--primary-dark);
+}
+
+.branchInfo {
+  color: var(--primary-dark);
+  background-color: var(--white);
+  border-radius: 0.3rem;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  padding: 0.2rem 0.5rem;
+}
+
+
+.branchInfo span, .comments {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.3rem;
+}
+
+.branchInfo svg {
+  width: 1.4rem;
+  height: 1.4rem;
+  margin: 0 0.5rem;
+  fill: var(--primary-dark);
+}
+
+.branchInfo {
+  color: var(--primary-dark);
+  background-color: var(--white);
+}
+
+
+.lineChangesInfo {
+  margin-left: auto;
+  opacity: 0.8;
+}
+
+.lineChangesInfo span, .reviewRequests {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0 1rem;
+}
+
+.additions {
+  color: var(--white);
+  background-color: var(--primary-medium);
+  border-top-left-radius: 0.3rem;
+  border-bottom-left-radius: 0.3rem;
+}
+
+.deletions {
+  color: var(--white);
+  background-color: var(--secondary-dark);
+  border-top-right-radius: 0.3rem;
+  border-bottom-right-radius: 0.3rem;
+}
+
+.comments {
+  display: flex;
+  align-items: center;
+  padding: 0.4rem;
+  border-radius: 0.3rem;
+  background-color: var(--primary-medium);
+  margin-top: 1rem;
+}
+
+.comments svg {
+  fill: var(--white);
+  width: 1.8rem;
+  height: 1.8rem;
+  margin-left: 0.5rem;
+}
+
+.reviewRequests {
+  background-color: var(--secondary-dark);
+  text-transform: uppercase;
+  border-radius: 0.3rem;
+  margin-top: 1rem;
 }

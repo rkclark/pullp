@@ -169,6 +169,10 @@ export const GET_PULL_REQUESTS = gql(`query getPullRequests($ids: [ID!]!, $maxim
             comments {
               totalCount
             }
+            additions
+            deletions
+            baseRefName
+            headRefName
             pullpPullRequest @client {
               currentUserReviewRequested
               reviewedByCurrentUser
