@@ -18,12 +18,15 @@
   align-items: stretch;
 }
 
-.prsContainer {
+.mainContainer {
   margin: 3rem 7rem 3rem 5rem;
   flex-basis: 100%;
+}
+
+.pullRequestsContainer {
   display: grid;
   grid-gap: 2.2rem;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   grid-auto-rows: minmax(70px, auto);
 }
 
@@ -124,4 +127,11 @@
   background-color: var(--light-grey);
   opacity: 0.7;
   flex: 0 0 auto;
+}
+
+@media (min-width: 1400px) {
+  .pullRequestsContainer {
+    max-width: 80%;
+    margin-left: 10%;
+  }
 }

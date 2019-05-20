@@ -56,9 +56,9 @@
   box-shadow: none;
 }
 
-.bodyWrapper {
+.topRow {
   display: flex;
-  padding: 1.2rem 1.2rem 0;
+  padding: 1.2rem 1.2rem 0.5rem;
   flex-wrap: wrap;
   justify-content: space-between;
 }
@@ -66,8 +66,12 @@
 .leftColumn, .middleColumn  {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+.bottomRow {
+  padding: 0 1.2rem;
 }
 
 .infoSpan {
@@ -186,7 +190,7 @@
 }
 
 .reviewsTitle {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-family: 'Roboto', sans-serif;
   text-transform: uppercase;
   font-weight: normal;
@@ -284,25 +288,12 @@
   color: var(--white);
 }
 
-.noReviewsMessage {
-  display: flex;
-  align-items: center;
-  margin: 0 auto;
-}
 
-.noReviewsMessage span {
-  font-size: 1.4rem;
+.noReviewsMessage {
+  font-size: 1.2rem;
   font-family: 'Roboto', sans-serif;
   text-transform: uppercase;
-}
-
-.noReviewsIcon {
-  width: 3rem;
-  height: 3rem;
-  border-radius: 100%;
-  padding: 0.7rem;
-  background-color: var(--light-grey);
-  margin-right: 1rem;
+  color: var(--medium-grey);
 }
 
 .notificationCount, .linkIconContainer {
@@ -353,8 +344,10 @@
   flex-wrap: nowrap;
   align-items: center;
   padding: 0.2rem 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-
 
 .branchInfo span, .comments {
   font-family: 'Roboto', sans-serif;
@@ -421,4 +414,5 @@
   text-transform: uppercase;
   border-radius: 0.3rem;
   margin-top: 1rem;
+  font-size: 1.1rem;
 }
