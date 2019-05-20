@@ -200,7 +200,7 @@ export default function PullRequest({
         <div className={theme.header}>
           <h4 className={theme.title}>{title}</h4>
         </div>
-        <div className={theme.bodyWrapper}>
+        <div className={theme.topRow}>
           <div className={theme.leftColumn}>
             <img
               className={theme.authorAvatar}
@@ -211,30 +211,29 @@ export default function PullRequest({
           </div>
           <div className={theme.middleColumn}>
             <div className={theme.branchInfo}>
-              <span>{baseRefName}</span>
-              <LeftArrowIcon />
-              <span>{headRefName}</span>
-            </div>
-            <div className={theme.comments}>
-              {comments.totalCount}
-              <CommentIcon />
+              <span>
+                <span>{baseRefName}</span>
+                <LeftArrowIcon />
+                <span>{headRefName}</span>
+              </span>
             </div>
             <div className={theme.reviewRequests}>
               {numberOfReviewRequests} review request{numberOfReviewRequests !==
                 1 && 's'}
             </div>
-          </div>
-          <div className={theme.rightColumn}>
-            <h3 className={theme.reviewsTitle}>Reviews</h3>
-            <div className={theme.reviewsContainer}>
-              {prReviews}
-              {reviewsByAuthor.length === 0 ? (
-                <div className={theme.noReviewsMessage}>
-                  <CrossIcon theme={{ svg: theme.noReviewsIcon }} />
-                  <span>No reviews submitted</span>
-                </div>
-              ) : null}
+            <div className={theme.comments}>
+              {comments.totalCount}
+              <CommentIcon />
             </div>
+          </div>
+        </div>
+        <div className={theme.bottomRow}>
+          <h3 className={theme.reviewsTitle}>Reviews</h3>
+          <div className={theme.reviewsContainer}>
+            {prReviews}
+            {reviewsByAuthor.length === 0 && (
+              <div className={theme.noReviewsMessage}>None submitted</div>
+            )}
           </div>
         </div>
         <div className={theme.footer}>
