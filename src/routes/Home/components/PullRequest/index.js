@@ -212,9 +212,9 @@ export default function PullRequest({
           <div className={theme.middleColumn}>
             <div className={theme.branchInfo}>
               <span>
-                <span>{baseRefName}</span>
+                {baseRefName}
                 <LeftArrowIcon />
-                <span>{headRefName}</span>
+                {headRefName}
               </span>
             </div>
             <div className={theme.reviewRequests}>

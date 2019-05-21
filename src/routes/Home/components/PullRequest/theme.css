@@ -66,8 +66,15 @@
 .leftColumn, .middleColumn  {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
   justify-content: flex-start;
+}
+
+.leftColumn {
+  align-items: flex-start;
+}
+
+ .middleColumn  {
+  align-items: flex-end;
 }
 
 .bottomRow {
@@ -94,14 +101,18 @@
   font-size: 1.2rem;
   font-family: 'Roboto', sans-serif;
   margin: 0.5rem auto;
+  max-width: 7rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .reviewStatusIndicator {
   width: 3.5rem;
   height: 3.5rem;
   position: absolute;
-  top: -1.5rem;
-  right: 2.5rem;
+  top: -2.2rem;
+  right: 2.7rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -298,7 +309,7 @@
 
 .notificationCount, .linkIconContainer {
   position: absolute;
-  top: -1.5rem;
+  top: -2.2rem;
   right: -1.5rem;
   width: 3.5rem;
   height: 3.5rem;
@@ -344,14 +355,18 @@
   flex-wrap: nowrap;
   align-items: center;
   padding: 0.2rem 0.5rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  max-width: 20rem;
 }
 
 .branchInfo span, .comments {
   font-family: 'Roboto', sans-serif;
   font-size: 1.3rem;
+}
+
+.branchInfo span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .branchInfo svg {
