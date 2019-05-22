@@ -215,6 +215,39 @@ export default {
 
       return null;
     },
+    // dismissNotifications: (_, variables, { cache, getCacheKey }) => {
+    //   const { pullRequestId, repoId } = variables;
+
+    //   if (variables.pullRequestId) {
+    //     const id = getCacheKey({
+    //       __typename: 'PullRequest',
+    //       id: pullRequestId,
+    //     });
+
+    //     const fragment = gql(`
+    //       fragment pullpPullRequest on PullRequest {
+    //         pullpPullRequest
+    //       }`);
+
+    //     const pullRequest = cache.readFragment({ fragment, id });
+    //     const notifications =
+    //       get(pullRequest, 'pullpPullRequest.notifications') || [];
+
+    //     const dismissedNotifications = notifications.map(notification => ({
+    //       ...notification,
+    //       dismissed: true,
+    //     }));
+
+    //     const data = {
+    //       ...pullRequest.pullpPullRequest,
+    //       notifications: dismissedNotifications,
+    //     };
+
+    //     cache.writeData({ id, data });
+
+    //     return null;
+    //   }
+    // },
   },
   Repository: {
     isSelected: (_, variables, { cache, getCacheKey }) => {

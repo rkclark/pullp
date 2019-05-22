@@ -19,3 +19,8 @@ export const SET_HOME_PAGE_VIEW = gql(`
 mutation SetHomePageView($id: String!, $selectedView: String!) {
   setHomePageView(id: $id, selectedView: $selectedView) @client
 }`);
+
+export const DISMISS_NOTIFICATIONS = gql(`
+mutation DismissNotifications($pullRequestId: String, $repoId: String) {
+  dismissNotifications(pullRequestId: $pullRequestId, repoId: $repoId) @client
+}`);
