@@ -148,42 +148,6 @@
   font-family: 'Roboto', sans-serif;
 }
 
-.requestedReviewersContainer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  max-width: 20rem;
-}
-
-.requestedReviewer {
-  display: inline-flex;
-  align-items: center;
-  margin-top: 0.5rem;
-}
-
-.requestedReviewerAvatar {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 100%;
-  box-shadow: var(--boxshadow);
-}
-
-.requestedReviewerName {
-  color: var(--white);
-  font-size: 1.1rem;
-  font-family: 'Roboto', sans-serif;
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
-}
-
-.requestedReviewsTitle {
-  font-size: 1.1rem;
-  font-family: 'Roboto', sans-serif;
-  margin-left: 0.5rem;
-  text-transform: uppercase;
-  margin-bottom: 0.5rem;
-}
-
 .reviewsContainer {
   flex: 0 1 100%;
   align-self: flex-start;
@@ -233,7 +197,7 @@
   font-family: 'Roboto', sans-serif;
 }
 
-.review .reviewState:last-child {
+.review:last-child {
   margin-right: 0;
 }
 
@@ -303,7 +267,6 @@
   background-color: var(--medium-grey);
   color: var(--white);
 }
-
 
 .noReviewsMessage {
   font-size: 1.2rem;
@@ -380,12 +343,6 @@
   margin: 0 0.5rem;
   fill: var(--primary-dark);
 }
-
-.branchInfo {
-  color: var(--primary-dark);
-  background-color: var(--white);
-}
-
 
 .lineChangesInfo {
   margin-left: auto;
