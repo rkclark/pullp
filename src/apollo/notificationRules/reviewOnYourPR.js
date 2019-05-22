@@ -37,6 +37,7 @@ export default ({
         sourceNodeId: node.id,
         trigger: get(userSettings, `notifications[${type}].trigger`) || false,
         dismissed: false,
+        timestamp: new Date().toISOString(),
       });
     }
   });

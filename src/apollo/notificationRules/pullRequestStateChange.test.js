@@ -1,3 +1,4 @@
+import MockDate from 'mockdate';
 import pullRequestStateChange from './pullRequestStateChange';
 import {
   notificationTypes,
@@ -69,7 +70,13 @@ const baseArgs = {
   userSettings,
 };
 
+const today = new Date();
+
 describe('pullRequestStateChange', () => {
+  beforeAll(() => {
+    MockDate.set(today);
+  });
+
   describe(`PR ${OPENED} notifications`, () => {
     describe('when there is no existing state change notification', () => {
       describe(`when the PR state is ${pullRequestStates.OPEN}`, () => {
@@ -94,6 +101,7 @@ describe('pullRequestStateChange', () => {
             sourceNodeId,
             subType,
             dismissed,
+            timestamp,
           } = notifications[0];
           expect(type).toBe(pullRequestOpenedNotification.type);
           expect(title).toBe(pullRequestOpenedNotification.title);
@@ -101,6 +109,7 @@ describe('pullRequestStateChange', () => {
           expect(dismissed).toBe(false);
           expect(subType).toBe(pullRequestOpenedNotification.subType);
           expect(sourceNodeId).toBe(pullRequestOpenedNotification.sourceNodeId);
+          expect(timestamp).toBe(today.toISOString());
         });
 
         describe('when there is an existing state change notification', () => {
@@ -166,12 +175,14 @@ describe('pullRequestStateChange', () => {
             sourceNodeId,
             subType,
             dismissed,
+            timestamp,
           } = notifications[0];
           expect(type).toBe(pullRequestClosedNotification.type);
           expect(title).toBe(pullRequestClosedNotification.title);
           expect(message).toBe(pullRequestClosedNotification.message);
           expect(dismissed).toBe(false);
           expect(sourceNodeId).toBe(pullRequestClosedNotification.sourceNodeId);
+          expect(timestamp).toBe(today.toISOString());
           expect(subType).toBe(pullRequestClosedNotification.subType);
         });
 
@@ -197,6 +208,7 @@ describe('pullRequestStateChange', () => {
               sourceNodeId,
               subType,
               dismissed,
+              timestamp,
             } = notifications[0];
             expect(type).toBe(pullRequestClosedNotification.type);
             expect(title).toBe(`Your ${pullRequestClosedNotification.title}`);
@@ -205,6 +217,7 @@ describe('pullRequestStateChange', () => {
             expect(sourceNodeId).toBe(
               pullRequestClosedNotification.sourceNodeId,
             );
+            expect(timestamp).toBe(today.toISOString());
             expect(subType).toBe(pullRequestClosedNotification.subType);
           });
         });
@@ -254,12 +267,14 @@ describe('pullRequestStateChange', () => {
             sourceNodeId,
             subType,
             dismissed,
+            timestamp,
           } = notifications[0];
           expect(type).toBe(pullRequestMergedNotification.type);
           expect(title).toBe(pullRequestMergedNotification.title);
           expect(message).toBe(pullRequestMergedNotification.message);
           expect(dismissed).toBe(false);
           expect(sourceNodeId).toBe(pullRequestMergedNotification.sourceNodeId);
+          expect(timestamp).toBe(today.toISOString());
           expect(subType).toBe(pullRequestMergedNotification.subType);
         });
 
@@ -285,6 +300,7 @@ describe('pullRequestStateChange', () => {
               sourceNodeId,
               subType,
               dismissed,
+              timestamp,
             } = notifications[0];
             expect(type).toBe(pullRequestMergedNotification.type);
             expect(title).toBe(`Your ${pullRequestMergedNotification.title}`);
@@ -293,6 +309,7 @@ describe('pullRequestStateChange', () => {
             expect(sourceNodeId).toBe(
               pullRequestMergedNotification.sourceNodeId,
             );
+            expect(timestamp).toBe(today.toISOString());
             expect(subType).toBe(pullRequestMergedNotification.subType);
           });
         });
@@ -342,6 +359,7 @@ describe('pullRequestStateChange', () => {
             sourceNodeId,
             subType,
             dismissed,
+            timestamp,
           } = notifications[0];
           expect(type).toBe(pullRequestReOpenedNotification.type);
           expect(title).toBe(pullRequestReOpenedNotification.title);
@@ -350,6 +368,7 @@ describe('pullRequestStateChange', () => {
           expect(sourceNodeId).toBe(
             pullRequestReOpenedNotification.sourceNodeId,
           );
+          expect(timestamp).toBe(today.toISOString());
           expect(subType).toBe(pullRequestReOpenedNotification.subType);
         });
       });

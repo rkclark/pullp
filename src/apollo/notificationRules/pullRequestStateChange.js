@@ -34,6 +34,7 @@ export default ({
     sourceNodeId: pullRequest.id,
     trigger: get(userSettings, `notifications[${type}].trigger`) || false,
     dismissed: false,
+    timestamp: new Date().toISOString(),
   };
 
   /*

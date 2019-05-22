@@ -1,3 +1,4 @@
+import MockDate from 'mockdate';
 import reviewRequested from './reviewRequested';
 import { notificationTypes } from '../../constants';
 
@@ -27,7 +28,13 @@ const baseArgs = {
   userSettings,
 };
 
+const today = new Date();
+
 describe('reviewRequested', () => {
+  beforeAll(() => {
+    MockDate.set(today);
+  });
+
   describe(`when there is an existing ${REVIEW_REQUESTED} notification with the same review request id`, () => {
     it('does not add a new one', () => {
       const notifications = reviewRequested({
@@ -74,6 +81,7 @@ describe('reviewRequested', () => {
         expect(notification.message).toBe(`${login} requested your review`);
         expect(notification.sourceNodeId).toBe(userReviewRequestId);
         expect(notification.dismissed).toBe(false);
+        expect(notification.timestamp).toBe(today.toISOString());
       });
     });
 

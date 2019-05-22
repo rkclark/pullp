@@ -32,6 +32,7 @@ export default ({ existingNotifications, pullRequest, userSettings }) => {
         sourceNodeId: userReviewRequestId,
         trigger: get(userSettings, `notifications[${type}].trigger`) || false,
         dismissed: false,
+        timestamp: new Date().toISOString(),
       },
     ];
   }

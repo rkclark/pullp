@@ -44,6 +44,7 @@ export default ({
         increment,
       },
       dismissed: false,
+      timestamp: new Date().toISOString(),
     };
 
     if (login === currentUser) {
