@@ -1,3 +1,4 @@
+import MockDate from 'mockdate';
 import reviewOnYourPR from './reviewOnYourPR';
 import { notificationTypes } from '../../constants';
 
@@ -27,7 +28,13 @@ const baseArgs = {
   userSettings,
 };
 
+const today = new Date();
+
 describe('reviewOnYourPR', () => {
+  beforeAll(() => {
+    MockDate.set(today);
+  });
+
   describe(`when there is an existing ${REVIEW_ON_YOUR_PR} notification with the same review id`, () => {
     it('does not add a new one', () => {
       const notifications = reviewOnYourPR({
@@ -89,6 +96,7 @@ describe('reviewOnYourPR', () => {
 
         expect(notification.type).toBe(REVIEW_ON_YOUR_PR);
         expect(notification.dismissed).toBe(false);
+        expect(notification.timestamp).toBe(today.toISOString());
         expect(notification.title).toBe(reviewOnYourPRNotification.title);
         expect(notification.message).toBe(
           `${reviewer} reviewed your pull request`,

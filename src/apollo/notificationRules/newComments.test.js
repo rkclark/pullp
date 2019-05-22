@@ -1,3 +1,4 @@
+import MockDate from 'mockdate';
 import newComments from './newComments';
 import { notificationTypes } from '../../constants';
 
@@ -19,11 +20,17 @@ const userSettings = {
   },
 };
 
+const today = new Date();
+
 describe('newComments', () => {
   const baseArgs = {
     currentUser,
     userSettings,
   };
+
+  beforeAll(() => {
+    MockDate.set(today);
+  });
 
   describe('when user is the PR author', () => {
     const newCommentsOnYourPRNotification = {
@@ -36,6 +43,7 @@ describe('newComments', () => {
       },
       sourceNodeId: pullRequestId,
       trigger: true,
+      timestamp: today.toISOString(),
     };
 
     describe(`when there is an existing ${NEW_COMMENTS_ON_YOUR_PR} notification`, () => {
@@ -85,6 +93,7 @@ describe('newComments', () => {
             comments,
             sourceNodeId,
             dismissed,
+            timestamp,
           } = notifications[0];
 
           expect(type).toBe(newCommentsOnYourPRNotification.type);
@@ -98,6 +107,7 @@ describe('newComments', () => {
             newCommentsOnYourPRNotification.sourceNodeId,
           );
           expect(dismissed).toBe(false);
+          expect(timestamp).toBe(today.toISOString());
         });
       });
 
@@ -172,6 +182,7 @@ describe('newComments', () => {
             comments,
             sourceNodeId,
             dismissed,
+            timestamp,
           } = notifications[0];
 
           expect(type).toBe(newCommentsOnYourPRNotification.type);
@@ -185,6 +196,7 @@ describe('newComments', () => {
             newCommentsOnYourPRNotification.sourceNodeId,
           );
           expect(dismissed).toBe(false);
+          expect(timestamp).toBe(today.toISOString());
         });
       });
     });
@@ -302,6 +314,7 @@ describe('newComments', () => {
             comments,
             sourceNodeId,
             dismissed,
+            timestamp,
           } = notifications[0];
 
           expect(type).toBe(newCommentsOnPRNotification.type);
@@ -313,6 +326,7 @@ describe('newComments', () => {
           });
           expect(sourceNodeId).toBe(newCommentsOnPRNotification.sourceNodeId);
           expect(dismissed).toBe(false);
+          expect(timestamp).toBe(today.toISOString());
         });
 
         describe('when the increment is 1', () => {
@@ -387,6 +401,7 @@ describe('newComments', () => {
             comments,
             sourceNodeId,
             dismissed,
+            timestamp,
           } = notifications[0];
 
           expect(type).toBe(newCommentsOnPRNotification.type);
@@ -398,6 +413,7 @@ describe('newComments', () => {
           });
           expect(sourceNodeId).toBe(newCommentsOnPRNotification.sourceNodeId);
           expect(dismissed).toBe(false);
+          expect(timestamp).toBe(today.toISOString());
         });
       });
     });
