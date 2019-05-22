@@ -166,7 +166,7 @@ export default function PullRequest({
           src={review.avatarUrl}
           alt="review author"
         />
-        {getReviewIcons(review)}
+        <div className={theme.reviewIcons}>{getReviewIcons(review)}</div>
       </div>
       <div className={theme.reviewBottomRow}>
         <span className={theme.reviewAuthorLogin}>{review.login}</span>

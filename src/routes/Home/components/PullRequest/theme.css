@@ -211,8 +211,8 @@
 
 .reviewTopRow {
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
+  flex-wrap: nowrap;
+  align-items: center;
 }
 
 .reviewBottomRow {
@@ -237,6 +237,12 @@
   margin-right: 0;
 }
 
+.reviewIcons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
 .reviewIconContainer {
   min-width: 2rem;
   height: 2rem;
@@ -254,7 +260,6 @@
   font-size: 0.9rem;
   margin-left: 0.2rem;
 }
-
 
 .reviewIconContainer:last-child {
   margin-right: 0;
