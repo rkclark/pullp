@@ -111,6 +111,38 @@ const aggregateReviewsByAuthor = ({ edges: reviews }) => {
   return reviewsByAuthor;
 };
 
+const dismissPullRequestNotifications = ({
+  getCacheKey,
+  pullRequestId,
+  cache,
+}) => {
+  const id = getCacheKey({
+    __typename: 'PullRequest',
+    id: pullRequestId,
+  });
+
+  const fragment = gql(`
+    fragment pullpPullRequest on PullRequest {
+      pullpPullRequest
+    }`);
+
+  const pullRequest = cache.readFragment({ fragment, id });
+  const notifications =
+    get(pullRequest, 'pullpPullRequest.notifications') || [];
+
+  const dismissedNotifications = notifications.map(notification => ({
+    ...notification,
+    dismissed: true,
+  }));
+
+  const data = {
+    ...pullRequest.pullpPullRequest,
+    notifications: dismissedNotifications,
+  };
+
+  cache.writeData({ id, data });
+};
+
 export default {
   Mutation: {
     toggleSelectedRepo: (_, variables, { cache, getCacheKey }) => {
@@ -215,39 +247,48 @@ export default {
 
       return null;
     },
-    // dismissNotifications: (_, variables, { cache, getCacheKey }) => {
-    //   const { pullRequestId, repoId } = variables;
+    dismissNotifications: (_, variables, { cache, getCacheKey }) => {
+      const { pullRequestId, repoId } = variables;
 
-    //   if (variables.pullRequestId) {
-    //     const id = getCacheKey({
-    //       __typename: 'PullRequest',
-    //       id: pullRequestId,
-    //     });
+      if (pullRequestId) {
+        dismissPullRequestNotifications({ cache, getCacheKey, pullRequestId });
+        return null;
+      }
 
-    //     const fragment = gql(`
-    //       fragment pullpPullRequest on PullRequest {
-    //         pullpPullRequest
-    //       }`);
+      if (repoId) {
+        const id = getCacheKey({
+          __typename: 'Repository',
+          id: repoId,
+        });
 
-    //     const pullRequest = cache.readFragment({ fragment, id });
-    //     const notifications =
-    //       get(pullRequest, 'pullpPullRequest.notifications') || [];
+        const fragment = gql(`
+          fragment pullRequests on Repository {
+            pullRequests {
+              edges {
+                node {
+                  id
+                }
+              }
+            }
+          }`);
 
-    //     const dismissedNotifications = notifications.map(notification => ({
-    //       ...notification,
-    //       dismissed: true,
-    //     }));
+        const repo = cache.readFragment({ fragment, id });
 
-    //     const data = {
-    //       ...pullRequest.pullpPullRequest,
-    //       notifications: dismissedNotifications,
-    //     };
+        const pullRequests = get(repo, 'pullRequests.edges') || [];
+        const pullRequestIds = pullRequests.map(({ node }) => node.id);
 
-    //     cache.writeData({ id, data });
+        pullRequestIds.forEach(prId => {
+          dismissPullRequestNotifications({
+            getCacheKey,
+            cache,
+            pullRequestId: prId,
+          });
+        });
+        return null;
+      }
 
-    //     return null;
-    //   }
-    // },
+      return null;
+    },
   },
   Repository: {
     isSelected: (_, variables, { cache, getCacheKey }) => {
