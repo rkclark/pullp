@@ -42,6 +42,7 @@ export default ({
       comments: {
         count: latestCount,
         increment,
+        __typename: 'PullpNotificationCommentCount',
       },
       dismissed: false,
       timestamp: new Date().toISOString(),
