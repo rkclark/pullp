@@ -70,7 +70,10 @@ export default ({
       ...baseArgs,
       currentUser,
     }),
-  ];
+  ].map(notification => ({
+    ...notification,
+    __typename: 'PullpNotification',
+  }));
 
   newNotifications.forEach(notification => {
     triggerNotification({ notification, url: pullRequest.url });

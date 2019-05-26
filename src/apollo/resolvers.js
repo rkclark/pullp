@@ -121,23 +121,39 @@ const dismissPullRequestNotifications = ({
     id: pullRequestId,
   });
 
+  console.log('GOT PR ID', id);
+
   const fragment = gql(`
     fragment pullpPullRequest on PullRequest {
-      pullpPullRequest
+      pullpPullRequest @client {
+        currentUserReviewRequested
+        reviewedByCurrentUser
+        date
+        time
+        reviewsByAuthor
+        notifications
+      }
     }`);
 
   const pullRequest = cache.readFragment({ fragment, id });
   const notifications =
     get(pullRequest, 'pullpPullRequest.notifications') || [];
 
+  console.log('pr data is', pullRequest);
+  console.log('notifications are', notifications);
+
   const dismissedNotifications = notifications.map(notification => ({
     ...notification,
     dismissed: true,
   }));
 
+  console.log('updated notifications', dismissedNotifications);
+
   const data = {
-    ...pullRequest.pullpPullRequest,
-    notifications: dismissedNotifications,
+    pullpPullRequest: {
+      ...pullRequest.pullpPullRequest,
+      notifications: dismissedNotifications,
+    },
   };
 
   cache.writeData({ id, data });
@@ -250,11 +266,22 @@ export default {
     dismissNotifications: (_, variables, { cache, getCacheKey }) => {
       const { pullRequestId, repoId } = variables;
 
+      console.log('DISMISSNG NOTS', variables);
+
+      /*
+        This mutation can clear notifications at either the pull request or repo level.
+        If called with a pull request id, we go directly to dismissing notifications
+        on it and then end.
+      */
       if (pullRequestId) {
         dismissPullRequestNotifications({ cache, getCacheKey, pullRequestId });
         return null;
       }
 
+      /*
+        If a repo id is provided, we need to retrieve the repo with its pull requests
+        from the cache. Then we loop over each pull request, dismissing its notifications.
+      */
       if (repoId) {
         const id = getCacheKey({
           __typename: 'Repository',
