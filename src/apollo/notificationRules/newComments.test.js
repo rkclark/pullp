@@ -40,6 +40,7 @@ describe('newComments', () => {
       comments: {
         count: 5,
         increment: 5,
+        __typename: 'PullpNotificationCommentCount',
       },
       sourceNodeId: pullRequestId,
       trigger: true,
@@ -102,6 +103,7 @@ describe('newComments', () => {
           expect(comments).toEqual({
             count: 7,
             increment: 2,
+            __typename: 'PullpNotificationCommentCount',
           });
           expect(sourceNodeId).toBe(
             newCommentsOnYourPRNotification.sourceNodeId,
@@ -191,6 +193,7 @@ describe('newComments', () => {
           expect(comments).toEqual({
             count: 7,
             increment: 7,
+            __typename: 'PullpNotificationCommentCount',
           });
           expect(sourceNodeId).toBe(
             newCommentsOnYourPRNotification.sourceNodeId,
@@ -263,6 +266,7 @@ describe('newComments', () => {
       comments: {
         count: 5,
         increment: 5,
+        __typename: 'PullpNotificationCommentCount',
       },
       sourceNodeId: pullRequestId,
     };
@@ -323,6 +327,7 @@ describe('newComments', () => {
           expect(comments).toEqual({
             count: 7,
             increment: 2,
+            __typename: 'PullpNotificationCommentCount',
           });
           expect(sourceNodeId).toBe(newCommentsOnPRNotification.sourceNodeId);
           expect(dismissed).toBe(false);
@@ -410,6 +415,7 @@ describe('newComments', () => {
           expect(comments).toEqual({
             count: 7,
             increment: 7,
+            __typename: 'PullpNotificationCommentCount',
           });
           expect(sourceNodeId).toBe(newCommentsOnPRNotification.sourceNodeId);
           expect(dismissed).toBe(false);

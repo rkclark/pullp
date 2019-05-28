@@ -4,6 +4,7 @@ import PullRequest from './';
 
 describe('PullRequest', () => {
   const props = {
+    id: '123',
     closed: false,
     mergedAt: null,
     url: 'prUrl',
@@ -14,26 +15,9 @@ describe('PullRequest', () => {
       login: 'name',
       url: 'url',
     },
-    comments: [
-      {
-        author: {
-          login: 'jh2633',
-          avatarUrl: 'https://avatars0.githubusercontent.com/u/18387550?v=4',
-          url: 'https://github.com/jh2633',
-        },
-        body: 'test',
-        createdAt: '2017-10-10T14:32:24Z',
-      },
-      {
-        author: {
-          login: 'jh2633',
-          avatarUrl: 'https://avatars0.githubusercontent.com/u/18387550?v=4',
-          url: 'https://github.com/jh2633',
-        },
-        body: 'test2',
-        createdAt: '2017-10-10T14:32:24Z',
-      },
-    ],
+    comments: {
+      totalCount: 0,
+    },
     reviewRequests: [],
     reviews: [
       {

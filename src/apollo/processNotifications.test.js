@@ -163,25 +163,28 @@ describe('processNotifications', () => {
     const message = 'someone requested your review';
     const title = 'Review Requested';
 
-    const reviewRequestedNotification = {
+    const newNotification = {
       type: notificationTypes.REVIEW_REQUESTED,
       message,
       title,
     };
-    reviewRequested.mockReturnValue([reviewRequestedNotification]);
+    reviewRequested.mockReturnValue([newNotification]);
 
-    const anotherNotification = {
+    const existingNotification = {
       type: 'randomNotification',
     };
 
     const combinedNotifications = processNotifications({
-      existingNotifications: [anotherNotification],
+      existingNotifications: [existingNotification],
       extendedPullRequest: {},
     });
 
     expect(combinedNotifications).toEqual([
-      anotherNotification,
-      reviewRequestedNotification,
+      existingNotification,
+      {
+        ...newNotification,
+        __typename: 'PullpNotification',
+      },
     ]);
   });
 

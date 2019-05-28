@@ -15,6 +15,7 @@ describe('RepoModal', () => {
       },
       pullRequests: [
         {
+          id: '123',
           createdAt: '2017-09-26T20:23:44Z',
           closed: false,
           mergedAt: null,
@@ -27,28 +28,9 @@ describe('RepoModal', () => {
             login: 'name',
             url: 'url',
           },
-          comments: [
-            {
-              author: {
-                login: 'jh2633',
-                avatarUrl:
-                  'https://avatars0.githubusercontent.com/u/18387550?v=4',
-                url: 'https://github.com/jh2633',
-              },
-              body: 'test',
-              createdAt: '2017-10-10T14:32:24Z',
-            },
-            {
-              author: {
-                login: 'jh2633',
-                avatarUrl:
-                  'https://avatars0.githubusercontent.com/u/18387550?v=4',
-                url: 'https://github.com/jh2633',
-              },
-              body: 'test2',
-              createdAt: '2017-10-10T14:32:24Z',
-            },
-          ],
+          comments: {
+            totalCount: 0,
+          },
           reviewRequests: [],
           reviews: [
             {
@@ -66,6 +48,7 @@ describe('RepoModal', () => {
           },
         },
         {
+          id: '456',
           createdAt: '2017-09-25T20:23:44Z',
           closed: false,
           mergedAt: null,
@@ -78,28 +61,9 @@ describe('RepoModal', () => {
             login: 'name',
             url: 'url',
           },
-          comments: [
-            {
-              author: {
-                login: 'jh2633',
-                avatarUrl:
-                  'https://avatars0.githubusercontent.com/u/18387550?v=4',
-                url: 'https://github.com/jh2633',
-              },
-              body: 'test',
-              createdAt: '2017-10-10T14:32:24Z',
-            },
-            {
-              author: {
-                login: 'jh2633',
-                avatarUrl:
-                  'https://avatars0.githubusercontent.com/u/18387550?v=4',
-                url: 'https://github.com/jh2633',
-              },
-              body: 'test2',
-              createdAt: '2017-10-10T14:32:24Z',
-            },
-          ],
+          comments: {
+            totalCount: 0,
+          },
           reviewRequests: [],
           reviews: [
             {
