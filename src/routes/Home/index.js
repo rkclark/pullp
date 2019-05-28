@@ -46,7 +46,7 @@ export class Home extends React.Component {
     this.props = props;
     this.state = {
       openRepoId: null,
-      openRepoData: {},
+      cachedOpenRepoData: {},
     };
 
     this.toggleOpenRepo = this.toggleOpenRepo.bind(this);
@@ -62,7 +62,7 @@ export class Home extends React.Component {
     if (id) {
       return this.setState({
         openRepoId: id,
-        openRepoData: this.props.data.find(repo => repo.id === id),
+        cachedOpenRepoData: this.props.data.find(repo => repo.id === id),
       });
     }
 
@@ -73,7 +73,7 @@ export class Home extends React.Component {
 
   updateOpenRepoData(data) {
     this.setState({
-      openRepoData: data,
+      cachedOpenRepoData: data,
     });
   }
 
@@ -85,7 +85,7 @@ export class Home extends React.Component {
       numberOfSelectedRepos,
       settings: { userSettings },
     } = this.props;
-    const { openRepoId, openRepoData } = this.state;
+    const { openRepoId, cachedOpenRepoData } = this.state;
 
     const { currentView, id: userSettingsId } = userSettings;
 
@@ -197,10 +197,20 @@ export class Home extends React.Component {
                   style[`slide${transitionState}`]
                 }`;
 
+                /* 
+                  If there is no openRepoId, then we fallback to the last
+                  cached set of open repo data. This is to allow the Transition
+                  to continue rendering the RepoModal with data until it completes
+                  the exit transition, at which point it will unmount.
+                */
+                const latestOpenRepoData = openRepoId
+                  ? this.props.data.find(repo => repo.id === openRepoId)
+                  : cachedOpenRepoData;
+
                 return (
                   <div className={slideTransitionClassnames}>
                     <RepoModal
-                      data={openRepoData}
+                      data={latestOpenRepoData}
                       toggleOpenRepo={this.toggleOpenRepo}
                     />
                   </div>
