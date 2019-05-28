@@ -121,8 +121,6 @@ const dismissPullRequestNotifications = ({
     id: pullRequestId,
   });
 
-  console.log('GOT PR ID', id);
-
   const fragment = gql(`
     fragment pullpPullRequest on PullRequest {
       pullpPullRequest @client {
@@ -134,15 +132,10 @@ const dismissPullRequestNotifications = ({
   const notifications =
     get(pullRequest, 'pullpPullRequest.notifications') || [];
 
-  console.log('pr data is', pullRequest);
-  console.log('notifications are', notifications);
-
   const dismissedNotifications = notifications.map(notification => ({
     ...notification,
     dismissed: true,
   }));
-
-  console.log('updated notifications', dismissedNotifications);
 
   const data = {
     pullpPullRequest: {
@@ -262,8 +255,6 @@ export default {
     },
     dismissNotifications: (_, variables, { cache, getCacheKey }) => {
       const { pullRequestId, repoId } = variables;
-
-      console.log('DISMISSNG NOTS', variables);
 
       /*
         This mutation can clear notifications at either the pull request or repo level.
