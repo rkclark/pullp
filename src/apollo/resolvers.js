@@ -126,11 +126,6 @@ const dismissPullRequestNotifications = ({
   const fragment = gql(`
     fragment pullpPullRequest on PullRequest {
       pullpPullRequest @client {
-        currentUserReviewRequested
-        reviewedByCurrentUser
-        date
-        time
-        reviewsByAuthor
         notifications
       }
     }`);
@@ -153,10 +148,12 @@ const dismissPullRequestNotifications = ({
     pullpPullRequest: {
       ...pullRequest.pullpPullRequest,
       notifications: dismissedNotifications,
+      __typename: 'PullpPullRequest',
     },
+    __typename: 'PullRequest',
   };
 
-  cache.writeData({ id, data });
+  cache.writeFragment({ id, fragment, data });
 };
 
 export default {
