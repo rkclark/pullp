@@ -11,7 +11,7 @@ import EllipsisIcon from '../../../../components/EllipsisIcon';
 import CommentIcon from '../../../../components/CommentIcon';
 import LeftArrowIcon from '../../../../components/LeftArrowIcon';
 
-/* eslint-disable react/no-array-index-key */
+/* eslint-disable react/no-array-index-key, jsx-a11y/interactive-supports-focus */
 export default function PullRequest({
   theme,
   url,
@@ -187,80 +187,91 @@ export default function PullRequest({
       }}
     >
       {dismissNotifications => (
-        <a href={url} className={theme.link} onClick={dismissNotifications}>
-          <div className={`${theme.pullRequest}`}>
-            <span className={theme.notificationCount}>
-              {newNotificationCount}
-            </span>
-            {reviewRequestStatus()}
-            <div className={theme.linkIconContainer}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 512 512"
-                className={theme.linkIcon}
-              >
-                <path
-                  d="M488.73 0H302.54a23.27 23.27 0 0 0 0 46.55h130L193 286.09A23.27 23.27 0 1 0 225.9 319L465.45 79.46v130a23.27 23.27 0 0 0 46.55 0V23.27A23.27 23.27 0 0 0 488.73 0z"
-                  fill="#1D2843"
-                />
-                <path
-                  d="M395.64 232.73A23.27 23.27 0 0 0 372.36 256v209.46H46.55V139.64H256a23.27 23.27 0 0 0 0-46.55H23.27A23.27 23.27 0 0 0 0 116.36v372.37A23.27 23.27 0 0 0 23.27 512h372.37a23.27 23.27 0 0 0 23.27-23.27V256a23.27 23.27 0 0 0-23.27-23.27z"
-                  fill="#1D2843"
-                />
-              </svg>
+        <div className={`${theme.pullRequestOuterContainer}`}>
+          <span
+            className={`${theme.notificationCount} ${newNotificationCount ===
+              0 && theme.zeroNotifications}`}
+            onClick={dismissNotifications}
+            role="button"
+          >
+            {newNotificationCount}
+            <div className={theme.dismissNotifications}>
+              <CrossIcon theme={{ svg: theme.reviewStatusIcon }} />
             </div>
-            <div className={theme.header}>
-              <h4 className={theme.title}>{title}</h4>
-            </div>
-            <div className={theme.topRow}>
-              <div className={theme.leftColumn}>
-                <img
-                  className={theme.authorAvatar}
-                  src={author.avatarUrl}
-                  alt="pull request author"
-                />
-                <span className={theme.authorLogin}>{author.login}</span>
+          </span>
+          {reviewRequestStatus()}
+
+          <div className={theme.pullRequestInnerContainer}>
+            <a href={url} className={theme.link} onClick={dismissNotifications}>
+              <div className={theme.linkIconContainer}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 512 512"
+                  className={theme.linkIcon}
+                >
+                  <path
+                    d="M488.73 0H302.54a23.27 23.27 0 0 0 0 46.55h130L193 286.09A23.27 23.27 0 1 0 225.9 319L465.45 79.46v130a23.27 23.27 0 0 0 46.55 0V23.27A23.27 23.27 0 0 0 488.73 0z"
+                    fill="#1D2843"
+                  />
+                  <path
+                    d="M395.64 232.73A23.27 23.27 0 0 0 372.36 256v209.46H46.55V139.64H256a23.27 23.27 0 0 0 0-46.55H23.27A23.27 23.27 0 0 0 0 116.36v372.37A23.27 23.27 0 0 0 23.27 512h372.37a23.27 23.27 0 0 0 23.27-23.27V256a23.27 23.27 0 0 0-23.27-23.27z"
+                    fill="#1D2843"
+                  />
+                </svg>
               </div>
-              <div className={theme.middleColumn}>
-                <div className={theme.branchInfo}>
-                  <span>
-                    {baseRefName}
-                    <LeftArrowIcon />
-                    {headRefName}
-                  </span>
+              <div className={theme.header}>
+                <h4 className={theme.title}>{title}</h4>
+              </div>
+              <div className={theme.topRow}>
+                <div className={theme.leftColumn}>
+                  <img
+                    className={theme.authorAvatar}
+                    src={author.avatarUrl}
+                    alt="pull request author"
+                  />
+                  <span className={theme.authorLogin}>{author.login}</span>
                 </div>
-                <div className={theme.reviewRequests}>
-                  {numberOfReviewRequests} review request{numberOfReviewRequests !==
-                    1 && 's'}
+                <div className={theme.middleColumn}>
+                  <div className={theme.branchInfo}>
+                    <span>
+                      {baseRefName}
+                      <LeftArrowIcon />
+                      {headRefName}
+                    </span>
+                  </div>
+                  <div className={theme.reviewRequests}>
+                    {numberOfReviewRequests} review request{numberOfReviewRequests !==
+                      1 && 's'}
+                  </div>
+                  <div className={theme.comments}>
+                    {comments.totalCount}
+                    <CommentIcon />
+                  </div>
                 </div>
-                <div className={theme.comments}>
-                  {comments.totalCount}
-                  <CommentIcon />
+              </div>
+              <div className={theme.bottomRow}>
+                <h3 className={theme.reviewsTitle}>Reviews</h3>
+                <div className={theme.reviewsContainer}>
+                  {prReviews}
+                  {reviewsByAuthor.length === 0 && (
+                    <div className={theme.noReviewsMessage}>None submitted</div>
+                  )}
                 </div>
               </div>
-            </div>
-            <div className={theme.bottomRow}>
-              <h3 className={theme.reviewsTitle}>Reviews</h3>
-              <div className={theme.reviewsContainer}>
-                {prReviews}
-                {reviewsByAuthor.length === 0 && (
-                  <div className={theme.noReviewsMessage}>None submitted</div>
-                )}
+              <div className={theme.footer}>
+                <span className={theme.infoSpan}>#{number}</span>
+                <span className={theme.infoSpan}>
+                  {distanceInWordsToNow(date)} ago
+                </span>
+                <span className={theme.infoSpan}>{time}</span>
+                <div className={theme.lineChangesInfo}>
+                  <span className={theme.additions}>+ {additions}</span>
+                  <span className={theme.deletions}>- {deletions}</span>
+                </div>
               </div>
-            </div>
-            <div className={theme.footer}>
-              <span className={theme.infoSpan}>#{number}</span>
-              <span className={theme.infoSpan}>
-                {distanceInWordsToNow(date)} ago
-              </span>
-              <span className={theme.infoSpan}>{time}</span>
-              <div className={theme.lineChangesInfo}>
-                <span className={theme.additions}>+ {additions}</span>
-                <span className={theme.deletions}>- {deletions}</span>
-              </div>
-            </div>
+            </a>
           </div>
-        </a>
+        </div>
       )}
     </Mutation>
   );

@@ -1,19 +1,34 @@
 @import "../../../../css/colors.css";
 @import "../../../../css/units.css";
 
-.pullRequest {
+.pullRequestOuterContainer {
+  position: relative;
+}
+
+.pullRequestInnerContainer {
   background-color: var(--primary-dark);
   box-shadow: var(--boxshadow);
-  border: 0.5rem solid var(--primary-extra-dark);
+  height: 100%;
+  border-radius: 0.15rem;
+}
+
+.link {
   color: var(--white);
-  max-width: 140rem;
-  transition: 0.3s ease-in-out all;
-  position: relative;
+  border: 0.5rem solid var(--primary-extra-dark);
   border-radius: 0.15rem;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  text-decoration: none;
+  font-weight: normal;
+  transition: border 0.3s ease-in-out;
+}
+
+.link:hover {
+  text-decoration: none;
+  border-color: var(--secondary-medium);
+  box-shadow: none;
 }
 
 .header {
@@ -40,20 +55,6 @@
   font-size: 1.9rem;
   font-family: 'Roboto', sans-serif;
   color: var(--white);
-}
-
-.link {
-  text-decoration: none;
-  font-weight: normal;
-}
-
-.link:hover {
-  text-decoration: none;
-}
-
-.link:hover .pullRequest {
-  border-color: var(--secondary-medium);
-  box-shadow: none;
 }
 
 .topRow {
@@ -136,7 +137,7 @@
   height: 2rem;
 }
 
-.noRequest .reviewStatusIcon {
+.noRequest .reviewStatusIcon, .dismissNotifications .reviewStatusIcon {
   width: 1.6rem;
   height: 1.6rem;
 }
@@ -276,9 +277,12 @@
 }
 
 .notificationCount, .linkIconContainer {
-  position: absolute;
   top: -2.2rem;
   right: -1.5rem;
+}
+
+.notificationCount, .linkIconContainer, .dismissNotifications {
+  position: absolute;
   width: 3.5rem;
   height: 3.5rem;
   border-radius: 100%;
@@ -287,10 +291,34 @@
 
 .notificationCount {
   background-color: var(--tertiary-dark);
+  transition: opacity 0.3s ease-out;
+  opacity: 1;
   text-align: center;
   font-weight: bold;
   font-size: 1.6rem;
   color: var(--primary-extra-dark);
+  cursor: pointer;
+}
+
+.notificationCount.zeroNotifications {
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
+}
+
+.dismissNotifications {
+  top: 0;
+  right: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+  background-color: var(--error-red);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.notificationCount:hover .dismissNotifications {
+  opacity: 1;
 }
 
 .linkIconContainer {
@@ -300,6 +328,7 @@
   align-items: center;
   background-color: var(--secondary-medium);
   transition: opacity 0.3s ease-in-out;
+  right: 6.9rem;
 }
 
 .link:hover .linkIconContainer {
