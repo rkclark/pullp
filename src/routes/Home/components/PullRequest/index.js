@@ -232,12 +232,12 @@ export default function PullRequest({
                   <span className={theme.authorLogin}>{author.login}</span>
                 </div>
                 <div className={theme.middleColumn}>
-                  <div className={theme.branchInfo}>
-                    <span>
-                      {baseRefName}
+                  <div className={theme.branchInfoContainer}>
+                    <div className={theme.branchInfo}>
+                      <span>{baseRefName}</span>
                       <LeftArrowIcon />
-                      {headRefName}
-                    </span>
+                      <span>{headRefName}</span>
+                    </div>
                   </div>
                   <div className={theme.reviewRequests}>
                     {numberOfReviewRequests} review request{numberOfReviewRequests !==
