@@ -291,7 +291,7 @@
 
 .notificationCount {
   background-color: var(--tertiary-dark);
-  transition: opacity 0.3s ease-out;
+  transition: opacity 0.15s ease-out;
   opacity: 1;
   text-align: center;
   font-weight: bold;
@@ -344,15 +344,18 @@
   fill: var(--primary-dark);
 }
 
-.branchInfo {
+.branchInfoContainer {
   color: var(--primary-dark);
   background-color: var(--white);
   border-radius: 0.3rem;
+  padding: 0.2rem 0.5rem;
+  max-width: 20rem;
+}
+
+.branchInfo {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  padding: 0.2rem 0.5rem;
-  max-width: 20rem;
 }
 
 .branchInfo span, .comments {
@@ -371,6 +374,11 @@
   height: 1.4rem;
   margin: 0 0.5rem;
   fill: var(--primary-dark);
+  flex-shrink: 0;
+}
+
+.branchInfo span:first-of-type {
+  flex-shrink: 0;
 }
 
 .lineChangesInfo {
