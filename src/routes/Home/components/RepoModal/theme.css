@@ -41,9 +41,9 @@
 }
 
 .repoName {
-  position: absolute;
-  top: 31rem;
-  right: -31rem;
+  position: fixed;
+  top: 31.5rem;
+  right: -31.5rem;
   transform: rotate(90deg);
   display: flex;
   justify-content: space-between;
@@ -76,8 +76,8 @@
 }
 
 .closeButton {
-  position: absolute;
-  top: calc(50% - 2.5rem);
+  position: fixed;
+  top: calc(50vh - 2.5rem);
   left: 1rem;
   background-color: transparent;
   border-radius: 100%;
