@@ -53,6 +53,10 @@ export class Home extends React.Component {
   }
 
   toggleOpenRepo(id) {
+    id
+      ? document.body.classList.add('modal-active')
+      : document.body.classList.remove('modal-active');
+
     if (this.state.openRepoId === id) {
       return this.setState({
         openRepoId: null,

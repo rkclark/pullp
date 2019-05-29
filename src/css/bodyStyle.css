@@ -1,0 +1,10 @@
+@import "./colors.css";
+
+.modal-active {
+  overflow: hidden;
+  border-right: 1rem solid var(--primary-dark);
+}
+
+.modal-active #header {
+  margin-right: 1rem;
+}
