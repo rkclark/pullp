@@ -18,9 +18,9 @@ export default function PullRequest({
   id,
   number,
   title,
+  createdAt,
   author,
   pullpPullRequest: {
-    date,
     time,
     currentUserReviewRequested,
     reviewedByCurrentUser,
@@ -261,7 +261,7 @@ export default function PullRequest({
               <div className={theme.footer}>
                 <span className={theme.infoSpan}>#{number}</span>
                 <span className={theme.infoSpan}>
-                  {distanceInWordsToNow(date)} ago
+                  {distanceInWordsToNow(createdAt)} ago
                 </span>
                 <span className={theme.infoSpan}>{time}</span>
                 <div className={theme.lineChangesInfo}>
@@ -282,6 +282,7 @@ PullRequest.propTypes = {
   comments: PropTypes.shape(),
   url: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  createdAt: PropTypes.string.isRequired,
   number: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   author: PropTypes.shape({
