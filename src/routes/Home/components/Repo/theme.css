@@ -5,6 +5,8 @@
   background-color: white;
   box-shadow: var(--boxshadow), inset 0 -0.4rem 0 0 var(--primary-medium);
   position: relative;
+  background-color: var(--primary-dark);
+  color: var(--white);
 }
 
 .indicatorsContainer {
@@ -45,22 +47,21 @@
 }
 
 .name {
-  color: var(--white);
   font-weight: normal;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   margin-bottom: 0;
   font-weight: normal;
-  font-size: 1.7rem;
+  font-size: 1.9rem;
   font-family: 'Roboto', sans-serif;
-  padding: 0.8rem 1rem;
+  color: var(--white);
 }
 
 .ownerAvatar {
   width: 2.5rem;
   height: 2.5rem;
-  margin-left: 1rem;
+  margin: 0 0.5rem 0 1rem;
   border-radius: 0.3rem;
   box-shadow: var(--boxshadow);
 }
@@ -73,6 +74,7 @@
   width: 100%;
   display: flex;
   align-items: center;
+  padding: 1rem 1rem 1rem 0;
   background-color: var(--primary-medium);
 }
 
@@ -81,7 +83,6 @@
   font-weight: normal;
   font-size: 1.4rem;
   text-transform: uppercase;
-  color: var(--primary-dark);
   display: block;
   text-align: center;
   margin: 1rem auto;
@@ -106,15 +107,14 @@
   overflow: hidden;
   text-overflow: ellipsis;
   font-family: 'Roboto', sans-serif;
-  color: var(--primary-dark);
 }
 
 .prAvatar {
-  width: 3rem;
-  height: 3rem;
-  border-radius: 100%;
+  width: 2.7rem;
+  height: 2.7rem;
+  border-radius: 0.3rem;
   box-shadow: var(--boxshadow);
-  flex: 1 0 3rem;
+  flex: 1 0 2.7rem;
 }
 
 .userIcon {
@@ -255,8 +255,8 @@
 
 .notificationCount {
   position: absolute;
-  top: -1rem;
-  right: -1rem;
+  top: -2.2rem;
+  right: -1.5rem;
   width: 4rem;
   height: 4rem;
   border-radius: 100%;
