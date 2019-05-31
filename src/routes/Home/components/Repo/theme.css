@@ -185,7 +185,7 @@
   stroke-width: 3;
   stroke-dasharray: 15, 5;
   fill: none;
-  stroke: var(--secondary-dark);
+  stroke: var(--secondary-medium);
   opacity: 0.3;
 }
 
@@ -209,7 +209,6 @@
   justify-content: center;
   align-items: center;
 }
-
 
 .maxPrWarning span {
   font-family: 'Roboto', sans-serif;
