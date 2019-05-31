@@ -265,8 +265,11 @@
   font-weight: bold;
   line-height: 3.9rem;
   font-size: 1.8rem;
+  transition: opacity 0.15s ease-out;
 }
 
-.zeroCount .notificationCount {
-  display: none;
+.notificationCount.zeroNotifications {
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
 }

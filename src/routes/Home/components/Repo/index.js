@@ -76,7 +76,12 @@ export default class Repo extends React.Component {
 
     return (
       <div className={`${theme.repoContainer} ${theme[countClass]}`}>
-        <span className={theme.notificationCount}>{newNotificationCount}</span>
+        <span
+          className={`${theme.notificationCount} ${newNotificationCount === 0 &&
+            theme.zeroNotifications}`}
+        >
+          {newNotificationCount}
+        </span>
         <div className={`${theme.repo}`}>
           <a href={data.url} className={theme.link}>
             <img
