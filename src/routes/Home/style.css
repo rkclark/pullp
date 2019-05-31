@@ -86,6 +86,7 @@
   border: none;
   outline: none;
   margin-right: 1rem;
+  background-color: var(--primary-extra-dark);
 }
 
 .viewSelectorButton:hover {
