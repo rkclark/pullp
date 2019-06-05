@@ -257,13 +257,27 @@
   text-transform: uppercase;
 }
 
-.notificationCount {
-  position: absolute;
-  top: -2.2rem;
-  right: -1.5rem;
+.notificationCount, .dismissNotifications {
   width: 4rem;
   height: 4rem;
   border-radius: 100%;
+  position: absolute;
+}
+
+.dismissNotifications {
+  top: 0;
+  right: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+  background-color: var(--error-red);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.notificationCount {
+  top: -2.2rem;
+  right: -1.5rem;
   background-color: var(--tertiary-dark);
   text-align: center;
   font-weight: bold;
@@ -271,10 +285,21 @@
   font-size: 1.8rem;
   transition: opacity 0.15s ease-out;
   color: var(--primary-extra-dark);
+  opacity: 1;
+  cursor: pointer;
+}
+
+.notificationCount:hover .dismissNotifications {
+  opacity: 1;
 }
 
 .notificationCount.zeroNotifications {
   opacity: 0;
   cursor: none;
   pointer-events: none;
+}
+
+.dismissIcon {
+  width: 2rem;
+  height: 2rem;
 }
