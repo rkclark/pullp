@@ -53,7 +53,7 @@
 }
 
 .paginationItem:hover{
-  background-color: var(--primary-dark);
+  background-color: var(--secondary-dark);
 }
 
 .paginationItem a {
@@ -68,7 +68,15 @@
 }
 
 .activeItem {
-  background-color: var(--primary-dark);
+  background-color: var(--secondary-medium);
+}
+
+.activeItem a {
+  color: var(--primary-extra-dark);
+}
+
+.activeItem:hover a {
+  color: var(--white);
 }
 
 .disabledItem, .disabledItem:hover {
@@ -80,7 +88,7 @@
 }
 
 .title {
-  color: var(--secondary-dark);
+  color: var(--white);
   font-weight: normal;
   font-size: 2rem;
   text-align: center;
@@ -122,19 +130,20 @@
   font-family: 'Roboto', sans-serif;
   text-transform: uppercase;
   font-size: 1.5rem;
-  color: var(--medium-grey);
+  color: var(--white);
 }
 
 .filterContainer input {
   flex-basis: 40rem;
   font-size: 1.5rem;
   border-radius: 0.3rem;
-  border: 0.1rem solid var(--light-grey);
+  border: 0.1rem solid var(--primary-medium);
   box-shadow: inset 0 -0.4rem 0 0 rgba(0, 0, 0, 0.08);
+  background-color: var(--primary-dark);
   height: 5rem;
   padding: 0 1rem;
   transition: all 0.5s ease;
-  color: var(--medium-grey);
+  color: var(--white);
 }
 
 .filterContainer input:focus {
