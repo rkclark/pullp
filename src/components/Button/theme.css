@@ -16,5 +16,6 @@
 }
 
 .button:hover, .button:focus {
-  background-color: var(--primary-dark);
+  background-color: var(--secondary-medium);
+  color: var(--primary-extra-dark);
 }
