@@ -5,7 +5,7 @@
 }
 
 .name {
-  font-size: 1.5rem;
+  font-size: 1.7rem;
 }
 
 .ownerAvatar {
@@ -30,7 +30,7 @@
   font-size: 2.4rem;
 }
 
-.spinCircle, .reviewRequestsContainer, .reviewCoverageContainer {
+.spinCircle, .reviewRequestsContainer, .reviewCoverageContainer, .noRequests .requestsCircle {
   width: 5.5rem;
   height: 5.5rem;
 }
@@ -41,9 +41,42 @@
 }
 
 .prCountLabel, .reviewCoverageContainer span {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
+  max-width: 9rem;
 }
 
 .reviewsContainer {
   flex-direction: row;
+}
+
+.countContainer {
+  flex: 0 1 33.3%;
+}
+
+.reviewsContainer {
+  flex: 0 1 66.66%;
+  justify-content: space-around;
+}
+
+.reviewRequestsContainer {
+  margin-top: 0;
+}
+
+.countContainer, .reviewsContainer {
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0.5rem;
+}
+
+.notificationCount {
+  top: -1.7rem;
+  right: -0.9rem;
+  width: 3rem;
+  height: 3rem;
+  font-size: 1.4rem;
+  line-height: 2.2;
+}
+
+.zeroCountContainer p {
+  font-size: 1.2rem;
 }
