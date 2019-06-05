@@ -1,5 +1,6 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, render, mount } from 'enzyme';
+import { MockedProvider } from 'react-apollo/test-utils';
 import Repo from './';
 import { MAXIMUM_PRS } from '../../../../constants';
 
@@ -105,20 +106,31 @@ describe('Repo', () => {
   };
 
   it('renders successfully', () => {
-    const component = shallow(<Repo {...props} />);
+    const component = shallow(
+      <MockedProvider>
+        <Repo {...props} />
+      </MockedProvider>,
+    );
     expect(component).toHaveLength(1);
   });
 
   it('renders number of PRs', () => {
-    const component = shallow(<Repo {...props} />);
+    const component = render(
+      <MockedProvider>
+        <Repo {...props} />
+      </MockedProvider>,
+    );
     expect(component.text()).toContain('2');
   });
 
   describe('when clicked', () => {
     it('dispatches toggleOpenRepo with repo id', () => {
       const toggleOpenRepo = jest.fn();
-      const component = shallow(
-        <Repo {...props} toggleOpenRepo={toggleOpenRepo} />,
+
+      const component = mount(
+        <MockedProvider>
+          <Repo {...props} toggleOpenRepo={toggleOpenRepo} />
+        </MockedProvider>,
       );
       component.find('.indicatorsContainer').simulate('click');
       expect(toggleOpenRepo).toHaveBeenCalledWith(props.data.id);
@@ -132,14 +144,22 @@ describe('Repo', () => {
         ...props,
         data: { ...props.data, totalPullRequests: totalPrs },
       };
-      const component = shallow(<Repo {...testProps} />);
+      const component = render(
+        <MockedProvider>
+          <Repo {...testProps} />
+        </MockedProvider>,
+      );
       expect(component.find('[data-test-id="maxPrWarning"]').length).toBe(1);
     });
   });
 
   describe('when total PRs is not more than maximum PRs', () => {
     it('does not show max PR warning', () => {
-      const component = shallow(<Repo {...props} />);
+      const component = render(
+        <MockedProvider>
+          <Repo {...props} />
+        </MockedProvider>,
+      );
       expect(component.find('[data-test-id="maxPrWarning"]').length).toBe(0);
     });
   });

@@ -10,6 +10,7 @@ describe('PullRequest', () => {
     url: 'prUrl',
     number: 94,
     title: 'a nice pr',
+    createdAt: 'date',
     author: {
       avatarUrl: 'avatarurl',
       login: 'name',

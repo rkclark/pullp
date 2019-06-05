@@ -7,7 +7,7 @@ describe('FullView', () => {
   const baseProps = {
     data: [
       {
-        id: 1,
+        id: '1',
         name: 'repo1',
         url: 'url',
         owner: {
@@ -16,7 +16,7 @@ describe('FullView', () => {
         },
       },
       {
-        id: 2,
+        id: '2',
         name: 'repo2',
         url: 'url',
         owner: {
