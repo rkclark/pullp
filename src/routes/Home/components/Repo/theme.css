@@ -130,7 +130,7 @@
 }
 
 .progressCircle path:nth-child(1) { 
-  stroke: var(--secondary-dark);
+  stroke: var(--primary-medium);
   stroke-width: 18;
 }
 
