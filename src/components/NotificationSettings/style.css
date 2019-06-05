@@ -13,7 +13,6 @@
 }
 
 .notificationName {
-  color: var(--medium-grey);
   font-weight: normal;
   font-size: 1.5rem;
   margin-right: auto;
@@ -27,7 +26,6 @@
 }
 
 .notificationType {
-  color: var(--medium-grey);
   text-transform: uppercase;
   font-weight: normal;
   font-family: 'Roboto', sans-serif;

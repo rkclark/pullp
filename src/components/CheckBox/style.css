@@ -15,11 +15,11 @@
   width: 3rem;
   height: 3rem;
   border-radius: 100%;
-  background-color: var(--light-grey);
+  background-color: var(--primary-medium);
 }
 
 .input:checked + label .checkbox {
-  background: linear-gradient(to right, var(--secondary-medium) 50%, var(--primary-medium) 95%);
+  background: linear-gradient(to right, var(--primary-dark) 50%, var(--primary-medium) 95%);
 }
 
 .checkboxLabel {
