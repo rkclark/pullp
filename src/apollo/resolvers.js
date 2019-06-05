@@ -7,6 +7,7 @@ import {
 } from './queries';
 import normalizeGraphqlEdges from '../utils/normalizeGraphqlEdges';
 import processNotifications from './processNotifications';
+import { MAXIMUM_PRS } from '../constants';
 
 const dateOptions = {
   weekday: 'long',
@@ -278,7 +279,11 @@ export default {
 
         const fragment = gql(`
           fragment pullRequests on Repository {
-            pullRequests {
+            pullRequests(
+              last: ${MAXIMUM_PRS}
+              states: [OPEN]
+              orderBy: { field: CREATED_AT, direction: ASC }
+            ) {
               edges {
                 node {
                   id

@@ -137,7 +137,7 @@
   height: 2rem;
 }
 
-.noRequest .reviewStatusIcon, .dismissNotifications .reviewStatusIcon {
+.noRequest .reviewStatusIcon, .reviewStatusIcon {
   width: 1.6rem;
   height: 1.6rem;
 }
