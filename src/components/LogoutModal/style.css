@@ -6,13 +6,13 @@
   left: 0;
   width: 100%;
   z-index: 20;
-  color: var(--medium-grey);
+  color: var(--white);
 }
 
 .modalContent {
   width: 70%;
   margin-left: 15%;
-  background-color: var(--primary-light);
+  background-color: var(--primary-dark);
   text-align: center;
   padding: 3rem;
   border-radius: 0.3rem;
