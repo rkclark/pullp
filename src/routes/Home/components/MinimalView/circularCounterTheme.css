@@ -1,0 +1,10 @@
+@import "../../../../components/CircularCounter/theme.css";
+
+.counter {
+  width: 5rem;
+  height: 5rem;
+}
+
+.label {
+  font-size: 2.4rem;
+}

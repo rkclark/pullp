@@ -2,7 +2,6 @@
 @import "../../../../css/units.css";
 
 .repoContainer {
-  background-color: white;
   box-shadow: var(--boxshadow), inset 0 -0.4rem 0 0 var(--primary-medium);
   position: relative;
   background-color: var(--primary-dark);
