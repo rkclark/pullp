@@ -4,6 +4,7 @@ import FlipMove from 'react-flip-move';
 import Repo from '..//Repo';
 import style from './style.css';
 import repoTheme from './repoTheme.css';
+import circularCounterTheme from './circularCounterTheme.css';
 
 export default function MinimalView({ data, openRepoId, toggleOpenRepo }) {
   return (
@@ -16,6 +17,7 @@ export default function MinimalView({ data, openRepoId, toggleOpenRepo }) {
             openRepoId={openRepoId}
             toggleOpenRepo={toggleOpenRepo}
             theme={repoTheme}
+            circularCounterTheme={circularCounterTheme}
           />
         ))}
       </FlipMove>

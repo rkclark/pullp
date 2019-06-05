@@ -18,7 +18,7 @@ export default class Repo extends React.Component {
   }
 
   render() {
-    const { theme, data, toggleOpenRepo } = this.props;
+    const { theme, data, toggleOpenRepo, circularCounterTheme } = this.props;
     const numberOfPrs = data.pullRequests.length;
     const totalPrs = data.totalPullRequests;
     const countClass = numberOfPrs === 0 ? 'zeroCount' : null;
@@ -100,7 +100,10 @@ export default class Repo extends React.Component {
             {numberOfPrs > 0 ? (
               <Fragment>
                 <div className={`${theme.countContainer}`}>
-                  <CircularCounter count={data.pullRequests.length} />
+                  <CircularCounter
+                    count={data.pullRequests.length}
+                    theme={circularCounterTheme}
+                  />
                   <span className={theme.prCountLabel}>OPEN</span>
                   <div className={theme.authorsContainer}>
                     {prRows}
@@ -171,9 +174,11 @@ Repo.propTypes = {
     pullRequests: PropTypes.arrayOf(PropTypes.shape()),
   }).isRequired,
   toggleOpenRepo: PropTypes.func.isRequired,
+  circularCounterTheme: PropTypes.shape(),
 };
 
 Repo.defaultProps = {
   theme: defaultTheme,
   openRepoId: null,
+  circularCounterTheme: undefined,
 };

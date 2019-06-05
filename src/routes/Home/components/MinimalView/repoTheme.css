@@ -1,7 +1,49 @@
 @import "../Repo/theme.css";
 
-.repoContainer {
-  background-color: var(--primary-medium);
-  overflow: hidden;
-  box-shadow: var(--boxshadow), inset 0 -0.4rem 0 0 var(--primary-medium);
+.link {
+  padding: 0.5rem 0.5rem 0.5rem 0;
+}
+
+.name {
+  font-size: 1.5rem;
+}
+
+.ownerAvatar {
+  width: 2rem;
+  height: 2rem;
+}
+
+.authorsContainer {
+  display: none;
+}
+
+.progressCircle {
+  width: 5.5rem;
+}
+
+.requestsCircle {
+  width: 4.7rem;
+  height: 4.7rem;
+ }
+
+ .requestsCount {
+  font-size: 2.4rem;
+}
+
+.spinCircle, .reviewRequestsContainer, .reviewCoverageContainer {
+  width: 5.5rem;
+  height: 5.5rem;
+}
+
+.spinCircle circle {
+  stroke-dasharray: 8, 5;
+  r: 27.5px;
+}
+
+.prCountLabel, .reviewCoverageContainer span {
+  font-size: 1.1rem;
+}
+
+.reviewsContainer {
+  flex-direction: row;
 }
