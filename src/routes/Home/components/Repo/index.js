@@ -111,42 +111,48 @@ export default class Repo extends React.Component {
                   </div>
                 </div>
                 <div className={theme.reviewsContainer}>
-                  <div className={theme.reviewCoverageContainer}>
-                    <CircularProgressbar
-                      percentage={reviewCompletionPercentage}
-                      className={theme.progressCircle}
-                      strokeWidth={20}
-                      initialAnimation
-                    />
-                    <span className={theme.reviewCoverage}>{`${
-                      data.currentUserReviews
-                    }/${numberOfPrs}`}</span>
-                  </div>
-                  <span className={theme.prCountLabel}>Reviewed by you</span>
-                  <div
-                    className={`${theme.reviewRequestsContainer} ${
-                      data.currentUserReviewRequests === 0
-                        ? theme.noRequests
-                        : null
-                    }`}
-                  >
-                    <div className={theme.requestsCircle}>
-                      <span
-                        className={`${theme.requestsCount} ${theme.countLabel}`}
-                      >
-                        {data.currentUserReviewRequests}
-                      </span>
+                  <div className={theme.reviewCoverageOuterContainer}>
+                    <div className={theme.reviewCoverageContainer}>
+                      <CircularProgressbar
+                        percentage={reviewCompletionPercentage}
+                        className={theme.progressCircle}
+                        strokeWidth={20}
+                        initialAnimation
+                      />
+                      <span className={theme.reviewCoverage}>{`${
+                        data.currentUserReviews
+                      }/${numberOfPrs}`}</span>
                     </div>
-                    {data.currentUserReviewRequests > 0 ? (
-                      <svg className={theme.spinCircle}>
-                        <circle cx="50%" cy="50%" r="45px" />
-                      </svg>
-                    ) : null}
+                    <span className={theme.prCountLabel}>Reviewed by you</span>
                   </div>
-                  <span className={theme.prCountLabel}>
-                    Request{data.currentUserReviewRequests === 1 ? '' : 's'} for
-                    your review
-                  </span>
+                  <div className={theme.reviewRequestsOuterContainer}>
+                    <div
+                      className={`${theme.reviewRequestsContainer} ${
+                        data.currentUserReviewRequests === 0
+                          ? theme.noRequests
+                          : null
+                      }`}
+                    >
+                      <div className={theme.requestsCircle}>
+                        <span
+                          className={`${theme.requestsCount} ${
+                            theme.countLabel
+                          }`}
+                        >
+                          {data.currentUserReviewRequests}
+                        </span>
+                      </div>
+                      {data.currentUserReviewRequests > 0 && (
+                        <svg className={theme.spinCircle}>
+                          <circle cx="50%" cy="50%" r="45px" />
+                        </svg>
+                      )}
+                    </div>
+                    <span className={theme.prCountLabel}>
+                      Request{data.currentUserReviewRequests === 1 ? '' : 's'}{' '}
+                      for your review
+                    </span>
+                  </div>
                 </div>
               </Fragment>
             ) : (

@@ -21,6 +21,12 @@
   box-shadow: inset 0 -0.4rem 0 0 var(--secondary-medium);
 }
 
+.reviewCoverageOuterContainer, .reviewRequestsOuterContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .countContainer, .reviewsContainer {
   flex: 0 1 50%;
   display: flex;
@@ -264,6 +270,7 @@
   line-height: 3.9rem;
   font-size: 1.8rem;
   transition: opacity 0.15s ease-out;
+  color: var(--primary-extra-dark);
 }
 
 .notificationCount.zeroNotifications {
