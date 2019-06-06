@@ -117,7 +117,7 @@
 
 .slideEntering {
   opacity: 0.4;
-  transform: translateX(-100%);
+  transform: translateX(-105%);
 }
 
 .slideEntered {
@@ -127,12 +127,12 @@
 
 .slideExiting {
   opacity: 0.4;
-  transform: translateX(-100%);
+  transform: translateX(-105%);
 }
 
 .slideExited {
   opacity: 0.4;
-  transform: translateX(-100%);
+  transform: translateX(-105%);
 }
 
 @media (min-width: 1400px) {
