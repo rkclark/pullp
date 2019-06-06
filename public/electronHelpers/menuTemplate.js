@@ -41,6 +41,7 @@ module.exports = [
     submenu: [
       {
         role: 'zoomin',
+        accelerator: 'CommandOrControl+=',
       },
       {
         role: 'zoomout',
