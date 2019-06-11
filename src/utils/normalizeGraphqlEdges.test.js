@@ -1,4 +1,5 @@
 import normalizeGraphqlEdges from './normalizeGraphqlEdges';
+/* eslint-disable no-console */
 
 describe('normalizeGraphqlEdges()', () => {
   describe('when no arg is provided', () => {
@@ -74,6 +75,22 @@ describe('normalizeGraphqlEdges()', () => {
       const actualResult = normalizeGraphqlEdges({
         edges: [{ node: resultOne }, { node: resultTwo }],
       });
+
+      expect(expectedResult).toEqual(actualResult);
+    });
+  });
+
+  describe('when a node is falsy', () => {
+    it('filters the node from the returned array', () => {
+      const originalConsoleWarn = console.warn;
+      console.warn = () => {};
+      const nodeOne = { id: 1 };
+      const expectedResult = [nodeOne];
+
+      const actualResult = normalizeGraphqlEdges({
+        edges: [{ node: nodeOne }, { node: null }],
+      });
+      console.warn = originalConsoleWarn;
 
       expect(expectedResult).toEqual(actualResult);
     });

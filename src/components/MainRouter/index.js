@@ -71,6 +71,7 @@ export default compose(
       },
       pollInterval: USER_INFO_AND_TEAMS_REFRESH_TIME,
       fetchPolicy: 'cache-and-network',
+      errorPolicy: 'ignore',
     }),
     // combine the data objects from the two concurrent GraphQL queries
     props: ({ data, ownProps }) => ({
