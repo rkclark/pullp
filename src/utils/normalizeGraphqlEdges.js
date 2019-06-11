@@ -7,14 +7,22 @@ export default function normalizeGraphqlEdges({ edges }) {
     throw new Error('"edges" must be an array');
   }
 
-  const result = edges.map(({ node }) => {
-    if (!node) {
+  const result = edges.map(edge => {
+    if (!Object.keys(edge).includes('node')) {
       throw new Error(
         'Edges array cannot be normalized - must be an array of objects with key of "node"',
       );
     }
+
+    const { node } = edge;
+
+    if (!node) {
+      /* eslint-disable no-console */
+      console.warn('Attempted to normalize a node with value:', node);
+      /* eslint-enable no-console */
+    }
     return node;
   });
 
-  return result;
+  return result.filter(node => node);
 }
