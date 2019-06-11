@@ -78,7 +78,6 @@ const findReviewEntriesToKeep = ({
 
 const cleanCacheOnInterval = ({ cache }) => {
   window.setInterval(() => {
-    console.log('CACHE IS', cache);
     const cacheData = cache.data.data;
 
     const pullRequestsToKeep = [];
@@ -224,7 +223,6 @@ const cleanCacheOnInterval = ({ cache }) => {
 
     Object.keys(cacheData).forEach(cacheKey => {
       if (doesKeyRequireDeletion(cacheKey)) {
-        console.log('Deleting cache key', cacheKey);
         delete cacheData[cacheKey];
         deletedCacheEntryCount += 1;
       }

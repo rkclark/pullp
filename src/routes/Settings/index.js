@@ -98,18 +98,14 @@ export default function SettingsContainer() {
             data: settingsData,
             loading: settingsLoading,
             error: settingsError,
-          }) => {
-            console.log('settings error', settingsError);
-            console.log('settingsData', settingsData);
-            return (
-              <Settings
-                userData={userData}
-                settingsData={settingsData}
-                loading={settingsLoading || userLoading}
-                error={settingsError || userError}
-              />
-            );
-          }}
+          }) => (
+            <Settings
+              userData={userData}
+              settingsData={settingsData}
+              loading={settingsLoading || userLoading}
+              error={settingsError || userError}
+            />
+          )}
         </Query>
       )}
     </Query>
