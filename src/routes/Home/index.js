@@ -97,6 +97,8 @@ export class Home extends React.Component {
       return <div className={style.loadingContainer}>{loadingMessage}</div>;
     }
 
+    console.log('home data is', data);
+
     return (
       <div className={style.homeContainer}>
         {error && (
@@ -272,6 +274,7 @@ export default function HomeContainer() {
 
           // Get Github node ids for the selected repos
           const selectedRepoIds = selectedRepos.map(({ node }) => node.id);
+          console.log('selected repo ids', selectedRepoIds);
 
           return (
             <Query
