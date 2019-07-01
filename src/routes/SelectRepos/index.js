@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { last, get } from 'lodash';
+import { last, get, uniqBy } from 'lodash';
 import { Query, Mutation } from 'react-apollo';
 import Transition from 'react-transition-group/Transition';
 import Pagination from 'react-js-pagination';
@@ -46,7 +46,16 @@ export class SelectRepos extends Component {
 
   render() {
     const { activePage, filterValue } = this.state;
-    const { reposPerPage, loading, data } = this.props;
+    const { reposPerPage, loading, data, fetchMore } = this.props;
+
+    if (get(data, 'viewer.watching.pageInfo.hasNextPage')) {
+      fetchMore();
+      return (
+        <div className={style.loadingContainer}>
+          <LoadingMessage message="Asking Github for your watched repos..." />
+        </div>
+      );
+    }
 
     if (loading) {
       return (
@@ -55,6 +64,7 @@ export class SelectRepos extends Component {
         </div>
       );
     }
+    console.log('RENDERING SELECT');
     const startPosition = (activePage - 1) * reposPerPage;
     const endPosition = activePage * reposPerPage;
 
@@ -171,6 +181,7 @@ SelectRepos.propTypes = {
   data: PropTypes.shape({}),
   loading: PropTypes.bool.isRequired,
   reposPerPage: PropTypes.number.isRequired,
+  fetchMore: PropTypes.func.isRequired,
 };
 
 SelectRepos.defaultProps = {
@@ -179,42 +190,90 @@ SelectRepos.defaultProps = {
 
 export default function SelectReposContainer() {
   return (
-    <Query query={GET_WATCHED_REPOS} fetchPolicy="network-only">
-      {({ data, loading, fetchMore }) => {
-        if (get(data, 'viewer.watching.pageInfo.hasNextPage')) {
-          fetchMore({
-            variables: {
-              cursor: last(data.viewer.watching.edges).cursor,
-            },
-            updateQuery: (previousResult, { fetchMoreResult }) => {
-              const newEdges = get(fetchMoreResult, 'viewer.watching.edges');
-              const prevEdges = get(previousResult, 'viewer.watching.edges');
-              const pageInfo = get(fetchMoreResult, 'viewer.watching.pageInfo');
-
-              const mergedResults = newEdges.length
-                ? {
-                    // Put the new watched repos at the end of the list and
-                    // update `pageInfo` so we have the new hasNextPage value
-                    ...previousResult,
-                    viewer: {
-                      ...get(previousResult, 'viewer'),
-                      watching: {
-                        ...get(previousResult, 'viewer.watching'),
-                        edges: [...prevEdges, ...newEdges],
-                        pageInfo,
-                      },
-                    },
-                  }
-                : previousResult;
-              return mergedResults;
-            },
-          });
-        }
-
+    <Query
+      query={GET_WATCHED_REPOS}
+      fetchPolicy="network-only"
+      notifyOnNetworkStatusChange
+    >
+      {({ data, loading, fetchMore, networkStatus }) => {
+        // if (get(data, 'viewer.watching.pageInfo.hasNextPage')) {
+        //   fetchMore({
+        //     variables: {
+        //       cursor: last(data.viewer.watching.edges).cursor,
+        //     },
+        //     updateQuery: (previousResult, { fetchMoreResult }) => {
+        //       const newEdges = get(fetchMoreResult, 'viewer.watching.edges');
+        //       const prevEdges = get(previousResult, 'viewer.watching.edges');
+        //       const pageInfo = get(fetchMoreResult, 'viewer.watching.pageInfo');
+        //       console.log('Got more');
+        //       const mergedResults = newEdges.length
+        //         ? {
+        //             // Put the new watched repos at the end of the list and
+        //             // update `pageInfo` so we have the new hasNextPage value
+        //             ...previousResult,
+        //             viewer: {
+        //               ...get(previousResult, 'viewer'),
+        //               watching: {
+        //                 ...get(previousResult, 'viewer.watching'),
+        //                 edges: uniqBy([...prevEdges, ...newEdges], 'node.id'),
+        //                 pageInfo,
+        //               },
+        //             },
+        //           }
+        //         : previousResult;
+        //       return mergedResults;
+        //     },
+        //   });
+        //   return null;
+        // }
+        console.log('rendering with loading', loading);
+        console.log('network status', networkStatus);
+        console.log('and data', data);
         return (
           <SelectRepos
+            fetchMore={async () => {
+              await fetchMore({
+                variables: {
+                  cursor: last(data.viewer.watching.edges).cursor,
+                },
+                updateQuery: (previousResult, { fetchMoreResult }) => {
+                  const newEdges = get(
+                    fetchMoreResult,
+                    'viewer.watching.edges',
+                  );
+                  const prevEdges = get(
+                    previousResult,
+                    'viewer.watching.edges',
+                  );
+                  const pageInfo = get(
+                    fetchMoreResult,
+                    'viewer.watching.pageInfo',
+                  );
+                  console.log('Got more');
+                  const mergedResults = newEdges.length
+                    ? {
+                        // Put the new watched repos at the end of the list and
+                        // update `pageInfo` so we have the new hasNextPage value
+                        ...previousResult,
+                        viewer: {
+                          ...get(previousResult, 'viewer'),
+                          watching: {
+                            ...get(previousResult, 'viewer.watching'),
+                            edges: uniqBy(
+                              [...prevEdges, ...newEdges],
+                              'node.id',
+                            ),
+                            pageInfo,
+                          },
+                        },
+                      }
+                    : previousResult;
+                  return mergedResults;
+                },
+              });
+            }}
             data={data}
-            loading={loading}
+            loading={loading || networkStatus < '7'}
             reposPerPage={WATCHED_REPOS_PER_PAGE}
           />
         );
