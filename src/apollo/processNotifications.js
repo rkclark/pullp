@@ -1,6 +1,6 @@
 import reviewRequested from './notificationRules/reviewRequested';
 
-const { shell } = window.electron;
+const hasElectron = typeof window.electron !== 'undefined';
 
 const triggerNotification = ({ notification: { title, message }, url }) => {
   /* eslint-disable no-new */
@@ -11,7 +11,9 @@ const triggerNotification = ({ notification: { title, message }, url }) => {
 
   notification.onclick = event => {
     event.preventDefault(); // Prevent the OS from focusing on Pullp
-    shell.openExternal(url); // Open the PR url in the user's default browser
+    hasElectron
+      ? window.electron.shell.openExternal(url)
+      : window.open(url, '_blank'); // Open the PR url in the user's default browser
   };
 };
 

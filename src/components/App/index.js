@@ -33,6 +33,7 @@ export default class App extends React.Component {
   };
 
   async componentDidMount() {
+    console.log('APP STARTED', window.location);
     // We need to inform Apollo about the Github API's possible grapql fragment types
     // See https://www.apollographql.com/docs/react/advanced/fragments.html for more info
     const fragmentMatcher = new IntrospectionFragmentMatcher({
@@ -61,6 +62,8 @@ export default class App extends React.Component {
         'cache.data.data["$ROOT_QUERY.githubAuth"].token',
       );
 
+      console.log('AUTHLINK', token);
+
       // return the headers to the context so httpLink can read them
       return {
         headers: {
@@ -73,12 +76,14 @@ export default class App extends React.Component {
     const client = new ApolloClient({
       link: ApolloLink.from([
         onError(({ graphQLErrors, networkError }) => {
-          if (graphQLErrors)
+          if (graphQLErrors) {
+            console.log(graphQLErrors);
             graphQLErrors.map(({ message, locations, path }) =>
               console.log(
                 `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
               ),
             );
+          }
           if (networkError) console.log(`[Network error]: ${networkError}`);
         }),
         stateLink,

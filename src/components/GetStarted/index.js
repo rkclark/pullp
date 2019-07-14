@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
@@ -10,6 +11,7 @@ import Button from '../Button';
 import style from './style.css';
 
 export function GetStarted({ data, loading, error, refetch, networkStatus }) {
+  console.log(data);
   const renderContent = () => {
     // networkStatus 4 is refetching
     if (loading || networkStatus === 4) {
