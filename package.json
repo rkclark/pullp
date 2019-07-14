@@ -10,6 +10,7 @@
   "repository": "https://github.com/rkclark/pullp",
   "scripts": {
     "react:start": "cross-env BROWSER=none node scripts/start.js",
+    "react:start:web": "cross-env RUN_METHOD=web npm run react:start",
     "react:build": "node scripts/build.js",
     "serve": "npm run react:build && node server",
     "stub:server": "nodemon stubServer",
