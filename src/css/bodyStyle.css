@@ -1,6 +1,6 @@
-@import "./colors.css";
+@import './colors.css';
 
 .modal-active {
   overflow: hidden;
-  border-right: 1rem solid var(--primary-dark);
+  /* border-right: 1rem solid var(--primary-dark); */
 }

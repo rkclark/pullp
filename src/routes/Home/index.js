@@ -27,14 +27,12 @@ export class Home extends React.Component {
     this.state = {
       openRepoId: null,
     };
-
-    this.toggleOpenRepo = this.toggleOpenRepo.bind(this);
   }
 
-  toggleOpenRepo(id) {
-    id
-      ? document.body.classList.add('modal-active')
-      : document.body.classList.remove('modal-active');
+  toggleOpenRepo = id => {
+    // id
+    //   ? document.body.classList.add('modal-active')
+    //   : document.body.classList.remove('modal-active');
 
     if (this.state.openRepoId === id) {
       return this.setState({
@@ -45,7 +43,7 @@ export class Home extends React.Component {
     return this.setState({
       openRepoId: id,
     });
-  }
+  };
 
   render() {
     const { loading, data, error, numberOfSelectedRepos } = this.props;
@@ -56,7 +54,10 @@ export class Home extends React.Component {
     }
 
     return (
-      <div className={style.homeContainer}>
+      <div
+        className={`${style.homeContainer} ${this.state.openRepoId &&
+          'modal-active'}`}
+      >
         {error && (
           <div className={style.updateWarning}>
             <span className={style.warningIcon}>!</span>
