@@ -140,6 +140,7 @@ export const GET_PULL_REQUESTS = gql(`query getPullRequests($ids: [ID!]!, $maxim
             state
             author {
               login
+              timestamp @client
             }
             pullpPullRequest @client {
               notifications
@@ -165,6 +166,7 @@ export const GET_PULL_REQUESTS = gql(`query getPullRequests($ids: [ID!]!, $maxim
               avatarUrl
               login
               url
+              timestamp @client
             }
             comments {
               totalCount
@@ -189,6 +191,7 @@ export const GET_PULL_REQUESTS = gql(`query getPullRequests($ids: [ID!]!, $maxim
                     ... on User {
                       login
                       avatarUrl
+                      timestamp @client
                     }
                     ... on Team {
                       name
@@ -206,6 +209,7 @@ export const GET_PULL_REQUESTS = gql(`query getPullRequests($ids: [ID!]!, $maxim
                   author {
                     login
                     avatarUrl
+                    timestamp @client
                   }
                   createdAt
                   state
