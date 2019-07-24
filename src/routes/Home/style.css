@@ -35,9 +35,7 @@
 }
 
 .updateWarning {
-  position: absolute;
-  top: 0.5rem;
-  right: 1rem;
+  margin: 1rem auto 0;
   font-size: 1.3rem;
   color: var(--tertiary-dark);
 }
