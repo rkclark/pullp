@@ -24,6 +24,16 @@
   flex: 1 0 100%;
 }
 
+.fullScreen {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: var(--primary-extra-dark);
+  z-index: var(--z-overlay);
+}
+
 @media only screen and (min-width: 840px) {
   .paginationContainer {
     width: 80rem;

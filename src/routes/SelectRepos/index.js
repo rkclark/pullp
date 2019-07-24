@@ -12,6 +12,7 @@ import {
 import RepoCheckbox from '../../components/RepoCheckbox';
 import Button from '../../components/Button';
 import LoadingMessage from '../../components/LoadingMessage';
+import Error from '../../components/Error';
 import {
   WATCHED_REPOS_PER_PAGE,
   WATCHED_REPOS_PAGINATION_RANGE,
@@ -46,25 +47,30 @@ export class SelectRepos extends Component {
 
   render() {
     const { activePage, filterValue } = this.state;
-    const { reposPerPage, loading, data, fetchMore } = this.props;
+    const { reposPerPage, loading, data, fetchMore, error } = this.props;
+
+    const loadingMessage = (
+      <div className={style.fullScreen}>
+        <div className={style.loadingContainer}>
+          <LoadingMessage message="Asking Github for your watched repos..." />
+        </div>
+      </div>
+    );
+
+    if (error) {
+      return (
+        <Error message="Failed to retrieve your watched repos from Github" />
+      );
+    }
 
     if (get(data, 'viewer.watching.pageInfo.hasNextPage')) {
       fetchMore();
-      return (
-        <div className={style.loadingContainer}>
-          <LoadingMessage message="Asking Github for your watched repos..." />
-        </div>
-      );
+      return loadingMessage;
     }
 
     if (loading) {
-      return (
-        <div className={style.loadingContainer}>
-          <LoadingMessage message="Asking Github for your watched repos..." />
-        </div>
-      );
+      return loadingMessage;
     }
-    console.log('RENDERING SELECT');
     const startPosition = (activePage - 1) * reposPerPage;
     const endPosition = activePage * reposPerPage;
 
@@ -182,10 +188,12 @@ SelectRepos.propTypes = {
   loading: PropTypes.bool.isRequired,
   reposPerPage: PropTypes.number.isRequired,
   fetchMore: PropTypes.func.isRequired,
+  error: PropTypes.shape({}),
 };
 
 SelectRepos.defaultProps = {
   data: null,
+  error: null,
 };
 
 export default function SelectReposContainer() {
@@ -195,89 +203,45 @@ export default function SelectReposContainer() {
       fetchPolicy="network-only"
       notifyOnNetworkStatusChange
     >
-      {({ data, loading, fetchMore, networkStatus }) => {
-        // if (get(data, 'viewer.watching.pageInfo.hasNextPage')) {
-        //   fetchMore({
-        //     variables: {
-        //       cursor: last(data.viewer.watching.edges).cursor,
-        //     },
-        //     updateQuery: (previousResult, { fetchMoreResult }) => {
-        //       const newEdges = get(fetchMoreResult, 'viewer.watching.edges');
-        //       const prevEdges = get(previousResult, 'viewer.watching.edges');
-        //       const pageInfo = get(fetchMoreResult, 'viewer.watching.pageInfo');
-        //       console.log('Got more');
-        //       const mergedResults = newEdges.length
-        //         ? {
-        //             // Put the new watched repos at the end of the list and
-        //             // update `pageInfo` so we have the new hasNextPage value
-        //             ...previousResult,
-        //             viewer: {
-        //               ...get(previousResult, 'viewer'),
-        //               watching: {
-        //                 ...get(previousResult, 'viewer.watching'),
-        //                 edges: uniqBy([...prevEdges, ...newEdges], 'node.id'),
-        //                 pageInfo,
-        //               },
-        //             },
-        //           }
-        //         : previousResult;
-        //       return mergedResults;
-        //     },
-        //   });
-        //   return null;
-        // }
-        console.log('rendering with loading', loading);
-        console.log('network status', networkStatus);
-        console.log('and data', data);
-        return (
-          <SelectRepos
-            fetchMore={async () => {
-              await fetchMore({
-                variables: {
-                  cursor: last(data.viewer.watching.edges).cursor,
-                },
-                updateQuery: (previousResult, { fetchMoreResult }) => {
-                  const newEdges = get(
-                    fetchMoreResult,
-                    'viewer.watching.edges',
-                  );
-                  const prevEdges = get(
-                    previousResult,
-                    'viewer.watching.edges',
-                  );
-                  const pageInfo = get(
-                    fetchMoreResult,
-                    'viewer.watching.pageInfo',
-                  );
-                  console.log('Got more');
-                  const mergedResults = newEdges.length
-                    ? {
-                        // Put the new watched repos at the end of the list and
-                        // update `pageInfo` so we have the new hasNextPage value
-                        ...previousResult,
-                        viewer: {
-                          ...get(previousResult, 'viewer'),
-                          watching: {
-                            ...get(previousResult, 'viewer.watching'),
-                            edges: uniqBy(
-                              [...prevEdges, ...newEdges],
-                              'node.id',
-                            ),
-                            pageInfo,
-                          },
+      {({ data, loading, fetchMore, networkStatus, error }) => (
+        <SelectRepos
+          fetchMore={async () => {
+            await fetchMore({
+              variables: {
+                cursor: last(data.viewer.watching.edges).cursor,
+              },
+              updateQuery: (previousResult, { fetchMoreResult }) => {
+                const newEdges = get(fetchMoreResult, 'viewer.watching.edges');
+                const prevEdges = get(previousResult, 'viewer.watching.edges');
+                const pageInfo = get(
+                  fetchMoreResult,
+                  'viewer.watching.pageInfo',
+                );
+                const mergedResults = newEdges.length
+                  ? {
+                      // Put the new watched repos at the end of the list and
+                      // update `pageInfo` so we have the new hasNextPage value
+                      ...previousResult,
+                      viewer: {
+                        ...get(previousResult, 'viewer'),
+                        watching: {
+                          ...get(previousResult, 'viewer.watching'),
+                          edges: uniqBy([...prevEdges, ...newEdges], 'node.id'),
+                          pageInfo,
                         },
-                      }
-                    : previousResult;
-                  return mergedResults;
-                },
-              });
-            }}
-            data={data}
-            loading={loading || networkStatus < '7'}
-            reposPerPage={WATCHED_REPOS_PER_PAGE}
-          />
-        );
-      }}
+                      },
+                    }
+                  : previousResult;
+                return mergedResults;
+              },
+            });
+          }}
+          data={data}
+          loading={loading || networkStatus < '7'}
+          reposPerPage={WATCHED_REPOS_PER_PAGE}
+          error={error}
+        />
+      )}
     </Query>
   );
 }
