@@ -195,13 +195,6 @@ export class Home extends React.Component {
               timeout={slideDuration}
               in={!!openRepoId}
               unmountOnExit
-              onEnter={() => {
-                window.scrollTo({
-                  top: 0,
-                  left: 0,
-                  behavior: 'smooth',
-                });
-              }}
             >
               {state => {
                 const transitionState = capitalise(state);
