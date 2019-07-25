@@ -102,6 +102,37 @@ describe('reviewOnYourPR', () => {
           `${reviewer} reviewed your pull request`,
         );
       });
+
+      describe('when the user is the reviewer', () => {
+        it('does not add a new notification', () => {
+          const notifications = reviewOnYourPR({
+            ...baseArgs,
+            existingNotifications: [],
+            pullRequest: {
+              author: {
+                login: currentUser,
+              },
+              reviews: {
+                edges: [
+                  {
+                    node: {
+                      id: '123',
+                      author: {
+                        login: currentUser,
+                      },
+                    },
+                  },
+                ],
+              },
+              pullpPullRequest: {
+                currentUserReviewRequested: true,
+              },
+            },
+          });
+
+          expect(notifications.length).toBe(0);
+        });
+      });
     });
 
     describe('when the user is not the PR author', () => {

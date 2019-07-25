@@ -22,11 +22,18 @@ export default ({
         notification.sourceNodeId === review.id,
     );
 
+  const isReviewByCurrentUser = reviewAuthor => reviewAuthor === currentUser;
+
   const reviews = get(pullRequest, 'reviews.edges') || [];
 
   reviews.forEach(({ node }) => {
-    if (!hasReviewAlreadyBeenNotified(node)) {
-      const message = `${get(node, 'author.login')} reviewed your pull request`;
+    const reviewAuthor = get(node, 'author.login');
+
+    if (
+      !hasReviewAlreadyBeenNotified(node) &&
+      !isReviewByCurrentUser(reviewAuthor)
+    ) {
+      const message = `${reviewAuthor} reviewed your pull request`;
       const title = 'Review On Your PR';
       const type = notificationTypes.REVIEW_ON_YOUR_PR;
 
