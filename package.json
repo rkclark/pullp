@@ -66,6 +66,7 @@
     "react-flip-move": "^3.0.2",
     "react-js-pagination": "^3.0.2",
     "react-router-dom": "^4.1.1",
+    "react-tooltip": "^3.10.0",
     "react-transition-group": "^2.4.0"
   },
   "devDependencies": {
