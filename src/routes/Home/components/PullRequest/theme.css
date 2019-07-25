@@ -64,6 +64,19 @@
   justify-content: space-between;
 }
 
+.repoName {
+  padding: 1rem 1.2rem 0;
+}
+
+.repoName h3 {
+  font-weight: normal;
+  font-size: 1.5rem;
+  font-family: 'Roboto', sans-serif;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .leftColumn, .middleColumn  {
   display: flex;
   flex-direction: column;

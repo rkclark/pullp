@@ -127,6 +127,10 @@
   padding: 0.6rem;
 }
 
+.userIcon path {
+  fill: var(--white);
+}
+
 .progressCircle {
   width: 9rem;
   position: absolute;
