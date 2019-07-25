@@ -16,6 +16,7 @@ describe('<SelectRepos />', () => {
   const props = {
     data: watchedRepos,
     loading: false,
+    fetchMore: () => {},
     reposPerPage,
   };
 

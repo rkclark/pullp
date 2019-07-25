@@ -62,7 +62,7 @@
 }
 
 .viewSelectors {
-  width: 15rem;
+  width: 20rem;
   margin: 1rem auto;
   display: flex;
   justify-content: center;
@@ -103,6 +103,10 @@
   width: 80%;
   height: 80%;
   margin: 10%;
+}
+
+.viewSelectIcon path {
+  fill: #7442F7;
 }
 
 .slideDefault {

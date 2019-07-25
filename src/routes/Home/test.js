@@ -38,6 +38,7 @@ describe('Home', () => {
         currentView: homePageViews.FULL_VIEW,
       },
     },
+    currentUser: 'user',
   };
 
   it('renders successfully', () => {

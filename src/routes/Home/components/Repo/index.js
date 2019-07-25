@@ -10,7 +10,7 @@ import CircularCounter from '../../../../components/CircularCounter';
 import { REPO_SUMMARY_MAX_PRS, MAXIMUM_PRS } from '../../../../constants';
 import { DISMISS_NOTIFICATIONS } from '../../../../apollo/mutations';
 import CrossIcon from '../../../../components/CrossIcon';
-import userIcon from '../../../../images/anon-user.svg';
+import UserIcon from '../../../../components/UserIcon';
 
 /* This must be a class-based component for React Flip Move animations to work */
 export default class Repo extends React.Component {
@@ -47,11 +47,7 @@ export default class Repo extends React.Component {
     const extraCount =
       extraPrs > 0 ? (
         <div className={theme.prRow}>
-          <img
-            src={userIcon}
-            alt="user icon"
-            className={`${theme.prAvatar} ${theme.userIcon}`}
-          />
+          <UserIcon theme={{ svg: `${theme.prAvatar} ${theme.userIcon}` }} />
           <span className={theme.prAuthor}>+{extraPrs} more</span>
         </div>
       ) : null;

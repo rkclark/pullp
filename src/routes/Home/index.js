@@ -10,6 +10,7 @@ import LoadingMessage from '../../components/LoadingMessage';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import FullView from './components/FullView';
 import MinimalView from './components/MinimalView';
+import YourPRsView from './components/YourPRsView';
 import RepoModal from './components/RepoModal';
 import style from './style.css';
 import {
@@ -24,8 +25,9 @@ import {
   homePageViews,
 } from '../../constants';
 
-import fullViewIcon from '../../images/fullView.svg';
-import minimalViewIcon from '../../images/minimalView.svg';
+import FullViewIcon from '../../components/FullViewIcon';
+import MinimalViewIcon from '../../components/MinimalViewIcon';
+import UserIcon from '../../components/UserIcon';
 import transformRepos from './transformRepos';
 
 const loadingMessage = (
@@ -36,7 +38,7 @@ const slideDuration = 300;
 
 const githubPollingFrequencySecs = GITHUB_POLLING_FREQUENCY_MS / 1000;
 
-const { FULL_VIEW, MINIMAL_VIEW } = homePageViews;
+const { FULL_VIEW, MINIMAL_VIEW, YOUR_PRS_VIEW } = homePageViews;
 
 const capitalise = string => string.charAt(0).toUpperCase() + string.slice(1);
 
@@ -88,6 +90,7 @@ export class Home extends React.Component {
       error,
       numberOfSelectedRepos,
       settings: { userSettings },
+      currentUser,
     } = this.props;
     const { openRepoId, cachedOpenRepoData } = this.state;
 
@@ -96,8 +99,6 @@ export class Home extends React.Component {
     if (loading) {
       return <div className={style.loadingContainer}>{loadingMessage}</div>;
     }
-
-    console.log('home data is', data);
 
     return (
       <div className={style.homeContainer}>
@@ -140,11 +141,7 @@ export class Home extends React.Component {
                       }`}
                       onClick={setHomePageView}
                     >
-                      <img
-                        src={fullViewIcon}
-                        className={style.viewSelectIcon}
-                        alt="Select full view"
-                      />
+                      <FullViewIcon theme={{ svg: style.viewSelectIcon }} />
                     </button>
                   )}
                 </Mutation>
@@ -164,29 +161,50 @@ export class Home extends React.Component {
                       }`}
                       onClick={setHomePageView}
                     >
-                      <img
-                        src={minimalViewIcon}
-                        className={style.viewSelectIcon}
-                        alt="Select full view"
-                      />
+                      <MinimalViewIcon theme={{ svg: style.viewSelectIcon }} />
+                    </button>
+                  )}
+                </Mutation>
+                <Mutation
+                  mutation={SET_HOME_PAGE_VIEW}
+                  variables={{
+                    id: userSettingsId,
+                    selectedView: YOUR_PRS_VIEW,
+                  }}
+                >
+                  {setHomePageView => (
+                    <button
+                      className={`${style.yourPRsViewButton} ${
+                        style.viewSelectorButton
+                      } ${
+                        currentView === YOUR_PRS_VIEW
+                          ? style.selectedButton
+                          : ''
+                      }`}
+                      onClick={setHomePageView}
+                    >
+                      <UserIcon theme={{ svg: style.viewSelectIcon }} />
                     </button>
                   )}
                 </Mutation>
               </div>
               <div>
-                {currentView === 'FULL_VIEW' && (
+                {currentView === FULL_VIEW && (
                   <FullView
                     data={data}
                     toggleOpenRepo={this.toggleOpenRepo}
                     openRepoId={openRepoId}
                   />
                 )}
-                {currentView === 'MINIMAL_VIEW' && (
+                {currentView === MINIMAL_VIEW && (
                   <MinimalView
                     data={data}
                     toggleOpenRepo={this.toggleOpenRepo}
                     openRepoId={openRepoId}
                   />
+                )}
+                {currentView === YOUR_PRS_VIEW && (
+                  <YourPRsView data={data} currentUser={currentUser} />
                 )}
               </div>
             </div>
@@ -236,6 +254,7 @@ Home.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.shape({}),
   numberOfSelectedRepos: PropTypes.number,
+  currentUser: PropTypes.string.isRequired,
 };
 
 Home.defaultProps = {
@@ -267,7 +286,8 @@ export default function HomeContainer() {
 
           // Get Github node ids for the selected repos
           const selectedRepoIds = selectedRepos.map(({ node }) => node.id);
-          console.log('selected repo ids', selectedRepoIds);
+
+          const currentUser = get(watchedReposData, 'viewer.login');
 
           return (
             <Query
@@ -319,6 +339,7 @@ export default function HomeContainer() {
                     {({ data: settingsData }) => (
                       <Home
                         data={transformedRepoData}
+                        currentUser={currentUser}
                         settings={settingsData}
                         loading={pullRequestsLoading}
                         error={pullRequestsError}

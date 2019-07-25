@@ -1,0 +1,9 @@
+@import "../PullRequest/theme.css";
+
+.header, .footer, .title {
+  background-color: var(--primary-medium);
+}
+
+.link {
+  border-color: var(--primary-medium);
+}
