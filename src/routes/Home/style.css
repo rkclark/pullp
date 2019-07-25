@@ -107,10 +107,13 @@
 
 .slideDefault {
   transition: transform 300ms ease-out, opacity 300ms ease-in-out;
-  position: absolute;
-  height: 100%;
-  width:100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
   opacity: 0.4;
+  margin-top: 5.5rem;
 }
 
 .slideEntering {
