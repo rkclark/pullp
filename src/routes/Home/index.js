@@ -4,6 +4,7 @@ import { Query, Mutation } from 'react-apollo';
 import { get } from 'lodash';
 import { Link } from 'react-router-dom';
 import Transition from 'react-transition-group/Transition';
+import Tooltip from 'react-tooltip';
 
 import Button from '../../components/Button';
 import LoadingMessage from '../../components/LoadingMessage';
@@ -124,6 +125,7 @@ export class Home extends React.Component {
         ) : (
           <Fragment>
             <div>
+              <Tooltip delayShow={700} />
               <div className={style.viewSelectors}>
                 <Mutation
                   mutation={SET_HOME_PAGE_VIEW}
@@ -140,6 +142,7 @@ export class Home extends React.Component {
                         currentView === FULL_VIEW ? style.selectedButton : ''
                       }`}
                       onClick={setHomePageView}
+                      data-tip="Show repositories (full view)"
                     >
                       <FullViewIcon theme={{ svg: style.viewSelectIcon }} />
                     </button>
@@ -160,6 +163,7 @@ export class Home extends React.Component {
                         currentView === MINIMAL_VIEW ? style.selectedButton : ''
                       }`}
                       onClick={setHomePageView}
+                      data-tip="Show repositories (minimal view)"
                     >
                       <MinimalViewIcon theme={{ svg: style.viewSelectIcon }} />
                     </button>
@@ -182,6 +186,7 @@ export class Home extends React.Component {
                           : ''
                       }`}
                       onClick={setHomePageView}
+                      data-tip="Show your pull requests"
                     >
                       <UserIcon theme={{ svg: style.viewSelectIcon }} />
                     </button>
