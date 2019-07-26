@@ -20,7 +20,9 @@ export default function NotificationSettings({ notifications }) {
     <div className={style.container}>
       <div className={style.columnNames}>
         <h3 className={style.notificationType}>Trigger notification</h3>
-        <h3 className={style.notificationType}>Show on timeline</h3>
+        <h3 className={`${style.notificationType} ${style.hide}`}>
+          Show on timeline
+        </h3>
       </div>
       {Object.entries(notifications).map(({ 0: key, 1: value }) => {
         const name = settingsNames[key];
@@ -49,7 +51,7 @@ export default function NotificationSettings({ notifications }) {
                   )}
                 </Mutation>
               </div>
-              <div className={style.notificationCheckbox}>
+              <div className={`${style.notificationCheckbox} ${style.hide}`}>
                 <Mutation
                   mutation={TOGGLE_NOTIFICATION_SETTING}
                   variables={{ id: value.id, field: 'showOnTimeline' }}
