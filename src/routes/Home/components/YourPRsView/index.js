@@ -4,6 +4,7 @@ import FlipMove from 'react-flip-move';
 import PropTypes from 'prop-types';
 import PullRequest from '..//PullRequest';
 import pullRequestTheme from './pullRequestTheme.css';
+import CrossIcon from '../../../../components/CrossIcon';
 import style from './style.css';
 
 export default function YourPRsView({ data, currentUser }) {
@@ -20,6 +21,12 @@ export default function YourPRsView({ data, currentUser }) {
 
   return (
     <div className={style.yourPRsViewContainer}>
+      {currentUsersPRs.length === 0 && (
+        <div className={style.noPRs}>
+          <CrossIcon theme={{ svg: style.crossIcon }} />
+          <p>No open pull requests</p>
+        </div>
+      )}
       <div className={style.pullRequestsContainer}>
         <FlipMove typeName={null} duration={500} appearAnimation={'fade'}>
           {currentUsersPRs.map(pullRequest => (
