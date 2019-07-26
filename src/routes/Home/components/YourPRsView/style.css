@@ -14,6 +14,31 @@
   grid-auto-rows: minmax(70px, auto);
 }
 
+.noPRs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+}
+
+.noPRs p {
+  text-transform: uppercase;
+  font-weight: normal;
+  font-size: 1.5rem;
+  font-family: 'Roboto', sans-serif;
+  color: var(--primary-medium);
+}
+
+.crossIcon {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-right: 1rem;
+}
+
+.crossIcon path {
+  fill: var(--primary-medium);
+}
+
 @media (min-width: 1400px) {
   .pullRequestsContainer {
     max-width: 80%;
