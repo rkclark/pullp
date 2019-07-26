@@ -1,4 +1,5 @@
 @import "../../css/colors.css";
+@import "../../css/elements.css";
 
 .homeContainer {
   flex: 1 0 100%;
@@ -138,6 +139,10 @@
 .slideExited {
   opacity: 0.4;
   transform: translateX(-105%);
+}
+
+.tooltip {
+  composes: tooltip;
 }
 
 @media (min-width: 1400px) {

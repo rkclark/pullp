@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Mutation } from 'react-apollo';
+import Tooltip from 'react-tooltip';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 import defaultTheme from './theme.css';
 import { DISMISS_NOTIFICATIONS } from '../../../../apollo/mutations';
@@ -50,6 +51,7 @@ export default class PullRequest extends React.Component {
             className={`${theme.reviewStatusIndicator} ${
               theme.reviewRequested
             }`}
+            data-tip="Your review requested"
           >
             <span className={theme.reviewStatusSpan}>!</span>
           </div>
@@ -57,7 +59,10 @@ export default class PullRequest extends React.Component {
       }
       if (reviewedByCurrentUser) {
         return (
-          <div className={`${theme.reviewStatusIndicator} ${theme.reviewed}`}>
+          <div
+            className={`${theme.reviewStatusIndicator} ${theme.reviewed}`}
+            data-tip="You have reviewed"
+          >
             <TickIcon theme={{ svg: theme.reviewStatusIcon }} />
           </div>
         );
@@ -65,7 +70,10 @@ export default class PullRequest extends React.Component {
 
       return (
         <div className={theme.reviewStatusWrapper}>
-          <div className={`${theme.reviewStatusIndicator} ${theme.noRequest}`}>
+          <div
+            className={`${theme.reviewStatusIndicator} ${theme.noRequest}`}
+            data-tip="Your review not requested"
+          >
             <CrossIcon theme={{ svg: theme.reviewStatusIcon }} />
           </div>
         </div>
@@ -203,11 +211,18 @@ export default class PullRequest extends React.Component {
       >
         {dismissNotifications => (
           <div className={`${theme.pullRequestOuterContainer}`}>
+            <Tooltip
+              delayShow={700}
+              className={theme.tooltip}
+              place="bottom"
+              effect="solid"
+            />
             <span
               className={`${theme.notificationCount} ${newNotificationCount ===
                 0 && theme.zeroNotifications}`}
               onClick={dismissNotifications}
               role="button"
+              data-tip="Dismiss notifications"
             >
               {newNotificationCount}
               <div className={theme.dismissNotifications}>
