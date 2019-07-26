@@ -4,6 +4,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import CircularProgressbar from 'react-circular-progressbar';
 import { Mutation } from 'react-apollo';
+import Tooltip from 'react-tooltip';
 
 import defaultTheme from './theme.css';
 import CircularCounter from '../../../../components/CircularCounter';
@@ -77,6 +78,12 @@ export default class Repo extends React.Component {
       >
         {dismissNotifications => (
           <div className={`${theme.repoContainer} ${theme[countClass]}`}>
+            <Tooltip
+              delayShow={700}
+              className={theme.tooltip}
+              place="bottom"
+              effect="solid"
+            />
             <span
               className={`${theme.notificationCount} ${newNotificationCount ===
                 0 && theme.zeroNotifications}`}
