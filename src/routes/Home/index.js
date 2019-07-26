@@ -125,7 +125,12 @@ export class Home extends React.Component {
         ) : (
           <Fragment>
             <div>
-              <Tooltip delayShow={700} />
+              <Tooltip
+                delayShow={700}
+                className={style.tooltip}
+                place="bottom"
+                effect="solid"
+              />
               <div className={style.viewSelectors}>
                 <Mutation
                   mutation={SET_HOME_PAGE_VIEW}

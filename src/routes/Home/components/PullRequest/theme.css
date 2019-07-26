@@ -1,5 +1,6 @@
 @import "../../../../css/colors.css";
 @import "../../../../css/units.css";
+@import "../../../../css/elements.css";
 
 .pullRequestOuterContainer {
   position: relative;
@@ -442,4 +443,8 @@
   border-radius: 0.3rem;
   margin-top: 1rem;
   font-size: 1.1rem;
+}
+
+.tooltip {
+  composes: tooltip;
 }

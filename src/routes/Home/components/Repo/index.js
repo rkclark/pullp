@@ -82,6 +82,7 @@ export default class Repo extends React.Component {
                 0 && theme.zeroNotifications}`}
               onClick={dismissNotifications}
               role="button"
+              data-tip="Dismiss notifications"
             >
               {newNotificationCount}
               <div className={theme.dismissNotifications}>
