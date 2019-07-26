@@ -95,6 +95,8 @@ export class Home extends React.Component {
     } = this.props;
     const { openRepoId, cachedOpenRepoData } = this.state;
 
+    console.log('HOME DATA IS', data);
+
     const { currentView, id: userSettingsId } = userSettings;
 
     if (loading) {
@@ -297,6 +299,10 @@ export default function HomeContainer() {
           // Get Github node ids for the selected repos
           const selectedRepoIds = selectedRepos.map(({ node }) => node.id);
 
+          const selectedRepoNames = selectedRepos.map(({ node }) => node.name);
+
+          console.log('selected repos', selectedRepoNames);
+
           const currentUser = get(watchedReposData, 'viewer.login');
 
           return (
@@ -324,6 +330,8 @@ export default function HomeContainer() {
 
                 let transformedRepoData = [];
 
+                console.log('PR DATA', pullRequestData);
+
                 if (pullRequestData.nodes && !pullRequestsLoading) {
                   // Add pull request data to the existing selected repo objects
                   const mergedRepos = selectedRepos.map(({ node }) => {
@@ -339,6 +347,8 @@ export default function HomeContainer() {
                   });
 
                   transformedRepoData = transformRepos(mergedRepos);
+
+                  console.log('transformed', transformedRepoData);
                 }
 
                 return (

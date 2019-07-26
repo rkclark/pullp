@@ -445,6 +445,12 @@ export default {
       return today.toISOString();
     },
   },
+  Bot: {
+    timestamp: () => {
+      const today = new Date();
+      return today.toISOString();
+    },
+  },
   Organization: {
     timestamp: () => {
       const today = new Date();
