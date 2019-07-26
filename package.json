@@ -1,6 +1,6 @@
 {
   "name": "pullp",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "private": false,
   "main": "public/electron-starter.js",
   "license": "MIT",
