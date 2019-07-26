@@ -153,7 +153,6 @@ const dismissPullRequestNotifications = ({
 export default {
   Mutation: {
     toggleSelectedRepo: (_, variables, { cache, getCacheKey }) => {
-      console.log('TOGGLING selcted repo', variables);
       const id = getCacheKey({
         __typename: 'Repository',
         id: variables.id,
