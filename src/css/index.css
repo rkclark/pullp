@@ -5,3 +5,4 @@
 /* Basic styles */
 @import "./elements.css";
 @import "./bodyStyle.css";
+@import "./tooltip.css";

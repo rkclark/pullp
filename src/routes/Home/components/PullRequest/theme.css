@@ -1,6 +1,6 @@
 @import "../../../../css/colors.css";
 @import "../../../../css/units.css";
-@import "../../../../css/elements.css";
+@import "../../../../css/tooltip.css";
 
 .pullRequestOuterContainer {
   position: relative;
@@ -132,6 +132,7 @@
   justify-content: center;
   align-items: center;
   border-radius: 100%;
+  cursor: default;
 }
 
 .reviewed {

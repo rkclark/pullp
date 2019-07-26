@@ -1,0 +1,7 @@
+.tooltip {
+  text-transform: uppercase;
+  font-weight: normal;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.1rem;
+  padding: 0.5rem 1rem;
+}
