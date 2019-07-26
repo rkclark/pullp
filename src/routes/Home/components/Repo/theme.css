@@ -1,5 +1,6 @@
 @import "../../../../css/colors.css";
 @import "../../../../css/units.css";
+@import "../../../../css/tooltip.css";
 
 .repoContainer {
   box-shadow: var(--boxshadow), inset 0 -0.4rem 0 0 var(--primary-medium);
@@ -306,4 +307,8 @@
 .dismissIcon {
   width: 2rem;
   height: 2rem;
+}
+
+.tooltip {
+  composes: tooltip;
 }
