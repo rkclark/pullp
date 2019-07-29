@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import defaultTheme from './theme.css';
 import PullRequest from '../PullRequest';
+import ClosedPullRequest from '../ClosedPullRequest';
 import CrossIcon from '../../../../components/CrossIcon';
 
 export default class RepoModal extends Component {
@@ -62,6 +63,12 @@ export default class RepoModal extends Component {
             <div className={theme.pullRequestsContainer}>
               {data.pullRequests.map(pr => (
                 <PullRequest {...pr} key={`${data.id}_${pr.number}`} />
+              ))}
+            </div>
+            <h3 className={theme.closedTitle}>Recently closed</h3>
+            <div className={theme.closedPullRequestsContainer}>
+              {data.closedPullRequests.map(pr => (
+                <ClosedPullRequest {...pr} key={`${data.id}_${pr.number}`} />
               ))}
             </div>
           </div>

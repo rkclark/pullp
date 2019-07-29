@@ -1,9 +1,11 @@
 import { orderBy, get } from 'lodash';
 import transformPullRequests from './transformPullRequests';
+import normalizeGraphqlEdges from '../../utils/normalizeGraphqlEdges';
 
 export default function transformRepos(reposData) {
   let repos = reposData.map(node => {
     const transformedPRs = transformPullRequests(node.pullRequests);
+    const transformedClosedPRs = normalizeGraphqlEdges(node.closedPullRequests);
 
     let currentUserReviewRequests = 0;
     let currentUserReviews = 0;
@@ -26,6 +28,7 @@ export default function transformRepos(reposData) {
     return {
       ...node,
       pullRequests: transformedPRs,
+      closedPullRequests: transformedClosedPRs,
       currentUserReviewRequests,
       currentUserReviews,
       totalPullRequests: node.pullRequests.totalCount,

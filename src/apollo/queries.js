@@ -138,7 +138,10 @@ export const GET_PULL_REQUESTS = gql(`query getPullRequests($ids: [ID!]!, $maxim
             id
             title
             state
+            url
+            number
             author {
+              avatarUrl
               login
               timestamp @client
             }
