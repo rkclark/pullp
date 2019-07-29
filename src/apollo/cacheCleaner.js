@@ -223,13 +223,13 @@ const cleanCacheOnInterval = ({ cache }) => {
 
     Object.keys(cacheData).forEach(cacheKey => {
       if (doesKeyRequireDeletion(cacheKey)) {
+        /* eslint-disable no-console */
         console.log('Deleting cache key', cacheKey);
         delete cacheData[cacheKey];
         deletedCacheEntryCount += 1;
       }
     });
 
-    /* eslint-disable no-console */
     console.log('Cleaning cache...');
     console.log(`Deleted ${deletedCacheEntryCount} cache entries`);
     /* eslint-enable no-console */
