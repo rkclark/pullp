@@ -2,13 +2,21 @@
 
 Pullp is a tool to help you manage pull requests and reviews on your Github repositories, available for Mac, Linux and Windows.
 
-An interactive dashboard shows all the open pull requests for your chosen repositories and highlights where your review has been requested. This information syncs with Github every minute!
+An interactive dashboard shows all the open pull requests for your chosen repositories and highlights where your review has been requested. This information syncs with Github every minute! To help you keep track of things, Pullp has configurable desktop notifications to keep you in the loop.
 
-<img src="https://i.imgur.com/O1qEiT5.png" alt="pullp example" width="600px" />
+<img src="https://i.imgur.com/wWzT5YD.png" alt="pullp example" width="900px" />
 
 Want to find out more about the pull requests on a particular repository? Selecting a repository shows a full summary of each pull request, including all of the requested reviewers and submitted reviews. If you need to action anything, a click will take you directly to the pull request in Github.
 
-<img src="https://i.imgur.com/fbjBWAA.png" alt="pullp example" width="600px" />
+<img src="https://i.imgur.com/zJ8Oe9O.png" alt="pullp example" width="900px" />
+
+You are also shown the five most recently closed pull requests:
+
+<img src="https://i.imgur.com/RheDqgK.png" alt="pullp example" width="900px" />
+
+Want to change the way that Pullp notifies you of changes? On the settings screen you can toggle a number of different options:
+
+<img src="https://i.imgur.com/auKynaO.png" alt="pullp example" width="500px" />
 
 Pullp is an Electron application built with React.
 
