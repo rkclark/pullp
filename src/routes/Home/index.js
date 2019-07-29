@@ -334,6 +334,8 @@ export default function HomeContainer() {
                     const mergedRepo = {
                       ...node,
                       pullRequests: repoWithPullRequests.pullRequests,
+                      closedPullRequests:
+                        repoWithPullRequests.closedPullRequests,
                     };
                     return mergedRepo;
                   });

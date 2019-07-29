@@ -40,18 +40,22 @@ const mockReposData = [
   {
     name: 'testRepo',
     pullRequests: { totalCount: 4, edges: [{}, {}, {}, {}] },
+    closedPullRequests: { edges: [{ node: {} }] },
   },
   {
     name: 'testRepo2',
     pullRequests: { totalCount: 6, edges: [{}, {}, {}, {}, {}, {}] },
+    closedPullRequests: { edges: [{ node: {} }] },
   },
   {
     name: 'testRepo4', // Out of order to show that name sorting works
     pullRequests: { totalCount: 2, edges: [{}, {}, {}, {}] },
+    closedPullRequests: { edges: [{ node: {} }] },
   },
   {
     name: 'testRepo3',
     pullRequests: { totalCount: 2, edges: [{}, {}, {}, {}] },
+    closedPullRequests: { edges: [{ node: {} }] },
   },
 ];
 

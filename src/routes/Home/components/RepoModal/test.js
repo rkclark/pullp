@@ -81,6 +81,19 @@ describe('RepoModal', () => {
           },
         },
       ],
+      closedPullRequests: [
+        {
+          id: '123',
+          url: 'prUrl',
+          number: 94,
+          title: 'a nice pr',
+          state: 'CLOSED',
+          author: {
+            avatarUrl: 'avatarurl',
+            login: 'name',
+          },
+        },
+      ],
     },
   };
 

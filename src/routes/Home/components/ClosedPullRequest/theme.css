@@ -1,0 +1,144 @@
+@import "../../../../css/colors.css";
+@import "../../../../css/units.css";
+@import "../../../../css/tooltip.css";
+
+.pullRequestOuterContainer {
+  position: relative;
+  opacity: 0.8;
+}
+
+.pullRequestInnerContainer {
+  background-color: var(--primary-dark);
+  box-shadow: var(--boxshadow);
+  height: 100%;
+  border-radius: 0.15rem;
+}
+
+.link {
+  color: var(--white);
+  border: 0.5rem solid var(--primary-extra-dark);
+  border-radius: 0.15rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  text-decoration: none;
+  font-weight: normal;
+  transition: border 0.3s ease-in-out;
+}
+
+.link:hover {
+  text-decoration: none;
+  border-color: var(--secondary-medium);
+  box-shadow: none;
+}
+
+.header {
+  background-color: var(--primary-extra-dark);
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer {
+  background-color: var(--primary-extra-dark);
+  width: 100%;
+  color: var(--white);
+  height: 1.5rem;
+  line-height: 1;
+  display: flex;
+  align-items: flex-end;
+  margin-top: auto;
+}
+
+.title {
+  font-weight: normal;
+  font-size: 1.9rem;
+  font-family: 'Roboto', sans-serif;
+  color: var(--white);
+}
+
+.topRow {
+  display: flex;
+  padding: 1rem;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  flex-basis: 100%;
+}
+
+.leftColumn, .middleColumn  {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.leftColumn {
+  align-items: flex-start;
+}
+
+ .middleColumn  {
+  align-items: flex-end;
+}
+
+.infoSpan {
+  font-weight: normal;
+  font-size: 0.9rem;
+  font-family: 'Roboto', sans-serif;
+  margin-left: 1rem;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.authorAvatar {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 0.3rem;
+  box-shadow: var(--boxshadow);
+}
+
+.authorLogin {
+  font-size: 1.2rem;
+  font-family: 'Roboto', sans-serif;
+  margin: 0.5rem auto 0;
+  max-width: 7rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.linkIconContainer {
+  position: absolute;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 100%;
+  line-height: 3.5rem;
+  opacity: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--secondary-medium);
+  transition: opacity 0.3s ease-in-out;
+  top: -2.2rem;
+  right: -1rem;
+}
+
+.link:hover .linkIconContainer {
+  opacity: 1;
+}
+
+.linkIcon {
+  width: 2rem;
+  height: 2rem;
+}
+
+.linkIcon path {
+  fill: var(--primary-dark);
+}
+
+.state {
+  font-size: 1.6rem;
+  font-family: 'Roboto', sans-serif;
+}
