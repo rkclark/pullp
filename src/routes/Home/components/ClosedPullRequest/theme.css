@@ -4,11 +4,11 @@
 
 .pullRequestOuterContainer {
   position: relative;
-  opacity: 0.8;
+  opacity: 0.95;
 }
 
 .pullRequestInnerContainer {
-  background-color: var(--primary-dark);
+  background-color: var(--dark-grey);
   box-shadow: var(--boxshadow);
   height: 100%;
   border-radius: 0.15rem;
@@ -16,7 +16,7 @@
 
 .link {
   color: var(--white);
-  border: 0.5rem solid var(--primary-extra-dark);
+  border: 0.5rem solid var(--extra-dark-grey);
   border-radius: 0.15rem;
   height: 100%;
   display: flex;
@@ -35,7 +35,7 @@
 }
 
 .header {
-  background-color: var(--primary-extra-dark);
+  background-color: var(--extra-dark-grey);
   padding: 1rem;
   display: flex;
   justify-content: space-between;
@@ -43,7 +43,7 @@
 }
 
 .footer {
-  background-color: var(--primary-extra-dark);
+  background-color: var(--extra-dark-grey);
   width: 100%;
   color: var(--white);
   height: 1.5rem;
@@ -135,7 +135,7 @@
 }
 
 .linkIcon path {
-  fill: var(--primary-dark);
+  fill: var(--dark-grey);
 }
 
 .state {

@@ -54,6 +54,7 @@ export default class RepoModal extends Component {
             </a>
           </div>
           <div className={theme.mainContainer}>
+            <h3 className={theme.prHeading}>Open</h3>
             {data.pullRequests.length === 0 && (
               <div className={theme.noPRs}>
                 <CrossIcon theme={{ svg: theme.crossIcon }} />
@@ -65,12 +66,21 @@ export default class RepoModal extends Component {
                 <PullRequest {...pr} key={`${data.id}_${pr.number}`} />
               ))}
             </div>
-            <h3 className={theme.closedTitle}>Recently closed</h3>
-            <div className={theme.closedPullRequestsContainer}>
-              {data.closedPullRequests.map(pr => (
-                <ClosedPullRequest {...pr} key={`${data.id}_${pr.number}`} />
-              ))}
-            </div>
+            {data.closedPullRequests.length > 0 && (
+              <div>
+                <h3 className={`${theme.prHeading} ${theme.closedHeading}`}>
+                  Most recently closed
+                </h3>
+                <div className={theme.closedPullRequestsContainer}>
+                  {data.closedPullRequests.map(pr => (
+                    <ClosedPullRequest
+                      {...pr}
+                      key={`${data.id}_${pr.number}`}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
