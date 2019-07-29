@@ -78,7 +78,6 @@ const findReviewEntriesToKeep = ({
 
 const cleanCacheOnInterval = ({ cache }) => {
   window.setInterval(() => {
-    console.log('CACHE IS', cache);
     const cacheData = cache.data.data;
 
     const pullRequestsToKeep = [];
