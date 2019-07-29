@@ -46,7 +46,7 @@
   background-color: var(--extra-dark-grey);
   width: 100%;
   color: var(--white);
-  height: 1.5rem;
+  min-height: 1.5rem;
   line-height: 1;
   display: flex;
   align-items: flex-end;
