@@ -28,6 +28,7 @@ describe('RepoModal', () => {
             login: 'name',
             url: 'url',
           },
+          isDraft: false,
           comments: {
             totalCount: 0,
           },
@@ -61,6 +62,7 @@ describe('RepoModal', () => {
             login: 'name',
             url: 'url',
           },
+          isDraft: false,
           comments: {
             totalCount: 0,
           },
@@ -72,6 +74,40 @@ describe('RepoModal', () => {
                 avatarUrl: 'url',
               },
               createdAt: '2017-09-27T09:03:57Z',
+              state: 'APPROVED',
+            },
+          ],
+          pullpPullRequest: {
+            currentUserReviewRequested: false,
+            reviewedByCurrentUser: true,
+          },
+        },
+        {
+          id: '789',
+          createdAt: '2018-09-25T20:23:44Z',
+          closed: false,
+          mergedAt: null,
+          url: 'prUrl',
+          number: 99,
+          title: 'a nice draft pr 3',
+          assignees: [],
+          author: {
+            avatarUrl: 'avatarurl',
+            login: 'name',
+            url: 'url',
+          },
+          isDraft: true,
+          comments: {
+            totalCount: 0,
+          },
+          reviewRequests: [],
+          reviews: [
+            {
+              author: {
+                login: 'reviewer1',
+                avatarUrl: 'url',
+              },
+              createdAt: '2018-09-27T09:03:57Z',
               state: 'APPROVED',
             },
           ],

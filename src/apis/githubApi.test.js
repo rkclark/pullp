@@ -131,6 +131,7 @@ query {
                       login
                       url
                     }
+                    isDraft
                     reviewRequests(last: 100) {
                       edges {
                         node {
@@ -190,9 +191,13 @@ query {
           const query = '{ query }';
           const token = 'testToken';
           await get(query, token);
-          expect(fetchMock.lastCall(matcher)[1].body).toContain(query);
-          expect(fetchMock.lastCall(matcher)[1].headers.Authorization).toEqual(
+          const [, lastCallOptions] = fetchMock.lastCall(matcher);
+          expect(lastCallOptions.body).toContain(query);
+          expect(lastCallOptions.headers.Authorization).toEqual(
             `bearer ${token}`,
+          );
+          expect(lastCallOptions.headers.Accept).toEqual(
+            'application/vnd.github.shadow-cat-preview+json',
           );
         });
         it('returns received JSON', async () => {

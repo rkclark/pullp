@@ -77,6 +77,7 @@ query {
                       login
                       url
                     }
+                    isDraft
                     reviewRequests(last: 100) {
                       edges {
                         node {
@@ -124,6 +125,7 @@ export const get = async (query, token) => {
     headers: {
       'Content-type': 'application/json',
       Authorization: `bearer ${token}`,
+      Accept: 'application/vnd.github.shadow-cat-preview+json',
     },
     body: JSON.stringify(body),
   });
