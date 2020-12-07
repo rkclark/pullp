@@ -58,7 +58,7 @@ function createMainWindow() {
   });
 
   const handleRedirect = (e, navUrl) => {
-    if (navUrl.includes('github.com')) {
+    if (navUrl.includes(process.env.REACT_APP_GITHUB_DOMAIN || 'github.com')) {
       e.preventDefault();
       shell.openExternal(navUrl);
     }
