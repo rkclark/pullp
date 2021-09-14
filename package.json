@@ -120,7 +120,7 @@
     "react-cosmos": "^4.6.4",
     "react-cosmos-background-proxy": "^1.0.1",
     "react-cosmos-router-proxy": "^4.6.1",
-    "react-dev-utils": "^3.0.0",
+    "react-dev-utils": "^11.0.4",
     "react-error-overlay": "^1.0.7",
     "react-router-enzyme-context": "^1.2.0",
     "react-test-renderer": "^15.6.1",
