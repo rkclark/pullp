@@ -9,6 +9,8 @@ export default function githubAuth(
 ) {
   const electron = window.electron;
 
+  // https://auth0.com/blog/securing-electron-applications-with-openid-connect-and-oauth-2/  // https://auth0.com/blog/securing-electron-applications-with-openid-connect-and-oauth-2/
+
   const remote = electron.remote;
   const { BrowserWindow, BrowserView } = remote;
   const authWindow = new BrowserWindow({
