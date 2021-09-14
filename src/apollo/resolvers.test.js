@@ -120,7 +120,9 @@ describe('Apollo resolvers', () => {
           edges: [
             {
               node: {
-                teams: [{ id: 'team1', name: 'Team Awesome' }],
+                teams: {
+                  edges: [{ node: { id: 'team1', name: 'Team Awesome' } }],
+                },
               },
             },
           ],

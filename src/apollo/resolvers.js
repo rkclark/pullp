@@ -39,7 +39,6 @@ const isUserReviewRequested = ({
       }
 
       // Secondarily check whether PR has review requested from any team that the user is part of
-
       // Teams are identified by ids rather than logins
       const requestedReviewerId = get(reviewRequest, 'requestedReviewer.id');
 
@@ -47,10 +46,11 @@ const isUserReviewRequested = ({
       const userOrgs = normalizeGraphqlEdges(
         get(userTeamsData, 'viewer.organizations'),
       );
-      const userTeams = userOrgs.reduce(
-        (teamsArray, organization) => [...teamsArray, ...organization.teams],
-        [],
-      );
+
+      const userTeams = userOrgs.reduce((teamsArray, organization) => {
+        const teams = normalizeGraphqlEdges(organization.teams);
+        return [...teamsArray, ...teams];
+      }, []);
 
       // Check whether requested reviewer is one of the user's teams
       if (
