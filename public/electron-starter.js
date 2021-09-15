@@ -5,11 +5,14 @@ const url = require('url');
 const electron = require('electron');
 const os = require('os');
 
+const { BrowserWindow, app, shell, Menu, ipcMain } = electron;
+
 const menuTemplate = require('./electronHelpers/menuTemplate');
 const runAutoUpdater = require('./electronHelpers/autoUpdater');
 const setupProtocols = require('./electronHelpers/setupProtocols');
 
-const { app, shell, Menu } = electron;
+const githubOAuth = require('./electronHelpers/githubOAuth');
+
 const currentPlatform = os.platform();
 
 require('electron-debug')({
@@ -18,12 +21,16 @@ require('electron-debug')({
   devToolsMode: 'right',
 });
 
-// Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow;
-
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+
+ipcMain.on('auth-api-trigger', (event, args) => {
+  console.log('TRIGGEREING GITHUB AUTH', args);
+
+  githubOAuth({ ...args, mainWindow });
+  return null;
+});
 
 function createMainWindow() {
   // Create the browser window.

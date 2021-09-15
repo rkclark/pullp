@@ -3,21 +3,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import githubAuth from '../../routes/Setup/helpers/githubAuth';
-
 import style from './style.css';
 
 import Button from '../Button';
 import LoadingMessage from '../LoadingMessage';
 import Error from '../Error';
 
-export default function SignInForm({
-  saveGithubToken,
-  setLoadingToken,
-  saveTokenError,
-  loadingToken,
-  error,
-}) {
+export default function SignInForm({ loadingToken, error }) {
   return (
     <div className={style.signInContainer}>
       {loadingToken ? (
@@ -36,7 +28,9 @@ export default function SignInForm({
           </p>
           <Button
             onClick={() => {
-              githubAuth(saveGithubToken, setLoadingToken, saveTokenError);
+              const clientId = process.env.REACT_APP_GITHUB_CLIENT_ID;
+              const githubUrl = process.env.REACT_APP_GITHUB_AUTH_URL;
+              window.electron.authApi.trigger({ clientId, githubUrl });
             }}
           >
             Sign in with Github
@@ -48,9 +42,6 @@ export default function SignInForm({
 }
 
 SignInForm.propTypes = {
-  saveGithubToken: PropTypes.func.isRequired,
-  setLoadingToken: PropTypes.func.isRequired,
-  saveTokenError: PropTypes.func.isRequired,
   loadingToken: PropTypes.bool,
   error: PropTypes.string,
 };
