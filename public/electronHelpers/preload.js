@@ -16,6 +16,10 @@ function init() {
       receiveCode: callback => {
         ipcRenderer.on('auth-code', (_, ...args) => callback(...args));
       },
+      removeListeners: () => {
+        ipcRenderer.removeAllListeners('auth-code');
+        ipcRenderer.removeAllListeners('auth-error');
+      },
     },
   });
 }

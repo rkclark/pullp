@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import { Query } from 'react-apollo';
@@ -8,10 +8,9 @@ import GetStartedContainer from '../../components/GetStarted';
 
 export function Setup({ data, client }) {
   const authToken = get(data, 'githubAuth.token');
-  console.log('AUTHTOKEN IS', authToken);
   const gatekeeperUrl = process.env.REACT_APP_OAUTH_GATEKEEPER_URL;
+
   const saveGithubToken = token => {
-    console.log('SAVE TOKEN', token);
     client.writeData({
       data: {
         githubAuth: {
@@ -24,7 +23,6 @@ export function Setup({ data, client }) {
   };
 
   const setLoadingToken = () => {
-    console.log('SET LOADING');
     client.writeData({
       data: {
         githubAuth: {
@@ -37,7 +35,6 @@ export function Setup({ data, client }) {
   };
 
   const saveTokenError = error => {
-    console.log('SAVE ERROR', error);
     client.writeData({
       data: {
         githubAuth: {
@@ -50,7 +47,6 @@ export function Setup({ data, client }) {
   };
 
   const handleCode = async code => {
-    console.log('HANDLE CODE', code);
     setLoadingToken();
 
     try {
@@ -71,7 +67,7 @@ export function Setup({ data, client }) {
         throw new Error('Cannot find token in Github auth response');
       }
 
-      await saveGithubToken(token);
+      saveGithubToken(token);
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error(err);
@@ -79,8 +75,12 @@ export function Setup({ data, client }) {
     }
   };
 
-  window.electron.authApi.receiveCode(handleCode);
-  window.electron.authApi.receiveError(saveTokenError);
+  useEffect(() => {
+    window.electron.authApi.receiveCode(handleCode);
+    window.electron.authApi.receiveError(saveTokenError);
+
+    return window.electron.authApi.removeListeners;
+  }, []);
 
   return (
     <Fragment>

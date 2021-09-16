@@ -2,9 +2,6 @@ const { BrowserWindow, BrowserView } = require('electron');
 /* eslint-disable no-console */
 
 module.exports = function githubOAuth({ clientId, githubUrl, mainWindow }) {
-  // https://auth0.com/blog/securing-electron-applications-with-openid-connect-and-oauth-2/  // https://auth0.com/blog/securing-electron-applications-with-openid-connect-and-oauth-2/
-
-  console.log('TRYING TO MAKE AUTH WINDOW');
   const authWindow = new BrowserWindow({
     width: 800,
     height: 800,
