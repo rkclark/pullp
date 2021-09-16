@@ -26,10 +26,13 @@ require('electron-debug')({
 let mainWindow;
 
 ipcMain.on('auth-api-trigger', (event, args) => {
-  console.log('TRIGGEREING GITHUB AUTH', args);
-
   githubOAuth({ ...args, mainWindow });
-  return null;
+});
+
+ipcMain.on('clear-cookies', () => {
+  mainWindow.webContents.session.clearStorageData({
+    storages: 'cookies',
+  });
 });
 
 function createMainWindow() {

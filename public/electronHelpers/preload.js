@@ -16,6 +16,9 @@ function init() {
       receiveCode: callback => {
         ipcRenderer.on('auth-code', (_, ...args) => callback(...args));
       },
+      clearCookies: () => {
+        ipcRenderer.send('clear-cookies');
+      },
       removeListeners: () => {
         ipcRenderer.removeAllListeners('auth-code');
         ipcRenderer.removeAllListeners('auth-error');
