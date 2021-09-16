@@ -28,6 +28,7 @@ export default class PullRequest extends React.Component {
       title,
       createdAt,
       author,
+      isDraft,
       pullpPullRequest: {
         time,
         currentUserReviewRequested,
@@ -210,7 +211,10 @@ export default class PullRequest extends React.Component {
         }}
       >
         {dismissNotifications => (
-          <div className={`${theme.pullRequestOuterContainer}`}>
+          <div
+            className={`${theme.pullRequestOuterContainer}  ${isDraft &&
+              theme.draft}`}
+          >
             <Tooltip
               delayShow={700}
               className={theme.tooltip}
@@ -231,7 +235,7 @@ export default class PullRequest extends React.Component {
             </span>
             {reviewRequestStatus()}
 
-            <div className={theme.pullRequestInnerContainer}>
+            <div className={`${theme.pullRequestInnerContainer}`}>
               <a
                 href={url}
                 className={theme.link}
@@ -254,7 +258,14 @@ export default class PullRequest extends React.Component {
                   </svg>
                 </div>
                 <div className={theme.header}>
-                  <h4 className={theme.title}>{title}</h4>
+                  <h4 className={theme.title}>
+                    {isDraft ? (
+                      <span className={theme.draftTitle}>[Draft] </span>
+                    ) : (
+                      ''
+                    )}
+                    {title}
+                  </h4>
                 </div>
                 {repoName && (
                   <div className={theme.repoName}>
@@ -327,6 +338,7 @@ PullRequest.propTypes = {
   createdAt: PropTypes.string.isRequired,
   number: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
+  isDraft: PropTypes.bool,
   author: PropTypes.shape({
     avatarUrl: PropTypes.string.isRequired,
     login: PropTypes.string.isRequired,
@@ -349,6 +361,7 @@ PullRequest.propTypes = {
 
 PullRequest.defaultProps = {
   theme: defaultTheme,
+  isDraft: false,
   mergedAt: null,
   comments: {},
   assignees: [],

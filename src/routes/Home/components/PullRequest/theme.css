@@ -7,10 +7,18 @@
 }
 
 .pullRequestInnerContainer {
-  background-color: var(--primary-dark);
+  background-color: var(--secondary-dark);
   box-shadow: var(--boxshadow);
   height: 100%;
   border-radius: 0.15rem;
+}
+
+.draft {
+  font-style: italic;
+}
+
+.draftTitle {
+  color: var(--light-grey);
 }
 
 .link {
