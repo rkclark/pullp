@@ -33,17 +33,15 @@ module.exports = function githubOAuth({ clientId, githubUrl, mainWindow }) {
     const code = rawCode && rawCode.length > 1 ? rawCode[1] : null;
     const error = /\?error=(.+)$/.exec(url);
 
-    console.log('CODE', code);
-
     if (code) {
       mainWindow.webContents.send('auth-code', code);
+      authWindow.destroy();
     }
 
     if (error) {
       mainWindow.webContents.send('auth-error', error);
+      authWindow.destroy();
     }
-
-    authWindow.destroy();
   }
 
   authWindow.on('close', () => {
