@@ -27,7 +27,7 @@
     "electron:start:dev": "cross-env ELECTRON_START_URL=http://localhost:3333/app npm run electron:start",
     "electron": "npm run electron:start:prod",
     "preelectron:pack": "npm run react:build",
-    "electron:pack": "rimraf dist && build -c.extraMetadata.main=build/electron-starter.js",
+    "electron:pack": "rimraf dist && electron-builder -c.extraMetadata.main=build/electron-starter.js",
     "pack": "npm run electron:pack -- --dir",
     "dist": "npm run electron:pack",
     "ship": "npm run electron:pack -- --publish always",
