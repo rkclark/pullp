@@ -16,7 +16,7 @@ export const GITHUB_POLLING_FREQUENCY_MS = 60000;
 export const SCHEMA_VERSION_KEY = 'apollo-schema-version';
 
 // Must be a string
-export const SCHEMA_VERSION = '3';
+export const SCHEMA_VERSION = '4';
 
 export const notificationTypes = {
   REVIEW_REQUESTED: 'REVIEW_REQUESTED',
