@@ -4,11 +4,11 @@ on:
   push:
     branches:
       - 'v*.*'
-
+env:
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
 jobs:
   build-linux:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [16.x]
