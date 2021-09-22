@@ -24,6 +24,7 @@ const triggerNotification = ({
 
   notification.onclick = event => {
     event.preventDefault(); // Prevent the OS from focusing on Pullp
+    // eslint-disable-next-line no-console
     console.log('HOW TO OPEN URL?', url);
     // shell.openExternal(url); // Open the PR url in the user's default browser
   };
