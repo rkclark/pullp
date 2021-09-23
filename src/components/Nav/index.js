@@ -9,7 +9,6 @@ import styles from './styles.css';
 export default function Nav({ currentPath, currentUser }) {
   return (
     <div className={styles.header} id="header">
-      <div className={styles.draggable} />
       <div className={styles.links}>
         <div className={styles.linkContainer}>
           <Link

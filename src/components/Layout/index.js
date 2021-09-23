@@ -34,7 +34,12 @@ export function Layout({ data, error, location }) {
     );
   };
 
-  return <div className={style.layout}>{renderContent()}</div>;
+  return (
+    <div className={style.layout}>
+      <div className={style.dragArea} />
+      {renderContent()}
+    </div>
+  );
 }
 
 Layout.propTypes = {

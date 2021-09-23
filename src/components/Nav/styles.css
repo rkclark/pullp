@@ -13,16 +13,6 @@
   height: 5.5rem;
 }
 
-.draggable {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 2rem;
-  width: 100%;
-  -webkit-user-select: none;
-  -webkit-app-region: drag;
-}
-
 .links {
   display: inline-flex;
   flex-basis: 100%;
