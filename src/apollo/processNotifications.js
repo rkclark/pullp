@@ -4,8 +4,6 @@ import pullRequestStateChange from './notificationRules/pullRequestStateChange';
 import newComments from './notificationRules/newComments';
 import { pullRequestStates } from '../constants';
 
-// const { shell } = require('electron');
-
 const closedStates = [pullRequestStates.CLOSED, pullRequestStates.MERGED];
 
 const triggerNotification = ({
