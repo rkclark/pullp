@@ -4,8 +4,6 @@ import pullRequestStateChange from './notificationRules/pullRequestStateChange';
 import newComments from './notificationRules/newComments';
 import { pullRequestStates } from '../constants';
 
-const { shell } = window.electron;
-
 const closedStates = [pullRequestStates.CLOSED, pullRequestStates.MERGED];
 
 const triggerNotification = ({
@@ -24,7 +22,7 @@ const triggerNotification = ({
 
   notification.onclick = event => {
     event.preventDefault(); // Prevent the OS from focusing on Pullp
-    shell.openExternal(url); // Open the PR url in the user's default browser
+    window.electron.notificationsApi.openExternalUrl({ url });
   };
 };
 

@@ -49,12 +49,9 @@ export class Settings extends React.Component {
           login={login}
           avatarUrl={avatarUrl}
           toggleLogoutModal={this.toggleLogoutModal}
-          logout={async () => {
-            const electron = window.electron;
+          logout={() => {
             // Delete cookies which have been placed there by Github's login page
-            await electron.remote.session.defaultSession.clearStorageData({
-              storages: 'cookies',
-            });
+            window.electron.authApi.clearCookies();
 
             // Clear localStorage which removes the persisted Apollo cache
             window.localStorage.clear();

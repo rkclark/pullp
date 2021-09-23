@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import { Query } from 'react-apollo';
@@ -8,6 +8,7 @@ import GetStartedContainer from '../../components/GetStarted';
 
 export function Setup({ data, client }) {
   const authToken = get(data, 'githubAuth.token');
+  const gatekeeperUrl = process.env.REACT_APP_OAUTH_GATEKEEPER_URL;
 
   const saveGithubToken = token => {
     client.writeData({
@@ -45,15 +46,48 @@ export function Setup({ data, client }) {
     });
   };
 
+  const handleCode = async code => {
+    setLoadingToken();
+
+    try {
+      const res = await fetch(`${gatekeeperUrl}/${code}`, {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        method: 'GET',
+      });
+
+      if (!res.ok) {
+        throw new Error('Auth request to Pullp gatekeeper failed');
+      }
+      const json = await res.json();
+      const token = json.token;
+      if (!token) {
+        throw new Error('Cannot find token in Github auth response');
+      }
+
+      saveGithubToken(token);
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err);
+      saveTokenError(err.message);
+    }
+  };
+
+  useEffect(() => {
+    window.electron.authApi.receiveCode(handleCode);
+    window.electron.authApi.receiveError(saveTokenError);
+
+    return window.electron.authApi.removeListeners;
+  }, []);
+
   return (
     <Fragment>
       {authToken ? (
         <GetStartedContainer />
       ) : (
         <SignInForm
-          saveGithubToken={saveGithubToken}
-          setLoadingToken={setLoadingToken}
-          saveTokenError={saveTokenError}
           loadingToken={get(data, 'githubAuth.loadingToken')}
           error={get(data, 'githubAuth.error')}
         />

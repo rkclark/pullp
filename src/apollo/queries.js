@@ -178,6 +178,7 @@ export const GET_PULL_REQUESTS = gql(`query getPullRequests($ids: [ID!]!, $maxim
             deletions
             baseRefName
             headRefName
+            isDraft
             pullpPullRequest @client {
               currentUserReviewRequested
               reviewedByCurrentUser
