@@ -20,7 +20,7 @@
     "style": "eslint '**/*.js'",
     "style:fix": "eslint --fix '**/*.js'",
     "validate": "npm run test && npm run style",
-    "precommit": "npm run style && npm run test:no-watcher",
+    "precommit": "npm run style",
     "cosmos": "cosmos",
     "electron:start": "electron .",
     "electron:start:prod": "cross-env NODE_ENV=production npm run electron:start",

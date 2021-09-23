@@ -24,6 +24,11 @@ function init() {
         ipcRenderer.removeAllListeners('auth-error');
       },
     },
+    notificationsApi: {
+      openExternalUrl: (...args) => {
+        ipcRenderer.send('notifications-open-external-url', ...args);
+      },
+    },
   });
 }
 

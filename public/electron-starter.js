@@ -35,6 +35,10 @@ ipcMain.on('clear-cookies', () => {
   });
 });
 
+ipcMain.on('notifications-open-external-url', (event, { url: targetUrl }) => {
+  shell.openExternal(targetUrl);
+});
+
 function createMainWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
