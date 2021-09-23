@@ -10,3 +10,13 @@
 .routeContainer {
   padding: var(--spacing-3);
 }
+
+.dragArea {
+  position: fixed;
+  height: 2rem;
+  width: 100%;
+  top: 0;
+  left: 0;
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}

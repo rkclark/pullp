@@ -49,4 +49,14 @@ module.exports = [
       { role: 'resetzoom' },
     ],
   },
+  {
+    label: 'Developer',
+    submenu: [
+      {
+        label: 'Toggle dev tools',
+        role: 'toggleDevTools',
+        accelerator: 'Alt+CmdOrCtrl+I',
+      },
+    ],
+  },
 ];
