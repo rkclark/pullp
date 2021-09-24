@@ -49,7 +49,7 @@ function createMainWindow() {
       nodeIntegration: false,
       preload: path.join(__dirname, '/electronHelpers/preload.js'),
     },
-    titleBarStyle: 'hidden',
+    titleBarStyle: 'default',
     icon: path.join(__dirname, '/icons/512x512.png'),
   });
 
