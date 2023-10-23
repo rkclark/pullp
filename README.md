@@ -1,5 +1,7 @@
 # Pullp <img src="https://travis-ci.com/rkclark/pullp.svg?branch=master" alt="pullp ci badge" align="right" />
 
+## NOTICE: App is no longer in working state as the domain hosting for its oAuth proxy has expired and there are currently no plans to re-host it. (My current employer uses Gitlab rather than Github 😢)
+
 Pullp is a tool to help you manage pull requests and reviews on your Github repositories, available for Mac, Linux and Windows.
 
 An interactive dashboard shows all the open pull requests for your chosen repositories and highlights where your review has been requested. This information syncs with Github every minute! To help you keep track of things, Pullp has configurable desktop notifications to keep you in the loop.
